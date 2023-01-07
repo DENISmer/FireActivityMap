@@ -12,7 +12,7 @@ export default function MapComponent(){
     return (
             <div>
 
-                <MapContainer minZoom={0} maxZoom={18} zoom={3} center={center}>
+                <MapContainer minZoom={3} maxZoom={12} zoom={3} center={center}>
                     <ScaleControl position="topleft" />
                     <Header />
                     <MainNavBar />
