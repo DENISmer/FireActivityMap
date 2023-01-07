@@ -1,0 +1,14 @@
+.navBar{
+    border-style: solid;
+    display: flex;
+    background-color: transparent;
+    position: absolute;
+    z-index: 400;
+    width: 170px;
+    top: 70px;
+    right: 10px;
+    height: auto;
+}
+.navBar:hover{
+    background-color: lawngreen;
+}

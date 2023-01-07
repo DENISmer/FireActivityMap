@@ -1,5 +1,5 @@
 import React from "react";
-
+import './MainNavBar.css';
 export function MainNavBar(){
     return(
         <div className="navBar">
