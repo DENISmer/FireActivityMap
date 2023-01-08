@@ -3,6 +3,7 @@ import './MainNavBar.css';
 import {useButton} from "@mui/base/ButtonUnstyled";
 import {ButtonUnstyled} from "@mui/base";
 import UnstyledButtonsSimple from "../buttons/materialui buttons";
+import {ScaleControl} from "react-leaflet";
 export function MainNavBar(){
     return(
         <div className="navBar">

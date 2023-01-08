@@ -4,14 +4,19 @@ import {MapContainer, TileLayer, Popup, Marker, LayersControl, LayerGroup, Scale
 import './Map.css';
 import {MainNavBar} from "../MainNavBar/MainNavBar"
 import {Header} from "../Header/Header";
-
-L.Icon.Default.imagePath = "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Anonymous_SVG.svg/1200px-Anonymous_SVG.svg.png";
+import {MainMenu} from "../Header/MainMenu/MainMenu";
+// L.Icon.Default.imagePath = "D:/react projects/react-leaflet-app/src/components/icons/small-marker.jpg";
+function GetIcon(_iconSize){
+    return L.icon({
+        iconUrl: require("../../icons/marker.png"),
+        iconSize: [_iconSize]
+    })
+}
 export default function MapComponent(){
         const {BaseLayer} = LayersControl;
         let center = [35.702, 37.530]
     return (
             <div>
-
                 <MapContainer minZoom={3} maxZoom={12} zoom={3} center={center}>
                     <ScaleControl position="topleft" />
                     <Header />
@@ -36,16 +41,15 @@ export default function MapComponent(){
                                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                                     url={'https://tile.openstreetmap.org/{z}/{x}/{y}.png'}
                                 />
-                                <Marker position={[55,33]}>
+                                <Marker position={[55,33]} icon={GetIcon(20,20)}>
                                     <Popup>
                                         yoooo
                                     </Popup>
                                 </Marker>
                             </LayerGroup>
-
                         </BaseLayer>
                     </LayersControl>
-                    <Marker position={center}>
+                    <Marker position={center} icon={GetIcon(20,20)}>
                         <Popup>
                             text here
                         </Popup>

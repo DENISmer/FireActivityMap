@@ -10,3 +10,13 @@
     background-color: #fdfdfe;
     z-index: 400;
 }
+.account_menu{
+    position: absolute;
+    right: 10px;
+}
+.label{
+    color: brown;
+    position: absolute;
+    top: -12px;
+    left: 70px;
+}
