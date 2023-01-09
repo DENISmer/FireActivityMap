@@ -1,26 +1,39 @@
 import React from 'react';
 import L from 'leaflet';
-import {MapContainer, TileLayer, Popup, Marker, LayersControl, LayerGroup, ScaleControl} from "react-leaflet";
+import {
+    MapContainer,
+    TileLayer,
+    Popup,
+    Marker,
+    LayersControl,
+    LayerGroup,
+    ScaleControl,
+} from "react-leaflet";
 import './Map.css';
 import {MainNavBar} from "../MainNavBar/MainNavBar"
 import {Header} from "../Header/Header";
-import {MainMenu} from "../Header/MainMenu/MainMenu";
-// L.Icon.Default.imagePath = "D:/react projects/react-leaflet-app/src/components/icons/small-marker.jpg";
 function GetIcon(_iconSize){
     return L.icon({
         iconUrl: require("../../icons/marker.png"),
         iconSize: [_iconSize]
     })
 }
+const outer = [
+    [450.505, -129.09],
+    [452.505, 129.09],
+]
 export default function MapComponent(){
+
         const {BaseLayer} = LayersControl;
         let center = [35.702, 37.530]
+
     return (
             <div>
-                <MapContainer minZoom={3} maxZoom={12} zoom={3} center={center}>
+                <MapContainer minZoom={2.3} maxZoom={12} zoom={3} center={center} doubleClickZoom={false} maxBounds={[[-110,-170],[1000,200]]} >
                     <ScaleControl position="topleft" />
                     <Header />
                     <MainNavBar />
+
                     <LayersControl>
                         <BaseLayer name="Sattelite">
                             <TileLayer
@@ -55,7 +68,6 @@ export default function MapComponent(){
                         </Popup>
                     </Marker>
                 </MapContainer>
-
             </div>
         );
     }

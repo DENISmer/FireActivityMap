@@ -1,12 +1,20 @@
-import React from "react";
+import React, {useState} from "react";
 import './MainNavBar.css';
-import {useButton} from "@mui/base/ButtonUnstyled";
-import {ButtonUnstyled} from "@mui/base";
 import UnstyledButtonsSimple from "../buttons/materialui buttons";
-import {ScaleControl} from "react-leaflet";
+import NavBarIcon from '../../icons/NavBarIcons/2x/twotone_miscellaneous_services_black_24dp.png';
+import NavBarCloseIcon from '../../icons/closeButton/2x/twotone_close_black_24dp.png';
+
 export function MainNavBar(){
+    const [showNavBar, setShowNavBar] = useState(false);
+
+    const handleShow = () => showNavBar ? setShowNavBar(false) : setShowNavBar(true);
+    const handleClose = () => setShowNavBar(false);
     return(
-        <div className="navBar">
+        <>
+            <button  className="show_hide_NavBar" onClick={handleShow}>
+                {showNavBar ?  <img src={NavBarCloseIcon} width={32} height={35}/> : <img src={NavBarIcon} width={32} height={35}/>}
+            </button>
+        <div dis className={showNavBar ? "navBar" : "hidden"}>
             <div className="navBarMainInstuments">
                 <h2>тут будет основная информация</h2>
             </div>
@@ -27,6 +35,6 @@ export function MainNavBar(){
                 <h2>доп информация</h2>
             </div>
         </div>
-
+        </>
         );
 }
