@@ -29,7 +29,7 @@ export default function MapComponent(){
 
     return (
             <div>
-                <MapContainer minZoom={2.3} maxZoom={12} zoom={3} center={center} doubleClickZoom={false} maxBounds={[[-110,-170],[1000,200]]} >
+                <MapContainer minZoom={2.3} maxZoom={12} zoom={3} center={center} doubleClickZoom={false} maxBounds={[[-110,-170],[100,200]]} >
                     <ScaleControl position="topleft" />
                     <Header />
                     <MainNavBar />

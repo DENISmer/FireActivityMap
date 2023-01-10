@@ -1,0 +1,44 @@
+.parent {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 100px;
+    left: 0;
+    /*overflow: auto;*/
+}
+.block_header>h2{
+    text-align: center;
+}
+.block {
+    border-radius: 10px;
+    height: 330px;
+    width: 275px;
+    background-color: aliceblue;
+    position: absolute;
+    top: 10px;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin-left: auto;
+    margin-right: auto;
+}
+.inputs_block>input {
+    width: 250px;
+    height: 30px;
+    margin-left: 10px;
+    background-color: #4978b7;
+    margin-bottom: 10px;
+    border-radius: 3px;
+    border-style: none;
+    color: azure;
+    font-weight: bold;
+    font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+}
+input::placeholder{
+    color: rgba(212, 227, 227, 0.87);
+    font-weight: bold;
+    font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+}
+input::target-text{
+
+}

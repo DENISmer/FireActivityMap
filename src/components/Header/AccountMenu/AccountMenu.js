@@ -12,8 +12,11 @@ import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import earth from 'E:/reactprojects/weiner-forum/client/src/components/login/earth.gif';
+import {Link, useNavigate} from "react-router-dom";
 
 export default function AccountMenu() {
+
+    const navigate = useNavigate();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -83,7 +86,7 @@ export default function AccountMenu() {
                     </ListItemIcon>
                     Настройки
                 </MenuItem>
-                <MenuItem>
+                <MenuItem component={Link} to={'/'}>
                     <ListItemIcon>
                         <Logout fontSize="small" />
                     </ListItemIcon>
