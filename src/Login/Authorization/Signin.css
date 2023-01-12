@@ -42,3 +42,6 @@ input::placeholder{
 input::target-text{
 
 }
+.errror{
+    color:red;
+}
