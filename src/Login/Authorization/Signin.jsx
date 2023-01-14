@@ -33,11 +33,6 @@ export function Signin(){
         return result;
     }
 
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        isValid() ? loginRequest(mail,password) : console.log("this data is not Valid");
-    }
-
     const loginRequest = async (mail,password) => {
         const response = await fetch(`${URL}/${1}`);
 
@@ -53,6 +48,12 @@ export function Signin(){
             navigate('/Map');
         }
     }
+
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        isValid() ? loginRequest(mail,password) : console.log("this data is not Valid");
+    }
+
     return<>
         <form onSubmit={handleSubmit}>
         <div className='parent'>
@@ -62,13 +63,17 @@ export function Signin(){
                     <h2>Авторизация</h2>
                 </div>
                 <div className='inputs_block'>
-                    <input type="email" placeholder='Почта'onChange={e => setMail(e.target.value)} value={mail}></input>
+
+                    <input type="email" placeholder='Почта' onChange={e => setMail(e.target.value)} value={mail}></input>
                     {mailError && <div className="error">{mailError}</div>}
+
                     <input type="password" onChange={e => setPassword(e.target.value)} placeholder='Пароль'></input>
                     {passwordError && <div className="error">{passwordError}</div>}
+
                 </div>
-                <div>
+                <div className="form_footer">
                     <button type={"submit"}>Войти</button>
+                    <br/>
                     <a href="" onClick={()=> navigate('/Signup')}>Нет аккаунта?</a>
                 </div>
             </div>

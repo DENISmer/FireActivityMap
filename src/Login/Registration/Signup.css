@@ -10,23 +10,24 @@
     color: azure;
 }
 .block {
+    display: inline-block;
     border-radius: 10px;
-    height: 330px;
+    vertical-align: top;
     width: 275px;
     background-color: rgba(240, 248, 255, 0.39);
     position: absolute;
     top: 100px;
     right: 0;
-    bottom: 0;
     left: 0;
     margin-left: auto;
     margin-right: auto;
+    padding-bottom: 15px;
 }
 .inputs_block>input {
     width: 250px;
     height: 30px;
     margin-left: 10px;
-    background-color: #4978b7;
+    background-color: #2a5fa2;
     margin-bottom: 10px;
     border-radius: 3px;
     border-style: none;
@@ -47,7 +48,14 @@ input::target-text{
     width: 100%;
     height: 99%;
 }
+.form_footer{
+    position: relative;
+    text-align: center;
+    margin-bottom: auto;
+}
 .error{
-    font-weight: bold;
-    color: #c20404;
+    text-shadow: 1px 1px 1px #000000;
+    margin-left: 10px;
+    font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+    color: #ff7979;
 }
