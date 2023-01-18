@@ -55,38 +55,40 @@ export function Signup(){
     }
     return<>
         <form onSubmit={handleSubmit}>
-        <div className='parent'>
-            <img className='logos-img' src="https://img3.akspic.ru/crops/7/4/5/5/25547/25547-zemlya-noch-prostranstvo-vselennaya-kosmos-1920x1080.jpg"/>
-            <div className='block'>
-                <div className='block_header'>
-                    <h2>Регистрация</h2>
-                </div>
-
-                <div className='inputs_block'>
-                    <input placeholder='Ф.И.О' onChange={e => setName(e.target.value)} value={name}></input>
-                    {nameError && <div className={'error'}>{nameError}</div>}
-
-                    <input type={'email'} placeholder='Почта' onChange={e => setMail(e.target.value)} value={mail}></input>
-                    {mailError && <div className={"error"}>{mailError}</div>}
-
-                    <input placeholder='Наименование организации' onChange={e => setCompany(e.target.value)} value={company}></input>
-                    {companyError && <div className={'error'}>{companyError}</div>}
-
-                    <input type="password" placeholder='Пароль' onChange={e => setPassword(e.target.value)} value={password}></input>
-                    {passwordError && <div className={'error'}>{passwordError}</div>}
-
-                    <input type="password" placeholder='Повтор пароля' onChange={e => setPasswordRepeat(e.target.value)} value={passwordRepeat}></input>
-                    {passwordRepeatError && <div className={'error'}>{passwordRepeatError}</div>}
-                </div>
-
-                    <div className='form_footer'>
-                        <button>Зарегистрироваться</button>
-                        <br/>
-                        <a href="" onClick={()=> navigate('/')}>Уже есть аккаунт?</a>
+            <div className='parent'>
+                <video className={'video'} autoPlay muted loop>
+                    <source src={'https://joy1.videvo.net/videvo_files/video/free/video0485/large_watermarked/_import_61c054cfcedae4.80735760_preview.mp4'}/>
+                </video>
+                <div className='block'>
+                    <div className='block_header'>
+                        <h2>Регистрация</h2>
                     </div>
 
+                    <div className='inputs_block'>
+                        <input placeholder='Ф.И.О' onChange={e => setName(e.target.value)} value={name}></input>
+                        {nameError && <div className={'error'}>{nameError}</div>}
+
+                        <input type={'email'} placeholder='Почта' onChange={e => setMail(e.target.value)} value={mail}></input>
+                        {mailError && <div className={"error"}>{mailError}</div>}
+
+                        <input placeholder='Наименование организации' onChange={e => setCompany(e.target.value)} value={company}></input>
+                        {companyError && <div className={'error'}>{companyError}</div>}
+
+                        <input type="password" placeholder='Пароль' onChange={e => setPassword(e.target.value)} value={password}></input>
+                        {passwordError && <div className={'error'}>{passwordError}</div>}
+
+                        <input type="password" placeholder='Повтор пароля' onChange={e => setPasswordRepeat(e.target.value)} value={passwordRepeat}></input>
+                        {passwordRepeatError && <div className={'error'}>{passwordRepeatError}</div>}
+                    </div>
+
+                    <div className='form_footer'>
+                        <button className={'registration_button'}>Зарегистрироваться</button>
+                        <br/>
+                        <a className={'ref_signin'} href="" onClick={()=> navigate('/')}>Уже есть аккаунт?</a>
+                    </div>
+
+                </div>
             </div>
-        </div>
         </form>
     </>
 }
