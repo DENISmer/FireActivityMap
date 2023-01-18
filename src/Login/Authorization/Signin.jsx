@@ -56,28 +56,33 @@ export function Signin(){
 
     return<>
         <form onSubmit={handleSubmit}>
-        <div className='parent'>
-            <img className='logos-img' src="https://img3.akspic.ru/crops/7/4/5/5/25547/25547-zemlya-noch-prostranstvo-vselennaya-kosmos-1920x1080.jpg"/>
-            <div className='block'>
-                <div className='block_header'>
-                    <h2>Авторизация</h2>
+            <div className='parent'>
+                <div className='logo'>
+                    <h1>Welcome to Fire Activity Map</h1>
                 </div>
-                <div className='inputs_block'>
+                <video className={'video'} autoPlay muted loop>
+                    <source src={'https://joy1.videvo.net/videvo_files/video/free/video0485/large_watermarked/_import_61c054cfcedae4.80735760_preview.mp4'}/>
+                </video>
+                <div className='block'>
+                    <div className='block_header'>
+                        <h2>Авторизация</h2>
+                    </div>
+                    <div className='inputs_block'>
 
-                    <input type="email" placeholder='Почта' onChange={e => setMail(e.target.value)} value={mail}></input>
-                    {mailError && <div className="error">{mailError}</div>}
+                        <input type="email" placeholder='Почта' onChange={e => setMail(e.target.value)} value={mail}></input>
+                        {mailError && <div className="error">{mailError}</div>}
 
-                    <input type="password" onChange={e => setPassword(e.target.value)} placeholder='Пароль'></input>
-                    {passwordError && <div className="error">{passwordError}</div>}
+                        <input type="password" placeholder='Пароль' onChange={e => setPassword(e.target.value)}></input>
+                        {passwordError && <div className="error">{passwordError}</div>}
 
-                </div>
-                <div className="form_footer">
-                    <button type={"submit"}>Войти</button>
-                    <br/>
-                    <a href="" onClick={()=> navigate('/Signup')}>Нет аккаунта?</a>
+                    </div>
+                    <div className="form_footer">
+                        <button className='login_button' type={"submit"}>Войти</button>
+                        <br/>
+                        <a className='ref_signup' href="" onClick={()=> navigate('/Signup')}>Нет аккаунта?</a>
+                    </div>
                 </div>
             </div>
-        </div>
         </form>
     </>
 }
