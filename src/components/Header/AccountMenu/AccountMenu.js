@@ -11,7 +11,7 @@ import Tooltip from '@mui/material/Tooltip';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
-import earth from 'C:/Users/RuBin/Desktop/FireActivityMap/src/icons/earth.gif';
+import earth from 'D:/react projects/react-leaflet-app/src/icons/earth.gif';
 import {Link, useNavigate} from "react-router-dom";
 
 export default function AccountMenu() {
