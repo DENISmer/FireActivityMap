@@ -35,7 +35,7 @@ export default function MapComponent(){
                     <MainNavBar />
 
                     <LayersControl>
-                        <BaseLayer name="Sattelite">
+                        <BaseLayer name="Sattelite" checked={true}>
                             <TileLayer
                                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                                 url={'https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v9/tiles/{z}/{x}/{y}?access_token=sk.eyJ1IjoicnViaW5uYXciLCJhIjoiY2xiMTFmcnZmMXBnbDNwbXA4bHFkcDdyciJ9.CxX9zdanJzvnGxgEDz7bJw'}
