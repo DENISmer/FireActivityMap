@@ -1,7 +1,7 @@
 import React from 'react';
 //import "./Map.css"
 import './App.css'
-import MapComponent from "./components/Map/Map.js";
+import MapComponent from "./components/Map/Map.jsx";
 import {Signup} from "./Login/Registration/Signup.jsx";
 import {BrowserRouter,Routes,Route} from "react-router-dom";
 import {Signin} from "./Login/Authorization/Signin.jsx";
