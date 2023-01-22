@@ -1,5 +1,5 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {useMapEvents} from "react-leaflet";
+import React, {useEffect, useState} from 'react';
+import {useMap, useMapEvent, useMapEvents} from "react-leaflet";
 import L from 'leaflet';
 import {
     MapContainer,
@@ -11,11 +11,10 @@ import {
     ScaleControl,
 } from "react-leaflet";
 import './Map.css';
-//import { CoordinatesControl } from 'react-leaflet-box-zoom'
 import {MainNavBar} from "../MainNavBar/MainNavBar";
 import {Header} from "../Header/Header";
-//import {Measure} from 'leaflet-measure';
-import {Coordinates} from "../Info/Coordinates";
+import {MouseCoordinates} from "../Info/Coordinates";
+
 
 function GetIcon(_iconSize){
     return L.icon({
@@ -24,38 +23,17 @@ function GetIcon(_iconSize){
     })
 }
 
-
-
 export default function MapComponent(){
 
     const {BaseLayer} = LayersControl;
-    let center = [35.702, 37.530]
-    const [map, setMap] = useState(null);
-
-    const [coords, setCoords] = useState({});
-
-    useEffect((map) => {
-        if(!map) return;
-
-        map.addEventListener("mousemove", (e) => {
-            setCoords({lat: e.latlng.lat, lng: e.latlng.lng} );
-        });
-    }, [map]);
-
-    const {lat, lng} = coords;
+    const center = [33.505, -0.09]
 
 
-    return (
-            <>
-                <MapContainer minZoom={2.3} maxZoom={13} zoom={3} center={center} whenReady={setMap} doubleClickZoom={false} maxBounds={[[-110,-170],[100,200]]} >
+    return <>
+                <MapContainer minZoom={2.3} maxZoom={13} zoom={3} center={center} doubleClickZoom={false} maxBounds={[[-110,-170],[100,200]]} >
                     <ScaleControl position="topleft" />
                     <Header />
-                    {lat ?
-                        <div className={'main'}>
-                            <b>latitude</b>: {lat?.toFixed(4)} <br />
-                            <b>longitude</b>: {lng?.toFixed(4)}
-                        </div > : <div className={'main'}>lng</div>
-                    }
+
                     <MainNavBar />
                     <LayersControl>
                         <BaseLayer name="Sattelite" checked={true} >
@@ -86,12 +64,11 @@ export default function MapComponent(){
                         </BaseLayer>
                     </LayersControl>
                     <Marker position={center} icon={GetIcon(20,20)}>
-                        <Popup>
+                        <Popup >
                             text here
                         </Popup>
                     </Marker>
+                    <MouseCoordinates />
                 </MapContainer>
-
             </>
-        );
     }
