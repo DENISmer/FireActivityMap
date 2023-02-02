@@ -1,6 +1,6 @@
 .navBar{
     position: absolute;
-    z-index: 400;
+    z-index: 450;
     width: auto;
     top: 103px;
     right: 5px;
@@ -9,9 +9,7 @@
     /*box-shadow: 0px 0px 0px 2px rgba(0,0,0,0.25);*/
 
 }
-.hidden{
-    display: none;
-}
+
 .navBarMainInstuments{
     margin: 7px;
     display: flex;
@@ -40,4 +38,31 @@
     top: 63px;
     right: 12px;
     border-radius: 3px;
+}
+
+.navBarMainInstuments_Calendar{
+    margin: 10px;
+    border-radius: 3px;
+    box-shadow: 0px 0px 0px 2px rgba(0,0,0,0.25);
+    background-color: white;
+    padding: 5px;
+    font-size: 16px;
+}
+
+.transition-enter {
+    opacity: 0;
+    transform: scale(0.9);
+}
+.transition-enter-active {
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity 300ms, transform 300ms;
+}
+.transition-exit {
+    opacity: 1;
+}
+.transition-exit-active {
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 300ms, transform 300ms;
 }

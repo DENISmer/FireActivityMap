@@ -9,7 +9,7 @@ import IconButton from '@mui/material/IconButton';
 import {Tooltip} from '@mui/material';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
-import earth from 'D:/react projects/react-leaflet-app/src/icons/earth.gif';
+import earth from '../../../icons/earth.gif';
 import {Link} from "react-router-dom";
 
 export default function AccountMenu() {

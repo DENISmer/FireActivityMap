@@ -58,22 +58,28 @@ export function Signin(){
         <form onSubmit={handleSubmit}>
             <div className='parent'>
                 <div className='logo'>
-                    <h1>Welcome to Fire Activity Map</h1>
+                    <h1>Вы используете сервис Fire Activity Map -<br/>Сервис для мониторинга пожаров и очагов возгорания<br/>по всему миру</h1>
                 </div>
                 <video className={'video'} autoPlay muted loop>
                     <source src={'https://joy1.videvo.net/videvo_files/video/free/video0485/large_watermarked/_import_61c054cfcedae4.80735760_preview.mp4'}/>
                 </video>
-                <div className='block'>
+                <div className='block_authorization'>
                     <div className='block_header'>
                         <h2>Авторизация</h2>
                     </div>
-                    <div className='inputs_block'>
+                    <div className='inputs_block_login'>
+                        <fieldset className="login_field">
+                            <legend>Введите адрес электронной почты</legend>
 
-                        <input type="email" placeholder='Почта' onChange={e => setMail(e.target.value)} value={mail}></input>
-                        {mailError && <div className="error">{mailError}</div>}
+                            <input type="email" placeholder='Почта' onChange={e => setMail(e.target.value)} value={mail}></input>
+                            {mailError && <div className="error">{mailError}</div>}
+                        </fieldset>
 
-                        <input type="password" placeholder='Пароль' onChange={e => setPassword(e.target.value)}></input>
-                        {passwordError && <div className="error">{passwordError}</div>}
+                        <fieldset className="password_field">
+                            <legend>Введите пароль</legend>
+                            <input type="password" placeholder='Пароль' onChange={e => setPassword(e.target.value)}></input>
+                            {passwordError && <div className="error">{passwordError}</div>}
+                        </fieldset>
 
                     </div>
                     <div className="form_footer">

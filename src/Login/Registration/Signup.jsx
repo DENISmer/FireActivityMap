@@ -59,26 +59,46 @@ export function Signup(){
                 <video className={'video'} autoPlay muted loop>
                     <source src={'https://joy1.videvo.net/videvo_files/video/free/video0485/large_watermarked/_import_61c054cfcedae4.80735760_preview.mp4'}/>
                 </video>
-                <div className='block'>
+                <div className='block_registration'>
                     <div className='block_header'>
                         <h2>Регистрация</h2>
                     </div>
 
-                    <div className='inputs_block'>
-                        <input placeholder='Ф.И.О' onChange={e => setName(e.target.value)} value={name}></input>
-                        {nameError && <div className={'error'}>{nameError}</div>}
+                    <div className='inputs_block_registration'>
+                        <fieldset>
+                            <legend>Укажите Фамилию, Имя, Отчество</legend>
 
-                        <input type={'email'} placeholder='Почта' onChange={e => setMail(e.target.value)} value={mail}></input>
-                        {mailError && <div className={"error"}>{mailError}</div>}
+                            <input placeholder='Ф.И.О' onChange={e => setName(e.target.value)} value={name}></input>
+                            {nameError && <div className={'error'}>{nameError}</div>}
+                        </fieldset>
 
-                        <input placeholder='Наименование организации' onChange={e => setCompany(e.target.value)} value={company}></input>
-                        {companyError && <div className={'error'}>{companyError}</div>}
+                        <fieldset>
+                            <legend>Укажите адрес электронной почты</legend>
 
-                        <input type="password" placeholder='Пароль' onChange={e => setPassword(e.target.value)} value={password}></input>
-                        {passwordError && <div className={'error'}>{passwordError}</div>}
+                            <input type={'email'} placeholder='Email' onChange={e => setMail(e.target.value)} value={mail}></input>
+                            {mailError && <div className={"error"}>{mailError}</div>}
+                        </fieldset>
 
-                        <input type="password" placeholder='Повтор пароля' onChange={e => setPasswordRepeat(e.target.value)} value={passwordRepeat}></input>
-                        {passwordRepeatError && <div className={'error'}>{passwordRepeatError}</div>}
+                        <fieldset>
+                            <legend>Укажите Наименование организации</legend>
+
+                            <input placeholder='Наименование организации' onChange={e => setCompany(e.target.value)} value={company}></input>
+                            {companyError && <div className={'error'}>{companyError}</div>}
+                        </fieldset>
+
+                        <fieldset>
+                            <legend>Придумайте пароль</legend>
+
+                            <input type="password" placeholder='Пароль' onChange={e => setPassword(e.target.value)} value={password}></input>
+                            {passwordError && <div className={'error'}>{passwordError}</div>}
+                        </fieldset>
+
+                        <fieldset>
+                            <legend>Повторите пароль:</legend>
+
+                            <input type="password" placeholder='Повтор пароля' onChange={e => setPasswordRepeat(e.target.value)} value={passwordRepeat}></input>
+                            {passwordRepeatError && <div className={'error'}>{passwordRepeatError}</div>}
+                        </fieldset>
                     </div>
 
                     <div className='form_footer'>
