@@ -20,6 +20,7 @@ const CustomButton = styled(ButtonUnstyled)`
   transition: all 150ms ease;
   cursor: pointer;
   border: none;
+  margin: 3px;
 
   &:hover {
     background-color: ${blue[600]};
@@ -43,7 +44,7 @@ const CustomButton = styled(ButtonUnstyled)`
 export default function UnstyledButtonsSimple() {
     return (
         <Stack spacing={2} direction="row">
-            <CustomButton>Button</CustomButton>
+            <CustomButton>buttonghj</CustomButton>
             {/*<CustomButton disabled>Disabled</CustomButton>*/}
         </Stack>
     );

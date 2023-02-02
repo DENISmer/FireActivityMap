@@ -18,39 +18,39 @@ export function MainNavBar(){
             <button  className="show_hide_NavBar" onClick={() => setShowNavBar(!showNavBar)}>
                 {showNavBar ?  <img src={NavBarCloseIcon} width={32} height={35}/> : <img src={NavBarIcon} width={32} height={35}/>}
             </button>
-        <CSSTransition in={showNavBar} timeout={300} classNames='transition' unmountOnExit>
+            <CSSTransition in={showNavBar} timeout={300} classNames='transition' unmountOnExit>
 
-            <div className="navBar">
+                <div className="navBar">
 
-                <div className="navBarMainInstuments_Calendar">
-                    <label>Now date is: </label>
-                    <a className={"hover_calendar"}>{date.toDateString()}</a>
-                    <br/><button className="change_date_button" onClick={() => setShowCalendar(!showCalendar)}>Изменить дату</button>
+                    <div className="navBarMainInstuments_Calendar">
+                        <label>Now date is: </label>
+                        <a className={"hover_calendar"}>{date.toDateString()}</a>
+                        <br/><button className="change_date_button" onClick={() => setShowCalendar(!showCalendar)}>Изменить дату</button>
 
-                    <CSSTransition in={showCalendar} timeout={500} classNames='transition' unmountOnExit>
-                        <Calendar className="calendar" onChange={setDate} value={date}></Calendar>
-                    </CSSTransition>
+                        <CSSTransition in={showCalendar} timeout={500} classNames='transition' unmountOnExit>
+                            <Calendar className="calendar" onChange={setDate} value={date}></Calendar>
+                        </CSSTransition>
+                    </div>
+
+                    <div className="navBarMainInstuments">
+                        <h2>
+                            <UnstyledButtonsSimple />
+                            <br/>
+                            <UnstyledButtonsSimple />
+                            <br/>
+                            <UnstyledButtonsSimple />
+                            <button className='navBar_button'>first</button>
+                            <button className='navBar_button'>second</button>
+                            <button className='navBar_button'>third</button>
+                        </h2>
+                    </div>
+
+                    <div className="navBarMainInstuments">
+                        <h2>доп информация</h2>
+                    </div>
+
                 </div>
-
-                <div className="navBarMainInstuments">
-                    <h2>
-                        <UnstyledButtonsSimple />
-                        <br/>
-                        <UnstyledButtonsSimple />
-                        <br/>
-                        <UnstyledButtonsSimple />
-                        <button className='navBar_button'>first</button>
-                        <button className='navBar_button'>second</button>
-                        <button className='navBar_button'>third</button>
-                    </h2>
-                </div>
-
-                <div className="navBarMainInstuments">
-                    <h2>доп информация</h2>
-                </div>
-
-            </div>
-        </CSSTransition>
+            </CSSTransition>
         </>
-        );
+    );
 }

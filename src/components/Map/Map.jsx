@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {useMap, useMapEvent, useMapEvents} from "react-leaflet";
+import {GeoJSON, useMap, useMapEvent, useMapEvents} from "react-leaflet";
 import L from 'leaflet';
 import {
     MapContainer,
@@ -33,14 +33,14 @@ export default function MapComponent(){
                 <MapContainer minZoom={2.3} maxZoom={13} zoom={3} center={center} doubleClickZoom={false} maxBounds={[[-110,-170],[100,200]]} >
                     <ScaleControl position="topleft" />
                     <Header />
-
                     <MainNavBar />
+                    <MouseCoordinates />
+
                     <LayersControl>
                         <BaseLayer name="Sattelite" checked={true} >
                             <TileLayer
                                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                                 url={'https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v9/tiles/{z}/{x}/{y}?access_token=sk.eyJ1IjoicnViaW5uYXciLCJhIjoiY2xiMTFmcnZmMXBnbDNwbXA4bHFkcDdyciJ9.CxX9zdanJzvnGxgEDz7bJw'}
-
                             />
                         </BaseLayer>
                         <BaseLayer name="Streets">
@@ -68,7 +68,7 @@ export default function MapComponent(){
                             text here
                         </Popup>
                     </Marker>
-                    <MouseCoordinates />
+                    <GeoJSON />
                 </MapContainer>
             </>
     }
