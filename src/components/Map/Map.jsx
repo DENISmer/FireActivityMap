@@ -25,29 +25,9 @@ function GetIcon(_iconSize){
 }
 
 export default function MapComponent(){
+
     const {BaseLayer} = LayersControl;
-
     const center = [33.505, -0.09]
-
-    // const [geoJSON,setgeoJSON] = useState(null);
-    // const [reference,setReference] = useState(null);
-    //
-    // const getHospitals = async () => {
-    //     let hospitals = await axios.get(
-    //         "https://cartovis-server.herokuapp.com/hospitales"
-    //     );
-    //
-    //     let reference = React.createRef();
-    //
-    //     setgeoJSON(hospitals);
-    //     setReference(reference)
-    //     console.log("zbs")
-    // };
-
-            console.log(nationalParks.map(nat => (nat.latitude))
-            )
-
-
 
 
     return <>
