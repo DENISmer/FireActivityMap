@@ -1,21 +1,24 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {Circle, useMap, useMapEvent, useMapEvents} from "react-leaflet";
 import L from 'leaflet';
 import {
     MapContainer,
     TileLayer,
     Popup,
+    Polygon,
     Marker,
     LayersControl,
     LayerGroup,
     ScaleControl,
 } from "react-leaflet";
+import 'leaflet/dist/leaflet.css'
 import './Map.css';
 import {MainNavBar} from "../MainNavBar/MainNavBar";
 import {Header} from "../Header/Header";
 import {MouseCoordinates} from "../Info/Coordinates";
 import nationalParks from '../Info/national-parks.json'
-import {GeoJSON} from 'react-leaflet/GeoJSON'
+import MarkerClusterGroup from "react-leaflet-cluster";
+import {Layer} from "leaflet/src/layer";
+import {Layers} from "@mui/icons-material";
+import {Mark_render} from "./mark_render";
 //import axios from "axios";
 function GetIcon(_iconSize){
     return L.icon({
@@ -30,15 +33,15 @@ export default function MapComponent(){
     const center = [33.505, -0.09]
 
 
+
+
     return <>
                 <MapContainer minZoom={2.3} maxZoom={13} zoom={3} center={center}  doubleClickZoom={false} maxBounds={[[-110,-170],[100,200]]} >
                     <ScaleControl position="topleft" />
                     <Header />
                     <MainNavBar />
                     <MouseCoordinates />
-                    <GeoJSON
 
-                    />
                     <LayersControl>
                         <BaseLayer name="Sattelite" checked={true} >
                             <TileLayer
@@ -52,43 +55,23 @@ export default function MapComponent(){
                                 url={'https://tile.openstreetmap.org/{z}/{x}/{y}.png'}
                             />
                         </BaseLayer>
-                        <LayersControl.Overlay checked name="Fires from FIRMS(MODIS)">
+                        <LayersControl.Overlay name="Fires from FIRMS(MODIS)" checked={false}>
                             <LayerGroup>
-                                {nationalParks.map(nat =>(
-                                    <Marker icon={GetIcon(5,5)}
-                                            key = {nat.frp}
-                                            position = {[nat.latitude,nat.longitude]}>
-                                        <Popup>
-                                            Время: {nat.acq_time}
-                                            <br/>
-                                            Координаты: {nat.latitude}, {nat.longitude}
-                                            <br/>
-                                            Яркость: {nat.brightness}
-                                            <br/>
-                                        </Popup>
-                                    </Marker>
-                                ))}</LayerGroup>
+                                <Mark_render />
+                            </LayerGroup>
                         </LayersControl.Overlay>
-                        <BaseLayer name="ESRI" >
+                        <BaseLayer preferCanvas={true} name="ESRI" >
                             <LayerGroup>
                                 <TileLayer
                                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                                     url={'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'}
                                 />
 
-                                <Marker position={[55,33]} icon={GetIcon(20,20)}>
-                                    <Popup>
-                                        yoooo
-                                    </Popup>
-                                </Marker>
                             </LayerGroup>
                         </BaseLayer>
                     </LayersControl>
-                    <Marker position={center} icon={GetIcon(20,20)}>
-                        <Popup >
-                            text here
-                        </Popup>
-                    </Marker>
+
+
                 </MapContainer>
             </>
     }
