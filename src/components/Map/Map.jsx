@@ -7,7 +7,7 @@ import {
     Marker,
     LayersControl,
     LayerGroup,
-    ScaleControl,
+    ScaleControl, GeoJSON,
 } from "react-leaflet";
 import 'leaflet/dist/leaflet.css'
 import './Map.css';
@@ -57,7 +57,10 @@ export default function MapComponent(){
                         </BaseLayer>
                         <LayersControl.Overlay name="Fires from FIRMS(MODIS)" checked={false}>
                             <LayerGroup>
-                                <Mark_render />
+                                <GeoJSON >
+                                    <Mark_render />
+                                </GeoJSON>
+
                             </LayerGroup>
                         </LayersControl.Overlay>
                         <BaseLayer preferCanvas={true} name="ESRI" >
