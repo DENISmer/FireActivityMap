@@ -1,24 +1,13 @@
 import L from 'leaflet';
-import {
-    MapContainer,
-    TileLayer,
-    Popup,
-    Polygon,
-    Marker,
-    LayersControl,
-    LayerGroup,
-    ScaleControl, GeoJSON,
-} from "react-leaflet";
+import {GeoJSON, LayerGroup, LayersControl, MapContainer, ScaleControl, TileLayer,} from "react-leaflet";
 import 'leaflet/dist/leaflet.css'
 import './Map.css';
 import {MainNavBar} from "../MainNavBar/MainNavBar";
 import {Header} from "../Header/Header";
 import {MouseCoordinates} from "../Info/Coordinates";
-import nationalParks from '../Info/national-parks.json'
-import MarkerClusterGroup from "react-leaflet-cluster";
-import {Layer} from "leaflet/src/layer";
-import {Layers} from "@mui/icons-material";
 import {Mark_render} from "./mark_render";
+import {useState} from "react";
+
 //import axios from "axios";
 function GetIcon(_iconSize){
     return L.icon({
@@ -31,17 +20,14 @@ export default function MapComponent(){
 
     const {BaseLayer} = LayersControl;
     const center = [33.505, -0.09]
-
-
-
+    const [map,setMap] = useState(null)
 
     return <>
-                <MapContainer minZoom={2.3} maxZoom={13} zoom={3} center={center}  doubleClickZoom={false} maxBounds={[[-110,-170],[100,200]]} >
+                <MapContainer  minZoom={2.3} maxZoom={13} zoom={3} center={center} whenReady={setMap} doubleClickZoom={false} maxBounds={[[-110,-170],[100,200]]} >
                     <ScaleControl position="topleft" />
                     <Header />
                     <MainNavBar />
                     <MouseCoordinates />
-
                     <LayersControl>
                         <BaseLayer name="Sattelite" checked={true} >
                             <TileLayer
@@ -58,7 +44,7 @@ export default function MapComponent(){
                         <LayersControl.Overlay name="Fires from FIRMS(MODIS)" checked={false}>
                             <LayerGroup>
                                 <GeoJSON >
-                                    <Mark_render />
+                                    <Mark_render map={map}/>
                                 </GeoJSON>
 
                             </LayerGroup>
