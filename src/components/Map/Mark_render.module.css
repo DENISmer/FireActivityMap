@@ -10,18 +10,22 @@
     background: rgba(240,100,15, 0.7);
     border-radius: 50%;
     color: #000000;
-    height: 33px;
     /*line-height: 37px;*/
     text-align: center;
-    width: 33px;
+
 }
 
 .custom_marker_cluster1{
     background: rgba(236, 12, 12, 0.4);
     border-radius: 50%;
     color: #000000;
-    height: 33px;
     /*line-height: 37px;*/
     text-align: center;
-    width: 33px;
+}
+.custom_marker_cluster2{
+    background: rgba(102, 253, 0, 0.51);
+    border-radius: 50%;
+    color: #000000;
+    /*line-height: 37px;*/
+    text-align: center;
 }

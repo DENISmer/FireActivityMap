@@ -18,40 +18,44 @@ function GetIcon1(_iconSize){
     })
 }
 
-const createClusterCustomIcon = function (cluster: MarkerCluster) {
-    return L.divIcon({
-        html: cluster.getChildCount(),
-        className: clusters.custom_marker_cluster,
-        iconSize: L.point(20, 20, true),
-    })
-}
-
 export function Mark_render(props) {
     const [color,setColor] = useState(true);
 
     const createClusterCustomIcon1 = function (cluster: MarkerCluster) {
         let markersInCluster = cluster.getAllChildMarkers();
         let mars;
+        let max_temp = 0;
         markersInCluster.find((marker, index) =>{
-            if(marker.options.children.props.children[9] > 320){
-                console.log(marker.options.children.props.children[9])
+            if(marker.options.children.props.children[9] > 330){
+
+                console.log(max_temp, index)
                  mars = L.divIcon({
                     //mar = cluster.getAllChildMarkers().find(marker => marker.options.brightness > 320)
                     html: cluster.getChildCount(),
                     className: clusters.custom_marker_cluster1,
-                    iconSize: L.point(20, 20, true),
+                    iconSize: L.point(25, 25, true),
                 })
             }
-            else {
+            else if(marker.options.children.props.children[9] > 320 && marker.options.children.props.children[9] < 330){
                 mars = L.divIcon({
                     //mar = cluster.getAllChildMarkers().find(marker => marker.options.brightness > 320)
-                    html: "<320",
+                    html: cluster.getChildCount(),
                     className: clusters.custom_marker_cluster,
-                    iconSize: L.point(20, 20, true),
+                    iconSize: L.point(25, 25, true),
                 })
             }
+            else if(marker.options.children.props.children[9] < 320){
+                max_temp += 1;
+                mars = L.divIcon({
+                        //mar = cluster.getAllChildMarkers().find(marker => marker.options.brightness > 320)
+                        html: cluster.getChildCount(),
+                        className: clusters.custom_marker_cluster2,
+                        iconSize: L.point(25, 25, true),
+                    })
+                }
         }
         )
+        console.log("cons " +max_temp)
         return mars
         }
 
