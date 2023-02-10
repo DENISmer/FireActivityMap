@@ -5,27 +5,55 @@
     text-align: center;
     font-size: 24px;
 }
-
-.custom_marker_cluster{
-    background: rgba(240,100,15, 0.7);
-    border-radius: 50%;
-    color: #000000;
-    /*line-height: 37px;*/
-    text-align: center;
-
-}
-
-.custom_marker_cluster1{
-    background: rgba(236, 12, 12, 0.4);
+.custom_marker_cluster_extra_hot{
+    background: rgba(152, 0, 0, 0.85);
     border-radius: 50%;
     color: #000000;
     /*line-height: 37px;*/
     text-align: center;
 }
-.custom_marker_cluster2{
-    background: rgba(102, 253, 0, 0.51);
+.custom_marker_cluster_extra_hot:hover{
+    background: rgba(175, 1, 1, 1);
+     border-style: solid;
+     border-width: 1px;
+}
+
+.custom_marker_cluster_red{
+    background: rgba(236, 12, 12, 0.45);
     border-radius: 50%;
     color: #000000;
     /*line-height: 37px;*/
     text-align: center;
 }
+.custom_marker_cluster_red:hover{
+    background: rgba(236, 12, 12, 1);
+    border-style: solid;
+    border-width: 1px;
+}
+
+.custom_marker_cluster_orange{
+    background: rgba(243, 102, 29, 0.45);
+    border-radius: 50%;
+    color: #000000;
+    /*line-height: 37px;*/
+    text-align: center;
+}
+.custom_marker_cluster_orange:hover{
+    background: rgba(243, 102, 29, 1);
+    border-style: solid;
+    border-width: 1px;
+}
+
+.custom_marker_cluster_green{
+    background: rgba(248, 244, 2, 0.4);
+    border-radius: 50%;
+    color: #000000;
+    /*line-height: 37px;*/
+    text-align: center;
+}
+.custom_marker_cluster_green:hover{
+    background: rgba(248, 244, 2, 1);
+    border-style: solid;
+    border-width: 1px;
+}
+

@@ -6,74 +6,88 @@ import clusters from './Mark_render.module.css'
 import L from 'leaflet';
 
 function GetIcon(_iconSize){
-    return L.icon({
-        iconUrl: require("../../icons/red_dot_marker.png"),
-        iconSize: [_iconSize]
-    })
+        return L.icon({
+            iconUrl: require("../../icons/red_dot_marker.png"),
+            iconSize: [_iconSize]
+        })
 }
-function GetIcon1(_iconSize){
-    return L.icon({
-        iconUrl: require("../../icons/marker.png"),
-        iconSize: [_iconSize]
-    })
-}
+
 
 export function Mark_render(props) {
-    const [color,setColor] = useState(true);
+    const onClusterHandleClick = () => {
+        return (<>
+            <Popup closeButton={false}>
+                Info about cluster
+            </Popup>
+            </>
+        );
+    }
 
     const createClusterCustomIcon1 = function (cluster: MarkerCluster) {
-        let markersInCluster = cluster.getAllChildMarkers();
-        let mars;
-        let max_temp = 0;
-        markersInCluster.find((marker, index) =>{
-            if(marker.options.children.props.children[9] > 330){
 
-                console.log(max_temp, index)
-                 mars = L.divIcon({
-                    //mar = cluster.getAllChildMarkers().find(marker => marker.options.brightness > 320)
-                    html: cluster.getChildCount(),
-                    className: clusters.custom_marker_cluster1,
-                    iconSize: L.point(25, 25, true),
-                })
+        let CUSTOM_CLUSTER_STYLE;
+        let markersInCluster = cluster.getAllChildMarkers();
+        let resultCluster;
+        let extraHotClusterCounter = 0, redClusterCounter = 0, orangeClusterCounter = 0, greenClusterCounter = 0;
+        let childrensBrightness;
+
+        markersInCluster.find((marker, index) =>{
+
+            childrensBrightness = marker.options.children.props.children[9];
+                GetIcon(5,5,childrensBrightness)
+            if(childrensBrightness >= 390){
+                extraHotClusterCounter += 1;
             }
-            else if(marker.options.children.props.children[9] > 320 && marker.options.children.props.children[9] < 330){
-                mars = L.divIcon({
-                    //mar = cluster.getAllChildMarkers().find(marker => marker.options.brightness > 320)
-                    html: cluster.getChildCount(),
-                    className: clusters.custom_marker_cluster,
-                    iconSize: L.point(25, 25, true),
-                })
+            if(childrensBrightness >= 340){
+                redClusterCounter += 1;
             }
-            else if(marker.options.children.props.children[9] < 320){
-                max_temp += 1;
-                mars = L.divIcon({
-                        //mar = cluster.getAllChildMarkers().find(marker => marker.options.brightness > 320)
-                        html: cluster.getChildCount(),
-                        className: clusters.custom_marker_cluster2,
-                        iconSize: L.point(25, 25, true),
-                    })
+            else if(childrensBrightness > 320 && childrensBrightness <= 340){
+                orangeClusterCounter += 1;
+            }
+            else if(childrensBrightness <= 320){
+                greenClusterCounter += 1;
                 }
         }
         )
-        console.log("cons " +max_temp)
-        return mars
+        if(extraHotClusterCounter >= 1){
+            CUSTOM_CLUSTER_STYLE = clusters.custom_marker_cluster_extra_hot;
+            console.log(childrensBrightness)
+        }
+        else if(redClusterCounter >= orangeClusterCounter && redClusterCounter >= greenClusterCounter){
+            CUSTOM_CLUSTER_STYLE = clusters.custom_marker_cluster_red
+        }
+        else if( orangeClusterCounter > redClusterCounter && orangeClusterCounter >= greenClusterCounter){
+            CUSTOM_CLUSTER_STYLE = clusters.custom_marker_cluster_orange;
+        }
+        else if(greenClusterCounter >= orangeClusterCounter && greenClusterCounter > redClusterCounter){
+            CUSTOM_CLUSTER_STYLE = clusters.custom_marker_cluster_green
+        }
+        else{
+            console.log(childrensBrightness)
+        }
+
+        return resultCluster = L.divIcon({
+            //mar = cluster.getAllChildMarkers().find(marker => marker.options.brightness > 320)
+            html: cluster.getChildCount(),
+            className: CUSTOM_CLUSTER_STYLE,
+            iconSize: L.point(35, 35, true),
+        })
         }
 
     return(<>
-            {/*<MapEvents />*/}
             <MarkerClusterGroup
                 key={Date.now()}
                 iconCreateFunction={createClusterCustomIcon1}
                 spiderfyDistanceMultiplier={1}
                 maxClusterRadius={20}
                 singleMarkerMode={true}
+                onClusterClick={onClusterHandleClick()}
             >
                 {nationalParks.map((nat, index) =>(
-                    <Marker icon={GetIcon1(10,10)}
+                    <Marker icon={GetIcon(10,10,nat.brightness)}
                             key = {index}
                             position = {[nat.latitude,nat.longitude]}c
                             >
-                        {/*{nat.brightness < 320 ? setColor(true) : setColor(false)}*/}
                         <Popup closeButton={false}>
                             Time: {nat.acq_time}
                             <br/>
