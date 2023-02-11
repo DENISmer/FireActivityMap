@@ -7,6 +7,7 @@ import {Header} from "../Header/Header";
 import {MouseCoordinates} from "../Info/Coordinates";
 import {Mark_render} from "./mark_render";
 import {useState} from "react";
+import {TimeLine} from "../TimeLine/TimeLine";
 
 //import axios from "axios";
 function GetIcon(_iconSize){
@@ -28,6 +29,7 @@ export default function MapComponent(){
                     <Header />
                     <MainNavBar />
                     <MouseCoordinates />
+                    <TimeLine />
                     <LayersControl>
                         <BaseLayer name="Sattelite" checked={true} >
                             <TileLayer

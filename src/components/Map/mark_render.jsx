@@ -31,7 +31,7 @@ export function Mark_render(props) {
         let extraHotClusterCounter = 0, redClusterCounter = 0, orangeClusterCounter = 0, greenClusterCounter = 0;
         let childrensBrightness;
 
-        markersInCluster.find((marker, index) =>{
+        markersInCluster.find((marker, index) => {
 
             childrensBrightness = marker.options.children.props.children[9];
                 GetIcon(5,5,childrensBrightness)
@@ -79,11 +79,11 @@ export function Mark_render(props) {
                 key={Date.now()}
                 iconCreateFunction={createClusterCustomIcon1}
                 spiderfyDistanceMultiplier={1}
-                maxClusterRadius={20}
+                maxClusterRadius={40}
                 singleMarkerMode={true}
                 onClusterClick={onClusterHandleClick()}
             >
-                {nationalParks.map((nat, index) =>(
+                {nationalParks.map((nat, index) => (
                     <Marker icon={GetIcon(10,10,nat.brightness)}
                             key = {index}
                             position = {[nat.latitude,nat.longitude]}c

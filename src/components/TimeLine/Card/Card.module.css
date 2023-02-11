@@ -1,0 +1,14 @@
+.Card{
+    width: 20px;
+    height: 30px;
+    background-color: #009dff;
+    border: none;
+    margin: 4px;
+    border-radius: 3px;
+    text-align: center;
+    display: flex;
+}
+.Card:hover{
+    background-color: #008888;
+    font-weight: bold;
+}
