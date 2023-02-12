@@ -3,14 +3,28 @@
     background-color: #fdfdfe;
     z-index: 1000;
     border-radius: 3px;
-    left: 65px;
-    bottom: 12px;
+    right: 60px;
+    margin-left: auto;
+    /*left: 20px;*/
+    bottom: 20px;
     display: flex;
     width: auto;
+    max-width: max-content;
+    overflow: auto;
     height: auto;
     box-shadow: 0px 0px 0px 2px rgba(0,0,0,0.25);
-    text-align: center;
-    padding: 5px;
+    align-content: end;
+    padding: 4px;
+    cursor: pointer;
+}
+.scrollDays{
+    /*padding-left: 168px;*/
+    left: 25px;
+    right: 1130px;
+    display: flex;
+    overflow: auto;
+    width: auto;
+    max-width: 1600px;
 }
 .TimeLine_button{
     width: 44px;
@@ -19,8 +33,8 @@
     border: none;
     box-shadow: 0px 0px 0px 2px rgba(0,0,0,0.25);
     z-index: 400;
-    bottom: 12px;
-    left: 10px;
+    bottom: 23px;
+    right: 10px;
     border-radius: 3px;
 }
 .transition-enter {
@@ -44,4 +58,14 @@
     min-width: 100px;
     font-weight: bold;
     color: black;
+}
+.datePicker{
+    padding-left: 0px;
+    left: 500px;
+    display: flex;
+    width: 165px;
+    max-width: 170px;
+    min-width: 170px;
+    /*inline-size: 165px;*/
+    /*right: 20px;*/
 }

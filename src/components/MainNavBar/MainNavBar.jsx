@@ -23,13 +23,13 @@ export function MainNavBar(){
                 <div className="navBar">
 
                     <div className="navBarMainInstuments_Calendar">
-                        <label>Now date is: </label>
-                        <a className={"hover_calendar"}>{date.toDateString()}</a>
-                        <br/><button className="change_date_button" onClick={() => setShowCalendar(!showCalendar)}>Изменить дату</button>
+                        {/*<label>Now date is: </label>*/}
+                        {/*<a className={"hover_calendar"}>{date.toDateString()}</a>*/}
+                        {/*<br/><button className="change_date_button" onClick={() => setShowCalendar(!showCalendar)}>Изменить дату</button>*/}
 
-                        <CSSTransition in={showCalendar} timeout={500} classNames='transition' unmountOnExit>
-                            <Calendar className="calendar" onChange={setDate} value={date}></Calendar>
-                        </CSSTransition>
+                        {/*<CSSTransition in={showCalendar} timeout={500} classNames='transition' unmountOnExit>*/}
+                        {/*    <Calendar className="calendar" onChange={setDate} value={date}></Calendar>*/}
+                        {/*</CSSTransition>*/}
                     </div>
 
                     <div className="navBarMainInstuments">

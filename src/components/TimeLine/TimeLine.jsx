@@ -13,21 +13,25 @@ import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {forEach} from "react-bootstrap/ElementChildren";
 import {put} from "axios";
 
+
 export function TimeLine(){
     const [showTimeLine, setShowTimeLine] = useState(false)
     const [value, setValue] = React.useState(dayjs(Date.now()));
-
     const [month,setMonth] = useState([]);
-    let currentMonth = [1,2,3,4,5,6,7,8,8,9,10];
+    let currentMonth = [];
+
+    const handle = () =>{
+        setShowTimeLine(!showTimeLine)
+        setMonth(month)
+    }
 
     const getMonth = (daysInMonth) =>{
-        console.log(daysInMonth)
+        currentMonth = [];
         for(let i = 1;i <= daysInMonth;i++){
-            setMonth(month.concat(i))
+            currentMonth.push(i)
         }
-        //setMonth(month => month+=1)
-        console.log(month)
-        return currentMonth
+        setMonth(currentMonth)
+        return month
     }
 
     const getDays = (year,month) =>{
@@ -36,36 +40,40 @@ export function TimeLine(){
 
     return(
             <>
-                <button  className={Timeline.TimeLine_button} onClick={() => setShowTimeLine(!showTimeLine)}>
+                <button  className={Timeline.TimeLine_button} onClick={handle}>
                     {showTimeLine ?  <img src={NavBarCloseIcon} width={32} height={35}/> : <img src={TimeLineIcon} width={32} height={35}/>}
                 </button>
 
                 <CSSTransition in={showTimeLine} timeout={300} classNames={'transition'} unmountOnExit>
-
                     <div className={Timeline.Main_TimeLine}>
-                        <ScrollMenu
-                            scrollToSelected={true}
-                        >
-                            {month.map((day,index) =>{
-                                <Card key={index} day={day} />
-                            })}
-                        </ScrollMenu>
-                        <div>
+                        <div className={Timeline.scrollDays}>
+                            <ScrollMenu
+                                scrollToSelected={true}
+                            >
+                                {showTimeLine && month.map((day, index) =>(
+                                    <Card day={day} key={index} month={value.month() + 1} year={value.year()}/>
+                                ))}
+                            </ScrollMenu>
+                        </div>
+                        <div className={Timeline.datePicker}>
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DatePicker
                                     views={['year', 'month']}
-                                    label="Year and Month"
+                                    label="Год и месяц"
                                     minDate={dayjs('2012-03-01')}
                                     maxDate={dayjs('2024-06-01')}
                                     value={value}
-                                    onChange={(value) =>
+                                    onChange={(value) => {
+                                        setValue(value)
                                         getDays(value.year(), value.month() + 1)
                                     }
-                                    renderInput={(params) => <TextField {...params} helperText={null} />}
-                                    />
+                                    }
+                                    renderInput={(params) => <TextField size={"small"}{...params} helperText={null} />}
+                                />
                             </LocalizationProvider>
                         </div>
                     </div>
+
                 </CSSTransition>
 
             </>

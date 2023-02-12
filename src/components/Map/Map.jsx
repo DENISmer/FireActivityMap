@@ -1,5 +1,5 @@
 import L from 'leaflet';
-import {GeoJSON, LayerGroup, LayersControl, MapContainer, ScaleControl, TileLayer,} from "react-leaflet";
+import {GeoJSON, LayerGroup, LayersControl, MapContainer, ScaleControl, TileLayer, ZoomControl,} from "react-leaflet";
 import 'leaflet/dist/leaflet.css'
 import './Map.css';
 import {MainNavBar} from "../MainNavBar/MainNavBar";
@@ -8,8 +8,7 @@ import {MouseCoordinates} from "../Info/Coordinates";
 import {Mark_render} from "./mark_render";
 import {useState} from "react";
 import {TimeLine} from "../TimeLine/TimeLine";
-
-//import axios from "axios";
+import {Ruler} from './Ruler/Ruler.jsx'
 function GetIcon(_iconSize){
     return L.icon({
         iconUrl: require("../../icons/red_dot_marker.png"),
@@ -24,12 +23,14 @@ export default function MapComponent(){
     const [map,setMap] = useState(null)
 
     return <>
-                <MapContainer  minZoom={2.3} maxZoom={13} zoom={3} center={center} whenReady={setMap} doubleClickZoom={false} maxBounds={[[-110,-170],[100,200]]} >
-                    <ScaleControl position="topleft" />
+                <MapContainer zoomControl={false} minZoom={2.3} maxZoom={13} zoom={3} center={center} whenReady={setMap} doubleClickZoom={false} maxBounds={[[-110,-170],[100,200]]} >
+                    <ZoomControl position={'bottomleft'}/>
+                    <ScaleControl position={"bottomleft"} />
                     <Header />
                     <MainNavBar />
                     <MouseCoordinates />
                     <TimeLine />
+                    <Ruler />
                     <LayersControl>
                         <BaseLayer name="Sattelite" checked={true} >
                             <TileLayer
@@ -48,7 +49,6 @@ export default function MapComponent(){
                                 <GeoJSON >
                                     <Mark_render map={map}/>
                                 </GeoJSON>
-
                             </LayerGroup>
                         </LayersControl.Overlay>
                         <BaseLayer preferCanvas={true} name="ESRI" >
@@ -57,12 +57,9 @@ export default function MapComponent(){
                                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                                     url={'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'}
                                 />
-
                             </LayerGroup>
                         </BaseLayer>
                     </LayersControl>
-
-
                 </MapContainer>
             </>
     }

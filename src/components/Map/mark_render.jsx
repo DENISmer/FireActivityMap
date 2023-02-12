@@ -5,15 +5,16 @@ import MarkerClusterGroup from "react-leaflet-cluster";
 import clusters from './Mark_render.module.css'
 import L from 'leaflet';
 
+
+
 function GetIcon(_iconSize){
         return L.icon({
             iconUrl: require("../../icons/red_dot_marker.png"),
             iconSize: [_iconSize]
         })
 }
-
-
 export function Mark_render(props) {
+
     const onClusterHandleClick = () => {
         return (<>
             <Popup closeButton={false}>
@@ -23,11 +24,10 @@ export function Mark_render(props) {
         );
     }
 
-    const createClusterCustomIcon1 = function (cluster: MarkerCluster) {
+    const createClusterCustomIcon1 = function (cluster) {
 
         let CUSTOM_CLUSTER_STYLE;
         let markersInCluster = cluster.getAllChildMarkers();
-        let resultCluster;
         let extraHotClusterCounter = 0, redClusterCounter = 0, orangeClusterCounter = 0, greenClusterCounter = 0;
         let childrensBrightness;
 
@@ -51,7 +51,6 @@ export function Mark_render(props) {
         )
         if(extraHotClusterCounter >= 1){
             CUSTOM_CLUSTER_STYLE = clusters.custom_marker_cluster_extra_hot;
-            console.log(childrensBrightness)
         }
         else if(redClusterCounter >= orangeClusterCounter && redClusterCounter >= greenClusterCounter){
             CUSTOM_CLUSTER_STYLE = clusters.custom_marker_cluster_red
@@ -66,7 +65,7 @@ export function Mark_render(props) {
             console.log(childrensBrightness)
         }
 
-        return resultCluster = L.divIcon({
+        return L.divIcon({
             //mar = cluster.getAllChildMarkers().find(marker => marker.options.brightness > 320)
             html: cluster.getChildCount(),
             className: CUSTOM_CLUSTER_STYLE,
@@ -80,24 +79,25 @@ export function Mark_render(props) {
                 iconCreateFunction={createClusterCustomIcon1}
                 spiderfyDistanceMultiplier={1}
                 maxClusterRadius={40}
-                singleMarkerMode={true}
+                singleMarkerMode={false}
                 onClusterClick={onClusterHandleClick()}
             >
                 {nationalParks.map((nat, index) => (
+                    nat.acq_date === "2022-12-20" &&
                     <Marker icon={GetIcon(10,10,nat.brightness)}
                             key = {index}
                             position = {[nat.latitude,nat.longitude]}c
                             >
                         <Popup closeButton={false}>
-                            Time: {nat.acq_time}
+                            Время: {nat.acq_time}
                             <br/>
-                            Coordinates: {nat.latitude}, {nat.longitude}
+                            Координаты: {nat.latitude}, {nat.longitude}
                             <br/>
-                            Brightness: {nat.brightness}
+                            Температура: {nat.brightness}
                             <br/>
-                            Track: {nat.track}
+                            Трэк: {nat.track}
                             <br/>
-                            Scan: {nat.scan}
+                            Скан: {nat.scan}
                         </Popup>
                     </Marker>
             ))}</MarkerClusterGroup>

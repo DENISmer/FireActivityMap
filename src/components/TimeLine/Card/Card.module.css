@@ -1,14 +1,21 @@
 .Card{
-    width: 20px;
-    height: 30px;
-    background-color: #009dff;
+    min-width: 25px;
+    width: auto;
+    height: 38px;
+    background-color: rgba(0, 157, 255, 0.32);
     border: none;
-    margin: 4px;
+    margin: 1px;
     border-radius: 3px;
-    text-align: center;
     display: flex;
+    font-weight: bold;
+    font-size: 14px;
+}
+.Card>span{
+    position: relative;
+    left: 4px;
 }
 .Card:hover{
-    background-color: #008888;
+    background-color: rgba(0, 136, 136, 0.65);
     font-weight: bold;
+    color: white;
 }
