@@ -10,8 +10,6 @@ import {DatePicker} from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
 import {LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
-import {forEach} from "react-bootstrap/ElementChildren";
-import {put} from "axios";
 
 
 export function TimeLine(){
@@ -38,6 +36,9 @@ export function TimeLine(){
         return getMonth(new Date(year,month,0).getDate())
     }
 
+    const currentDay = () =>{
+        console.log(value.day())
+    }
     return(
             <>
                 <button  className={Timeline.TimeLine_button} onClick={handle}>
@@ -51,7 +52,7 @@ export function TimeLine(){
                                 scrollToSelected={true}
                             >
                                 {showTimeLine && month.map((day, index) =>(
-                                    <Card day={day} key={index} month={value.month() + 1} year={value.year()}/>
+                                    <Card day={day} key={index} month={value.month() + 1} year={value.year()} />
                                 ))}
                             </ScrollMenu>
                         </div>

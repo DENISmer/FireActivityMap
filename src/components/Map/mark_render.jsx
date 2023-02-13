@@ -1,10 +1,10 @@
-import {FeatureGroup, Marker, Popup, useMapEvent, useMapEvents} from "react-leaflet";
-import React, {useMemo, useState} from "react";
+import { Marker, Popup,} from "react-leaflet";
+import React, {useContext, useState} from "react";
 import nationalParks from "../Info/national-parks.json";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import clusters from './Mark_render.module.css'
 import L from 'leaflet';
-
+import {Context} from './Context'
 
 
 function GetIcon(_iconSize){
@@ -13,16 +13,9 @@ function GetIcon(_iconSize){
             iconSize: [_iconSize]
         })
 }
-export function Mark_render(props) {
+export function Mark_render(onDateChange) {
+    const [context, setContext] = useContext(Context);
 
-    const onClusterHandleClick = () => {
-        return (<>
-            <Popup closeButton={false}>
-                Info about cluster
-            </Popup>
-            </>
-        );
-    }
 
     const createClusterCustomIcon1 = function (cluster) {
 
@@ -71,7 +64,7 @@ export function Mark_render(props) {
             className: CUSTOM_CLUSTER_STYLE,
             iconSize: L.point(35, 35, true),
         })
-        }
+    }
 
     return(<>
             <MarkerClusterGroup
@@ -80,10 +73,9 @@ export function Mark_render(props) {
                 spiderfyDistanceMultiplier={1}
                 maxClusterRadius={40}
                 singleMarkerMode={false}
-                onClusterClick={onClusterHandleClick()}
             >
                 {nationalParks.map((nat, index) => (
-                    nat.acq_date === "2022-12-20" &&
+                    nat.acq_date === context &&
                     <Marker icon={GetIcon(10,10,nat.brightness)}
                             key = {index}
                             position = {[nat.latitude,nat.longitude]}c

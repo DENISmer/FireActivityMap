@@ -6,9 +6,13 @@ import {MainNavBar} from "../MainNavBar/MainNavBar";
 import {Header} from "../Header/Header";
 import {MouseCoordinates} from "../Info/Coordinates";
 import {Mark_render} from "./mark_render";
-import {useState} from "react";
+import {useState, createContext, useContext} from "react";
 import {TimeLine} from "../TimeLine/TimeLine";
 import {Ruler} from './Ruler/Ruler.jsx'
+import { Context } from "./Context";
+
+const MyContext = createContext("Without provider");
+
 function GetIcon(_iconSize){
     return L.icon({
         iconUrl: require("../../icons/red_dot_marker.png"),
@@ -21,16 +25,25 @@ export default function MapComponent(){
     const {BaseLayer} = LayersControl;
     const center = [33.505, -0.09]
     const [map,setMap] = useState(null)
+    const [context, setContext] = useState('');
 
     return <>
                 <MapContainer zoomControl={false} minZoom={2.3} maxZoom={13} zoom={3} center={center} whenReady={setMap} doubleClickZoom={false} maxBounds={[[-110,-170],[100,200]]} >
                     <ZoomControl position={'bottomleft'}/>
                     <ScaleControl position={"bottomleft"} />
+                    <Ruler />
+
                     <Header />
                     <MainNavBar />
                     <MouseCoordinates />
-                    <TimeLine />
-                    <Ruler />
+
+                    <Context.Provider value={[context, setContext]}>
+                        <GeoJSON >
+                            <Mark_render />
+                        </GeoJSON>
+                        <TimeLine />
+                    </Context.Provider>
+
                     <LayersControl>
                         <BaseLayer name="Sattelite" checked={true} >
                             <TileLayer
@@ -46,9 +59,7 @@ export default function MapComponent(){
                         </BaseLayer>
                         <LayersControl.Overlay name="Fires from FIRMS(MODIS)" checked={false}>
                             <LayerGroup>
-                                <GeoJSON >
-                                    <Mark_render map={map}/>
-                                </GeoJSON>
+
                             </LayerGroup>
                         </LayersControl.Overlay>
                         <BaseLayer preferCanvas={true} name="ESRI" >
