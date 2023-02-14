@@ -1,15 +1,16 @@
 import React, {useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import "./Profile_style.css"
+import {removeClass} from "leaflet/src/dom/DomUtil";
 
 export function Profile(){
 
     const navigate = useNavigate();
 
-    const Ivan_Ivanovich_Ivanov = 'Ivan Ivanovich Ivanov';
+    const name = 'Ivan Ivanovich Ivanov';
+    const email = 'Ivanich@mail.rom';
+    const organization_name = 'SupremeUltimateTurboV-powerUndergroundCompany'
 
-    const[anim, setAnim] = useState(0);
-    console.log(anim);
 
     return<>
         <div className='parent'>
@@ -40,22 +41,21 @@ export function Profile(){
                 <div className='right-box'>
                     <div>
                         <label className='labels'>Имя</label>
-                        <legend className='legends'>{Ivan_Ivanovich_Ivanov}</legend>
+                        <legend className='legends'>{name}</legend>
                     </div>
                     <hr className='hr'/>
                     <div>
                         <label className='labels'>Название организации</label>
-                        <legend className='legends'>{Ivan_Ivanovich_Ivanov}</legend>
+                        <legend className='legends'>{organization_name}</legend>
                     </div>
                     <hr className='hr'/>
                     <div>
                         <label className='labels'>Email</label>
-                        <legend className='legends'>{Ivan_Ivanovich_Ivanov}</legend>
+                        <legend className='legends'>{email}</legend>
                     </div>
                     <hr/>
                     <br/>
                     <button className='restore_button'>Изменить пароль</button>
-                    <button className='test' onClick={()=> setAnim(1)} onAnimationEnd={()=>setAnim(0)} anim={anim}>ffff</button>
                 </div>
             </div>
         </div>

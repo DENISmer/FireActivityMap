@@ -10,18 +10,28 @@
     font-weight: bold;
     font-size: 14px;
 }
+.Active{
+    min-width: 30px;
+    width: auto;
+    height: 40px;
+    background-color: rgb(255, 255, 255);
+    color: #000000;
+    border: solid 1px black;
+    margin: 1px;
+    border-radius: 3px;
+    display: flex;
+    font-weight: bold;
+    font-size: 14px;
+}
 .Card>span{
-    position: relative;
-    margin:auto 0;
-    left: 20%;
+    margin: auto 5px;
+}
+.Active>span{
+    margin: auto 5px;
 }
 .Card:hover{
     background-color: rgba(0, 0, 0, 0.65);
     font-weight: bold;
     color: white;
     transition: 0.3s;
-}
-.Card:target{
-    background-color: crimson;
-    color: black;
 }

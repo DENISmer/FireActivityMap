@@ -21,8 +21,9 @@ export function Signup(){
 
     const isValid = (): boolean =>{ // Не сделано!!
         let result = true;
-        setMailError("");
+        setMailError('');
         setPasswordError('');
+        setNameError('')
         if (mail.length < 5) {
             console.log("Error")
             setMailError("Слишком короткий электронный адрес");
@@ -44,7 +45,6 @@ export function Signup(){
             setPasswordRepeatError('Пароли не совпадают!')
             result = false;
         }
-
         return result;
     }
 
@@ -67,7 +67,7 @@ export function Signup(){
                     <div className='inputs_block_registration'>
 
                             <legend>Укажите Фамилию, Имя, Отчество</legend>
-                            <input placeholder='Ф.И.О' onChange={e => setName(e.target.value)} value={name}></input>
+                            <input placeholder='Ф.И.О' onChange={e => setName(e.target.value)} value={name} pattern='^[A-Za-zА-Яа-яЁё\s]+$+,+-'></input>
                             {nameError && <div className={'error'}>{nameError}</div>}
 
                             <legend>Укажите адрес электронной почты</legend>

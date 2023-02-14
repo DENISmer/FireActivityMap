@@ -46,13 +46,13 @@
 .right-box{
     line-height: 3em;
     font-size: 30px;
-    width: 50%;
+    width: 70%;
     margin-left: 20%;
 }
 
 .legends{
     color: black;
-    line-height: 10px;
+    line-height: 1em;
 }
 
 .Navigation{
@@ -83,7 +83,6 @@
     transition: width 0.5s;
 }
 .href-navigation:hover:after{
-
     width: 100%;
     position: absolute;
     left: 0;
