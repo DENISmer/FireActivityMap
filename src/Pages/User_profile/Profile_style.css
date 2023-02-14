@@ -1,0 +1,130 @@
+.parent{
+    background: linear-gradient(90deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: gradient 10s ease infinite;
+    transform: translate3d(0, 0, 0);
+}
+@keyframes gradient {
+    0% {
+        background-position: 0 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0 50%;
+    }
+}
+
+.panel{
+    background: #FFFFFF;
+    width: 1280px;
+    height: 720px;
+    position: relative;
+    margin: 5% auto 0;
+    box-shadow: 2px 5px 10px;
+    color: #0282c9;
+}
+.left-box{
+    border: solid 1px #0003b6;
+    float: left;
+    top: 7%;
+    left: 2%;
+    position: absolute;
+    width: 15%;
+    height: 85%;
+    background-color: #ffffff;
+    box-shadow: 2px 5px 10px;
+}
+
+.h{
+    font-size: 50px;
+    width: 70%;
+    margin-left: 20%;
+}
+
+.right-box{
+    line-height: 3em;
+    font-size: 30px;
+    width: 50%;
+    margin-left: 20%;
+}
+
+.legends{
+    color: black;
+    line-height: 10px;
+}
+
+.Navigation{
+    margin-left: 5px;
+    margin-top: 5%;
+    line-height: 1em;
+    font-size: 24px;
+}
+
+.href-navigation{
+    color: #0077c2;
+    position: relative;
+    cursor: pointer;
+}
+.href-navigation:hover{
+    color: red;
+    transition: 0.5s;
+}
+.href-navigation:after{
+    content: "";
+    display: block;
+    position: absolute;
+    right: 0;
+    bottom: -3px;
+    width: 0;
+    height: 2px;
+    background-color: black;
+    transition: width 0.5s;
+}
+.href-navigation:hover:after{
+
+    width: 100%;
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    height: 2px;
+    background-color: red;
+    transition: width 0.5s;
+}
+.exit{
+    font-size: 24px;
+    margin-top: 215%;
+    margin-left: 5px;
+}
+.exit>.hr-exit{
+    margin-left: -5px;
+}
+.Navigation>.hr{
+    margin-left: -5px;
+}
+
+.test[anim = '0']{
+    background-color: cornsilk;
+    color: crimson;
+}
+
+.test[anim = '1']{
+    background-color: black;
+    color: white;
+}
+
+@keyframes anim {
+    25% {
+        transform: rotate(15deg);
+    }
+    50% {
+        transform: rotate(-30deg);
+    }
+    75% {
+        transform: rotate(5deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
