@@ -5,7 +5,7 @@
     border-radius: 3px;
     right: 60px;
     margin-left: auto;
-    /*left: 20px;*/
+    left: 50px;
     bottom: 20px;
     display: flex;
     width: auto;
@@ -19,8 +19,9 @@
 }
 .scrollDays{
     /*padding-left: 168px;*/
-    left: 25px;
-    right: 1130px;
+    position: relative;
+    /*left: 25px;*/
+    /*right: 1px;*/
     display: flex;
     overflow: auto;
     width: auto;
