@@ -10,7 +10,7 @@ export function Header(){
                     <MainMenu />
                 </div>
                 <div className="label">
-                    <h1 >Fire Activity Map</h1>
+                    <h1>Fire Activity Map</h1>
                 </div>
                 <div className="account_menu">
                     <AccountMenu />

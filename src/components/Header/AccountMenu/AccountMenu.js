@@ -73,7 +73,7 @@ export default function AccountMenu() {
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
-                <MenuItem>
+                <MenuItem component={Link} to={'/Profile'}>
                     <Avatar><img className="acc-img" src={earth}></img></Avatar> Профиль
                 </MenuItem>
                 <Divider />

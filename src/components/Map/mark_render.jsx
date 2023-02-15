@@ -8,10 +8,10 @@ import {Context} from './Context'
 
 
 function GetIcon(_iconSize){
-        return L.icon({
-            iconUrl: require("../../icons/red_dot_marker.png"),
-            iconSize: [_iconSize]
-        })
+    return L.icon({
+        iconUrl: require("../../icons/red_dot_marker.png"),
+        iconSize: [_iconSize]
+    })
 }
 export function Mark_render(onDateChange) {
     const [context, setContext] = useContext(Context);
@@ -26,21 +26,21 @@ export function Mark_render(onDateChange) {
 
         markersInCluster.find((marker, index) => {
 
-            childrensBrightness = marker.options.children.props.children[9];
+                childrensBrightness = marker.options.children.props.children[9];
                 GetIcon(5,5,childrensBrightness)
-            if(childrensBrightness >= 390){
-                extraHotClusterCounter += 1;
-            }
-            if(childrensBrightness >= 340){
-                redClusterCounter += 1;
-            }
-            else if(childrensBrightness > 320 && childrensBrightness <= 340){
-                orangeClusterCounter += 1;
-            }
-            else if(childrensBrightness <= 320){
-                greenClusterCounter += 1;
+                if(childrensBrightness >= 390){
+                    extraHotClusterCounter += 1;
                 }
-        }
+                if(childrensBrightness >= 340){
+                    redClusterCounter += 1;
+                }
+                else if(childrensBrightness > 320 && childrensBrightness <= 340){
+                    orangeClusterCounter += 1;
+                }
+                else if(childrensBrightness <= 320){
+                    greenClusterCounter += 1;
+                }
+            }
         )
         if(extraHotClusterCounter >= 1){
             CUSTOM_CLUSTER_STYLE = clusters.custom_marker_cluster_extra_hot;
@@ -71,7 +71,7 @@ export function Mark_render(onDateChange) {
                 key={Date.now()}
                 iconCreateFunction={createClusterCustomIcon1}
                 spiderfyDistanceMultiplier={1}
-                maxClusterRadius={40}
+                maxClusterRadius={80}
                 singleMarkerMode={false}
             >
                 {nationalParks.map((nat, index) => (
@@ -79,7 +79,7 @@ export function Mark_render(onDateChange) {
                     <Marker icon={GetIcon(10,10,nat.brightness)}
                             key = {index}
                             position = {[nat.latitude,nat.longitude]}c
-                            >
+                    >
                         <Popup closeButton={false}>
                             Время: {nat.acq_time}
                             <br/>
@@ -92,7 +92,7 @@ export function Mark_render(onDateChange) {
                             Скан: {nat.scan}
                         </Popup>
                     </Marker>
-            ))}</MarkerClusterGroup>
-    </>
+                ))}</MarkerClusterGroup>
+        </>
     );
 }

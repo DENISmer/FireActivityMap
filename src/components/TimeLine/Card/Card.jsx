@@ -1,22 +1,28 @@
 import react, {useContext, useState} from 'react';
 import card from './Card.module.css'
-import {Mark_render} from "../../Map/mark_render";
-import {CurrentDayTransfer} from "../../Map/mark_render";
 import { Context } from '../../Map/Context';
 
+
 export function Card(props){
+
+    const [context, setContext] = useContext(Context);
     let newDate = [];
+    const [isActive, setIsActive] = useState(false);
     let result;
-    const [context,setContext] = useContext(Context);
 
     const dayClick = () => {
-        newDate = [props.year, props.month, props.day];
-        result = newDate.join('-');
-        setContext(result)
-    }
+        newDate = [props.year, props.month, props.day]
+        result = newDate.join("-");
+        setContext(result);
+        setIsActive(current =>! current);
+        console.log(isActive)
+        console.log(result)
+    };
+
     return<>
-            <div className={card.Card} value={newDate} onClick={() => dayClick()}>
-                <span>{props.day}</span>
-            </div>
+            {/*<div className={isActive ? card.Card : card.CardActive} value={props.day} onClick={dayClick}>*/}
+            {/*    <span>{props.day}</span>*/}
+            {/*</div>*/}
+        <button className={isActive ? card.Active : card.Card} value={newDate} onClick={() => dayClick()}><span>{props.day}</span></button>
     </>
 }

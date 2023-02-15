@@ -68,24 +68,19 @@ export function Signin(){
                         <h2>Авторизация</h2>
                     </div>
                     <div className='inputs_block_login'>
-                        <fieldset className="login_field">
                             <legend>Введите адрес электронной почты</legend>
-
                             <input type="email" placeholder='Почта' onChange={e => setMail(e.target.value)} value={mail}></input>
                             {mailError && <div className="error">{mailError}</div>}
-                        </fieldset>
 
-                        <fieldset className="password_field">
                             <legend>Введите пароль</legend>
                             <input type="password" placeholder='Пароль' onChange={e => setPassword(e.target.value)}></input>
                             {passwordError && <div className="error">{passwordError}</div>}
-                        </fieldset>
 
                     </div>
                     <div className="form_footer">
-                        <button className='login_button' type={"submit"}>Войти</button>
-                        <br/>
-                        <a className='ref_signup' href="" onClick={()=> navigate('/Signup')}>Нет аккаунта?</a>
+                        <button className='login_button' type={"submit"}>Войти</button><br/>
+                        <a className='ref_signup' href="" onClick={()=> navigate('/Signup')}>Зарегистрироваться</a><br/>
+                        <a className='ref_restore_password' href="" onClick={()=> navigate('/restore_access')}>Воостановить пароль</a>
                     </div>
                 </div>
             </div>

@@ -10,6 +10,7 @@ import {useState, createContext, useContext} from "react";
 import {TimeLine} from "../TimeLine/TimeLine";
 import {Ruler} from './Ruler/Ruler.jsx'
 import { Context } from "./Context";
+import {createContext, useContext} from "react";
 
 const MyContext = createContext("Without provider");
 
@@ -22,6 +23,7 @@ function GetIcon(_iconSize){
 
 export default function MapComponent(){
 
+    const [context, setContext] = useState('');
     const {BaseLayer} = LayersControl;
     const center = [33.505, -0.09]
     const [map,setMap] = useState(null)
@@ -36,6 +38,8 @@ export default function MapComponent(){
                     <Header />
                     <MainNavBar />
                     <MouseCoordinates />
+                    <Ruler />
+
 
                     <Context.Provider value={[context, setContext]}>
                         <GeoJSON >

@@ -17,12 +17,13 @@ export function Signup(){
     const [passwordError, setPasswordError] = useState('');
 
     const [passwordRepeat,setPasswordRepeat] = useState('');
-    const [passwordRepeatError, setpasswordRepeatError] = useState('');
+    const [passwordRepeatError, setPasswordRepeatError] = useState('');
 
     const isValid = (): boolean =>{ // Не сделано!!
         let result = true;
-        setMailError("");
+        setMailError('');
         setPasswordError('');
+        setNameError('')
         if (mail.length < 5) {
             console.log("Error")
             setMailError("Слишком короткий электронный адрес");
@@ -39,12 +40,11 @@ export function Signup(){
         else if(/[a-zA-Z]/.test(password)){
             setPasswordError('недопустимые символы!');
             result = false;
-            // if(/[^]/.test(password)){
-            //     setPasswordError('пароль ненадежный! Используйте A-Z');
-            //     result = false;
-            // }
         }
-
+        if (!(password === passwordRepeat)){
+            setPasswordRepeatError('Пароли не совпадают!')
+            result = false;
+        }
         return result;
     }
 
@@ -65,40 +65,26 @@ export function Signup(){
                     </div>
 
                     <div className='inputs_block_registration'>
-                        <fieldset>
+
                             <legend>Укажите Фамилию, Имя, Отчество</legend>
-
-                            <input placeholder='Ф.И.О' onChange={e => setName(e.target.value)} value={name}></input>
+                            <input placeholder='Ф.И.О' onChange={e => setName(e.target.value)} value={name} pattern='^[A-Za-zА-Яа-яЁё\s]+$+,+-'></input>
                             {nameError && <div className={'error'}>{nameError}</div>}
-                        </fieldset>
 
-                        <fieldset>
                             <legend>Укажите адрес электронной почты</legend>
-
                             <input type={'email'} placeholder='Email' onChange={e => setMail(e.target.value)} value={mail}></input>
                             {mailError && <div className={"error"}>{mailError}</div>}
-                        </fieldset>
 
-                        <fieldset>
                             <legend>Укажите Наименование организации</legend>
-
                             <input placeholder='Наименование организации' onChange={e => setCompany(e.target.value)} value={company}></input>
                             {companyError && <div className={'error'}>{companyError}</div>}
-                        </fieldset>
 
-                        <fieldset>
                             <legend>Придумайте пароль</legend>
-
                             <input type="password" placeholder='Пароль' onChange={e => setPassword(e.target.value)} value={password}></input>
                             {passwordError && <div className={'error'}>{passwordError}</div>}
-                        </fieldset>
 
-                        <fieldset>
-                            <legend>Повторите пароль:</legend>
-
+                            <legend>Повторите пароль</legend>
                             <input type="password" placeholder='Повтор пароля' onChange={e => setPasswordRepeat(e.target.value)} value={passwordRepeat}></input>
                             {passwordRepeatError && <div className={'error'}>{passwordRepeatError}</div>}
-                        </fieldset>
                     </div>
 
                     <div className='form_footer'>
