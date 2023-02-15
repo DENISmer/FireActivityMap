@@ -9,6 +9,10 @@ import {Mark_render} from "./mark_render";
 import {useState} from "react";
 import {TimeLine} from "../TimeLine/TimeLine";
 import {Ruler} from './Ruler/Ruler.jsx'
+import { Context } from "./Context";
+import {createContext, useContext} from "react";
+const MyContext = createContext("Without provider");
+
 function GetIcon(_iconSize){
     return L.icon({
         iconUrl: require("../../icons/red_dot_marker.png"),
@@ -18,6 +22,7 @@ function GetIcon(_iconSize){
 
 export default function MapComponent(){
 
+    const [context, setContext] = useState('');
     const {BaseLayer} = LayersControl;
     const center = [33.505, -0.09]
     const [map,setMap] = useState(null)
@@ -29,8 +34,15 @@ export default function MapComponent(){
                     <Header />
                     <MainNavBar />
                     <MouseCoordinates />
-                    <TimeLine />
                     <Ruler />
+
+                    <Context.Provider value={[context, setContext]}>
+                        <GeoJSON >
+                            <Mark_render />
+                        </GeoJSON>
+                        <TimeLine />
+                    </Context.Provider>
+
                     <LayersControl>
                         <BaseLayer name="Sattelite" checked={true} >
                             <TileLayer
@@ -46,9 +58,6 @@ export default function MapComponent(){
                         </BaseLayer>
                         <LayersControl.Overlay name="Fires from FIRMS(MODIS)" checked={false}>
                             <LayerGroup>
-                                <GeoJSON >
-                                    <Mark_render map={map}/>
-                                </GeoJSON>
                             </LayerGroup>
                         </LayersControl.Overlay>
                         <BaseLayer preferCanvas={true} name="ESRI" >
