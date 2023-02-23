@@ -5,12 +5,12 @@ import './Map.css';
 import {MainNavBar} from "../MainNavBar/MainNavBar";
 import {Header} from "../Header/Header";
 import {MouseCoordinates} from "../Info/Coordinates";
-import {Mark_render} from "./mark_render";
+import Mark_render from "./mark_render";
 import {useState, createContext, useContext} from "react";
 import {TimeLine} from "../TimeLine/TimeLine";
 import {Ruler} from './Ruler/Ruler.jsx'
 import { Context } from "./Context";
-import {createContext, useContext} from "react";
+import {PointsRequest} from "./PointsRequest/PointsRequest";
 
 const MyContext = createContext("Without provider");
 
@@ -23,11 +23,10 @@ function GetIcon(_iconSize){
 
 export default function MapComponent(){
 
-    const [context, setContext] = useState('');
+    const [context, setContext] = useState('YYYY-MM-DD');
     const {BaseLayer} = LayersControl;
     const center = [33.505, -0.09]
     const [map,setMap] = useState(null)
-    const [context, setContext] = useState('');
 
     return <>
                 <MapContainer zoomControl={false} minZoom={2.3} maxZoom={13} zoom={3} center={center} whenReady={setMap} doubleClickZoom={false} maxBounds={[[-110,-170],[100,200]]} >
@@ -38,9 +37,7 @@ export default function MapComponent(){
                     <Header />
                     <MainNavBar />
                     <MouseCoordinates />
-                    <Ruler />
-
-
+                    {/*<PointsRequest />*/}
                     <Context.Provider value={[context, setContext]}>
                         <GeoJSON >
                             <Mark_render />
@@ -49,16 +46,22 @@ export default function MapComponent(){
                     </Context.Provider>
 
                     <LayersControl>
-                        <BaseLayer name="Sattelite" checked={true} >
+                        <BaseLayer name="Спутник" checked={true} >
                             <TileLayer
                                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                                 url={'https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v9/tiles/{z}/{x}/{y}?access_token=sk.eyJ1IjoicnViaW5uYXciLCJhIjoiY2xiMTFmcnZmMXBnbDNwbXA4bHFkcDdyciJ9.CxX9zdanJzvnGxgEDz7bJw'}
                             />
                         </BaseLayer>
-                        <BaseLayer name="Streets">
+                        <BaseLayer name="Улицы">
                             <TileLayer
                                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                                 url={'https://tile.openstreetmap.org/{z}/{x}/{y}.png'}
+                            />
+                        </BaseLayer>
+                        <BaseLayer name="Тёмная">
+                            <TileLayer
+                                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                                url={'https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png'}
                             />
                         </BaseLayer>
                         <LayersControl.Overlay name="Fires from FIRMS(MODIS)" checked={false}>
@@ -66,7 +69,7 @@ export default function MapComponent(){
 
                             </LayerGroup>
                         </LayersControl.Overlay>
-                        <BaseLayer preferCanvas={true} name="ESRI" >
+                        <BaseLayer name="ESRI" >
                             <LayerGroup>
                                 <TileLayer
                                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

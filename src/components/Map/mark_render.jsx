@@ -1,11 +1,13 @@
-import { Marker, Popup,} from "react-leaflet";
-import React, {useContext, useState} from "react";
-import nationalParks from "../Info/national-parks.json";
-import MarkerClusterGroup from "react-leaflet-cluster";
+import { Marker, Popup,} from 'react-leaflet';
+import React, {useContext, useEffect, useState} from 'react';
+import nationalParks from '../Info/national-parks.json';
+import MarkerClusterGroup from 'react-leaflet-cluster';
 import clusters from './Mark_render.module.css'
 import L from 'leaflet';
 import {Context} from './Context'
-
+import {PointsRequest} from "./PointsRequest/PointsRequest";
+import axios from 'axios';
+import loader from '../../icons/loading-loading-forever.gif'
 
 function GetIcon(_iconSize){
     return L.icon({
@@ -13,8 +15,28 @@ function GetIcon(_iconSize){
         iconSize: [_iconSize]
     })
 }
-export function Mark_render(onDateChange) {
+export default function Mark_render(onDateChange) {
+
     const [context, setContext] = useContext(Context);
+
+    const url = 'http://192.168.56.1:8080/api/fires/points/?date=';
+    const [points,setPoints] = useState([])
+    const [isRender,setIsRender] = useState(false)
+
+    useEffect( ()=>{
+        setIsRender(true);
+         axios
+            .get(`${url}${context}`)
+            .then(response => {
+                setPoints(response.data.points)
+                setIsRender(false)
+            })
+             .catch(error=>{
+                 setIsRender(false)
+                 console.log(error.message)
+             })
+    },[context]);
+
 
 
     const createClusterCustomIcon1 = function (cluster) {
@@ -26,7 +48,8 @@ export function Mark_render(onDateChange) {
 
         markersInCluster.find((marker, index) => {
 
-                childrensBrightness = marker.options.children.props.children[9];
+                childrensBrightness = marker.options.children.props.children[6];
+                //console.log(marker.options.children.props.children[6])
                 GetIcon(5,5,childrensBrightness)
                 if(childrensBrightness >= 390){
                     extraHotClusterCounter += 1;
@@ -57,7 +80,6 @@ export function Mark_render(onDateChange) {
         else{
             console.log(childrensBrightness)
         }
-
         return L.divIcon({
             //mar = cluster.getAllChildMarkers().find(marker => marker.options.brightness > 320)
             html: cluster.getChildCount(),
@@ -67,6 +89,7 @@ export function Mark_render(onDateChange) {
     }
 
     return(<>
+            {isRender ? <img className={clusters.isRender} src={loader} alt={null}/> : null}
             <MarkerClusterGroup
                 key={Date.now()}
                 iconCreateFunction={createClusterCustomIcon1}
@@ -74,22 +97,16 @@ export function Mark_render(onDateChange) {
                 maxClusterRadius={80}
                 singleMarkerMode={false}
             >
-                {nationalParks.map((nat, index) => (
-                    nat.acq_date === context &&
-                    <Marker icon={GetIcon(10,10,nat.brightness)}
+                {points.map((nat, index) => (
+                    <Marker icon={GetIcon(10,10,nat.temperature)}
                             key = {index}
-                            position = {[nat.latitude,nat.longitude]}c
+                            position = {[nat.latitude,nat.longitude]}
                     >
                         <Popup closeButton={false}>
-                            Время: {nat.acq_time}
-                            <br/>
                             Координаты: {nat.latitude}, {nat.longitude}
                             <br/>
-                            Температура: {nat.brightness}
+                            Температура: {nat.temperature}
                             <br/>
-                            Трэк: {nat.track}
-                            <br/>
-                            Скан: {nat.scan}
                         </Popup>
                     </Marker>
                 ))}</MarkerClusterGroup>

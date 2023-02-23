@@ -10,7 +10,9 @@ import L from "leaflet";
     if (typeof window !== "undefined" && window.L) {
         window.L.Ruler = factory(L);
     }
-})(function (L) {
+})
+
+(function (L) {
     L.Control.Ruler = L.Control.extend({
         options: {
             position: "bottomleft",

@@ -60,4 +60,14 @@
     position: absolute;
     z-index: 1000;
 }
+.isRender{
+    max-width: 100px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    z-index: 1000;
+}
 

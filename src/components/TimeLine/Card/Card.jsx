@@ -13,8 +13,10 @@ export function Card(props){
     const dayClick = () => {
         newDate = [props.year, props.month, props.day]
         result = newDate.join("-");
-        setContext(result);
-        setIsActive(current =>! current);
+        setIsActive(current => !current);
+        if(!isActive){
+            setContext(result);
+        }
         console.log(isActive)
         console.log(result)
     };
@@ -23,6 +25,6 @@ export function Card(props){
             {/*<div className={isActive ? card.Card : card.CardActive} value={props.day} onClick={dayClick}>*/}
             {/*    <span>{props.day}</span>*/}
             {/*</div>*/}
-        <button className={isActive ? card.Active : card.Card} value={newDate} onClick={() => dayClick()}><span>{props.day}</span></button>
+        <button className={isActive ? card.Active : card.Card} value={newDate} onClick={dayClick}><span>{props.day}</span></button>
     </>
 }
