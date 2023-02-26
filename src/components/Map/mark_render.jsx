@@ -10,6 +10,7 @@ import axios from 'axios';
 import loader from '../../icons/loading-loading-forever.gif'
 import gsap from 'gsap';
 import {useCookies} from "react-cookie";
+
 function GetIcon(_iconSize){
     return L.icon({
         iconUrl: require("../../icons/red_dot_marker.png"),
@@ -27,8 +28,8 @@ export default function Mark_render(onDateChange) {
 
     if(cookies.currentDay){
         setContext(cookies.currentDay)
-
     }
+
     useEffect( ()=>{
 
             setIsRender(true);
@@ -41,7 +42,7 @@ export default function Mark_render(onDateChange) {
                     setPoints(response.data.points)
                     setTimeout(()=>{
                         setIsRender(false)
-                    },2000)
+                    },1000)
                 })
                 .catch(error=>{
                     setIsRender(false)
@@ -108,7 +109,7 @@ export default function Mark_render(onDateChange) {
 
     return(<>
         {serverError && <div className={clusters.isRender}></div>}
-            {/*{isRender && <div className={clusters.isRender}><img src={loader}/></div>}*/}
+            {isRender && <div className={clusters.isRender}><img src={loader}/></div>}
             <MarkerClusterGroup
                 key={Date.now()}
                 iconCreateFunction={createClusterCustomIcon1}

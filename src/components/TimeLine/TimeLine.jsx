@@ -10,6 +10,7 @@ import {DatePicker} from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
 import {LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
+import {CurrentDayDisplay} from "./CurrentDayDisplay/CurrentDayDisplay";
 
 
 export function TimeLine(){
@@ -42,7 +43,23 @@ export function TimeLine(){
                     {showTimeLine ?  <img src={NavBarCloseIcon} width={32} height={35}/> : <img src={TimeLineIcon} width={32} height={35}/>}
                 </button>
 
-                <CSSTransition in={showTimeLine} timeout={300} classNames={'transition'} unmountOnExit>
+                <CSSTransition in={!showTimeLine} timeout={300} classNames={{
+                    enterActive: Timeline.transition_enter,
+                    enterDone: Timeline.transition_enter_active,
+                    exitActive: Timeline.transition_exit_active,
+                    exitDone: Timeline.transition_exit
+                }} unmountOnExit>
+
+                    <CurrentDayDisplay />
+
+                </CSSTransition>
+
+                <CSSTransition in={showTimeLine} timeout={300} classNames={{
+                    enterActive: Timeline.transition_enter,
+                    enterDone: Timeline.transition_enter_active,
+                    exitActive: Timeline.transition_exit_active,
+                    exitDone: Timeline.transition_exit
+                }} unmountOnExit>
                     <div className={Timeline.Main_TimeLine}>
                         <div className={Timeline.scrollDays}>
                             <ScrollMenu

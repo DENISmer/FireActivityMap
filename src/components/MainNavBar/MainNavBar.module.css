@@ -22,10 +22,12 @@
     margin: 5px;
     border: none;
     border-radius: 3px;
-    box-shadow: 0 0 0 2px rgba(0,0,0,0.25);
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.05);
+    color: #fdfdfe;
+    background-color: #007fff;
 }
 .navBar_button:hover{
-    background-color: #007fff;
+    background-color: #006efd;
 }
 .show_hide_NavBar{
     position: absolute;
@@ -38,6 +40,7 @@
 }
 
 .navBarMainInstuments_Calendar{
+    display: grid;
     margin: 10px;
     border-radius: 3px;
     box-shadow: 0 0 0 2px rgba(0,0,0,0.25);
@@ -46,20 +49,52 @@
     font-size: 16px;
 }
 
-.transition-enter {
+.transition_enter {
     opacity: 0;
     transform: scale(0.9);
 }
-.transition-enter-active {
+.transition_enter_active {
     opacity: 1;
     transform: translateX(0);
     transition: opacity 300ms, transform 300ms;
 }
-.transition-exit {
+.transition_exit {
     opacity: 1;
 }
-.transition-exit-active {
+.transition_exit_active {
     opacity: 0;
     transform: scale(0.9);
     transition: opacity 300ms, transform 300ms;
+}
+.wrapper{
+    display: grid;
+}
+.input1{
+    grid-column: 2/3;
+    grid-row: 1/2;
+    top: 2px;
+}
+.input2{
+    top: 3px;
+    grid-column: 2/3;
+    grid-row: 2/2;
+}
+.fly_to_button{
+    grid-column: 3/3;
+    grid-row: 3/2;
+
+    margin: 2px;
+    min-width: 20px;
+    border: none;
+    border-radius: 3px;
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.05);
+    color: #fdfdfe;
+    background-color: #007fff;
+}
+.show_hide_fly_to_panel{
+    position: absolute;
+    margin-left: 50px;
+}
+.fly_to_button:hover{
+    background-color: #0059ff;
 }
