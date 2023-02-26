@@ -8,7 +8,8 @@ import {Context} from './Context'
 import {PointsRequest} from "./PointsRequest/PointsRequest";
 import axios from 'axios';
 import loader from '../../icons/loading-loading-forever.gif'
-
+import gsap from 'gsap';
+import {useCookies} from "react-cookie";
 function GetIcon(_iconSize){
     return L.icon({
         iconUrl: require("../../icons/red_dot_marker.png"),
@@ -16,31 +17,48 @@ function GetIcon(_iconSize){
     })
 }
 export default function Mark_render(onDateChange) {
-
+    const [cookies,setCookie] = useCookies(['currentDay']);
     const [context, setContext] = useContext(Context);
 
     const url = 'http://192.168.56.1:8080/api/fires/points/?date=';
     const [points,setPoints] = useState([])
     const [isRender,setIsRender] = useState(false)
+    const [serverError, setServerError] = useState(false)
 
+    if(cookies.currentDay){
+        setContext(cookies.currentDay)
+
+    }
     useEffect( ()=>{
-        setIsRender(true);
-         axios
-            .get(`${url}${context}`)
-            .then(response => {
-                setPoints(response.data.points)
-                setIsRender(false)
-            })
-             .catch(error=>{
-                 setIsRender(false)
-                 console.log(error.message)
-             })
+
+            setIsRender(true);
+            axios
+                .get(`${url}${context}`)
+                .then(response => {
+                    if(response.data.points.length === 0){
+                        setIsRender(false)
+                    }
+                    setPoints(response.data.points)
+                    setTimeout(()=>{
+                        setIsRender(false)
+                    },2000)
+                })
+                .catch(error=>{
+                    setIsRender(false)
+                    if(error.request.status === 400){
+                        console.log(error.message)
+                    }
+                    else if(error.request.status >= 500){
+                        setServerError(false)
+                        setIsRender(false)
+                        console.log(error.message)
+                    }
+                    //console.log(error.request.status)
+                })
     },[context]);
 
 
-
     const createClusterCustomIcon1 = function (cluster) {
-
         let CUSTOM_CLUSTER_STYLE;
         let markersInCluster = cluster.getAllChildMarkers();
         let extraHotClusterCounter = 0, redClusterCounter = 0, orangeClusterCounter = 0, greenClusterCounter = 0;
@@ -68,13 +86,13 @@ export default function Mark_render(onDateChange) {
         if(extraHotClusterCounter >= 1){
             CUSTOM_CLUSTER_STYLE = clusters.custom_marker_cluster_extra_hot;
         }
-        else if(redClusterCounter >= orangeClusterCounter && redClusterCounter >= greenClusterCounter){
+        else if(redClusterCounter >= 1){
             CUSTOM_CLUSTER_STYLE = clusters.custom_marker_cluster_red
         }
-        else if( orangeClusterCounter > redClusterCounter && orangeClusterCounter >= greenClusterCounter){
+        else if( orangeClusterCounter > 1){
             CUSTOM_CLUSTER_STYLE = clusters.custom_marker_cluster_orange;
         }
-        else if(greenClusterCounter >= orangeClusterCounter && greenClusterCounter > redClusterCounter){
+        else if(greenClusterCounter >= 1){
             CUSTOM_CLUSTER_STYLE = clusters.custom_marker_cluster_green
         }
         else{
@@ -89,7 +107,8 @@ export default function Mark_render(onDateChange) {
     }
 
     return(<>
-            {isRender ? <img className={clusters.isRender} src={loader} alt={null}/> : null}
+        {serverError && <div className={clusters.isRender}></div>}
+            {/*{isRender && <div className={clusters.isRender}><img src={loader}/></div>}*/}
             <MarkerClusterGroup
                 key={Date.now()}
                 iconCreateFunction={createClusterCustomIcon1}

@@ -36,9 +36,6 @@ export function TimeLine(){
         return getMonth(new Date(year,month,0).getDate())
     }
 
-    const currentDay = () =>{
-        console.log(value.day())
-    }
     return(
             <>
                 <button  className={Timeline.TimeLine_button} onClick={handle}>

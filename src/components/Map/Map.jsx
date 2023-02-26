@@ -10,7 +10,7 @@ import {useState, createContext, useContext} from "react";
 import {TimeLine} from "../TimeLine/TimeLine";
 import {Ruler} from './Ruler/Ruler.jsx'
 import { Context } from "./Context";
-import {PointsRequest} from "./PointsRequest/PointsRequest";
+import {CookiesProvider} from 'react-cookie'
 
 const MyContext = createContext("Without provider");
 
@@ -23,10 +23,11 @@ function GetIcon(_iconSize){
 
 export default function MapComponent(){
 
-    const [context, setContext] = useState('YYYY-MM-DD');
+    const [context, setContext] = useState();
     const {BaseLayer} = LayersControl;
     const center = [33.505, -0.09]
     const [map,setMap] = useState(null)
+
 
     return <>
                 <MapContainer zoomControl={false} minZoom={2.3} maxZoom={13} zoom={3} center={center} whenReady={setMap} doubleClickZoom={false} maxBounds={[[-110,-170],[100,200]]} >
@@ -36,13 +37,16 @@ export default function MapComponent(){
 
                     <Header />
                     <MainNavBar />
+
                     <MouseCoordinates />
-                    {/*<PointsRequest />*/}
+
                     <Context.Provider value={[context, setContext]}>
                         <GeoJSON >
                             <Mark_render />
                         </GeoJSON>
+
                         <TimeLine />
+
                     </Context.Provider>
 
                     <LayersControl>

@@ -1,7 +1,7 @@
 .Main_TimeLine{
     position: absolute;
     background-color: #fdfdfe;
-    z-index: 1000;
+    z-index: 900;
     border-radius: 3px;
     right: 60px;
     margin-left: auto;
