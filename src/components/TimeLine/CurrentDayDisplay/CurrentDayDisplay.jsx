@@ -5,6 +5,7 @@ export function CurrentDayDisplay(){
     const [context, setContext] = useContext(Context);
     let displayContent = context.split('-');
     displayContent = displayContent.reverse().join(".")
+
     return<>
         <div className={CurrentDateStyle.currentDate}>{displayContent}</div>
     </>

@@ -2,6 +2,7 @@ import L from 'leaflet';
 import {GeoJSON, LayerGroup, LayersControl, MapContainer, ScaleControl, TileLayer, ZoomControl,} from "react-leaflet";
 import 'leaflet/dist/leaflet.css'
 import './Map.css';
+import React from "react";
 import {MainNavBar} from "../MainNavBar/MainNavBar";
 import {Header} from "../Header/Header";
 import {MouseCoordinates} from "../Info/Coordinates";
@@ -12,7 +13,7 @@ import {Ruler} from './Ruler/Ruler.jsx'
 import { Context } from "./Context";
 import {CookiesProvider} from 'react-cookie'
 
-const MyContext = createContext("2022-5-11");
+const MyContext = createContext("Without provider");
 
 function GetIcon(_iconSize){
     return L.icon({
@@ -21,14 +22,17 @@ function GetIcon(_iconSize){
     })
 }
 
+const MemoizedChildComponent = React.memo(Mark_render);
 export default function MapComponent(){
     const [context, setContext] = useState();
     const {BaseLayer} = LayersControl;
-    const center = [33.505, -0.09]
+    const center = [65.505, 106.09]
     const [map,setMap] = useState(null)
 
+
+
     const displayMap = useMemo(()=>(
-        <MapContainer zoomControl={false} minZoom={2.3} maxZoom={13} zoom={3} center={center} ref={setMap} doubleClickZoom={false} maxBounds={[[-110,-170],[100,200]]} >
+        <MapContainer zoomControl={false} minZoom={3.6} maxZoom={13} zoom={4} center={center} ref={setMap} doubleClickZoom={false} maxBounds={[[-110,-170],[100,200]]} >
             <ZoomControl position={'bottomleft'}/>
             <ScaleControl position={"bottomleft"} />
             <Ruler />
@@ -40,7 +44,7 @@ export default function MapComponent(){
 
             <Context.Provider value={[context, setContext]}>
                 <GeoJSON >
-                    <Mark_render />
+                    <MemoizedChildComponent />
                 </GeoJSON>
 
                 <TimeLine />
@@ -49,13 +53,13 @@ export default function MapComponent(){
             </Context.Provider>
 
             <LayersControl>
-                <BaseLayer name="Спутник" checked={true} >
+                <BaseLayer name="Спутник">
                     <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url={'https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v9/tiles/{z}/{x}/{y}?access_token=sk.eyJ1IjoicnViaW5uYXciLCJhIjoiY2xiMTFmcnZmMXBnbDNwbXA4bHFkcDdyciJ9.CxX9zdanJzvnGxgEDz7bJw'}
                     />
                 </BaseLayer>
-                <BaseLayer name="Улицы">
+                <BaseLayer name="Улицы" checked={true} >
                     <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url={'https://tile.openstreetmap.org/{z}/{x}/{y}.png'}

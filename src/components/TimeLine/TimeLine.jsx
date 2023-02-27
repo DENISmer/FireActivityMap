@@ -20,7 +20,7 @@ export function TimeLine(){
     const [month,setMonth] = useState([]);
     const [cookies,setCookie] = useCookies(['currentDay']);
 
-    setCookie('currentDay','2022-5-11', {path: '/',maxAge: 5 * 3600})
+    //setCookie('currentDay','2022-5-11', {path: '/',maxAge: 5 * 3600})
     let currentMonth = [];
 
     const handle = () =>{

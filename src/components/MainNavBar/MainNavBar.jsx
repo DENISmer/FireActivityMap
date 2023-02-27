@@ -3,27 +3,23 @@ import NavBarStyles from './MainNavBar.module.css';
 import UnstyledButtonsSimple from "../buttons/materialui buttons";
 import NavBarIcon from '../../icons/NavBarIcons/2x/twotone_miscellaneous_services_black_24dp.png';
 import NavBarCloseIcon from '../../icons/closeButton/2x/twotone_close_black_24dp.png';
-import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import {CSSTransition} from "react-transition-group";
 import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import {coordsToLatLng} from "leaflet/src/layer/GeoJSON";
-import {numberFormat} from "leaflet-measure/src/utils";
 
 
 
 export function MainNavBar({map}){
     const [showNavBar, setShowNavBar] = useState(false);
     const [showFlyToForm,setshowFlyToForm] = useState(false);
-    const [latitude,setLatitude] = useState();
-    const [longitude,setLongitude] = useState();
+    const [latitude,setLatitude] = useState(1);
+    const [longitude,setLongitude] = useState(1);
 
 
-    const DisplayPosition = useCallback(() => {
+    const DisplayPosition = () => {
         console.log(latitude,typeof longitude)
-        map.flyTo([latitude,longitude], 13)
-    }, [map])
+        map.flyTo([Number(latitude),Number(longitude)], 13)
+    }
     return(
         <>
             <button  className={NavBarStyles.show_hide_NavBar} onClick={() => setShowNavBar(!showNavBar)}>
@@ -39,7 +35,7 @@ export function MainNavBar({map}){
                 <div className={NavBarStyles.navBar}>
 
                     <div className={NavBarStyles.navBarMainInstuments_Calendar} >
-                        <button onClick={() => setshowFlyToForm(!showFlyToForm)}>onclick</button>
+                        <button onClick={() => setshowFlyToForm(!showFlyToForm)}>К точке</button>
                         <CSSTransition in={showFlyToForm} timeout={300} classNames={{
                             enterActive: NavBarStyles.transition_enter,
                             enterDone: NavBarStyles.transition_enter_active,
@@ -54,7 +50,7 @@ export function MainNavBar({map}){
                                            type={"number"}
                                            className={NavBarStyles.input1}
                                            value={latitude}
-                                           onChange={(e) => {setLatitude(Number(e.target.value))}}
+                                           onChange={(e) => {setLatitude(e.target.value)}}
                                 />
                                 <TextField
                                     label="долгота"
@@ -63,7 +59,7 @@ export function MainNavBar({map}){
                                     type={"number"}
                                     className={NavBarStyles.input2}
                                     value={longitude}
-                                    onChange={(e) => {setLongitude(Number(e.target.value))}}
+                                    onChange={(e) => {setLongitude(e.target.value)}}
                                 />
                                 <button className={NavBarStyles.fly_to_button} onClick={()=>DisplayPosition(map)}>К точке!</button>
                             </div>

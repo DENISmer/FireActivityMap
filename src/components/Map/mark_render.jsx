@@ -1,5 +1,5 @@
 import { Marker, Popup,} from 'react-leaflet';
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useCallback, useContext, useEffect, useState} from 'react';
 import nationalParks from '../Info/national-parks.json';
 import MarkerClusterGroup from 'react-leaflet-cluster';
 import clusters from './Mark_render.module.css'
@@ -10,6 +10,7 @@ import axios from 'axios';
 import loader from '../../icons/loading-loading-forever.gif'
 import gsap from 'gsap';
 import {useCookies} from "react-cookie";
+import {map} from "react-bootstrap/ElementChildren";
 
 function GetIcon(_iconSize){
     return L.icon({
@@ -20,7 +21,7 @@ function GetIcon(_iconSize){
 export default function Mark_render(onDateChange) {
     const [cookies,setCookie] = useCookies(['currentDay']);
     const [context, setContext] = useContext(Context);
-
+    let dataSet = []
     const url = 'http://192.168.56.1:8080/api/fires/points/?date=';
     const [points,setPoints] = useState([])
     const [isRender,setIsRender] = useState(false)
@@ -29,33 +30,36 @@ export default function Mark_render(onDateChange) {
     if(cookies.currentDay){
         setContext(cookies.currentDay)
     }
-
-    useEffect( ()=>{
-
+    useEffect(  ()=>{
+            console.log(context)
+            let unmounted = false
             setIsRender(true);
-            axios
-                .get(`${url}${context}`)
-                .then(response => {
+            axios.get(`${url}${context}`)
+                .then(async response => {
                     if(response.data.points.length === 0){
                         setIsRender(false)
                     }
-                    setPoints(response.data.points)
-                    setTimeout(()=>{
-                        setIsRender(false)
-                    },1000)
+                    console.log(response)
+                    await setPoints(response.data.points)
+                    if(!unmounted){
+                            setTimeout(()=>{
+                            setIsRender(false)
+                        },5000)
+                    }
                 })
                 .catch(error=>{
                     setIsRender(false)
                     if(error.request.status === 400){
-                        console.log(error.message)
+                        //console.log(error.message)
                     }
                     else if(error.request.status >= 500){
                         setServerError(false)
                         setIsRender(false)
-                        console.log(error.message)
+                        //console.log(error.message)
                     }
                     //console.log(error.request.status)
                 })
+        return () => {unmounted = true}
     },[context]);
 
 
@@ -106,7 +110,7 @@ export default function Mark_render(onDateChange) {
             iconSize: L.point(35, 35, true),
         })
     }
-
+    //console.log(points)
     return(<>
         {serverError && <div className={clusters.isRender}></div>}
             {isRender && <div className={clusters.isRender}><img src={loader}/></div>}
