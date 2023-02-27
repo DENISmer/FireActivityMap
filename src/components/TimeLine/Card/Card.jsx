@@ -13,7 +13,6 @@ export function Card(props){
     let cardDate = [props.year, props.month, props.day].join("-");
 
     const [cookies,setCookie] = useCookies(['currentDay']);
-
     setContext(cookies.currentDay)
 
     const dayClick = () => {

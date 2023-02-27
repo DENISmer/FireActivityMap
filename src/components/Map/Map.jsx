@@ -12,7 +12,7 @@ import {Ruler} from './Ruler/Ruler.jsx'
 import { Context } from "./Context";
 import {CookiesProvider} from 'react-cookie'
 
-const MyContext = createContext("Without provider");
+const MyContext = createContext("2022-5-11");
 
 function GetIcon(_iconSize){
     return L.icon({

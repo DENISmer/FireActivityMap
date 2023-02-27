@@ -11,12 +11,16 @@ import dayjs from "dayjs";
 import {LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {CurrentDayDisplay} from "./CurrentDayDisplay/CurrentDayDisplay";
+import {useCookies} from "react-cookie";
 
 
 export function TimeLine(){
     const [showTimeLine, setShowTimeLine] = useState(false)
     const [value, setValue] = React.useState(dayjs(Date.now()));
     const [month,setMonth] = useState([]);
+    const [cookies,setCookie] = useCookies(['currentDay']);
+
+    setCookie('currentDay','2022-5-11', {path: '/',maxAge: 5 * 3600})
     let currentMonth = [];
 
     const handle = () =>{
