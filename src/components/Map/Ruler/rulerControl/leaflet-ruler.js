@@ -98,7 +98,7 @@ import L from "leaflet";
                         this.options.lineStyle
                     ).addTo(this._polylineLayer);
                 }
-                var text;
+                let text;
                 this._totalLength += this._result.Distance;
                 if (this._clickCount > 1) {
                     text =
@@ -144,7 +144,7 @@ import L from "leaflet";
                     this._map.removeLayer(this._tempLine);
                     this._map.removeLayer(this._tempPoint);
                 }
-                var text;
+                let text;
                 this._addedLength = 0;
                 this._tempLine = L.featureGroup();
                 this._tempPoint = L.featureGroup();
@@ -209,20 +209,20 @@ import L from "leaflet";
             }
         },
         _calculateBearingAndDistance: function () {
-            var f1 = this._clickedLatLong.lat,
+            let f1 = this._clickedLatLong.lat,
                 l1 = this._clickedLatLong.lng,
                 f2 = this._movingLatLong.lat,
                 l2 = this._movingLatLong.lng;
-            var toRadian = Math.PI / 180;
+            let toRadian = Math.PI / 180;
             // haversine formula
             // bearing
-            var y = Math.sin((l2 - l1) * toRadian) * Math.cos(f2 * toRadian);
-            var x =
+            let y = Math.sin((l2 - l1) * toRadian) * Math.cos(f2 * toRadian);
+            let x =
                 Math.cos(f1 * toRadian) * Math.sin(f2 * toRadian) -
                 Math.sin(f1 * toRadian) *
                 Math.cos(f2 * toRadian) *
                 Math.cos((l2 - l1) * toRadian);
-            var brng =
+            let brng =
                 Math.atan2(y, x) *
                 ((this.options.angleUnit.factor
                         ? this.options.angleUnit.factor / 2
@@ -235,19 +235,19 @@ import L from "leaflet";
                         : 360
                     : 0;
             // distance
-            var R = this.options.lengthUnit.factor
+            let R = this.options.lengthUnit.factor
                 ? 6371 * this.options.lengthUnit.factor
                 : 6371; // kilometres
-            var deltaF = (f2 - f1) * toRadian;
-            var deltaL = (l2 - l1) * toRadian;
-            var a =
+            let deltaF = (f2 - f1) * toRadian;
+            let deltaL = (l2 - l1) * toRadian;
+            let a =
                 Math.sin(deltaF / 2) * Math.sin(deltaF / 2) +
                 Math.cos(f1 * toRadian) *
                 Math.cos(f2 * toRadian) *
                 Math.sin(deltaL / 2) *
                 Math.sin(deltaL / 2);
-            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-            var distance = R * c;
+            let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            let distance = R * c;
             this._result = {
                 Bearing: brng,
                 Distance: distance

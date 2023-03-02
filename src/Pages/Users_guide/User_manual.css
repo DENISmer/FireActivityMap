@@ -1,7 +1,7 @@
 .panel{
     background: #FFFFFF;
-    width: 1280px;
-    height: 720px;
+    min-width: 1600px;
+    min-height: 800px;
     position: relative;
     margin: 5% auto 0;
     box-shadow: 2px 5px 10px;
@@ -75,7 +75,7 @@
 }
 .exit{
     font-size: 24px;
-    margin-top: 215%;
+    margin-top: 200%;
     margin-left: 5px;
 }
 .exit>.hr-exit{
@@ -83,16 +83,6 @@
 }
 .Navigation>.hr{
     margin-left: -5px;
-}
-
-.test[anim = '0']{
-    background-color: cornsilk;
-    color: crimson;
-}
-
-.test[anim = '1']{
-    background-color: black;
-    color: white;
 }
 
 @keyframes anim {

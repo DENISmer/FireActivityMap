@@ -67,7 +67,7 @@ export function TimeLine(){
                     <div className={Timeline.Main_TimeLine}>
                         <div className={Timeline.scrollDays}>
                             <ScrollMenu
-                                scrollToSelected={true}
+                                цscrollToSelected={true}
                             >
                                 {showTimeLine && month.map((day, index) =>(
                                     <Card day={day} key={index} month={value.month() + 1} year={value.year()} />

@@ -29,6 +29,8 @@ export default function Mark_render(onDateChange) {
 
     if(cookies.currentDay){
         setContext(cookies.currentDay)
+    }else {
+        setCookie('2022-15-05')
     }
     useEffect(  ()=>{
             console.log(context)

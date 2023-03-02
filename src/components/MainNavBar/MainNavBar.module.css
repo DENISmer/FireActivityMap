@@ -17,9 +17,8 @@
     padding: 5px;
 }
 .navBar_button{
-    min-height: 20px;
-    min-width: 30px;
-    margin: 5px;
+    height: 99%;
+    margin-bottom: 2em;
     border: none;
     border-radius: 3px;
     box-shadow: 0 0 0 2px rgba(0,0,0,0.05);
@@ -41,8 +40,9 @@
 
 .navBarMainInstuments_Calendar{
     display: grid;
-    margin: 10px;
-    height: 120px;
+    margin: 8px;
+    max-height: 200px;
+    max-width: 200px;
     border-radius: 3px;
     box-shadow: 0 0 0 2px rgba(0,0,0,0.25);
     background-color: white;
@@ -69,23 +69,19 @@
 }
 .wrapper{
     display: grid;
+    margin: 3% 0;
 }
-.input1{
-    grid-column: 2/3;
-    grid-row: 1/2;
-    top: 4px;
+.latitude{
+    top: 6px;
+
 }
-.input2{
-    top: 7px;
-    grid-column: 2/3;
-    grid-row: 2/2;
+.longitude{
+    top: 12px;
 }
 .fly_to_button{
-    grid-column: 3/3;
-    grid-row: 3/2;
-
-    margin: 2px;
-    min-width: 20px;
+    margin: 20px auto 1em;
+    width: 99%;
+    height: 70%;
     border: none;
     border-radius: 3px;
     box-shadow: 0 0 0 2px rgba(0,0,0,0.05);
