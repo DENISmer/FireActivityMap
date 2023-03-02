@@ -35,7 +35,7 @@ export function MainNavBar({map}){
                 <div className={NavBarStyles.navBar}>
 
                     <div className={NavBarStyles.navBarMainInstuments_Calendar} >
-                        <button onClick={() => setshowFlyToForm(!showFlyToForm)}>К точке</button>
+                        <button className={NavBarStyles.navBar_button} onClick={() => setshowFlyToForm(!showFlyToForm)}>Найти место</button>
                         <CSSTransition in={showFlyToForm} timeout={300} classNames={{
                             enterActive: NavBarStyles.transition_enter,
                             enterDone: NavBarStyles.transition_enter_active,
@@ -48,7 +48,7 @@ export function MainNavBar({map}){
                                            variant="outlined"
                                            size={"small"}
                                            type={"number"}
-                                           className={NavBarStyles.input1}
+                                           className={NavBarStyles.latitude}
                                            value={latitude}
                                            onChange={(e) => {setLatitude(e.target.value)}}
                                 />
@@ -57,23 +57,21 @@ export function MainNavBar({map}){
                                     variant="outlined"
                                     size={"small"}
                                     type={"number"}
-                                    className={NavBarStyles.input2}
+                                    className={NavBarStyles.longitude}
                                     value={longitude}
                                     onChange={(e) => {setLongitude(e.target.value)}}
                                 />
-                                <button className={NavBarStyles.fly_to_button} onClick={()=>DisplayPosition(map)}>К точке!</button>
+                                <button className={NavBarStyles.fly_to_button} onClick={()=>DisplayPosition(map)}>Найти!</button>
                             </div>
 
                         </CSSTransition>
+
                     </div>
 
                     <div className={NavBarStyles.navBarMainInstuments}>
                         <h3>
                             <br/>
                             <UnstyledButtonsSimple />
-                            <button className={NavBarStyles.navBar_button}>first</button>
-                            <button className={NavBarStyles.navBar_button}>second</button>
-                            <button className={NavBarStyles.navBar_button}>third</button>
                         </h3>
                     </div>
 

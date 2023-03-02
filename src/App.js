@@ -8,6 +8,8 @@ import AccountMenu from "./components/Header/AccountMenu/AccountMenu";
 import Restore from "./Login/Restore_Page/RestoreAccess.jsx"
 import {Restore_password} from "./Login/Restore_Page/RestorePassword";
 import {Profile} from "./Pages/User_profile/Profile";
+import {Test_Page} from "./Pages/User_profile/Test/Test_Page";
+import {User_manual} from "./Pages/Users_guide/User_manual";
 
 export default function App(){
 
@@ -22,6 +24,8 @@ export default function App(){
                 <Route exac path='/restore_access' element={<Restore />}/>
                 <Route exac path='/restore_password' element={<Restore_password />}/>
                 <Route exac path={'/Profile'} element ={<Profile/>}/>
+                <Route exac path={'/Test_Page'} element = {<Test_Page/>}/>
+                <Route exac path={'/Manual'} element = {<User_manual/>}/>
             </Routes>
         </BrowserRouter>
         </>
