@@ -12,7 +12,6 @@ export default function Restore() {
     const [mail, setMail] = useState('');
     const [mailMessage, setMailMessage] = useState('');
 
-
     const [ seconds, setSeconds ] = useState(60);
     const [ timerActive, setTimerActive ] = useState(false);
     const [ restoreSuccess, setRestoreSuccess ] = useState();
@@ -21,12 +20,10 @@ export default function Restore() {
     useEffect(()=>{
 
         if (active && timerActive){
-            console.log('if is true')
             let timerId = setInterval(()=> {timerActive && setSeconds((seconds)=>(seconds >= 1 ? seconds - 1 : 0))},1000);
             setTimeout(()=>{ setActive(false); clearInterval(timerId)},60000);
 
             isValid();
-            console.log('restoreSuccess: ' + restoreSuccess);
         }else {
             setActive(false);
             setTimerActive(false);
