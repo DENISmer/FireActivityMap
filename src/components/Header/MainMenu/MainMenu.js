@@ -5,6 +5,7 @@ import MenuItem from '@mui/material/MenuItem';
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 import {SvgIcon} from "@mui/material";
 import MenuIcon from '../../../icons/2x/twotone_notes_black_24dp.png'
+import {Link} from "react-router-dom";
 
 export function MainMenu() {
     return (
@@ -16,7 +17,7 @@ export function MainMenu() {
                     </Button>
                     <Menu {...bindMenu(popupState)}>
                         <MenuItem onClick={popupState.close}>О нас</MenuItem>
-                        <MenuItem onClick={popupState.close}>Руководоство</MenuItem>
+                        <MenuItem component={Link} to={'/Manual'} onClick={popupState.close}>Руководоство</MenuItem>
                         <MenuItem onClick={popupState.close}>FAQ</MenuItem>
                     </Menu>
                 </React.Fragment>

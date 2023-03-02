@@ -12,6 +12,7 @@ import {TimeLine} from "../TimeLine/TimeLine";
 import {Ruler} from './Ruler/Ruler.jsx'
 import { Context } from "./Context";
 import {CookiesProvider} from 'react-cookie'
+import {CurrentDayDisplay} from "../TimeLine/CurrentDayDisplay/CurrentDayDisplay";
 
 const MyContext = createContext("Without provider");
 
@@ -22,9 +23,10 @@ function GetIcon(_iconSize){
     })
 }
 
-const MemoizedChildComponent = React.memo(Mark_render);
+const MemoizedChildComponentMark_render = React.memo(Mark_render);
+const MemoizedChildComponentTimeline = React.memo(TimeLine);
 export default function MapComponent(){
-    const [context, setContext] = useState();
+    const [context, setContext] = useState([]);
     const {BaseLayer} = LayersControl;
     const center = [65.505, 106.09]
     const [map,setMap] = useState(null)
@@ -44,10 +46,10 @@ export default function MapComponent(){
 
             <Context.Provider value={[context, setContext]}>
                 <GeoJSON >
-                    <MemoizedChildComponent />
+                    <MemoizedChildComponentMark_render />
                 </GeoJSON>
 
-                <TimeLine />
+                <MemoizedChildComponentTimeline />
                 {/*<CurrentDayDisplay />*/}
 
             </Context.Provider>

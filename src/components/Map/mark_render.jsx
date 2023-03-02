@@ -22,29 +22,56 @@ export default function Mark_render(onDateChange) {
     const [cookies,setCookie] = useCookies(['currentDay']);
     const [context, setContext] = useContext(Context);
     let dataSet = []
-    const url = 'http://192.168.56.1:8080/api/fires/points/?date=';
+    const url_simple_day = 'http://192.168.56.1:8080/api/fires/points/?date=';
+    const url_days_range = 'http://192.168.56.1:8080/api/fires/points/?date_min=';
     const [points,setPoints] = useState([])
     const [isRender,setIsRender] = useState(false)
     const [serverError, setServerError] = useState(false)
 
-    if(cookies.currentDay){
-        setContext(cookies.currentDay)
-    }else {
-        setCookie('2022-15-05')
-    }
+    // if(cookies.currentDay){
+    //     setContext(cookies.currentDay)
+    // }
+    // else {
+    //     setCookie('2022-15-05')
+    // }
     useEffect(  ()=>{
-            console.log(context)
+            console.log('min date: \n',context.min_date,'max date: \n',context.max_date,'id: \n',context.id)
             let unmounted = false
-            setIsRender(true);
-            axios.get(`${url}${context}`)
+            setIsRender(true)
+            if(context.min_date !== undefined && context.max_date === 'none'){
+                axios.get(`${url_simple_day}${context.min_date}`)
+                    .then(async response => {
+                        if(response.data.points.length === 0){
+                            setIsRender(false)
+                        }
+                        console.log('single request')
+                        await setPoints(response.data.points)
+                        if(!unmounted){
+                            setTimeout(()=>{
+                                setIsRender(false)
+                            },5000)
+                        }
+                    })
+                    .catch(error=>{
+                        setIsRender(false)
+                        if(error.request.status === 400){
+                        }
+                        else if(error.request.status >= 500){
+                            setServerError(false)
+                            setIsRender(false)
+                        }
+                    })
+            }
+        else if(context.min_date !== undefined && context.max_date !== undefined){
+            axios.get(`${url_days_range}${context.min_date}&date_max=${context.max_date}`)
                 .then(async response => {
                     if(response.data.points.length === 0){
                         setIsRender(false)
                     }
-                    console.log(response)
+                    console.log('range request')
                     await setPoints(response.data.points)
                     if(!unmounted){
-                            setTimeout(()=>{
+                        setTimeout(()=>{
                             setIsRender(false)
                         },5000)
                     }
@@ -52,16 +79,17 @@ export default function Mark_render(onDateChange) {
                 .catch(error=>{
                     setIsRender(false)
                     if(error.request.status === 400){
-                        //console.log(error.message)
                     }
                     else if(error.request.status >= 500){
                         setServerError(false)
                         setIsRender(false)
-                        //console.log(error.message)
                     }
-                    //console.log(error.request.status)
                 })
+        }
+
+            else {setIsRender(false)}
         return () => {unmounted = true}
+
     },[context]);
 
 
