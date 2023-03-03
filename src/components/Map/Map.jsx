@@ -25,7 +25,7 @@ function GetIcon(_iconSize){
 
 const MemoizedChildComponentMark_render = React.memo(Mark_render);
 const MemoizedChildComponentTimeline = React.memo(TimeLine);
-export default function MapComponent(){
+export function MapComponent(){
     const [context, setContext] = useState([]);
     const {BaseLayer} = LayersControl;
     const center = [65.505, 106.09]
@@ -40,7 +40,7 @@ export default function MapComponent(){
             <Ruler />
 
             <Header />
-            <MainNavBar map={map}/>
+
 
             <MouseCoordinates />
 
@@ -48,7 +48,7 @@ export default function MapComponent(){
                 <GeoJSON >
                     <MemoizedChildComponentMark_render />
                 </GeoJSON>
-
+                <MainNavBar map={map}/>
                 <MemoizedChildComponentTimeline />
                 {/*<CurrentDayDisplay />*/}
 

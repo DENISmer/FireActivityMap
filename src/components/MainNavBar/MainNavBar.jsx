@@ -1,11 +1,12 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useContext, useState} from "react";
 import NavBarStyles from './MainNavBar.module.css';
-import UnstyledButtonsSimple from "../buttons/materialui buttons";
 import NavBarIcon from '../../icons/NavBarIcons/2x/twotone_miscellaneous_services_black_24dp.png';
 import NavBarCloseIcon from '../../icons/closeButton/2x/twotone_close_black_24dp.png';
 import 'react-calendar/dist/Calendar.css';
 import {CSSTransition} from "react-transition-group";
 import TextField from "@mui/material/TextField";
+import {Context} from "../Map/Context";
+import Button from "@mui/material/Button";
 
 
 
@@ -14,7 +15,7 @@ export function MainNavBar({map}){
     const [showFlyToForm,setshowFlyToForm] = useState(false);
     const [latitude,setLatitude] = useState(1);
     const [longitude,setLongitude] = useState(1);
-
+    const [context, setContext] = useContext(Context);
 
     const DisplayPosition = () => {
         console.log(latitude,typeof longitude)
@@ -69,10 +70,28 @@ export function MainNavBar({map}){
                     </div>
 
                     <div className={NavBarStyles.navBarMainInstuments}>
-                        <h3>
-                            <br/>
-                            <UnstyledButtonsSimple />
-                        </h3>
+                            <Button onClick={()=>setContext({
+                                today: true,singleDay: false,
+                                week: false,
+                                last_24_hours: false,
+                                daysInRange: false,
+                            })} size={"small"} variant={"contained"} title={'Точки пожаров за сегодня'}>Сегодня</Button>
+
+                            <Button onClick={()=>setContext({
+                                today: false,
+                                singleDay: false,
+                                week: false,
+                                last_24_hours: true,
+                                daysInRange: false,
+                            })} size={"small"} variant={"contained"} title={'Точки пожаров за 24 часа'}>24 часа</Button>
+
+                            <Button onClick={()=>setContext({
+                                today: false,
+                                singleDay: false,
+                                week: true,
+                                last_24_hours: false,
+                                daysInRange: false,
+                            })} size={"small"} variant={"contained"} title={'Точки пожаров за неделю'}>Неделя</Button>
                     </div>
 
                     <div className="navBarMainInstuments">

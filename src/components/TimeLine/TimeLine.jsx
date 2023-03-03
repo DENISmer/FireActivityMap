@@ -1,4 +1,4 @@
-import React, {react, useState} from 'react';
+import React, {react, useContext, useState} from 'react';
 import Timeline from  "./TimeLine.module.css";
 import {CSSTransition} from "react-transition-group";
 import NavBarCloseIcon from "../../icons/closeButton/2x/twotone_close_black_24dp.png";
@@ -12,6 +12,7 @@ import {LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {CurrentDayDisplay} from "./CurrentDayDisplay/CurrentDayDisplay";
 import {useCookies} from "react-cookie";
+import {Context} from "../Map/Context";
 
 
 export function TimeLine(){
@@ -19,13 +20,23 @@ export function TimeLine(){
     const [value, setValue] = React.useState(dayjs(Date.now()));
     const [month,setMonth] = useState([]);
     const [cookies,setCookie] = useCookies(['currentDay']);
-
+    const [context,setContext] = useContext(Context)
     //setCookie('currentDay','2022-5-11', {path: '/',maxAge: 5 * 3600})
     let currentMonth = [];
 
     const handle = () =>{
         setShowTimeLine(!showTimeLine)
         setMonth(month)
+        setContext({
+            singleDay: !context.singleDay,
+            week: false,
+            today: false,
+            last_24_hours: false,
+            daysInRange: false,
+            currentDate: '',
+            min_date: '',
+            max_date: '',
+        })
     }
 
     const getMonth = (daysInMonth) =>{
@@ -43,7 +54,7 @@ export function TimeLine(){
 
     return(
             <>
-                <button  className={Timeline.TimeLine_button} onClick={handle}>
+                <button  className={Timeline.TimeLine_button} onClick={()=>handle()}>
                     {showTimeLine ?  <img src={NavBarCloseIcon} width={32} height={35}/> : <img src={TimeLineIcon} width={32} height={35}/>}
                 </button>
 
@@ -54,7 +65,7 @@ export function TimeLine(){
                     exitDone: Timeline.transition_exit
                 }} unmountOnExit>
 
-                    <CurrentDayDisplay />
+                    <CurrentDayDisplay date={context}/>
 
                 </CSSTransition>
 
@@ -80,7 +91,7 @@ export function TimeLine(){
                                     views={['year', 'month']}
                                     label="Год и месяц"
                                     minDate={dayjs('2012-03-01')}
-                                    maxDate={dayjs('2024-06-01')}
+                                    maxDate={dayjs('2026-06-01')}
                                     value={value}
                                     onChange={(value) => {
                                         setValue(value)

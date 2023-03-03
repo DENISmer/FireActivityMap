@@ -21,9 +21,14 @@ function GetIcon(_iconSize){
 export default function Mark_render(onDateChange) {
     const [cookies,setCookie] = useCookies(['currentDay']);
     const [context, setContext] = useContext(Context);
-    let dataSet = []
-    const url_simple_day = 'http://192.168.56.1:8080/api/fires/points/?date=';
-    const url_days_range = 'http://192.168.56.1:8080/api/fires/points/?date_min=';
+    const URL_S = {
+        URL_SINGLE_DAY : `http://192.168.56.1:8080/api/fires/points/?date=${context.currentDate}`,
+        URL_TODAY : 'http://192.168.56.1:8080/api/fires/points/today/',
+        URL_DAYS_RANGE : `http://192.168.56.1:8080/api/fires/points/?date_min=${context.min_date}&date_max=${context.max_date}T23:59:59`,
+        URL_WEEK : 'http://192.168.56.1:8080/api/fires/points/week/',
+        URL_LAST_24_HOURS : 'http://192.168.56.1:8080/api/fires/points/twentyfourhours/',
+    }
+
     const [points,setPoints] = useState([])
     const [isRender,setIsRender] = useState(false)
     const [serverError, setServerError] = useState(false)
@@ -34,61 +39,55 @@ export default function Mark_render(onDateChange) {
     // else {
     //     setCookie('2022-15-05')
     // }
-    useEffect(  ()=>{
-            console.log('min date: \n',context.min_date,'max date: \n',context.max_date,'id: \n',context.id)
-            let unmounted = false
-            setIsRender(true)
-            if(context.min_date !== undefined && context.max_date === 'none'){
-                axios.get(`${url_simple_day}${context.min_date}`)
-                    .then(async response => {
-                        if(response.data.points.length === 0){
-                            setIsRender(false)
-                        }
-                        console.log('single request')
-                        await setPoints(response.data.points)
-                        if(!unmounted){
-                            setTimeout(()=>{
-                                setIsRender(false)
-                            },5000)
-                        }
-                    })
-                    .catch(error=>{
-                        setIsRender(false)
-                        if(error.request.status === 400){
-                        }
-                        else if(error.request.status >= 500){
-                            setServerError(false)
-                            setIsRender(false)
-                        }
-                    })
-            }
-        else if(context.min_date !== undefined && context.max_date !== undefined){
-            axios.get(`${url_days_range}${context.min_date}&date_max=${context.max_date}`)
-                .then(async response => {
-                    if(response.data.points.length === 0){
-                        setIsRender(false)
-                    }
-                    console.log('range request')
-                    await setPoints(response.data.points)
-                    if(!unmounted){
-                        setTimeout(()=>{
-                            setIsRender(false)
-                        },5000)
-                    }
-                })
-                .catch(error=>{
+    const RequestForData = (context,url) =>{
+        let unmounted = false
+        axios.get(`${url}`)
+            .then(async response => {
+                if(response.data.points.length === 0){
                     setIsRender(false)
-                    if(error.request.status === 400){
-                    }
-                    else if(error.request.status >= 500){
-                        setServerError(false)
+                }
+                console.log('request')
+                await setPoints(response.data.points)
+                if(!unmounted){
+                    setTimeout(()=>{
                         setIsRender(false)
-                    }
-                })
-        }
-
-            else {setIsRender(false)}
+                    },5000)
+                }
+            })
+            .catch(error=>{
+                setIsRender(false)
+                if(error.request.status === 400){
+                }
+                else if(error.request.status >= 500){
+                    setServerError(false)
+                    setIsRender(false)
+                }
+            })
         return () => {unmounted = true}
+        }
+    useEffect(  ()=>{
+            setIsRender(true)
+            if(context.today){
+               RequestForData(context,URL_S.URL_TODAY)
+                console.log('today')
+            }
+            else if(context.singleDay){
+                RequestForData(context,URL_S.URL_SINGLE_DAY)
+                console.log('singleDay')
+            }
+            else if(context.daysInRange){
+                RequestForData(context,URL_S.URL_DAYS_RANGE)
+                console.log('daysInRange')
+            }
+            else if(context.week){
+                RequestForData(context,URL_S.URL_WEEK)
+                console.log('week')
+            }
+            else if(context.last_24_hours){
+                RequestForData(context,URL_S.URL_LAST_24_HOURS)
+                console.log('last_24_hours')
+            }
+            else {setIsRender(false)}
 
     },[context]);
 

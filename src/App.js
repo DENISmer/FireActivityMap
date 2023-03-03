@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css'
-import MapComponent from "./components/Map/Map.jsx";
+import {MapComponent} from "./components/Map/Map.jsx";
 import {Signup} from "./Login/Registration/Signup.jsx";
 import {BrowserRouter,Routes,Route} from "react-router-dom";
 import {Signin} from "./Login/Authorization/Signin.jsx";
@@ -23,9 +23,9 @@ export default function App(){
                 <Route exac path='/Acc' element={<AccountMenu />}/>
                 <Route exac path='/restore_access' element={<Restore />}/>
                 <Route exac path='/restore_password' element={<Restore_password />}/>
-                <Route exac path={'/Profile'} element ={<Profile/>}/>
-                <Route exac path={'/Test_Page'} element = {<Test_Page/>}/>
-                <Route exac path={'/Manual'} element = {<User_manual/>}/>
+                <Route exac path='/Profile' element ={<Profile/>}/>
+                <Route exac path='/Test_Page' element = {<Test_Page/>}/>
+                <Route exac path='/Manual' element = {<User_manual/>}/>
             </Routes>
         </BrowserRouter>
         </>

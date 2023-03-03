@@ -32,6 +32,17 @@
     "react-transition-group": "^4.4.5",
     "web-vitals": "^2.1.4"
   },
+  "devDependencies": {
+    "@tailwindcss/forms": "^0.4.1",
+    "alpinejs": "^3.4.2",
+    "autoprefixer": "^9.8.8",
+    "css-loader": "^5.2.7",
+    "lodash": "^4.17.19",
+    "postcss": "^8.3.1",
+    "postcss-import": "^14.0.2",
+    "postcss-loader": "~3.0.0",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^3.0.0"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
