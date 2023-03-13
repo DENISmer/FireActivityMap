@@ -1,9 +1,8 @@
 body{
-    background: radial-gradient(circle at bottom, navy 0, #000000 100%);
+    background: radial-gradient(circle at bottom, navy 0, black 100%);
     height: 100vh;
     overflow: hidden;
 }
-
 
 .test {
     background: #80008019 center / 300px 200px;

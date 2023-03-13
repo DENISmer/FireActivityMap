@@ -45,14 +45,13 @@ export function MainNavBar({map}){
                         }} unmountOnExit>
 
                             <div className={NavBarStyles.wrapper}>
-                                <TextField
-                                    label="широта"
-                                    variant="outlined"
-                                    size={"small"}
-                                    type={"number"}
-                                    className={NavBarStyles.latitude}
-                                    value={latitude}
-                                    onChange={(e) => {setLatitude(e.target.value)}}
+                                <TextField label="широта"
+                                           variant="outlined"
+                                           size={"small"}
+                                           type={"number"}
+                                           className={NavBarStyles.latitude}
+                                           value={latitude}
+                                           onChange={(e) => {setLatitude(e.target.value)}}
                                 />
                                 <TextField
                                     label="долгота"
@@ -65,19 +64,20 @@ export function MainNavBar({map}){
                                 />
                                 <button className={NavBarStyles.fly_to_button} onClick={()=>DisplayPosition(map)}>Найти!</button>
                             </div>
+
                         </CSSTransition>
+
                     </div>
 
                     <div className={NavBarStyles.navBarMainInstuments}>
-                            <h3 className={NavBarStyles.heading_sort}>Сортировать данные за:</h3>
-                            <Button className={NavBarStyles.button_sort} onClick={()=>setContext({
+                            <Button onClick={()=>setContext({
                                 today: true,singleDay: false,
                                 week: false,
                                 last_24_hours: false,
                                 daysInRange: false,
                             })} size={"small"} variant={"contained"} title={'Точки пожаров за сегодня'}>Сегодня</Button>
 
-                            <Button className={NavBarStyles.button_sort} onClick={()=>setContext({
+                            <Button onClick={()=>setContext({
                                 today: false,
                                 singleDay: false,
                                 week: false,
@@ -85,7 +85,7 @@ export function MainNavBar({map}){
                                 daysInRange: false,
                             })} size={"small"} variant={"contained"} title={'Точки пожаров за 24 часа'}>24 часа</Button>
 
-                            <Button className={NavBarStyles.button_sort} onClick={()=>setContext({
+                            <Button onClick={()=>setContext({
                                 today: false,
                                 singleDay: false,
                                 week: true,

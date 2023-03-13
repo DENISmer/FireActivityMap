@@ -9,10 +9,8 @@
 }
 
 .navBarMainInstuments{
-    display: grid;
-    position: relative;
-    right: 0;
     margin: 7px;
+    display: flex;
     border-radius: 3px;
     box-shadow: 0 0 0 2px rgba(0,0,0,0.25);
     background-color: white;
@@ -70,19 +68,20 @@
     transition: opacity 300ms, transform 300ms;
 }
 .wrapper{
-
+    display: grid;
     margin: 3% 0;
 }
 .latitude{
     top: 6px;
+
 }
 .longitude{
     top: 12px;
 }
 .fly_to_button{
     margin: 20px auto 1em;
-    width: 100%;
-    height: 27%;
+    width: 99%;
+    height: 70%;
     border: none;
     border-radius: 3px;
     box-shadow: 0 0 0 2px rgba(0,0,0,0.05);
@@ -95,8 +94,4 @@
 }
 .fly_to_button:hover{
     background-color: #0059ff;
-}
-
-.button_sort{
-    margin: 3px 0;
 }

@@ -1,13 +1,13 @@
 .panel{
-    background: #FFFFFF;
-    width: 90%;
-    height: 90%;
+    background: #ffffff;
+    width: 1280px;
+    height: 720px;
     position: relative;
     margin: 5% auto 0;
     box-shadow: 2px 5px 10px;
     color: #0282c9;
 }
-.leftBox{
+.left-box{
     border: solid 1px #0003b6;
     float: left;
     top: 7%;
@@ -25,7 +25,7 @@
     margin-left: 20%;
 }
 
-.rightBox{
+.right-box{
     line-height: 3em;
     font-size: 30px;
     width: 70%;
@@ -44,16 +44,16 @@
     font-size: 24px;
 }
 
-.hrefNavigation{
+.href-navigation{
     color: #0077c2;
     position: relative;
     cursor: pointer;
 }
-.hrefNavigation:hover{
+.href-navigation:hover{
     color: red;
     transition: 0.5s;
 }
-.hrefNavigation:after{
+.href-navigation:after{
     content: "";
     display: block;
     position: absolute;
@@ -64,7 +64,7 @@
     background-color: black;
     transition: width 0.5s;
 }
-.hrefNavigation:hover:after{
+.href-navigation:hover:after{
     width: 100%;
     position: absolute;
     left: 0;
@@ -75,17 +75,25 @@
 }
 .exit{
     font-size: 24px;
-    position: absolute;
-    bottom: 0;
-    margin: 10px 5px;
+    margin-top: 215%;
+    margin-left: 5px;
 }
-.hrExit{
-    margin: 10% -5px;
+.exit>.hr-exit{
+    margin-left: -5px;
 }
-.hr{
+.Navigation>.hr{
     margin-left: -5px;
 }
 
+.test[anim = '0']{
+    background-color: cornsilk;
+    color: crimson;
+}
+
+.test[anim = '1']{
+    background-color: black;
+    color: white;
+}
 
 @keyframes anim {
     25% {
