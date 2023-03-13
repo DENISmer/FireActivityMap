@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
 import {useNavigate} from "react-router-dom";
-import "./User_manual.css";
+import Manual_Style from "./User_manual.module.css";
 import "../background-space.css"
+import Profile_Style from "../User_profile/Profile_style.module.css";
 
 export function User_manual(){
 
@@ -9,36 +10,35 @@ export function User_manual(){
 
 
     return<>
-        <div className='parent'>
+        <div>
             <div className="space Stars1"></div>
             <div className="space Stars2"></div>
             <div className="space Stars3"></div>
-            <div className='panel'>
-                <h3 className='h'>На этой стрице вы можете ознакомиться с руководством пользователя</h3>
-                <div className='left-box'>
-                    <div className='Navigation'>
-                        <a className='href-navigation' onClick={()=> navigate('/Map')}>Перейти к карте</a>
-                        <hr className='hr'/>
+            <div className={Manual_Style.panelManual}>
+                <h3 className={Manual_Style.h}>На этой стрице вы можете ознакомиться с руководством пользователя</h3>
+                <div className={Manual_Style.leftBox}>
+                    <div className={Manual_Style.Navigation}>
+                        <a className={Manual_Style.hrefNavigation} onClick={()=> navigate('/Map')}>Перейти к карте</a>
+                        <hr className={Manual_Style.hr}/>
                     </div>
 
-                    <div className='Navigation'>
-                        <a className='href-navigation'>FAQ</a>
-                        <hr className='hr'/>
+                    <div className={Manual_Style.Navigation}>
+                        <a className={Manual_Style.hrefNavigation}>FAQ</a>
+                        <hr className={Manual_Style.hr}/>
                     </div>
 
-                    <div className='Navigation'>
-                        <a className='href-navigation'>О нас</a>
-                        <hr className='hr'/>
+                    <div className={Manual_Style.Navigation}>
+                        <a className={Manual_Style.hrefNavigation}>О нас</a>
+                        <hr className={Manual_Style.hr}/>
                     </div>
 
-                    <div className='exit'>
-                        <hr className='hr-exit'/>
-                        <a className='href-navigation'onClick={()=> navigate('/')}>Выйти</a>
+                    <div className={Profile_Style.exit}>
+                        <hr className={Profile_Style.hrExit}/>
+                        <a className={Profile_Style.hrefNavigation} onClick={()=> navigate('/')}>Выйти</a>
                     </div>
                 </div>
 
-                <div className='right-box'>
-
+                <div className={Manual_Style.rightBox}>
                     <a className='href-navigation' onClick={()=>navigate('/Test_Page')}>TEST</a>
                 </div>
             </div>

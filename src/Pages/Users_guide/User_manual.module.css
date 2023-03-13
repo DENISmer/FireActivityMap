@@ -1,13 +1,13 @@
-.panel{
-    background: #FFFFFF;
-    min-width: 1600px;
-    min-height: 800px;
+.panelManual{
+    background: #ffffff;
+    width: 95%;
+    height: 100%;
     position: relative;
     margin: 5% auto 0;
     box-shadow: 2px 5px 10px;
     color: #0282c9;
 }
-.left-box{
+.leftBox{
     border: solid 1px #0003b6;
     float: left;
     top: 7%;
@@ -25,7 +25,7 @@
     margin-left: 20%;
 }
 
-.right-box{
+.rightBox{
     line-height: 3em;
     font-size: 30px;
     width: 70%;
@@ -44,16 +44,16 @@
     font-size: 24px;
 }
 
-.href-navigation{
+.hrefNavigation{
     color: #0077c2;
     position: relative;
     cursor: pointer;
 }
-.href-navigation:hover{
+.hrefNavigation:hover{
     color: red;
     transition: 0.5s;
 }
-.href-navigation:after{
+.hrefNavigation:after{
     content: "";
     display: block;
     position: absolute;
@@ -64,7 +64,7 @@
     background-color: black;
     transition: width 0.5s;
 }
-.href-navigation:hover:after{
+.hrefNavigation:hover:after{
     width: 100%;
     position: absolute;
     left: 0;
@@ -73,13 +73,13 @@
     background-color: red;
     transition: width 0.5s;
 }
-.exit{
+.exitManual{
+    position: absolute;
+    bottom: 0;
     font-size: 24px;
-    margin-top: 200%;
-    margin-left: 5px;
 }
-.exit>.hr-exit{
-    margin-left: -5px;
+.hrExit{
+    margin: 10% 5px;
 }
 .Navigation>.hr{
     margin-left: -5px;
