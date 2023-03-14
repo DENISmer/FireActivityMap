@@ -71,10 +71,13 @@ export function MainNavBar({map}){
                     <div className={NavBarStyles.navBarMainInstuments}>
                             <h3 className={NavBarStyles.heading_sort}>Сортировать данные за:</h3>
                             <Button className={NavBarStyles.button_sort} onClick={()=>setContext({
-                                today: true,singleDay: false,
+                                today: true,
+                                singleDay: false,
                                 week: false,
                                 last_24_hours: false,
                                 daysInRange: false,
+                                min_date: '',
+                                max_date: ''
                             })} size={"small"} variant={"contained"} title={'Точки пожаров за сегодня'}>Сегодня</Button>
 
                             <Button className={NavBarStyles.button_sort} onClick={()=>setContext({
@@ -83,6 +86,8 @@ export function MainNavBar({map}){
                                 week: false,
                                 last_24_hours: true,
                                 daysInRange: false,
+                                min_date: '',
+                                max_date: ''
                             })} size={"small"} variant={"contained"} title={'Точки пожаров за 24 часа'}>24 часа</Button>
 
                             <Button className={NavBarStyles.button_sort} onClick={()=>setContext({
@@ -91,6 +96,8 @@ export function MainNavBar({map}){
                                 week: true,
                                 last_24_hours: false,
                                 daysInRange: false,
+                                min_date: '',
+                                max_date: ''
                             })} size={"small"} variant={"contained"} title={'Точки пожаров за неделю'}>Неделя</Button>
                     </div>
 

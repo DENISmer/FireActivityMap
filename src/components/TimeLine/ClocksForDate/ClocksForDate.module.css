@@ -1,0 +1,7 @@
+.ClocksForDateStyle{
+    position: relative;
+    top: 50%;
+    left: 50%;
+    background-color: rgba(0,0,0,0.4);
+    z-index: 900;
+}

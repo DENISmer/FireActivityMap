@@ -11,11 +11,10 @@ export function Card(props){
     let newDateForMaxDate = [];
     let resultForMax;
     let result;
-    let cardDate = [props.year, props.month, props.day].join("-");
+    let CARD_DATE_AS_DATE = Date.parse([props.year, props.month, props.day].join("-"));
+    let RESULT_DATE_AS_DATE;
     let c = 0;
     let card_day = props.day.toString();
-    let current_day;
-    let daysRange = [];
     //const [cookies,setCookie] = useCookies(['currentDay']);
     //setContext(cookies.currentDay)
 
@@ -29,24 +28,27 @@ export function Card(props){
 
                 resultForMax = newDateForMaxDate.join("-");
                 result = newDate.join("-");
+                RESULT_DATE_AS_DATE = Date.parse(context.currentDate)
 
-                //daysRange = [context.min_date.split('-')[2], context.max_date.split('-')[2]]
-
-                //setIsActive({active: true, day: Number(result.split('-')[2])})
-                setContext({min_date: result, max_date: 'none', id: c += 2})
-                // if(context.id === 1){
-                //     setContext({min_date: result,max_date:'none',id: c+=1});
+                setContext({
+                    singleDay: true,
+                    week: false,
+                    today: false,
+                    last_24_hours: false,
+                    daysInRange: false,
+                    currentDate: result,
+                    min_date:'',
+                    max_date:'',
+                })
+                // if (context.id === 2) {
+                //     setContext({min_date: context.min_date, max_date: resultForMax, id: c += 2})
+                // } else if (context.id === 4) {
+                //     console.log('3d state=', context.id)
+                //     //setIsActive({active: false, day: 10})
                 // }
-                if (context.id === 2) {
-                    setContext({min_date: context.min_date, max_date: resultForMax, id: c += 2})
-                } else if (context.id === 4) {
-                    console.log('3d state=', context.id)
-                    //setIsActive({active: false, day: 10})
-                }
 
 
-        console.log(isActive)
-        console.log(context.id)
+        console.log(RESULT_DATE_AS_DATE === CARD_DATE_AS_DATE)
         //(cardDate <= context.max_date && cardDate >= context.min_date && context.max_date !== 'none') || (context.min_date === cardDate && context.max_date === 'none')
         return null
     };
@@ -54,6 +56,6 @@ export function Card(props){
 
     return<>
         {}
-        <button className={isActive.active ? card.Active : card.Card} value={card_day} onClick={dayClick} onD><span>{props.day}</span></button>
+        <button className={CARD_DATE_AS_DATE === RESULT_DATE_AS_DATE ? card.Active : card.Card} value={card_day} onClick={dayClick}><span>{props.day}</span></button>
     </>
 }
