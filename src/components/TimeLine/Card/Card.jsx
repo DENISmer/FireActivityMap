@@ -15,6 +15,10 @@ export function Card(props){
     let RESULT_DATE_AS_DATE;
     let c = 0;
     let card_day = props.day.toString();
+    const min_max = {
+        min: '08:00:00',
+        max: '10:00:00'
+    }
     //const [cookies,setCookie] = useCookies(['currentDay']);
     //setContext(cookies.currentDay)
 
@@ -23,11 +27,19 @@ export function Card(props){
     // }
     //setContext({id: 1})
     const dayClick = () => {
+            if(props.day < 10 && props.month < 10){
+                newDate = [props.year, '0' + props.month, '0' + props.day]
+            }
+            else if(props.month < 10){
+                newDate = [props.year, '0' + props.month, props.day]
+            }
+            else{
                 newDate = [props.year, props.month, props.day]
-                newDateForMaxDate = [props.year, props.month, props.day + 1]
+            }
 
-                resultForMax = newDateForMaxDate.join("-");
+
                 result = newDate.join("-");
+
                 RESULT_DATE_AS_DATE = Date.parse(context.currentDate)
 
                 setContext({
@@ -39,6 +51,8 @@ export function Card(props){
                     currentDate: result,
                     min_date:'',
                     max_date:'',
+                    min_time: result + 'T' + min_max.min,
+                    max_time: result + 'T' + min_max.max
                 })
                 // if (context.id === 2) {
                 //     setContext({min_date: context.min_date, max_date: resultForMax, id: c += 2})
@@ -48,7 +62,7 @@ export function Card(props){
                 // }
 
 
-        console.log(RESULT_DATE_AS_DATE === CARD_DATE_AS_DATE)
+        console.log(Date.parse(context.max_time))
         //(cardDate <= context.max_date && cardDate >= context.min_date && context.max_date !== 'none') || (context.min_date === cardDate && context.max_date === 'none')
         return null
     };

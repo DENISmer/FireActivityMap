@@ -66,6 +66,7 @@ export default function Mark_render(onDateChange) {
         return () => {unmounted = true}
         }
     useEffect(  ()=>{
+        console.log('min: ', Date.parse(context.min_time),'\nmax: ', Date.parse(context.max_time))
             setIsRender(true)
             if(context.today){
                RequestForData(context,URL_S.URL_TODAY)
@@ -151,15 +152,17 @@ export default function Mark_render(onDateChange) {
                 singleMarkerMode={false}
             >
                 {points.map((nat, index) => (
-                    <Marker icon={GetIcon(10,10,nat.temperature)}
-                            key = {index}
-                            position = {[nat.latitude,nat.longitude]}
+                    Date.parse(context.min_time) <= Date.parse(nat.datetime) && Date.parse(nat.datetime) <= Date.parse(context.max_time) &&
+                    <Marker icon={GetIcon(10, 10, nat.temperature)}
+                            key={index}
+                            position={[nat.latitude, nat.longitude]}
                     >
                         <Popup closeButton={false}>
                             Координаты: {nat.latitude}, {nat.longitude}
                             <br/>
                             Температура: {nat.temperature}
                             <br/>
+                            Время: {nat.datetime}
                         </Popup>
                     </Marker>
                 ))}</MarkerClusterGroup>

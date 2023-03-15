@@ -9,4 +9,6 @@ export const Context = React.createContext({
     currentDate:'',
     min_date:'',
     max_date:'',
+    min_time: '',
+    max_time: ''
 });

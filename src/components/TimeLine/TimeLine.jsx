@@ -27,16 +27,6 @@ export function TimeLine(){
     const handle = () =>{
         setShowTimeLine(!showTimeLine)
         setMonth(month)
-        setContext({
-            singleDay: !context.singleDay,
-            week: false,
-            today: false,
-            last_24_hours: false,
-            daysInRange: false,
-            currentDate: '',
-            min_date: '',
-            max_date: '',
-        })
     }
 
     const getMonth = (daysInMonth) =>{
@@ -91,7 +81,7 @@ export function TimeLine(){
                                     views={['year', 'month']}
                                     label="Год и месяц"
                                     minDate={dayjs('2012-03-01')}
-                                    maxDate={dayjs('2026-06-01')}
+                                    maxDate={Date.now()}
                                     value={value}
                                     onChange={(value) => {
                                         setValue(value)
