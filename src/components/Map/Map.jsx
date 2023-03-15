@@ -11,6 +11,7 @@ import {useState, createContext, useContext, useEffect, useMemo, useCallback} fr
 import {TimeLine} from "../TimeLine/TimeLine";
 import {Ruler} from './Ruler/Ruler.jsx'
 import { Context } from "./Context";
+
 import {CookiesProvider} from 'react-cookie'
 import {CurrentDayDisplay} from "../TimeLine/CurrentDayDisplay/CurrentDayDisplay";
 

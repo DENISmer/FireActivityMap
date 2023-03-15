@@ -13,6 +13,8 @@ import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {CurrentDayDisplay} from "./CurrentDayDisplay/CurrentDayDisplay";
 import {useCookies} from "react-cookie";
 import {Context} from "../Map/Context";
+import {ClocksForDate} from "./ClocksForDate/ClocksForDate";
+import TimeIcon from "../../icons/2x/clock.png"
 
 
 export function TimeLine(){
@@ -21,13 +23,25 @@ export function TimeLine(){
     const [month,setMonth] = useState([]);
     const [cookies,setCookie] = useCookies(['currentDay']);
     const [context,setContext] = useContext(Context)
+    const [min_time, setMin_Time] = useState('00:00:00');
+    const [max_time, setMax_Time] = useState('23:59:59');
+    const [showTimePanel, setShowTimePanel] = useState(false);
     //setCookie('currentDay','2022-5-11', {path: '/',maxAge: 5 * 3600})
     let currentMonth = [];
 
     const handle = () =>{
         setShowTimeLine(!showTimeLine)
         setMonth(month)
+
+        if (showTimeLine === true){
+            setShowTimePanel(false);
+        }
     }
+
+    const show_time_panel = () =>{
+        setShowTimePanel(!showTimePanel);
+    }
+
 
     const getMonth = (daysInMonth) =>{
         currentMonth = [];
@@ -42,11 +56,31 @@ export function TimeLine(){
         return getMonth(new Date(year,month,0).getDate())
     }
 
+    const time = (min_time, max_time) => {
+        alert('Начальная точка: '+ min_time + '\nКонечная точка: ' + max_time);
+    }
+
     return(
             <>
+                <button  className={showTimeLine ? Timeline.show_time_panel : Timeline.hide_time_panel} onClick={()=>show_time_panel()}>
+                    {showTimePanel ?  <img src={NavBarCloseIcon} width={32} height={35}/>: <img src={TimeIcon} width={32} height={35}/>}
+                </button>
+
+
                 <button  className={Timeline.TimeLine_button} onClick={()=>handle()}>
                     {showTimeLine ?  <img src={NavBarCloseIcon} width={32} height={35}/> : <img src={TimeLineIcon} width={32} height={35}/>}
                 </button>
+
+                <CSSTransition in={showTimePanel} timeout={300} classNames={{
+                    enterActive: Timeline.transition_enter,
+                    enterDone: Timeline.transition_enter_active,
+                    exitActive: Timeline.transition_exit_active,
+                    exitDone: Timeline.transition_exit
+                }} unmountOnExit>
+
+                <ClocksForDate updateTime={time}/>
+
+                </CSSTransition>
 
                 <CSSTransition in={!showTimeLine} timeout={300} classNames={{
                     enterActive: Timeline.transition_enter,
@@ -93,7 +127,6 @@ export function TimeLine(){
                             </LocalizationProvider>
                         </div>
                     </div>
-
                 </CSSTransition>
 
             </>

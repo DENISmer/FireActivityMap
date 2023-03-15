@@ -1,6 +1,7 @@
 import React, {useRef, useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import "./Test.css"
+import {TimePicker} from "@mui/x-date-pickers";
 
 export function Test_Page(){
 
@@ -23,12 +24,17 @@ export function Test_Page(){
     return<>
         {/*<div className="star"></div>
         <div className="start2"></div>*/}
-
-        <div className="test stars1"></div>
-        <div className="test stars2"></div>
-        <div className="test stars3"></div>
+        <div className={"test_div_clock"}>
+            <div className="test stars1"></div>
+            <div className="test stars2"></div>
+            <div className="test stars3"></div>
 
             <button onClick={click} className='button'>double click</button>
+
+
+        </div>
+
+
 
 
     </>
