@@ -24,13 +24,13 @@ export function ClocksForDate(props){
             </div>
             <div className={Timeline.date_time_max_div}>
                 <b className={Timeline.date_time_label}>Укажите конечное время: </b>
-                <TimeField showSeconds={true}
+                <TimeField value={max_time} showSeconds={true}
                            onChange={(event, value) =>{setMax_Time(value)}}
                 />
             </div>
             <div className={Timeline.button_time}>
                 <button className={Timeline.save_time} onClick={() => props.updateTime(min_time,max_time)}>Сохранить</button>
-                <button className={Timeline.reset_time}>Сбросить</button>
+                <button className={Timeline.reset_time} onClick={() => props.resetTime()}>Сбросить</button>
             </div>
         </div>
         </>

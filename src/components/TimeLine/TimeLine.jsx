@@ -55,9 +55,45 @@ export function TimeLine(){
     const getDays = (year,month) =>{
         return getMonth(new Date(year,month,0).getDate())
     }
+    const resetTime = () =>{
+        if(context.singleDay){
+            let min_datetime_as_date = Date.parse(context.currentDate + 'T' + '00:00:00');
+            let max_datetime_as_date = Date.parse(context.currentDate + 'T' + '23:59:59');
 
-    const time = (min_time, max_time) => {
-        alert('Начальная точка: '+ min_time + '\nКонечная точка: ' + max_time);
+            setContext({
+                singleDay: true,
+                week: false,
+                today: false,
+                last_24_hours: false,
+                daysInRange: false,
+                currentDate: context.currentDate,
+                min_date:'',
+                max_date:'',
+                min_datetime: min_datetime_as_date,
+                max_datetime: max_datetime_as_date
+            })
+        }
+        else return null
+    }
+    const updateTime = (min_time, max_time) => {
+        if(context.singleDay){
+            let min_datetime_as_date = Date.parse(context.currentDate + 'T' + min_time);
+            let max_datetime_as_date = Date.parse(context.currentDate + 'T' + max_time);
+
+            setContext({
+                singleDay: true,
+                week: false,
+                today: false,
+                last_24_hours: false,
+                daysInRange: false,
+                currentDate: context.currentDate,
+                min_date:'',
+                max_date:'',
+                min_datetime: min_datetime_as_date,
+                max_datetime: max_datetime_as_date
+            })
+        }
+        else return null
     }
 
     return(
@@ -78,7 +114,7 @@ export function TimeLine(){
                     exitDone: Timeline.transition_exit
                 }} unmountOnExit>
 
-                <ClocksForDate updateTime={time}/>
+                <ClocksForDate updateTime={updateTime} resetTime={resetTime}/>
 
                 </CSSTransition>
 
@@ -102,7 +138,7 @@ export function TimeLine(){
                     <div className={Timeline.Main_TimeLine}>
                         <div className={Timeline.scrollDays}>
                             <ScrollMenu
-                                цscrollToSelected={true}
+                                scrollToSelected={true}
                             >
                                 {showTimeLine && month.map((day, index) =>(
                                     <Card index={index + 1} day={day} key={index} month={value.month() + 1} year={value.year()} />

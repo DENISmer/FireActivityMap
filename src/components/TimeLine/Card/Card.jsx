@@ -40,7 +40,7 @@ export function Card(props){
 
                 result = newDate.join("-");
 
-                RESULT_DATE_AS_DATE = Date.parse(context.currentDate)
+                RESULT_DATE_AS_DATE = Date.parse(newDate)
 
                 setContext({
                     singleDay: true,
@@ -51,9 +51,23 @@ export function Card(props){
                     currentDate: result,
                     min_date:'',
                     max_date:'',
-                    min_time: result + 'T' + min_max.min,
-                    max_time: result + 'T' + min_max.max
+                    min_datetime: Date.parse(result + 'T' + '00:00:00'),
+                    max_datetime: Date.parse(result + 'T' + '23:59:59')
                 })
+                if(context.singleDay && RESULT_DATE_AS_DATE > Date.parse(context.currentDate)){
+                    setContext({
+                        singleDay: false,
+                        week: false,
+                        today: false,
+                        last_24_hours: false,
+                        daysInRange: true,
+                        currentDate: '',
+                        min_date: context.currentDate,
+                        max_date: result,
+                        min_datetime: Date.parse(result + 'T' + '00:00:00'),
+                        max_datetime: Date.parse(result + 'T' + '23:59:59')
+                    })
+                }
                 // if (context.id === 2) {
                 //     setContext({min_date: context.min_date, max_date: resultForMax, id: c += 2})
                 // } else if (context.id === 4) {
@@ -62,7 +76,7 @@ export function Card(props){
                 // }
 
 
-        console.log(Date.parse(context.max_time))
+        console.log(RESULT_DATE_AS_DATE,'\n',Date.parse(context.min_date))
         //(cardDate <= context.max_date && cardDate >= context.min_date && context.max_date !== 'none') || (context.min_date === cardDate && context.max_date === 'none')
         return null
     };
@@ -70,6 +84,6 @@ export function Card(props){
 
     return<>
         {}
-        <button className={CARD_DATE_AS_DATE === RESULT_DATE_AS_DATE ? card.Active : card.Card} value={card_day} onClick={dayClick}><span>{props.day}</span></button>
+        <button className={(CARD_DATE_AS_DATE >= Date.parse(context.min_date)) && (CARD_DATE_AS_DATE <= Date.parse(context.max_date)) ? card.Active : card.Card} value={card_day} onClick={dayClick}><span>{props.day}</span></button>
     </>
 }

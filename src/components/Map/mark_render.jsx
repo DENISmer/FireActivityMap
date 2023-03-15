@@ -24,7 +24,7 @@ export default function Mark_render(onDateChange) {
     const URL_S = {
         URL_SINGLE_DAY : `http://192.168.56.1:8080/api/fires/points/?date=${context.currentDate}`,
         URL_TODAY : 'http://192.168.56.1:8080/api/fires/points/today/',
-        URL_DAYS_RANGE : `http://192.168.56.1:8080/api/fires/points/?date_min=${context.min_date}&date_max=${context.max_date}T23:59:59`,
+        URL_DAYS_RANGE : `http://192.168.56.1:8080/api/fires/points/?date_min=${context.min_date}T00:00:00&date_max=${context.max_date}T23:59:59`,
         URL_WEEK : 'http://192.168.56.1:8080/api/fires/points/week/',
         URL_LAST_24_HOURS : 'http://192.168.56.1:8080/api/fires/points/twentyfourhours/',
     }
@@ -63,9 +63,15 @@ export default function Mark_render(onDateChange) {
                     setIsRender(false)
                 }
             })
+        setCookie('currentDay',context,5 * 3600)
         return () => {unmounted = true}
         }
+
     useEffect(  ()=>{
+        if(cookies.currentDay !== undefined && context.today === undefined){
+            setContext(cookies.currentDay)
+        }
+        else
         console.log('min: ', Date.parse(context.min_time),'\nmax: ', Date.parse(context.max_time))
             setIsRender(true)
             if(context.today){
@@ -151,8 +157,8 @@ export default function Mark_render(onDateChange) {
                 maxClusterRadius={80}
                 singleMarkerMode={false}
             >
-                {points.map((nat, index) => (
-                    Date.parse(context.min_time) <= Date.parse(nat.datetime) && Date.parse(nat.datetime) <= Date.parse(context.max_time) &&
+                {context.singleDay && points.map((nat, index) => (
+                    (context.min_datetime <= Date.parse(nat.datetime) && Date.parse(nat.datetime) <= context.max_datetime) &&
                     <Marker icon={GetIcon(10, 10, nat.temperature)}
                             key={index}
                             position={[nat.latitude, nat.longitude]}
@@ -165,7 +171,22 @@ export default function Mark_render(onDateChange) {
                             Время: {nat.datetime}
                         </Popup>
                     </Marker>
-                ))}</MarkerClusterGroup>
+                ))}
+                {context.daysInRange && points.map((nat, index) => (
+                    <Marker icon={GetIcon(10, 10, nat.temperature)}
+                            key={index}
+                            position={[nat.latitude, nat.longitude]}
+                    >
+                        <Popup closeButton={false}>
+                            Координаты: {nat.latitude}, {nat.longitude}
+                            <br/>
+                            Температура: {nat.temperature}
+                            <br/>
+                            Время: {nat.datetime}
+                        </Popup>
+                    </Marker>
+                ))}
+            </MarkerClusterGroup>
         </>
     );
 }

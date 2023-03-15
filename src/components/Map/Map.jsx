@@ -76,7 +76,6 @@ export function MapComponent(){
                 </BaseLayer>
                 <LayersControl.Overlay name="Fires from FIRMS(MODIS)" checked={false}>
                     <LayerGroup>
-
                     </LayerGroup>
                 </LayersControl.Overlay>
                 <BaseLayer name="ESRI" >
