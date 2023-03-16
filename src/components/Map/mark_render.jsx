@@ -63,6 +63,7 @@ export default function Mark_render(onDateChange) {
                     setIsRender(false)
                 }
             })
+        //console.log(new Date(context.min_datetime).toString().split(' ')[4].split(':')[0] + new Date(context.min_datetime).toString().split(' ')[4].split(':')[1])
         setCookie('currentDay',context,5 * 3600)
         return () => {unmounted = true}
         }

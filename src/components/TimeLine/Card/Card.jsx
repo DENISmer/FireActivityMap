@@ -13,6 +13,7 @@ export function Card(props){
     let result;
     let CARD_DATE_AS_DATE = Date.parse([props.year, props.month, props.day].join("-"));
     let RESULT_DATE_AS_DATE;
+    let CURRENT_DATE_AS_DATE;
     let c = 0;
     let card_day = props.day.toString();
     const min_max = {
@@ -26,6 +27,7 @@ export function Card(props){
     //     setCookie('currentDay',result, {path: '/',maxAge: 5 * 3600})
     // }
     //setContext({id: 1})
+    CURRENT_DATE_AS_DATE = Date.parse(context.currentDate)
     const dayClick = () => {
             if(props.day < 10 && props.month < 10){
                 newDate = [props.year, '0' + props.month, '0' + props.day]
@@ -41,7 +43,10 @@ export function Card(props){
                 result = newDate.join("-");
 
                 RESULT_DATE_AS_DATE = Date.parse(newDate)
-
+            if(RESULT_DATE_AS_DATE === CURRENT_DATE_AS_DATE){
+                return null
+            }
+            else {
                 setContext({
                     singleDay: true,
                     week: false,
@@ -76,14 +81,15 @@ export function Card(props){
                 // }
 
 
-        console.log(RESULT_DATE_AS_DATE,'\n',Date.parse(context.min_date))
-        //(cardDate <= context.max_date && cardDate >= context.min_date && context.max_date !== 'none') || (context.min_date === cardDate && context.max_date === 'none')
+            }
+
+        console.log(RESULT_DATE_AS_DATE,'-',result,CURRENT_DATE_AS_DATE,'-',context.currentDate,CARD_DATE_AS_DATE)
         return null
     };
 
 
     return<>
         {}
-        <button className={(CARD_DATE_AS_DATE >= Date.parse(context.min_date)) && (CARD_DATE_AS_DATE <= Date.parse(context.max_date)) ? card.Active : card.Card} value={card_day} onClick={dayClick}><span>{props.day}</span></button>
+        <button className={((CARD_DATE_AS_DATE >= Date.parse(context.min_date)) && (CARD_DATE_AS_DATE <= Date.parse(context.max_date))) || CURRENT_DATE_AS_DATE === CARD_DATE_AS_DATE ? card.Active : card.Card} value={card_day} onClick={() =>dayClick()}><span>{props.day}</span></button>
     </>
 }
