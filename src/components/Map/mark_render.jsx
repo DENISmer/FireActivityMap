@@ -21,6 +21,7 @@ function GetIcon(_iconSize){
 export default function Mark_render(onDateChange) {
     const [cookies,setCookie] = useCookies(['currentDay']);
     const [context, setContext] = useContext(Context);
+    let LOCAL_CURRENT_DATE;
     const URL_S = {
         URL_SINGLE_DAY : `http://192.168.56.1:8080/api/fires/points/?date=${context.currentDate}`,
         URL_TODAY : 'http://192.168.56.1:8080/api/fires/points/today/',
@@ -73,15 +74,16 @@ export default function Mark_render(onDateChange) {
             setContext(cookies.currentDay)
         }
         else
-        console.log('min: ', Date.parse(context.min_time),'\nmax: ', Date.parse(context.max_time))
+        console.log(LOCAL_CURRENT_DATE, context.currentDate)
             setIsRender(true)
             if(context.today){
                RequestForData(context,URL_S.URL_TODAY)
                 console.log('today')
             }
-            else if(context.singleDay){
+            else if(context.singleDay && context.currentDate !== context.currentDate){
                 RequestForData(context,URL_S.URL_SINGLE_DAY)
                 console.log('singleDay')
+                LOCAL_CURRENT_DATE = context.currentDate.toString()
             }
             else if(context.daysInRange){
                 RequestForData(context,URL_S.URL_DAYS_RANGE)

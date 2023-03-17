@@ -1,7 +1,6 @@
 import L from 'leaflet';
 import {
     GeoJSON,
-    ImageOverlay,
     LayerGroup,
     LayersControl,
     MapContainer,
@@ -21,9 +20,12 @@ import {TimeLine} from "../TimeLine/TimeLine";
 import {Ruler} from './Ruler/Ruler.jsx'
 import { Context } from "./Context";
 import '../../data/map_images/chinfire/20220515/0705/FY3D_MERSI_GBAL_L1_20220515_0705_1000M_MS_7_20_21.png'
+import { ImageOverlay } from 'react-leaflet/ImageOverlay'
 import axios from "axios";
 import {LatLngBounds} from "leaflet/src/geo";
 import {isRouteErrorResponse} from "react-router-dom";
+import {useCookies} from "react-cookie";
+import {MutableImageOverlay} from "./MutableImageOverlay";
 
 const MyContext = createContext("Without provider");
 
@@ -36,6 +38,31 @@ function GetIcon(_iconSize){
 
 const MemoizedChildComponentMark_render = React.memo(Mark_render);
 const MemoizedChildComponentTimeline = React.memo(TimeLine);
+
+// function MutableImageOverlay(props) {
+//     const [bounds,setBounds] = useState()
+//     const [imageURL,setImageURL] = useState()
+//     const [txtURL,setTxtURL] = useState()
+//     try{
+//         let imageDate = props.context.currentDate.split('-').join('')
+//         let minImageTime = new Date(props.context.min_datetime).toString().split(' ')[4].split(':')[0] + new Date(props.context.min_datetime).toString().split(' ')[4].split(':')[1]
+//
+//         setTxtURL(require(`../../data/map_images/chinfire/${imageDate}/${minImageTime}/FY3D_MERSI_GBAL_L1_${imageDate}_${minImageTime}_1000M_MS.txt`))
+//         setImageURL(require(`../../data/map_images/chinfire/${imageDate}/${minImageTime}/FY3D_MERSI_GBAL_L1_${imageDate}_${minImageTime}_1000M_MS_7_20_21.png`))
+//
+//         axios.get(txtURL).then(response => {
+//             setBounds([[Number(response.data.split('\n')[0]),Number(response.data.split('\n')[1])],[Number(response.data.split('\n')[2]),Number(response.data.split('\n')[3])]])
+//         })
+//         return(<>
+//             {bounds && imageDate? <ImageOverlay url={imageURL} bounds={bounds} /> : null}
+//         </>)
+//     }
+//     catch (err){console.log(err)}
+//
+//     return null
+//
+//
+// }
 export function MapComponent(){
     const [context, setContext] = useState(Context);
     const {BaseLayer} = LayersControl;
@@ -48,31 +75,14 @@ export function MapComponent(){
     const [min_time,setMinTime] = useState();
     let b = [[10.435,5.3456],[13.4356,23.654]]
 
-    useEffect(()=>{
-        console.log(context.currentDate)
-        try{
+    const [cookies,setCookie] = useCookies(['currentDay']);
 
-            if(context.currentDate !== undefined){
-                setImageDate(context.currentDate.split('-').join(''))
-                setMinTime(new Date(context.min_datetime).toString().split(' ')[4].split(':')[0] + new Date(context.min_datetime).toString().split(' ')[4].split(':')[1])
-                setFile(require(`../../data/map_images/chinfire/${image_date}/${min_time}/FY3D_MERSI_GBAL_L1_${image_date}_${min_time}_1000M_MS.txt`))
-                axios.get(file).then(response => {
-                        setBounds([[Number(response.data.split('\n')[0]),Number(response.data.split('\n')[1])],[Number(response.data.split('\n')[2]),Number(response.data.split('\n')[3])]])
-                        console.log(response.data)
-                        console.log(bounds)
-                    }
-                ).catch(
-                    error =>
-                        console.log(error)
-                )
-                setImageUrl(require(`../../data/map_images/chinfire/${image_date}/${min_time}/FY3D_MERSI_GBAL_L1_${image_date}_${min_time}_1000M_MS_7_20_21.png`))
-            }
-        }
-        catch (error){
-            console.log(error.message)
-        }
-        console.log(bounds,b)
-    },[context])
+    // if(cookies.currentDay !== undefined){
+    //     setContext(cookies.currentDay)
+    // }
+
+    //const bounds = [[40.712216, -74.22655], [40.773941, -74.12544]]
+
     return <>
         <MapContainer zoomControl={false} minZoom={3.6} maxZoom={13} zoom={4} center={center} ref={setMap} doubleClickZoom={false} maxBounds={[[-110,-170],[100,200]]} >
             <ZoomControl position={'bottomleft'}/>
@@ -80,7 +90,6 @@ export function MapComponent(){
             <Ruler />
 
             <Header />
-
 
             <MouseCoordinates />
 
@@ -114,8 +123,9 @@ export function MapComponent(){
                     </BaseLayer>
                     <LayersControl.Overlay name="Fires from FIRMS(MODIS)" checked={false}>
                         <LayerGroup>
-                            <ImageOverlay url={image_url} bounds={bounds}>
-                            </ImageOverlay>
+                            {/*<MutableImageOverlay context={context}/>*/}
+                            {/*{bounds && <ImageOverlay url={image_url} bounds={bounds}/>}*/}
+                            <MutableImageOverlay />
                         </LayerGroup>
                     </LayersControl.Overlay>
                     <BaseLayer name="ESRI" >
