@@ -70,34 +70,34 @@ export default function Mark_render(onDateChange) {
         }
 
     useEffect(  ()=>{
-        if(cookies.currentDay !== undefined && context.today === undefined){
+        console.log('cookie: ',cookies.currentDay)
+        console.log('context: ',context.currentDate)
+        if(context.currentDate === undefined){
             setContext(cookies.currentDay)
         }
-        else
-        console.log(LOCAL_CURRENT_DATE, context.currentDate)
+        else {
+            console.log(LOCAL_CURRENT_DATE, context.currentDate)
             setIsRender(true)
-            if(context.today){
-               RequestForData(context,URL_S.URL_TODAY)
+            if (context.today) {
+                RequestForData(context, URL_S.URL_TODAY)
                 console.log('today')
-            }
-            else if(context.singleDay && context.currentDate !== context.currentDate){
-                RequestForData(context,URL_S.URL_SINGLE_DAY)
+            } else if (context.singleDay) {
+                RequestForData(context, URL_S.URL_SINGLE_DAY)
                 console.log('singleDay')
                 LOCAL_CURRENT_DATE = context.currentDate.toString()
-            }
-            else if(context.daysInRange){
-                RequestForData(context,URL_S.URL_DAYS_RANGE)
+            } else if (context.daysInRange) {
+                RequestForData(context, URL_S.URL_DAYS_RANGE)
                 console.log('daysInRange')
-            }
-            else if(context.week){
-                RequestForData(context,URL_S.URL_WEEK)
+            } else if (context.week) {
+                RequestForData(context, URL_S.URL_WEEK)
                 console.log('week')
-            }
-            else if(context.last_24_hours){
-                RequestForData(context,URL_S.URL_LAST_24_HOURS)
+            } else if (context.last_24_hours) {
+                RequestForData(context, URL_S.URL_LAST_24_HOURS)
                 console.log('last_24_hours')
+            } else {
+                setIsRender(false)
             }
-            else {setIsRender(false)}
+        }
 
     },[context]);
 

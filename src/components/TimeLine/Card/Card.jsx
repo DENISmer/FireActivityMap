@@ -73,12 +73,6 @@ export function Card(props){
                         max_datetime: Date.parse(result + 'T' + '23:59:59')
                     })
                 }
-                // if (context.id === 2) {
-                //     setContext({min_date: context.min_date, max_date: resultForMax, id: c += 2})
-                // } else if (context.id === 4) {
-                //     console.log('3d state=', context.id)
-                //     //setIsActive({active: false, day: 10})
-                // }
 
 
             }
