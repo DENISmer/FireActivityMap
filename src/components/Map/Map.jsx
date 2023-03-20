@@ -132,8 +132,7 @@ export function MapComponent(){
                     </LayersControl.Overlay>
                     <LayersControl.Overlay name="Show border outline" checked={false}>
                         <LayerGroup>
-                            {CoordsData.map((port) => (<Polyline positions={port} color={'green'}/>))}
-                            <MutableImageOverlay />
+                            {CoordsData.map((port) => (<Polyline positions={port} color={'pink'}/>))}
                         </LayerGroup>
                     </LayersControl.Overlay>
                     <BaseLayer name="ESRI" >

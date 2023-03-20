@@ -72,10 +72,10 @@ export default function Mark_render(onDateChange) {
     useEffect(  ()=>{
         console.log('cookie: ',cookies.currentDay)
         console.log('context: ',context.currentDate)
-        if(context.currentDate === undefined){
-            setContext(cookies.currentDay)
-        }
-        else {
+        // if(context.currentDate === undefined){
+        //     setContext(cookies.currentDay)
+        // }
+        // else {
             console.log(localCurrentDay, context.currentDate)
             setIsRender(true)
             if (context.today) {
@@ -100,7 +100,7 @@ export default function Mark_render(onDateChange) {
             } else {
                 setIsRender(false)
             }
-        }
+        // }
 
     },[context]);
 
