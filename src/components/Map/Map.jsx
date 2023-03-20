@@ -7,6 +7,7 @@ import {
     ScaleControl,
     TileLayer,
     ZoomControl,
+    Polyline
 } from "react-leaflet";
 import 'leaflet/dist/leaflet.css'
 import './Map.css';
@@ -26,6 +27,7 @@ import {LatLngBounds} from "leaflet/src/geo";
 import {isRouteErrorResponse} from "react-router-dom";
 import {useCookies} from "react-cookie";
 import {MutableImageOverlay} from "./MutableImageOverlay";
+import CoordsData from "./countreCoords.json";
 
 const MyContext = createContext("Without provider");
 
@@ -125,6 +127,12 @@ export function MapComponent(){
                         <LayerGroup>
                             {/*<MutableImageOverlay context={context}/>*/}
                             {/*{bounds && <ImageOverlay url={image_url} bounds={bounds}/>}*/}
+                            <MutableImageOverlay />
+                        </LayerGroup>
+                    </LayersControl.Overlay>
+                    <LayersControl.Overlay name="Show border outline" checked={false}>
+                        <LayerGroup>
+                            {CoordsData.map((port) => (<Polyline positions={port} color={'green'}/>))}
                             <MutableImageOverlay />
                         </LayerGroup>
                     </LayersControl.Overlay>
