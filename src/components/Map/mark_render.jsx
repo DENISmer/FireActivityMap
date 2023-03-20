@@ -21,7 +21,7 @@ function GetIcon(_iconSize){
 export default function Mark_render(onDateChange) {
     const [cookies,setCookie] = useCookies(['currentDay']);
     const [context, setContext] = useContext(Context);
-    let LOCAL_CURRENT_DATE;
+    const [localCurrentDay,setLocalCurrentDay] = useState()
     const URL_S = {
         URL_SINGLE_DAY : `http://192.168.56.1:8080/api/fires/points/?date=${context.currentDate}`,
         URL_TODAY : 'http://192.168.56.1:8080/api/fires/points/today/',
@@ -76,15 +76,18 @@ export default function Mark_render(onDateChange) {
             setContext(cookies.currentDay)
         }
         else {
-            console.log(LOCAL_CURRENT_DATE, context.currentDate)
+            console.log(localCurrentDay, context.currentDate)
             setIsRender(true)
             if (context.today) {
                 RequestForData(context, URL_S.URL_TODAY)
                 console.log('today')
-            } else if (context.singleDay) {
+            } else if(localCurrentDay === context.currentDate){
+                console.log('the same day')
+                setIsRender(false)
+            }else if (context.singleDay) {
                 RequestForData(context, URL_S.URL_SINGLE_DAY)
                 console.log('singleDay')
-                LOCAL_CURRENT_DATE = context.currentDate.toString()
+                setLocalCurrentDay(context.currentDate)
             } else if (context.daysInRange) {
                 RequestForData(context, URL_S.URL_DAYS_RANGE)
                 console.log('daysInRange')
@@ -156,8 +159,8 @@ export default function Mark_render(onDateChange) {
             <MarkerClusterGroup
                 key={Date.now()}
                 iconCreateFunction={createClusterCustomIcon1}
-                spiderfyDistanceMultiplier={1}
-                maxClusterRadius={80}
+                spiderfyDistanceMultiplier={3}
+                maxClusterRadius={90}
                 singleMarkerMode={false}
             >
                 {context.singleDay && points.map((nat, index) => (
