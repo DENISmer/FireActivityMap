@@ -10,6 +10,7 @@ import {Restore_password} from "./Login/Restore_Page/RestorePassword";
 import {Profile} from "./Pages/User_profile/Profile";
 import {Test_Page} from "./Pages/User_profile/Test/Test_Page";
 import {User_manual} from "./Pages/Users_guide/User_manual";
+import {Login_new} from "./Pages/User_profile/Test/newStyleLog/NewLogin";
 
 export default function App(){
 
@@ -26,6 +27,7 @@ export default function App(){
                 <Route exac path='/Profile' element ={<Profile/>}/>
                 <Route exac path='/Test_Page' element = {<Test_Page/>}/>
                 <Route exac path='/Manual' element = {<User_manual/>}/>
+                <Route exac path='/new_login' element = {<Login_new/>}/>
             </Routes>
         </BrowserRouter>
         </>

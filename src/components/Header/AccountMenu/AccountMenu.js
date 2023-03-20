@@ -83,7 +83,7 @@ export default function AccountMenu() {
                     </ListItemIcon>
                     Настройки
                 </MenuItem>
-                <MenuItem component={Link} to={'/'}>
+                <MenuItem component={Link} to={'/new_login'}>
                     <ListItemIcon>
                         <Logout fontSize="small" />
                     </ListItemIcon>
