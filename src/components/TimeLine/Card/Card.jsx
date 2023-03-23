@@ -88,7 +88,7 @@ export function Card(props){
 
 
     return<>
-        {CARD_DATE_AS_DATE}
+        {}
         <button className={((CARD_DATE_AS_DATE >= Date.parse(context.min_date)) && (CARD_DATE_AS_DATE <= Date.parse(context.max_date))) || MIN === CARD_DATE_AS_DATE ? card.Active : card.Card} value={card_day} onClick={() =>dayClick()}><span>{props.day}</span></button>
     </>
 }
