@@ -12,7 +12,6 @@ export function ClocksForDate(props){
     const [min_time, setMin_Time] = useState('00:00:00');
     const [max_time, setMax_Time] = useState('23:59:59');
 
-    let h = props.show
 
     return(<>
         <div className={Timeline.date_time_div}>
@@ -30,7 +29,7 @@ export function ClocksForDate(props){
             </div>
             <div className={Timeline.button_time}>
                 <button className={Timeline.save_time} onClick={() => props.updateTime(min_time,max_time)}>Сохранить</button>
-                <button className={Timeline.reset_time} onClick={() => props.resetTime()}>Сбросить</button>
+                <button className={Timeline.reset_time} onClick={(event) => {props.resetTime(); setMax_Time('23:59:59'); setMin_Time('00:00:00')}}>Сбросить</button>
             </div>
         </div>
         </>

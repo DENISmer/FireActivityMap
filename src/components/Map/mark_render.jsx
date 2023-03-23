@@ -63,6 +63,7 @@ export default function Mark_render(onDateChange) {
                     setServerError(false)
                     setIsRender(false)
                 }
+                console.log(error.status)
             })
         //console.log(new Date(context.min_datetime).toString().split(' ')[4].split(':')[0] + new Date(context.min_datetime).toString().split(' ')[4].split(':')[1])
         setCookie('currentDay',context,5 * 3600)
@@ -70,13 +71,13 @@ export default function Mark_render(onDateChange) {
         }
 
     useEffect(  ()=>{
-        console.log('cookie: ',cookies.currentDay)
-        console.log('context: ',context.currentDate)
+        //console.log('cookie: ',cookies.currentDay)
+
         // if(context.currentDate === undefined){
         //     setContext(cookies.currentDay)
         // }
         // else {
-            console.log(localCurrentDay, context.currentDate)
+            //console.log(localCurrentDay, context.currentDate)
             setIsRender(true)
             if (context.today) {
                 RequestForData(context, URL_S.URL_TODAY)
@@ -91,6 +92,7 @@ export default function Mark_render(onDateChange) {
             } else if (context.daysInRange) {
                 RequestForData(context, URL_S.URL_DAYS_RANGE)
                 console.log('daysInRange')
+                console.log(Date(518400000))
             } else if (context.week) {
                 RequestForData(context, URL_S.URL_WEEK)
                 console.log('week')
@@ -101,7 +103,7 @@ export default function Mark_render(onDateChange) {
                 setIsRender(false)
             }
         // }
-
+        //console.log('context: ',context)
     },[context]);
 
 
@@ -160,14 +162,15 @@ export default function Mark_render(onDateChange) {
                 key={Date.now()}
                 iconCreateFunction={createClusterCustomIcon1}
                 spiderfyDistanceMultiplier={3}
-                maxClusterRadius={90}
+                maxClusterRadius={40}
                 singleMarkerMode={false}
+                animated={false}
             >
                 {context.singleDay && points.map((nat, index) => (
                     (context.min_datetime <= Date.parse(nat.datetime) && Date.parse(nat.datetime) <= context.max_datetime) &&
                     <Marker icon={GetIcon(10, 10, nat.temperature)}
                             key={index}
-                            position={[nat.latitude, nat.longitude]}
+                            position={L.latLng(nat.longitude, nat.latitude)}
                     >
                         <Popup closeButton={false}>
                             Координаты: {nat.latitude}, {nat.longitude}
@@ -181,7 +184,7 @@ export default function Mark_render(onDateChange) {
                 {context.daysInRange && points.map((nat, index) => (
                     <Marker icon={GetIcon(10, 10, nat.temperature)}
                             key={index}
-                            position={[nat.latitude, nat.longitude]}
+                            position={L.latLng(nat.longitude, nat.latitude)}
                     >
                         <Popup closeButton={false}>
                             Координаты: {nat.latitude}, {nat.longitude}

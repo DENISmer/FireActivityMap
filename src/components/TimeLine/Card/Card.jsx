@@ -14,6 +14,8 @@ export function Card(props){
     let CARD_DATE_AS_DATE = Date.parse([props.year, props.month, props.day].join("-"));
     let RESULT_DATE_AS_DATE;
     let CURRENT_DATE_AS_DATE;
+    let MIN;
+    let MAX;
     let c = 0;
     let card_day = props.day.toString();
     const min_max = {
@@ -27,8 +29,9 @@ export function Card(props){
     //     setCookie('currentDay',result, {path: '/',maxAge: 5 * 3600})
     // }
     //setContext({id: 1})
-    CURRENT_DATE_AS_DATE = Date.parse(context.currentDate)
+
     const dayClick = () => {
+        CURRENT_DATE_AS_DATE = Date.parse(context.currentDate)
             if(props.day < 10 && props.month < 10){
                 newDate = [props.year, '0' + props.month, '0' + props.day]
             }
@@ -39,10 +42,10 @@ export function Card(props){
                 newDate = [props.year, props.month, props.day]
             }
 
+            result = newDate.join("-");
 
-                result = newDate.join("-");
+            RESULT_DATE_AS_DATE = Date.parse(newDate.join('-'))
 
-                RESULT_DATE_AS_DATE = Date.parse(newDate)
             if(RESULT_DATE_AS_DATE === CURRENT_DATE_AS_DATE){
                 return null
             }
@@ -59,7 +62,7 @@ export function Card(props){
                     min_datetime: Date.parse(result + 'T' + '00:00:00'),
                     max_datetime: Date.parse(result + 'T' + '23:59:59')
                 })
-                if(context.singleDay && RESULT_DATE_AS_DATE > Date.parse(context.currentDate)){
+                if(context.singleDay && RESULT_DATE_AS_DATE > Date.parse(context.currentDate) && RESULT_DATE_AS_DATE - Date.parse(context.currentDate) <= 518400000){
                     setContext({
                         singleDay: false,
                         week: false,
@@ -72,18 +75,20 @@ export function Card(props){
                         min_datetime: Date.parse(result + 'T' + '00:00:00'),
                         max_datetime: Date.parse(result + 'T' + '23:59:59')
                     })
+                    MIN = Date.parse(context.min_date);
                 }
 
 
             }
-
-        console.log(RESULT_DATE_AS_DATE,'-',result,CURRENT_DATE_AS_DATE,'-',context.currentDate,CARD_DATE_AS_DATE)
+            console.log('MIN: ', MIN,Date.parse('2022-5-1'))
+            console.log(new Date(1651536000000),new Date(1651363200000))
         return null
+
     };
 
 
     return<>
-        {}
-        <button className={((CARD_DATE_AS_DATE >= Date.parse(context.min_date)) && (CARD_DATE_AS_DATE <= Date.parse(context.max_date))) || CURRENT_DATE_AS_DATE === CARD_DATE_AS_DATE ? card.Active : card.Card} value={card_day} onClick={() =>dayClick()}><span>{props.day}</span></button>
+        {CARD_DATE_AS_DATE}
+        <button className={((CARD_DATE_AS_DATE >= Date.parse(context.min_date)) && (CARD_DATE_AS_DATE <= Date.parse(context.max_date))) || MIN === CARD_DATE_AS_DATE ? card.Active : card.Card} value={card_day} onClick={() =>dayClick()}><span>{props.day}</span></button>
     </>
 }
