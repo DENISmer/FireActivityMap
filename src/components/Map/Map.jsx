@@ -86,7 +86,7 @@ export function MapComponent(){
     //const bounds = [[40.712216, -74.22655], [40.773941, -74.12544]]
 
     return <>
-        <MapContainer zoomControl={false} minZoom={3.6} maxZoom={13} zoom={4} center={center} ref={setMap} doubleClickZoom={false} maxBounds={[[-110,-170],[100,200]]} >
+        <MapContainer zoomControl={false} minZoom={3.6} maxZoom={14} zoom={4} center={center} ref={setMap} doubleClickZoom={false} maxBounds={[[-110,-170],[100,200]]} >
             <ZoomControl position={'bottomleft'}/>
             <ScaleControl position={"bottomleft"} />
             <Ruler />

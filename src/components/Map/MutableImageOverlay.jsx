@@ -48,7 +48,7 @@ export function MutableImageOverlay(){
                 console.log(imgTxt)
             }
             catch (e){
-                    //console.log(e.message)
+                    console.log(e.message)
                 continue
                 }
             }
@@ -66,7 +66,7 @@ export function MutableImageOverlay(){
 
             request(img,min_time,max_time)
         }
-
+        console.log(imgTxt)
         setImgTxt([])
         localdataArray = [];
 
