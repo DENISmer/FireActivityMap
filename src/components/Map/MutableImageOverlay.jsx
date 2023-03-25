@@ -74,7 +74,13 @@ export function MutableImageOverlay(){
     return(<>
         {()=> console.log(imgTxt.length)}
         {context.singleDay && imgTxt && imgTxt.map((image,index)=> (
-            <ImageOverlay url={image.img} bounds={image.txt} key={index}/>
+            <ImageOverlay
+                // updateWhenZooming={false}
+                // updateWhenIdle={true}
+                //preferCanvas={true}
+                url={image.img}
+                bounds={image.txt}
+                key={index}/>
             )
         )}
 

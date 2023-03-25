@@ -159,10 +159,12 @@ export default function Mark_render(onDateChange) {
         {serverError && <div className={clusters.isRender}></div>}
             {isRender && <div className={clusters.isRender}><img src={loader}/></div>}
             <MarkerClusterGroup
+                updateWhenZooming={false}
+                updateWhenIdle={true}
                 key={Date.now()}
                 iconCreateFunction={createClusterCustomIcon1}
                 spiderfyDistanceMultiplier={3}
-                maxClusterRadius={40}
+                maxClusterRadius={95}
                 singleMarkerMode={false}
                 animated={false}
             >
@@ -170,7 +172,7 @@ export default function Mark_render(onDateChange) {
                     (context.min_datetime <= Date.parse(nat.datetime) && Date.parse(nat.datetime) <= context.max_datetime) &&
                     <Marker icon={GetIcon(10, 10, nat.temperature)}
                             key={index}
-                            position={L.latLng(nat.longitude, nat.latitude)}
+                            position={[Number(nat.longitude), Number(nat.latitude)]}
                     >
                         <Popup closeButton={false}>
                             Координаты: {nat.latitude}, {nat.longitude}
@@ -185,6 +187,8 @@ export default function Mark_render(onDateChange) {
                     <Marker icon={GetIcon(10, 10, nat.temperature)}
                             key={index}
                             position={L.latLng(nat.longitude, nat.latitude)}
+                            updateWhenZooming={false}
+                            updateWhenIdle={true}
                     >
                         <Popup closeButton={false}>
                             Координаты: {nat.latitude}, {nat.longitude}
