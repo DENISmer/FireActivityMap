@@ -77,6 +77,9 @@ export function Card(props){
                     })
                     MIN = Date.parse(context.min_date);
                 }
+                else if(RESULT_DATE_AS_DATE - Date.parse(context.currentDate) >= 518400000){
+                    alert('нелья выбрать промежуток больше 7 дней')
+                }
 
 
             }

@@ -39,7 +39,8 @@ export function User_manual(){
                 </div>
 
                 <div className={Manual_Style.rightBox}>
-                    <a className='href-navigation' onClick={()=>navigate('/Test_Page')}>TEST</a>
+                    {/*onClick={()=>navigate('/Test_Page')}*/}
+                    <a className='href-navigation' >TEST</a>
                 </div>
             </div>
         </div>

@@ -161,8 +161,6 @@ export default function Mark_render(onDateChange) {
         {serverError && <div className={clusters.isRender}></div>}
             {isRender && <div className={clusters.isRender}><img src={loader}/></div>}
             <MarkerClusterGroup
-                // updateWhenZooming={false}
-                // updateWhenIdle={true}
                 key={Date.now()}
                 iconCreateFunction={createClusterCustomIcon1}
                 spiderfyDistanceMultiplier={3}
