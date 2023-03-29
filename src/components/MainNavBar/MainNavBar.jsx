@@ -7,6 +7,7 @@ import {CSSTransition} from "react-transition-group";
 import TextField from "@mui/material/TextField";
 import {Context} from "../Map/Context";
 import Button from "@mui/material/Button";
+import L from 'leaflet';
 
 
 
@@ -19,8 +20,9 @@ export function MainNavBar({map}){
 
     const DisplayPosition = () => {
         console.log(latitude,typeof longitude)
-        map.flyTo([Number(latitude),Number(longitude)], 13)
+        map.flyTo(L.latLng(Number(latitude),Number(longitude)), 13)
     }
+
     return(
         <>
             <button  className={NavBarStyles.show_hide_NavBar} onClick={() => setShowNavBar(!showNavBar)}>

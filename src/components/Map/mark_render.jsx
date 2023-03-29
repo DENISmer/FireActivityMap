@@ -31,6 +31,7 @@ export default function Mark_render(onDateChange) {
     }
 
     const [points,setPoints] = useState([])
+    //let points = [];
     const [isRender,setIsRender] = useState(false)
     const [serverError, setServerError] = useState(false)
 
@@ -48,7 +49,7 @@ export default function Mark_render(onDateChange) {
                     setIsRender(false)
                 }
                 console.log('request')
-                await setPoints(response.data.points)
+                await setPoints(response.data.points);
                 if(!unmounted){
                     setTimeout(()=>{
                         setIsRender(false)
@@ -156,11 +157,12 @@ export default function Mark_render(onDateChange) {
     }
     //console.log(points)
     return(<>
+
         {serverError && <div className={clusters.isRender}></div>}
             {isRender && <div className={clusters.isRender}><img src={loader}/></div>}
             <MarkerClusterGroup
-                updateWhenZooming={false}
-                updateWhenIdle={true}
+                // updateWhenZooming={false}
+                // updateWhenIdle={true}
                 key={Date.now()}
                 iconCreateFunction={createClusterCustomIcon1}
                 spiderfyDistanceMultiplier={3}
@@ -172,25 +174,26 @@ export default function Mark_render(onDateChange) {
                     (context.min_datetime <= Date.parse(nat.datetime) && Date.parse(nat.datetime) <= context.max_datetime) &&
                     <Marker icon={GetIcon(10, 10, nat.temperature)}
                             key={index}
-                            position={[Number(nat.longitude), Number(nat.latitude)]}
+                            position={new L.LatLng(nat.longitude,nat.latitude)}
                     >
-                        <Popup closeButton={false}>
+                        <Popup closeButton={false} key={index}>
                             Координаты: {nat.latitude}, {nat.longitude}
                             <br/>
                             Температура: {nat.temperature}
                             <br/>
                             Время: {nat.datetime}
+
                         </Popup>
                     </Marker>
                 ))}
                 {context.daysInRange && points.map((nat, index) => (
                     <Marker icon={GetIcon(10, 10, nat.temperature)}
                             key={index}
-                            position={L.latLng(nat.longitude, nat.latitude)}
+                            position={new L.LatLng(nat.longitude, nat.latitude)}
                             updateWhenZooming={false}
                             updateWhenIdle={true}
                     >
-                        <Popup closeButton={false}>
+                        <Popup closeButton={false} key={index}>
                             Координаты: {nat.latitude}, {nat.longitude}
                             <br/>
                             Температура: {nat.temperature}

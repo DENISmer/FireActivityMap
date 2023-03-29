@@ -68,7 +68,7 @@ const MemoizedChildComponentTimeline = React.memo(TimeLine);
 export function MapComponent(){
     const [context, setContext] = useState(Context);
     const {BaseLayer} = LayersControl;
-    const center = [65.505, 106.09]
+    const center = L.latLng(65.505, 106.09)
     const [map,setMap] = useState(null)
     const [bounds,setBounds] = useState([]);
     const [image_url,setImageUrl] = useState();
@@ -86,12 +86,11 @@ export function MapComponent(){
     //const bounds = [[40.712216, -74.22655], [40.773941, -74.12544]]
 
     return <>
-        <MapContainer zoomControl={false} minZoom={3.6} maxZoom={14} zoom={4}
+        <MapContainer zoomControl={false} maxZoom={18} zoom={4} minZoom={3.6}
                       center={center}
-                      whenReady={setMap}
+                      ref={setMap}
                       doubleClickZoom={false}
                       maxBounds={[[-110,-170],[100,200]]}
-                      preferCanvas={true}
         >
 
             <ZoomControl position={'bottomleft'}/>

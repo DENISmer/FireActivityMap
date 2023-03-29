@@ -48,7 +48,7 @@ export function MutableImageOverlay(){
                 console.log(imgTxt)
             }
             catch (e){
-                    console.log(e.message)
+                    //console.log(e.message)
                 continue
                 }
             }
