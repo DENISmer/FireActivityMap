@@ -103,7 +103,7 @@ export function MapComponent(){
 
             <Context.Provider value={[context, setContext]}>
                 <GeoJSON >
-                    <MemoizedChildComponentMark_render />
+                    {/*<MemoizedChildComponentMark_render />*/}
                 </GeoJSON>
                 <MainNavBar map={map}/>
                 <MemoizedChildComponentTimeline />
@@ -129,16 +129,21 @@ export function MapComponent(){
                             url={'https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png'}
                         />
                     </BaseLayer>
-                    <LayersControl.Overlay name="Fires from FIRMS(MODIS)" checked={false}>
+                    <LayersControl.Overlay name="Изображения со спутника" checked={false}>
                         <LayerGroup>
                             {/*<MutableImageOverlay context={context}/>*/}
                             {/*{bounds && <ImageOverlay url={image_url} bounds={bounds}/>}*/}
                             <MutableImageOverlay />
                         </LayerGroup>
                     </LayersControl.Overlay>
-                    <LayersControl.Overlay name="Show border outline" checked={false}>
+                    <LayersControl.Overlay name="Границы регионов" checked={false}>
                         <LayerGroup>
                             {CoordsData.map((port) => (<Polyline positions={port} color={'pink'}/>))}
+                        </LayerGroup>
+                    </LayersControl.Overlay>
+                    <LayersControl.Overlay name="Точки пожаров" checked={false}>
+                        <LayerGroup>
+                            <MemoizedChildComponentMark_render />
                         </LayerGroup>
                     </LayersControl.Overlay>
                     <BaseLayer name="ESRI" >
