@@ -2,7 +2,7 @@
     position: absolute;
     z-index: 450;
     width: auto;
-    top: 103px;
+    top: 53px;
     right: 5px;
     background-color: transparent;
     border-radius: 3px;
@@ -35,7 +35,7 @@
     border: none;
     box-shadow: 0 0 0 2px rgba(0,0,0,0.25);
     z-index: 400;
-    top: 63px;
+    top: 12px;
     right: 12px;
     border-radius: 3px;
 }

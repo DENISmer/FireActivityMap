@@ -8,10 +8,11 @@ import TextField from "@mui/material/TextField";
 import {Context} from "../Map/Context";
 import Button from "@mui/material/Button";
 import L from 'leaflet';
+import {Checkbox, List, ListItem} from "@mui/material";
 
 
 
-export function MainNavBar({map}){
+export function MainNavBar(props){
     const [showNavBar, setShowNavBar] = useState(false);
     const [showFlyToForm,setshowFlyToForm] = useState(false);
     const [latitude,setLatitude] = useState(1);
@@ -20,7 +21,7 @@ export function MainNavBar({map}){
 
     const DisplayPosition = () => {
         console.log(latitude,typeof longitude)
-        map.flyTo(L.latLng(Number(latitude),Number(longitude)), 13)
+        props.map.flyTo(L.latLng(Number(latitude),Number(longitude)), 13)
     }
 
     return(
@@ -36,7 +37,48 @@ export function MainNavBar({map}){
             }} unmountOnExit>
 
                 <div className={NavBarStyles.navBar}>
-
+                    <div className={NavBarStyles.navBarMainInstuments}>
+                        <List >
+                            { props.layers.map((name,index)=>(name.type === 'baseLayer' ?
+                                <ListItem key={index}>
+                                    {name.name}{
+                                    <Checkbox
+                                        edge="end"
+                                        onChange={()=>props.layersChange(name.url)}
+                                        //inputProps={{ 'aria-labelledby': labelId }}
+                                    />
+                                }
+                                </ListItem> : name.type === 'imageOverlay' ?
+                                    <ListItem key={index}>
+                                        {name.name}{
+                                        <Checkbox
+                                            edge="end"
+                                            onChange={()=>props.imageOverlayShow()}
+                                            //inputProps={{ 'aria-labelledby': labelId }}
+                                        />
+                                    }
+                                    </ListItem> : name.type === 'markersOverlay' ?
+                                            <ListItem key={index}>
+                                                {name.name}{
+                                                <Checkbox
+                                                    edge="end"
+                                                    onChange={()=>props.markersShow()}
+                                                    //inputProps={{ 'aria-labelledby': labelId }}
+                                                />
+                                            }
+                                            </ListItem> : <ListItem key={index}>
+                                            {name.name}{
+                                            <Checkbox
+                                                edge="end"
+                                                onChange={()=>props.bordersShow()}
+                                                //inputProps={{ 'aria-labelledby': labelId }}
+                                            />
+                                            }
+                                            </ListItem>
+                            ))
+                            }
+                        </List>
+                    </div>
                     <div className={NavBarStyles.navBarMainInstuments_Calendar} >
                         <button className={NavBarStyles.navBar_button} onClick={() => setshowFlyToForm(!showFlyToForm)}>Найти место</button>
                         <CSSTransition in={showFlyToForm} timeout={300} classNames={{
@@ -65,7 +107,7 @@ export function MainNavBar({map}){
                                     value={longitude}
                                     onChange={(e) => {setLongitude(e.target.value)}}
                                 />
-                                <button className={NavBarStyles.fly_to_button} onClick={()=>DisplayPosition(map)}>Найти!</button>
+                                <button className={NavBarStyles.fly_to_button} onClick={()=>DisplayPosition(props.map)}>Найти!</button>
                             </div>
                         </CSSTransition>
                     </div>
@@ -104,7 +146,11 @@ export function MainNavBar({map}){
                                 max_date: '',
                                 currentDate: ''
                             })} size={"small"} variant={"contained"} title={'Точки пожаров за неделю'}>Неделя</Button>
+
+
                     </div>
+
+
 
                     <div className="navBarMainInstuments">
                         <h2>доп информация</h2>

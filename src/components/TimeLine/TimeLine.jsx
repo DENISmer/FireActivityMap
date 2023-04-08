@@ -75,6 +75,7 @@ export function TimeLine(){
         }
         else return null
     }
+
     const updateTime = (min_time, max_time) => {
         if(context.singleDay){
             let min_datetime_as_date = Date.parse(context.currentDate + 'T' + min_time);

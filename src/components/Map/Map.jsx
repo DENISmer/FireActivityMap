@@ -7,7 +7,7 @@ import {
     ScaleControl,
     TileLayer,
     ZoomControl,
-    Polyline
+    Polyline, FeatureGroup, AttributionControl
 } from "react-leaflet";
 import 'leaflet/dist/leaflet.css'
 import './Map.css';
@@ -21,13 +21,10 @@ import {TimeLine} from "../TimeLine/TimeLine";
 import {Ruler} from './Ruler/Ruler.jsx'
 import { Context } from "./Context";
 import '../../data/map_images/chinfire/20220515/0705/FY3D_MERSI_GBAL_L1_20220515_0705_1000M_MS_7_20_21.png'
-import { ImageOverlay } from 'react-leaflet/ImageOverlay'
-import axios from "axios";
-import {LatLngBounds} from "leaflet/src/geo";
-import {isRouteErrorResponse} from "react-router-dom";
 import {useCookies} from "react-cookie";
 import {MutableImageOverlay} from "./MutableImageOverlay";
 import CoordsData from "./countreCoords.json";
+import {ImageOverlay} from "react-leaflet/ImageOverlay";
 
 const MyContext = createContext("Without provider");
 
@@ -38,52 +35,46 @@ function GetIcon(_iconSize){
     })
 }
 
-const MemoizedChildComponentMark_render = React.memo(Mark_render);
+//const MemoizedChildComponentMark_render = React.memo(Mark_render);
 const MemoizedChildComponentTimeline = React.memo(TimeLine);
-
-// function MutableImageOverlay(props) {
-//     const [bounds,setBounds] = useState()
-//     const [imageURL,setImageURL] = useState()
-//     const [txtURL,setTxtURL] = useState()
-//     try{
-//         let imageDate = props.context.currentDate.split('-').join('')
-//         let minImageTime = new Date(props.context.min_datetime).toString().split(' ')[4].split(':')[0] + new Date(props.context.min_datetime).toString().split(' ')[4].split(':')[1]
-//
-//         setTxtURL(require(`../../data/map_images/chinfire/${imageDate}/${minImageTime}/FY3D_MERSI_GBAL_L1_${imageDate}_${minImageTime}_1000M_MS.txt`))
-//         setImageURL(require(`../../data/map_images/chinfire/${imageDate}/${minImageTime}/FY3D_MERSI_GBAL_L1_${imageDate}_${minImageTime}_1000M_MS_7_20_21.png`))
-//
-//         axios.get(txtURL).then(response => {
-//             setBounds([[Number(response.data.split('\n')[0]),Number(response.data.split('\n')[1])],[Number(response.data.split('\n')[2]),Number(response.data.split('\n')[3])]])
-//         })
-//         return(<>
-//             {bounds && imageDate? <ImageOverlay url={imageURL} bounds={bounds} /> : null}
-//         </>)
-//     }
-//     catch (err){console.log(err)}
-//
-//     return null
-//
-//
-// }
+const MemoizedMutableImageOverlay = React.memo(MutableImageOverlay)
+const MemoizedChildComponentMark_render = React.memo(Mark_render)
 export function MapComponent(){
     const [context, setContext] = useState(Context);
     const {BaseLayer} = LayersControl;
     const center = L.latLng(65.505, 106.09)
     const [map,setMap] = useState(null)
-    const [bounds,setBounds] = useState([]);
-    const [image_url,setImageUrl] = useState();
-    const [image_date,setImageDate] = useState();
-    const [file,setFile] = useState();
-    const [min_time,setMinTime] = useState();
-    let b = [[10.435,5.3456],[13.4356,23.654]]
+
+    const layersDict = [
+        {name: 'Улицы', type: 'baseLayer', url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png'},
+        {name: 'Спутник', type: 'baseLayer', url: 'https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v9/tiles/{z}/{x}/{y}?access_token=sk.eyJ1IjoicnViaW5uYXciLCJhIjoiY2xiMTFmcnZmMXBnbDNwbXA4bHFkcDdyciJ9.CxX9zdanJzvnGxgEDz7bJw'},
+        {name: 'Тёмная', type: 'baseLayer', url: 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png'},
+        {name: 'ESRI', type: 'baseLayer', url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'},
+        {name: 'Изображения', type: 'imageOverlay', url: MemoizedMutableImageOverlay},
+        {name: 'Точки пожаров', type: 'markersOverlay', url: MemoizedChildComponentMark_render},
+        {name: 'Границы регионов', type: 'regionBorders', url: MutableImageOverlay}
+    ]
+    const [baseLayer,setBaseLayer] = useState(layersDict[0].url);
+    const [showImageOverlay, setShowImageOverlay] = useState(false);
+    const [showMarkers,setShowMarkers] = useState(false);
+    const [showBorders,setShowBorders] = useState(false)
+
+    const borders = () => {
+        setShowBorders(!showBorders)
+    }
+
+    const markers = () => {
+        setShowMarkers(!showMarkers)
+    }
+    const imageOverlay = () => {
+        setShowImageOverlay(!showImageOverlay)
+    }
+
+    const changeLayer = (layer) =>{
+        setBaseLayer(layer)
+    }
 
     const [cookies,setCookie] = useCookies(['currentDay']);
-
-    // if(cookies.currentDay !== undefined){
-    //     setContext(cookies.currentDay)
-    // }
-
-    //const bounds = [[40.712216, -74.22655], [40.773941, -74.12544]]
 
     return <>
         <MapContainer zoomControl={false} maxZoom={18} zoom={4} minZoom={3.6}
@@ -102,59 +93,27 @@ export function MapComponent(){
             <MouseCoordinates />
 
             <Context.Provider value={[context, setContext]}>
-                <GeoJSON >
-                    {/*<MemoizedChildComponentMark_render />*/}
-                </GeoJSON>
-                <MainNavBar map={map}/>
+                <MainNavBar map={map}
+                            layers={layersDict}
+                            layersChange={changeLayer}
+                            imageOverlayShow={imageOverlay}
+                            markersShow={markers}
+                            bordersShow={borders}
+                />
                 <MemoizedChildComponentTimeline />
-                {/*<CurrentDayDisplay />*/}
+                <TileLayer url={baseLayer}/>
+                {showImageOverlay && <MemoizedMutableImageOverlay />}
+                {showBorders && CoordsData.map((port) => (<Polyline positions={port} color={'pink'}/>))}
+                {showMarkers && <MemoizedChildComponentMark_render />}
 
+                {/*<LayersControl.>*/}
+                {/*    <LayersControl.Overlay name="Точки пожаров" checked={false}>*/}
+                {/*            <LayerGroup >*/}
+                {/*                <MemoizedChildComponentMark_render />*/}
+                {/*            </LayerGroup>*/}
+                {/*    </LayersControl.Overlay>*/}
 
-                <LayersControl>
-                    <BaseLayer name="Спутник">
-                        <TileLayer
-                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                            url={'https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v9/tiles/{z}/{x}/{y}?access_token=sk.eyJ1IjoicnViaW5uYXciLCJhIjoiY2xiMTFmcnZmMXBnbDNwbXA4bHFkcDdyciJ9.CxX9zdanJzvnGxgEDz7bJw'}
-                        />
-                    </BaseLayer>
-                    <BaseLayer name="Улицы" checked={true} >
-                        <TileLayer
-                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                            url={'https://tile.openstreetmap.org/{z}/{x}/{y}.png'}
-                        />
-                    </BaseLayer>
-                    <BaseLayer name="Тёмная">
-                        <TileLayer
-                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                            url={'https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png'}
-                        />
-                    </BaseLayer>
-                    <LayersControl.Overlay name="Изображения со спутника" checked={false}>
-                        <LayerGroup>
-                            {/*<MutableImageOverlay context={context}/>*/}
-                            {/*{bounds && <ImageOverlay url={image_url} bounds={bounds}/>}*/}
-                            <MutableImageOverlay />
-                        </LayerGroup>
-                    </LayersControl.Overlay>
-                    <LayersControl.Overlay name="Границы регионов" checked={false}>
-                        <LayerGroup>
-                            {CoordsData.map((port) => (<Polyline positions={port} color={'pink'}/>))}
-                        </LayerGroup>
-                    </LayersControl.Overlay>
-                    <LayersControl.Overlay name="Точки пожаров" checked={false}>
-                        <LayerGroup>
-                            <MemoizedChildComponentMark_render />
-                        </LayerGroup>
-                    </LayersControl.Overlay>
-                    <BaseLayer name="ESRI" >
-                        <LayerGroup>
-                            <TileLayer
-                                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                                url={'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'}
-                            />
-                        </LayerGroup>
-                    </BaseLayer>
-                </LayersControl>
+                {/*</LayersControl>*/}
             </Context.Provider>
         </MapContainer>
 

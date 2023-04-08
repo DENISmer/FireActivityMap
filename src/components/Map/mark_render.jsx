@@ -1,4 +1,4 @@
-import { Marker, Popup,} from 'react-leaflet';
+import {LayerGroup, Marker, Popup,} from 'react-leaflet';
 import React, {useCallback, useContext, useEffect, useState} from 'react';
 import nationalParks from '../Info/national-parks.json';
 import MarkerClusterGroup from 'react-leaflet-cluster';
@@ -53,7 +53,7 @@ export default function Mark_render(onDateChange) {
                 if(!unmounted){
                     setTimeout(()=>{
                         setIsRender(false)
-                    },5000)
+                    },10)
                 }
             })
             .catch(error=>{
@@ -157,7 +157,7 @@ export default function Mark_render(onDateChange) {
     }
     //console.log(points)
     return(<>
-
+            <LayerGroup >
         {serverError && <div className={clusters.isRender}></div>}
             {isRender && <div className={clusters.isRender}><img src={loader}/></div>}
             <MarkerClusterGroup
@@ -201,6 +201,7 @@ export default function Mark_render(onDateChange) {
                     </Marker>
                 ))}
             </MarkerClusterGroup>
+            </LayerGroup>
         </>
     );
 }
