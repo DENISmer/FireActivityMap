@@ -96,6 +96,10 @@ export function MapComponent(){
                 <MainNavBar map={map}
                             layers={layersDict}
                             layersChange={changeLayer}
+                            layersValue={baseLayer}
+                            bordersValue={showBorders}
+                            markersValue={showMarkers}
+                            imageValue={showImageOverlay}
                             imageOverlayShow={imageOverlay}
                             markersShow={markers}
                             bordersShow={borders}

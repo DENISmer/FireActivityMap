@@ -8,7 +8,7 @@ import TextField from "@mui/material/TextField";
 import {Context} from "../Map/Context";
 import Button from "@mui/material/Button";
 import L from 'leaflet';
-import {Checkbox, List, ListItem} from "@mui/material";
+import {Checkbox, List, ListItem, Switch} from "@mui/material";
 
 
 
@@ -45,13 +45,13 @@ export function MainNavBar(props){
                                     <Checkbox
                                         edge="end"
                                         onChange={()=>props.layersChange(name.url)}
-                                        //inputProps={{ 'aria-labelledby': labelId }}
                                     />
                                 }
                                 </ListItem> : name.type === 'imageOverlay' ?
                                     <ListItem key={index}>
                                         {name.name}{
-                                        <Checkbox
+                                        <Switch
+                                            checked={props.imageValue}
                                             edge="end"
                                             onChange={()=>props.imageOverlayShow()}
                                             //inputProps={{ 'aria-labelledby': labelId }}
@@ -60,7 +60,8 @@ export function MainNavBar(props){
                                     </ListItem> : name.type === 'markersOverlay' ?
                                             <ListItem key={index}>
                                                 {name.name}{
-                                                <Checkbox
+                                                <Switch
+                                                    checked={props.markersValue}
                                                     edge="end"
                                                     onChange={()=>props.markersShow()}
                                                     //inputProps={{ 'aria-labelledby': labelId }}
@@ -68,7 +69,8 @@ export function MainNavBar(props){
                                             }
                                             </ListItem> : <ListItem key={index}>
                                             {name.name}{
-                                            <Checkbox
+                                            <Switch
+                                                checked={props.bordersValue}
                                                 edge="end"
                                                 onChange={()=>props.bordersShow()}
                                                 //inputProps={{ 'aria-labelledby': labelId }}
@@ -146,14 +148,6 @@ export function MainNavBar(props){
                                 max_date: '',
                                 currentDate: ''
                             })} size={"small"} variant={"contained"} title={'Точки пожаров за неделю'}>Неделя</Button>
-
-
-                    </div>
-
-
-
-                    <div className="navBarMainInstuments">
-                        <h2>доп информация</h2>
                     </div>
                 </div>
             </CSSTransition>
