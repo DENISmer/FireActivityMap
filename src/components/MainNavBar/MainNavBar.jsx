@@ -19,6 +19,8 @@ export function MainNavBar(props){
     const [longitude,setLongitude] = useState(1);
     const [context, setContext] = useContext(Context);
 
+
+
     const DisplayPosition = () => {
         console.log(latitude,typeof longitude)
         props.map.flyTo(L.latLng(Number(latitude),Number(longitude)), 13)
