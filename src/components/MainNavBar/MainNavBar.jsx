@@ -9,6 +9,7 @@ import {Context} from "../Map/Context";
 import Button from "@mui/material/Button";
 import L from 'leaflet';
 import {Checkbox, List, ListItem, Switch} from "@mui/material";
+import {layers} from "leaflet/src/control/Control.Layers";
 
 
 
@@ -41,17 +42,18 @@ export function MainNavBar(props){
                 <div className={NavBarStyles.navBar}>
                     <div className={NavBarStyles.navBarMainInstuments}>
                         <List >
-                            { props.layers.map((name,index)=>(name.type === 'baseLayer' ?
+                            { props.layers.map((listItem,index)=>(listItem.type === 'baseLayer' ?
                                 <ListItem key={index}>
-                                    {name.name}{
+                                    {listItem.name}{
                                     <Checkbox
+                                        checked={listItem.name === props.layers.find(name => name.url === props.layersValue).name}
                                         edge="end"
-                                        onChange={()=>props.layersChange(name.url)}
+                                        onChange={()=>props.layersChange(listItem.url)}
                                     />
                                 }
-                                </ListItem> : name.type === 'imageOverlay' ?
+                                </ListItem> : listItem.type === 'imageOverlay' ?
                                     <ListItem key={index}>
-                                        {name.name}{
+                                        {listItem.name}{
                                         <Switch
                                             checked={props.imageValue}
                                             edge="end"
@@ -59,9 +61,9 @@ export function MainNavBar(props){
                                             //inputProps={{ 'aria-labelledby': labelId }}
                                         />
                                     }
-                                    </ListItem> : name.type === 'markersOverlay' ?
+                                    </ListItem> : listItem.type === 'markersOverlay' ?
                                             <ListItem key={index}>
-                                                {name.name}{
+                                                {listItem.name}{
                                                 <Switch
                                                     checked={props.markersValue}
                                                     edge="end"
@@ -70,7 +72,7 @@ export function MainNavBar(props){
                                                 />
                                             }
                                             </ListItem> : <ListItem key={index}>
-                                            {name.name}{
+                                            {listItem.name}{
                                             <Switch
                                                 checked={props.bordersValue}
                                                 edge="end"
