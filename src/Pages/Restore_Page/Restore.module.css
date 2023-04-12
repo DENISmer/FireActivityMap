@@ -1,0 +1,140 @@
+/*@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');*/
+/**{*/
+/*    margin: 0;*/
+/*    padding: 0;*/
+/*    font-family: 'poppins',sans-serif;*/
+/*}*/
+.section{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.section>.video{
+    min-width: 100%;
+    min-height: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+.form_box{
+    position: relative;
+    min-width: 400px;
+    min-height: 300px;
+    background: transparent;
+    border: 2px solid rgba(255,255,255,0.5);
+    border-radius: 20px;
+    backdrop-filter: blur(15px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.file_input{
+    position: relative;
+    margin: 30px 0;
+    width: 310px;
+}
+.h2{
+    font-size: 2em;
+    color: #fff;
+    text-align: center;
+}
+.input_box{
+    position: relative;
+    margin: 30px 0;
+    width: 310px;
+    border-bottom: 2px solid #fff;
+}
+
+.restore_input{
+    width: 100%;
+    height: 50px;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 1em;
+    padding:0 35px 0 5px;
+    color: #fff;
+}
+.restore_label{
+    position: absolute;
+    font-size: 20px;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    color: #fff;
+    pointer-events: none;
+    transition: .5s;
+}
+
+.restore_input:focus ~ .restore_label, .restore_input:valid ~ .restore_label{
+    top: -5px;
+}
+
+.error{
+    color: red;
+    font-size: 20px;
+}
+
+.button{
+    width: 100%;
+    height: 40px;
+    border-radius: 40px;
+    background: #fff;
+    outline: none;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    transition: 0.5s;
+}
+.button:hover{
+    background: black;
+    color: white;
+    transition: 0.5s;
+}
+.button:active{
+    color: red;
+    background-color: white;
+}
+.restore_footer{
+    width: 100%;
+    height: 40px;
+    left: 45%;
+    color: white;
+}
+.seconds{
+    position: absolute;
+    left: 47%;
+    color: white;
+}
+.login{
+    font-size: 1.2em;
+    color: #fff;
+    text-align: center;
+    margin: 25px 0 10px;
+}
+.login p a{
+    text-decoration: none;
+    color: #fff;
+    font-weight: 600;
+}
+.login p a:hover{
+    text-decoration: underline;
+}
+.register{
+    font-size: 1.2em;
+    color: #fff;
+    text-align: center;
+    margin: 25px 0 10px;
+}
+.register p a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: 600;
+}
+.register p a:hover{
+    text-decoration: underline;
+}

@@ -1,0 +1,156 @@
+/*@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');*/
+/**{*/
+/*    margin: 0;*/
+/*    padding: 0;*/
+/*    font-family: 'poppins',sans-serif;*/
+/*}*/
+.section{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.video{
+    min-width: 100%;
+    min-height: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+.form_box {
+    margin-top: 3%;
+    position: relative;
+    width: 400px;
+    min-height: 400px;
+    max-height: 850px;
+    background: transparent;
+    border: 2px solid rgba(255,255,255,0.5);
+    border-radius: 20px;
+    backdrop-filter: blur(15px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto;
+}
+
+.file_input_box{
+    position: relative;
+    margin: 30px 0;
+    width: 310px;
+}
+.file_input{
+    font-size: 16px;
+    color: white;
+    margin-top: 10px;
+}
+.file_label{
+    font-size: 18px;
+    color: white;
+}
+.h2{
+    font-size: 2em;
+    color: #fff;
+    text-align: center;
+}
+.input_box{
+    position: relative;
+    margin: 30px 0;
+    width: 310px;
+    border-bottom: 2px solid #fff;
+}
+
+/*
+.input_box label{
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    color: #fff;
+    font-size: 1em;
+    pointer-events: none;
+    transition: .5s;
+}
+*/
+
+.registration_input{
+    width: 100%;
+    height: 50px;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 1em;
+    padding:0 35px 0 5px;
+    color: #fff;
+}
+.registration_label{
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    color: #fff;
+    font-size: 18px;
+    pointer-events: none;
+    transition: .5s;
+}
+
+.registration_input:focus ~ .registration_label, .registration_input:valid ~ .registration_label{
+    top: -5px;
+}
+
+.registration_input:focus ~ .registration_label, .registration_input:valid ~ .registration_label{
+    top: -5px;
+}
+
+.error{
+    color: red;
+}
+
+.button{
+    width: 100%;
+    height: 40px;
+    border-radius: 40px;
+    background: #fff;
+    outline: none;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    transition: 0.5s;
+}
+.button:hover{
+    background: black;
+    color: white;
+    transition: 0.5s;
+}
+.button:active{
+    color: red;
+    background-color: white;
+}
+.login{
+    font-size: 1.2em;
+    color: #fff;
+    text-align: center;
+    margin: 25px 0 10px;
+}
+.login p a{
+    text-decoration: none;
+    color: #fff;
+    font-weight: 600;
+}
+.login p a:hover{
+    text-decoration: underline;
+}
+
+.restore{
+    font-size: 1.2em;
+    color: #fff;
+    text-align: center;
+    margin: 25px 0 10px;
+}
+.restore p a{
+    text-decoration: none;
+    color: #fff;
+    font-weight: 600;
+}
+.restore p a:hover{
+    text-decoration: underline;
+}
