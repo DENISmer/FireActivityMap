@@ -1,9 +1,4 @@
 import react, {useState} from 'react'
-import ClocksForDateStyle from './ClocksForDate.module.css'
-import {LocalizationProvider, StaticTimePicker} from "@mui/x-date-pickers";
-import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
-import dayjs from "dayjs";
-import {DatePicker} from "@mui/x-date-pickers/DatePicker";
 import TimeField from "react-simple-timefield";
 import Timeline from  "../TimeLine.module.css";
 
@@ -27,7 +22,7 @@ export function ClocksForDate(props){
                            onChange={(event, value) =>{setMax_Time(value)}}
                 />
             </div>
-            <div className={Timeline.button_time}>
+            <div>
                 <button className={Timeline.save_time} onClick={() => props.updateTime(min_time,max_time)}>Сохранить</button>
                 <button className={Timeline.reset_time} onClick={(event) => {props.resetTime(); setMax_Time('23:59:59'); setMin_Time('00:00:00')}}>Сбросить</button>
             </div>

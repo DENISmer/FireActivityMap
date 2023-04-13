@@ -99,9 +99,6 @@ export function TimeLine(){
 
     return(
             <>
-                <button  className={showTimeLine ? Timeline.show_time_panel : Timeline.hide_time_panel} onClick={()=>show_time_panel()}>
-                    {showTimePanel ?  <img src={NavBarCloseIcon} width={32} height={35}/>: <img src={TimeIcon} width={32} height={35}/>}
-                </button>
 
 
                 <button  className={Timeline.TimeLine_button} onClick={()=>handle()}>

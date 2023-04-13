@@ -50,10 +50,11 @@ export function MapComponent(){
         {name: 'Спутник', type: 'baseLayer', url: 'https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v9/tiles/{z}/{x}/{y}?access_token=sk.eyJ1IjoicnViaW5uYXciLCJhIjoiY2xiMTFmcnZmMXBnbDNwbXA4bHFkcDdyciJ9.CxX9zdanJzvnGxgEDz7bJw'},
         {name: 'Тёмная', type: 'baseLayer', url: 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png'},
         {name: 'ESRI', type: 'baseLayer', url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'},
-        {name: 'Изображения', type: 'imageOverlay', url: MemoizedMutableImageOverlay},
-        {name: 'Точки пожаров', type: 'markersOverlay', url: MemoizedChildComponentMark_render},
+        {name: 'Спктниковые снимки', type: 'imageOverlay', url: MemoizedMutableImageOverlay},
+        {name: 'Точки возгорания', type: 'markersOverlay', url: MemoizedChildComponentMark_render},
         {name: 'Границы регионов', type: 'regionBorders', url: MutableImageOverlay}
     ]
+
     const [baseLayer,setBaseLayer] = useState(layersDict[0].url);
     const [showImageOverlay, setShowImageOverlay] = useState(false);
     const [showMarkers,setShowMarkers] = useState(false);
@@ -106,6 +107,7 @@ export function MapComponent(){
                 />
                 <MemoizedChildComponentTimeline />
                 <TileLayer url={baseLayer}/>
+
                 {showImageOverlay && <MemoizedMutableImageOverlay />}
                 {showBorders && CoordsData.map((port) => (<Polyline positions={port} color={'pink'}/>))}
                 {showMarkers && <MemoizedChildComponentMark_render />}

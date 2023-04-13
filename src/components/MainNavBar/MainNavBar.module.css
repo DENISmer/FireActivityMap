@@ -1,17 +1,31 @@
 .navBar{
     position: absolute;
     z-index: 450;
-    width: auto;
+    width: 300px;
     top: 53px;
     right: 5px;
     background-color: transparent;
     border-radius: 3px;
+    font-size: 1.3em;
 }
-
-.navBarMainInstuments{
+.list{
+    margin: 3px;
+}
+.hr{
+    margin: 20px 0;
+    padding: 0;
+    height: 0;
+    border: none;
+    border-top: 1px solid #333;
+}
+.style_map{
+    width: 120px;
+    margin: 0 auto;
+    float: left;
+}
+.navBarMainInstruments{
     display: grid;
     position: relative;
-    right: 0;
     margin: 7px;
     border-radius: 3px;
     box-shadow: 0 0 0 2px rgba(0,0,0,0.25);
@@ -39,9 +53,11 @@
     right: 12px;
     border-radius: 3px;
 }
-
-.navBarMainInstuments_Calendar{
-    display: grid;
+.heading_sort{
+    padding: 5px;
+}
+.navBarMainInstruments_Calendar{
+    display: flex;
     margin: 8px;
     max-height: 200px;
     max-width: 200px;
@@ -99,4 +115,41 @@
 
 .button_sort{
     margin: 3px 0;
+}
+
+.date_time_div{
+    display: grid;
+    position: relative;
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.25);
+    padding: 5px;
+    background-color: white;
+    border-radius: 3px;
+}
+.date_time_max_div{
+    margin: 5px auto;
+}
+.save_time{
+    width: 45%;
+    font-size: 16px;
+    border: none;
+    border-radius: 3px;
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.05);
+    color: #fdfdfe;
+    background-color: #007fff;
+}
+.save_time:hover{
+    background-color: #006efd;
+}
+.reset_time{
+    margin-left: 15px;
+    width: 45%;
+    font-size: 16px;
+    border: none;
+    border-radius: 3px;
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.05);
+    color: #fdfdfe;
+    background-color: #007fff;
+}
+.reset_time:hover{
+    background-color: #006efd;
 }
