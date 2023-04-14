@@ -7,7 +7,7 @@ import {
     ScaleControl,
     TileLayer,
     ZoomControl,
-    Polyline, FeatureGroup, AttributionControl
+    Polyline, FeatureGroup, AttributionControl, Polygon
 } from "react-leaflet";
 import 'leaflet/dist/leaflet.css'
 import './Map.css';
@@ -24,6 +24,7 @@ import '../../data/map_images/chinfire/20220515/0705/FY3D_MERSI_GBAL_L1_20220515
 import {useCookies} from "react-cookie";
 import {MutableImageOverlay} from "./MutableImageOverlay";
 import CoordsData from "./countreCoords.json";
+import Nature_reserves_coords from "./Nature_reserves_data.json";
 import {ImageOverlay} from "react-leaflet/ImageOverlay";
 
 const MyContext = createContext("Without provider");
@@ -52,16 +53,22 @@ export function MapComponent(){
         {name: 'ESRI', type: 'baseLayer', url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'},
         {name: 'Спктниковые снимки', type: 'imageOverlay', url: MemoizedMutableImageOverlay},
         {name: 'Точки возгорания', type: 'markersOverlay', url: MemoizedChildComponentMark_render},
-        {name: 'Границы регионов', type: 'regionBorders', url: MutableImageOverlay}
+        {name: 'Границы регионов', type: 'regionBorders', url: MutableImageOverlay},
+        {name: 'Заповедники', type: 'natureReserves', url: null}
     ]
 
     const [baseLayer,setBaseLayer] = useState(layersDict[0].url);
     const [showImageOverlay, setShowImageOverlay] = useState(false);
     const [showMarkers,setShowMarkers] = useState(false);
-    const [showBorders,setShowBorders] = useState(false)
+    const [showBorders,setShowBorders] = useState(false);
+    const [showNatureReserves, setShowNatureReserves] = useState(false);
 
     const borders = () => {
         setShowBorders(!showBorders)
+    }
+
+    const natureReserves = () => {
+        setShowNatureReserves(!showNatureReserves);
     }
 
     const markers = () => {
@@ -99,9 +106,11 @@ export function MapComponent(){
                             layersChange={changeLayer}
                             layersValue={baseLayer}
                             bordersValue={showBorders}
+                            natureReservesValue = {showNatureReserves}
                             markersValue={showMarkers}
                             imageValue={showImageOverlay}
                             imageOverlayShow={imageOverlay}
+                            NatureReservesShow={natureReserves}
                             markersShow={markers}
                             bordersShow={borders}
                 />
@@ -110,6 +119,7 @@ export function MapComponent(){
 
                 {showImageOverlay && <MemoizedMutableImageOverlay />}
                 {showBorders && CoordsData.map((port) => (<Polyline positions={port} color={'pink'}/>))}
+                {showNatureReserves && Nature_reserves_coords.map((port) => (<Polyline positions={port} color={'red'}/>))}
                 {showMarkers && <MemoizedChildComponentMark_render />}
 
                 {/*<LayersControl.>*/}

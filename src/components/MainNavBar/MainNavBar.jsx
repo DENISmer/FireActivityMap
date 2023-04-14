@@ -28,11 +28,6 @@ export function MainNavBar(props){
 
 
 
-
-    const date = () => {
-        console.log(dateRange);
-    }
-
     const DisplayPosition = () => {
         console.log(latitude,typeof longitude)
         props.map.flyTo(L.latLng(Number(latitude),Number(longitude)), 13)
@@ -88,6 +83,17 @@ export function MainNavBar(props){
                                                     checked={props.markersValue}
                                                     edge="end"
                                                     onChange={()=>props.markersShow()}
+                                                    //inputProps={{ 'aria-labelledby': labelId }}
+                                                />
+                                            }
+                                            </ListItem>
+                                            : listItem.type === 'natureReserves' ?
+                                                <ListItem key={index}>
+                                                {listItem.name}{
+                                                <Switch
+                                                    checked={props.natureReservesValue}
+                                                    edge="end"
+                                                    onChange={()=>props.NatureReservesShow()}
                                                     //inputProps={{ 'aria-labelledby': labelId }}
                                                 />
                                             }
@@ -178,10 +184,10 @@ export function MainNavBar(props){
                     </div>
 
 
-                    <div className={Range_days.date_time_div}>
+                    <div className={Range_days.navBarMainInstruments}>
                         <b>Сбор данных за несколько дней (не более 7 дней):</b>
                         <div className={Range_days.date_time_max_div}>
-                            <p4 className={Range_days.date_time_label}>Укажите начальный и конечный день: </p4>
+                            <p className={Range_days.date_time_label}>Укажите начальный и конечный день: </p>
                             <DatePicker
                                 range
                                 value={dateRange}
@@ -198,7 +204,7 @@ export function MainNavBar(props){
                             />
                         </div>
                         <div className={Range_days.button_time}>
-                            <button className={Range_days.save_time} onClick={date}>Сохранить</button>
+                            <button className={Range_days.save_time} >Сохранить</button>
                             <button className={Range_days.reset_time}  >Сбросить</button>
                         </div>
                     </div>

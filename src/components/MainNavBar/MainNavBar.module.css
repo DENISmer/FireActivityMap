@@ -117,14 +117,6 @@
     margin: 3px 0;
 }
 
-.date_time_div{
-    display: grid;
-    position: relative;
-    box-shadow: 0 0 0 2px rgba(0,0,0,0.25);
-    padding: 5px;
-    background-color: white;
-    border-radius: 3px;
-}
 .date_time_max_div{
     margin: 5px auto;
 }
