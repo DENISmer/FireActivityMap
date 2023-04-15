@@ -10,7 +10,6 @@ import axios from 'axios';
 import loader from '../../icons/loading-loading-forever.gif'
 import gsap from 'gsap';
 import {useCookies} from "react-cookie";
-import {map} from "react-bootstrap/ElementChildren";
 
 function GetIcon(_iconSize){
     return L.icon({
@@ -18,10 +17,11 @@ function GetIcon(_iconSize){
         iconSize: [_iconSize]
     })
 }
-export default function Mark_render(onDateChange) {
-    const [cookies,setCookie] = useCookies(['currentDay']);
+export function Mark_render(onDateChange) {
+    const [contextCookies,setContextCookie,removeContextCookie] = useCookies(['context']);
     const [context, setContext] = useContext(Context);
     const [localCurrentDay,setLocalCurrentDay] = useState()
+
     const URL_S = {
         URL_SINGLE_DAY : `http://192.168.56.1:8080/api/fires/points/?date=${context.currentDate}`,
         URL_TODAY : 'http://192.168.56.1:8080/api/fires/points/today/',
@@ -31,7 +31,6 @@ export default function Mark_render(onDateChange) {
     }
 
     const [points,setPoints] = useState([])
-    //let points = [];
     const [isRender,setIsRender] = useState(false)
     const [serverError, setServerError] = useState(false)
 
@@ -48,12 +47,13 @@ export default function Mark_render(onDateChange) {
                 if(response.data.points.length === 0){
                     setIsRender(false)
                 }
-                console.log('request')
-                await setPoints(response.data.points);
+                console.log('request');
+                await setPoints(response.data.points)
+                await localStorage.setItem('points',JSON.stringify(response.data.points))
                 if(!unmounted){
                     setTimeout(()=>{
                         setIsRender(false)
-                    },10)
+                    },100)
                 }
             })
             .catch(error=>{
@@ -66,19 +66,27 @@ export default function Mark_render(onDateChange) {
                 }
                 console.log(error.status)
             })
-        //console.log(new Date(context.min_datetime).toString().split(' ')[4].split(':')[0] + new Date(context.min_datetime).toString().split(' ')[4].split(':')[1])
-        setCookie('currentDay',context,5 * 3600)
+        //removeContextCookie(['context'])
+        setContextCookie('context',context,5 * 10);
+        console.log(contextCookies.context)
         return () => {unmounted = true}
-        }
+    }
 
+    const localStore = async (points) =>{
+        console.log('localStore works')
+        await setPoints(JSON.parse(localStorage.getItem('points')))
+    }
     useEffect(  ()=>{
-        //console.log('cookie: ',cookies.currentDay)
-
-        // if(context.currentDate === undefined){
-        //     setContext(cookies.currentDay)
-        // }
-        // else {
-            //console.log(localCurrentDay, context.currentDate)
+        if(context.currentDate === undefined || context.daysInRange === undefined){
+            if(contextCookies.context !== undefined){
+                setContext(contextCookies.context)
+                setPoints(JSON.parse(localStorage.getItem('points')))
+                console.log('context is empty')
+                console.log(context)
+            }
+        }
+        else {
+            console.log(localCurrentDay, context.currentDate)
             setIsRender(true)
             if (context.today) {
                 RequestForData(context, URL_S.URL_TODAY)
@@ -93,7 +101,6 @@ export default function Mark_render(onDateChange) {
             } else if (context.daysInRange) {
                 RequestForData(context, URL_S.URL_DAYS_RANGE)
                 console.log('daysInRange')
-                console.log(Date(518400000))
             } else if (context.week) {
                 RequestForData(context, URL_S.URL_WEEK)
                 console.log('week')
@@ -103,8 +110,10 @@ export default function Mark_render(onDateChange) {
             } else {
                 setIsRender(false)
             }
-        // }
-        //console.log('context: ',context)
+
+        }
+        localStore(points)
+        console.log(context)
     },[context]);
 
 
@@ -155,10 +164,8 @@ export default function Mark_render(onDateChange) {
             iconSize: L.point(35, 35, true),
         })
     }
-    //console.log(points)
     return(<>
-            <LayerGroup >
-        {serverError && <div className={clusters.isRender}></div>}
+            {serverError && <div className={clusters.isRender}></div>}
             {isRender && <div className={clusters.isRender}><img src={loader}/></div>}
             <MarkerClusterGroup
                 key={Date.now()}
@@ -201,7 +208,6 @@ export default function Mark_render(onDateChange) {
                     </Marker>
                 ))}
             </MarkerClusterGroup>
-            </LayerGroup>
         </>
     );
 }
