@@ -26,6 +26,7 @@ import {MutableImageOverlay} from "./MutableImageOverlay";
 import CoordsData from "./countreCoords.json";
 import Nature_reserves_coords from "./Nature_reserves_data.json";
 import {ImageOverlay} from "react-leaflet/ImageOverlay";
+import {MarkersLayer} from "./MarkersLayer/markersLayer";
 
 const MyContext = createContext("Without provider");
 
@@ -38,8 +39,7 @@ function GetIcon(_iconSize){
 
 //const MemoizedChildComponentMark_render = React.memo(Mark_render);
 const MemoizedChildComponentTimeline = React.memo(TimeLine);
-const MemoizedMutableImageOverlay = React.memo(MutableImageOverlay)
-const MemoizedChildComponentMark_render = React.memo(Mark_render)
+
 export function MapComponent(){
     const [context, setContext] = useState(Context);
     const {BaseLayer} = LayersControl;
@@ -51,8 +51,8 @@ export function MapComponent(){
         {name: 'Спутник', type: 'baseLayer', url: 'https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v9/tiles/{z}/{x}/{y}?access_token=sk.eyJ1IjoicnViaW5uYXciLCJhIjoiY2xiMTFmcnZmMXBnbDNwbXA4bHFkcDdyciJ9.CxX9zdanJzvnGxgEDz7bJw'},
         {name: 'Тёмная', type: 'baseLayer', url: 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png'},
         {name: 'ESRI', type: 'baseLayer', url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'},
-        {name: 'Спутниковые снимки', type: 'imageOverlay', url: MemoizedMutableImageOverlay},
-        {name: 'Точки возгорания', type: 'markersOverlay', url: MemoizedChildComponentMark_render},
+        {name: 'Спктниковые снимки', type: 'imageOverlay', url: null},
+        {name: 'Точки возгорания', type: 'markersOverlay', url: null},
         {name: 'Границы регионов', type: 'regionBorders', url: MutableImageOverlay},
         {name: 'Заповедники', type: 'natureReserves', url: null}
     ]
@@ -62,6 +62,9 @@ export function MapComponent(){
     const [showMarkers,setShowMarkers] = useState(false);
     const [showBorders,setShowBorders] = useState(false);
     const [showNatureReserves, setShowNatureReserves] = useState(false);
+
+    const MemoizedMutableImageOverlay = useMemo(()=> MutableImageOverlay,[context])
+    const MemoizedChildComponentMark_render = useMemo(() => MarkersLayer, [context])
 
     const borders = () => {
         setShowBorders(!showBorders)
