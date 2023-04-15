@@ -51,31 +51,31 @@ export function MainNavBar(props){
                         <List className={NavBarStyles.list}>
                             <b>Варианты подстилающей карты</b>
                             { props.layers.map((listItem,index)=>(listItem.type === 'baseLayer' ?
-                                <div className={NavBarStyles.style_map}>
-                                    <ListItem key={index}>
-                                        {listItem.name}{
-                                        <Checkbox
-                                            checked={listItem.name === props.layers.find(name => name.url === props.layersValue).name}
-                                            edge="end"
-                                            onChange={()=>props.layersChange(listItem.url)}
-                                        />
-                                    }
-                                    </ListItem>
-                                </div>
-                                 : listItem.type === 'imageOverlay' ?
-                                    <div>
-                                        <b>Отображение дополнительных данных</b>
+                                    <div className={NavBarStyles.style_map}>
                                         <ListItem key={index}>
                                             {listItem.name}{
-                                            <Switch
-                                                checked={props.imageValue}
+                                            <Checkbox
+                                                checked={listItem.name === props.layers.find(name => name.url === props.layersValue).name}
                                                 edge="end"
-                                                onChange={()=>props.imageOverlayShow()}
-                                                //inputProps={{ 'aria-labelledby': labelId }}
+                                                onChange={()=>props.layersChange(listItem.url)}
                                             />
                                         }
                                         </ListItem>
                                     </div>
+                                    : listItem.type === 'imageOverlay' ?
+                                        <div>
+                                            <b>Отображение дополнительных данных</b>
+                                            <ListItem key={index}>
+                                                {listItem.name}{
+                                                <Switch
+                                                    checked={props.imageValue}
+                                                    edge="end"
+                                                    onChange={()=>props.imageOverlayShow()}
+                                                    //inputProps={{ 'aria-labelledby': labelId }}
+                                                />
+                                            }
+                                            </ListItem>
+                                        </div>
                                         : listItem.type === 'markersOverlay' ?
                                             <ListItem key={index}>
                                                 {listItem.name}{
@@ -89,24 +89,24 @@ export function MainNavBar(props){
                                             </ListItem>
                                             : listItem.type === 'natureReserves' ?
                                                 <ListItem key={index}>
-                                                {listItem.name}{
-                                                <Switch
-                                                    checked={props.natureReservesValue}
-                                                    edge="end"
-                                                    onChange={()=>props.NatureReservesShow()}
-                                                    //inputProps={{ 'aria-labelledby': labelId }}
-                                                />
-                                            }
-                                            </ListItem> : <ListItem key={index}>
-                                            {listItem.name}{
-                                            <Switch
-                                                checked={props.bordersValue}
-                                                edge="end"
-                                                onChange={()=>props.bordersShow()}
-                                                //inputProps={{ 'aria-labelledby': labelId }}
-                                            />
-                                            }
-                                            </ListItem>
+                                                    {listItem.name}{
+                                                    <Switch
+                                                        checked={props.natureReservesValue}
+                                                        edge="end"
+                                                        onChange={()=>props.NatureReservesShow()}
+                                                        //inputProps={{ 'aria-labelledby': labelId }}
+                                                    />
+                                                }
+                                                </ListItem> : <ListItem key={index}>
+                                                    {listItem.name}{
+                                                    <Switch
+                                                        checked={props.bordersValue}
+                                                        edge="end"
+                                                        onChange={()=>props.bordersShow()}
+                                                        //inputProps={{ 'aria-labelledby': labelId }}
+                                                    />
+                                                }
+                                                </ListItem>
                             ))
                             }
                         </List>
@@ -147,47 +147,47 @@ export function MainNavBar(props){
                     {/*    </CSSTransition>*/}
                     {/*</div>*/}
 
-                    <div className={NavBarStyles.navBarSortDate}>
-                            <b className={NavBarStyles.heading_sort}>Сортировать данные за:</b>
-                            <Button className={NavBarStyles.buttonSort} onClick={()=>setContext({
-                                today: true,
-                                singleDay: false,
-                                week: false,
-                                last_24_hours: false,
-                                daysInRange: false,
-                                min_date: '',
-                                max_date: '',
-                                currentDate: ''
-                            })} size={"small"} variant={"contained"} title={'Точки пожаров за сегодня'}>Сегодня</Button>
+                    <div className={NavBarStyles.navBarMainInstruments}>
+                        <b className={NavBarStyles.heading_sort}>Сортировать данные за:</b>
+                        <Button className={NavBarStyles.button_sort} onClick={()=>setContext({
+                            today: true,
+                            singleDay: false,
+                            week: false,
+                            last_24_hours: false,
+                            daysInRange: false,
+                            min_date: '',
+                            max_date: '',
+                            currentDate: ''
+                        })} size={"small"} variant={"contained"} title={'Точки пожаров за сегодня'}>Сегодня</Button>
 
-                            <Button className={NavBarStyles.buttonSort} onClick={()=>setContext({
-                                today: false,
-                                singleDay: false,
-                                week: false,
-                                last_24_hours: true,
-                                daysInRange: false,
-                                min_date: '',
-                                max_date: '',
-                                currentDate: ''
-                            })} size={"small"} variant={"contained"} title={'Точки пожаров за 24 часа'}>24 часа</Button>
+                        <Button className={NavBarStyles.button_sort} onClick={()=>setContext({
+                            today: false,
+                            singleDay: false,
+                            week: false,
+                            last_24_hours: true,
+                            daysInRange: false,
+                            min_date: '',
+                            max_date: '',
+                            currentDate: ''
+                        })} size={"small"} variant={"contained"} title={'Точки пожаров за 24 часа'}>24 часа</Button>
 
-                            <Button className={NavBarStyles.buttonSort} onClick={()=>setContext({
-                                today: false,
-                                singleDay: false,
-                                week: true,
-                                last_24_hours: false,
-                                daysInRange: false,
-                                min_date: '',
-                                max_date: '',
-                                currentDate: ''
-                            })} size={"small"} variant={"contained"} title={'Точки пожаров за неделю'}>Неделя</Button>
+                        <Button className={NavBarStyles.button_sort} onClick={()=>setContext({
+                            today: false,
+                            singleDay: false,
+                            week: true,
+                            last_24_hours: false,
+                            daysInRange: false,
+                            min_date: '',
+                            max_date: '',
+                            currentDate: ''
+                        })} size={"small"} variant={"contained"} title={'Точки пожаров за неделю'}>Неделя</Button>
                     </div>
 
 
                     <div className={Range_days.navBarMainInstruments}>
                         <b>Сбор данных за несколько дней (не более 7 дней):</b>
                         <div className={Range_days.date_time_max_div}>
-                            <p4 className={Range_days.date_time_label}>Укажите начальный и конечный день: </p4>
+                            <p className={Range_days.date_time_label}>Укажите начальный и конечный день: </p>
                             <DatePicker
                                 range
                                 value={dateRange}

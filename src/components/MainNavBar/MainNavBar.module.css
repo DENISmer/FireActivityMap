@@ -1,12 +1,8 @@
 .navBar{
-    position: relative;
-    float: right;
+    position: absolute;
     z-index: 450;
     width: 300px;
-    height: 80vh;
-    min-height: 20vh;
-    overflow-y: auto;
-    top: 1vh;
+    top: 53px;
     right: 5px;
     background-color: transparent;
     border-radius: 3px;
@@ -15,21 +11,21 @@
 .list{
     margin: 3px;
 }
+.hr{
+    margin: 20px 0;
+    padding: 0;
+    height: 0;
+    border: none;
+    border-top: 1px solid #333;
+}
 .style_map{
     width: 120px;
     margin: 0 auto;
     float: left;
 }
 .navBarMainInstruments{
-    margin: 7px;
-    border-radius: 3px;
-    box-shadow: 0 0 0 2px rgba(0,0,0,0.25);
-    background-color: white;
-    padding: 5px;
-}
-.navBarSortDate{
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    position: relative;
     margin: 7px;
     border-radius: 3px;
     box-shadow: 0 0 0 2px rgba(0,0,0,0.25);
@@ -90,6 +86,7 @@
     transition: opacity 300ms, transform 300ms;
 }
 .wrapper{
+
     margin: 3% 0;
 }
 .latitude{
@@ -109,14 +106,15 @@
     background-color: #007fff;
 }
 .show_hide_fly_to_panel{
+    position: absolute;
     margin-left: 50px;
 }
 .fly_to_button:hover{
     background-color: #0059ff;
 }
 
-.buttonSort{
-    margin: 20em;
+.button_sort{
+    margin: 3px 0;
 }
 
 .date_time_max_div{
