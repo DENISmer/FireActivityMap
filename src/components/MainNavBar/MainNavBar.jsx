@@ -147,9 +147,9 @@ export function MainNavBar(props){
                     {/*    </CSSTransition>*/}
                     {/*</div>*/}
 
-                    <div className={NavBarStyles.navBarMainInstruments}>
+                    <div className={NavBarStyles.navBarSortDate}>
                         <b className={NavBarStyles.heading_sort}>Сортировать данные за:</b>
-                        <Button className={NavBarStyles.button_sort} onClick={()=>setContext({
+                        <Button className={NavBarStyles.buttonSort} onClick={()=>setContext({
                             today: true,
                             singleDay: false,
                             week: false,
@@ -160,7 +160,7 @@ export function MainNavBar(props){
                             currentDate: ''
                         })} size={"small"} variant={"contained"} title={'Точки пожаров за сегодня'}>Сегодня</Button>
 
-                        <Button className={NavBarStyles.button_sort} onClick={()=>setContext({
+                        <Button className={NavBarStyles.buttonSort} onClick={()=>setContext({
                             today: false,
                             singleDay: false,
                             week: false,
@@ -171,7 +171,7 @@ export function MainNavBar(props){
                             currentDate: ''
                         })} size={"small"} variant={"contained"} title={'Точки пожаров за 24 часа'}>24 часа</Button>
 
-                        <Button className={NavBarStyles.button_sort} onClick={()=>setContext({
+                        <Button className={NavBarStyles.buttonSort} onClick={()=>setContext({
                             today: false,
                             singleDay: false,
                             week: true,
@@ -187,7 +187,7 @@ export function MainNavBar(props){
                     <div className={Range_days.navBarMainInstruments}>
                         <b>Сбор данных за несколько дней (не более 7 дней):</b>
                         <div className={Range_days.date_time_max_div}>
-                            <p className={Range_days.date_time_label}>Укажите начальный и конечный день: </p>
+                            <p4 className={Range_days.date_time_label}>Укажите начальный и конечный день: </p4>
                             <DatePicker
                                 range
                                 value={dateRange}
