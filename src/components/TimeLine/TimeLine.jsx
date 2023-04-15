@@ -134,6 +134,7 @@ export function TimeLine(){
                     exitDone: Timeline.transition_exit
                 }} unmountOnExit>
                     <div className={Timeline.Main_TimeLine}>
+                        <button name={'scrollRollback'}>{'<='}</button>
                         <div className={Timeline.scrollDays}>
                             <ScrollMenu
                                 scrollToSelected={true}
@@ -143,6 +144,7 @@ export function TimeLine(){
                                 ))}
                             </ScrollMenu>
                         </div>
+                        <button name={'scrollForward'}>=></button>
                         <div className={Timeline.datePicker}>
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DatePicker

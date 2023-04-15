@@ -51,7 +51,7 @@ export function MapComponent(){
         {name: 'Спутник', type: 'baseLayer', url: 'https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v9/tiles/{z}/{x}/{y}?access_token=sk.eyJ1IjoicnViaW5uYXciLCJhIjoiY2xiMTFmcnZmMXBnbDNwbXA4bHFkcDdyciJ9.CxX9zdanJzvnGxgEDz7bJw'},
         {name: 'Тёмная', type: 'baseLayer', url: 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png'},
         {name: 'ESRI', type: 'baseLayer', url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'},
-        {name: 'Спктниковые снимки', type: 'imageOverlay', url: MemoizedMutableImageOverlay},
+        {name: 'Спутниковые снимки', type: 'imageOverlay', url: MemoizedMutableImageOverlay},
         {name: 'Точки возгорания', type: 'markersOverlay', url: MemoizedChildComponentMark_render},
         {name: 'Границы регионов', type: 'regionBorders', url: MutableImageOverlay},
         {name: 'Заповедники', type: 'natureReserves', url: null}
