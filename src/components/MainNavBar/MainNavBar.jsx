@@ -49,7 +49,7 @@ export function MainNavBar(props){
                 <div className={NavBarStyles.navBar}>
                     <div className={NavBarStyles.navBarMainInstruments}>
                         <List className={NavBarStyles.list}>
-                            <b>Варианты подстилающей карты</b>
+                            <b>Варианты подстилающей карты</b><br></br>
                             { props.layers.map((listItem,index)=>(listItem.type === 'baseLayer' ?
                                     <div className={NavBarStyles.style_map}>
                                         <ListItem key={index}>
