@@ -42,14 +42,16 @@ export function Mark_render(onDateChange) {
     // }
     const RequestForData = (context,url) =>{
         let unmounted = false
+        //localStorage.clear();
+        console.log(url)
         axios.get(`${url}`)
             .then(async response => {
                 if(response.data.points.length === 0){
                     setIsRender(false)
                 }
-                console.log('request');
+                console.log('request: ', response.data.points);
                 await setPoints(response.data.points)
-                await localStorage.setItem('points',JSON.stringify(response.data.points))
+                //await localStorage.setItem('points',JSON.stringify(response.data.points))
                 if(!unmounted){
                     setTimeout(()=>{
                         setIsRender(false)
@@ -80,7 +82,7 @@ export function Mark_render(onDateChange) {
         if(context.currentDate === undefined || context.daysInRange === undefined){
             if(contextCookies.context !== undefined){
                 setContext(contextCookies.context)
-                setPoints(JSON.parse(localStorage.getItem('points')))
+                //setPoints(JSON.parse(localStorage.getItem('points')))
                 console.log('context is empty')
                 console.log(context)
             }
@@ -112,8 +114,8 @@ export function Mark_render(onDateChange) {
             }
 
         }
-        localStore(points)
-        console.log(context)
+        //localStore(points)
+        console.log('request: ', points);
     },[context]);
 
 
@@ -175,7 +177,7 @@ export function Mark_render(onDateChange) {
                 singleMarkerMode={false}
                 animated={false}
             >
-                {context.singleDay && points.map((nat, index) => (
+                {context.singleDay && points.length!== 0 && points.map((nat, index) => (
                     (context.min_datetime <= Date.parse(nat.datetime) && Date.parse(nat.datetime) <= context.max_datetime) &&
                     <Marker icon={GetIcon(10, 10, nat.temperature)}
                             key={index}
@@ -191,7 +193,7 @@ export function Mark_render(onDateChange) {
                         </Popup>
                     </Marker>
                 ))}
-                {context.daysInRange && points.map((nat, index) => (
+                {context.daysInRange && points.length!== 0 && points.map((nat, index) => (
                     <Marker icon={GetIcon(10, 10, nat.temperature)}
                             key={index}
                             position={new L.LatLng(nat.longitude, nat.latitude)}

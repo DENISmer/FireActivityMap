@@ -26,12 +26,49 @@ export function MainNavBar(props){
     const [context, setContext] = useContext(Context);
     const [dateRange, setDateRange] = useState([new DateObject()]);
 
-
-
-    const DisplayPosition = () => {
-        console.log(latitude,typeof longitude)
-        props.map.flyTo(L.latLng(Number(latitude),Number(longitude)), 13)
+    const resetDaysInRangeIntoToday = () => {
+        let today = new Date.now()
+          // setContext({
+          //     singleDay: false,
+          //     week: false,
+          //     today: true,
+          //     last_24_hours: false,
+          //     daysInRange: false,
+          //     currentDate: '',
+          //     min_date: null,
+          //     max_date: null,
+          //     min_datetime: Date.parse(result + 'T' + '00:00:00'),
+          //     max_datetime: Date.parse(result + 'T' + '23:59:59')
+          // })
+        console.log('resetDaysInRangeIntoToday')
     }
+    const setValidDate = (dateRange) =>{
+        let minDate = dateRange[0].year + '-' + dateRange[0].month.number + '-' + dateRange[0].day;
+        let maxDate = dateRange[1].year + '-' + dateRange[1].month.number + '-' + dateRange[1].day;
+        console.log(dateRange)
+        setDaysInRange(minDate,maxDate)
+    }
+    const setDaysInRange = (minDate,maxDate) =>{
+         setContext({
+                    singleDay: false,
+                    week: false,
+                    today: false,
+                    last_24_hours: false,
+                    daysInRange: true,
+                    currentDate: '',
+                    min_date: minDate,
+                    max_date: maxDate,
+                    min_datetime: Date.parse('2022-05-11T00:00:00'),
+                    max_datetime: Date.parse('2022-05-11T23:59:59')
+                })
+        console.log('firstDate: ',minDate);
+        console.log('firstDate: ',maxDate)
+    }
+
+    // const DisplayPosition = () => {
+    //     console.log(latitude,typeof longitude)
+    //     props.map.flyTo(L.latLng(Number(latitude),Number(longitude)), 13)
+    // }
 
     return(
         <>
@@ -204,7 +241,7 @@ export function MainNavBar(props){
                             />
                         </div>
                         <div className={Range_days.button_time}>
-                            <button className={Range_days.save_time} >Сохранить</button>
+                            <button className={Range_days.save_time} onClick={()=>setValidDate(dateRange)}>Сохранить</button>
                             <button className={Range_days.reset_time}  >Сбросить</button>
                         </div>
                     </div>
