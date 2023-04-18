@@ -25,21 +25,26 @@ export function MainNavBar(props){
     const [longitude,setLongitude] = useState(1);
     const [context, setContext] = useContext(Context);
     const [dateRange, setDateRange] = useState([new DateObject()]);
-
+    const today = [new Date(Date.now()).getFullYear(),new Date(Date.now()).getMonth(),new Date(Date.now()).getDate()].join('-');
+    const setToday = () =>{
+        return [new Date(Date.now()).getFullYear(),new Date(Date.now()).getMonth(),new Date(Date.now()).getDate()].join('-');
+    }
     const resetDaysInRangeIntoToday = () => {
-        let today = new Date.now()
-          // setContext({
-          //     singleDay: false,
-          //     week: false,
-          //     today: true,
-          //     last_24_hours: false,
-          //     daysInRange: false,
-          //     currentDate: '',
-          //     min_date: null,
-          //     max_date: null,
-          //     min_datetime: Date.parse(result + 'T' + '00:00:00'),
-          //     max_datetime: Date.parse(result + 'T' + '23:59:59')
-          // })
+        let today = [new Date(Date.now()).getFullYear(),new Date(Date.now()).getMonth(),new Date(Date.now()).getDate()].join('-');
+        setDateRange([new DateObject()]);
+        console.log(today)
+          setContext({
+              singleDay: false,
+              week: false,
+              today: true,
+              last_24_hours: false,
+              daysInRange: false,
+              currentDate: today,
+              min_date: null,
+              max_date: null,
+              min_datetime: Date.parse(today + 'T' + '00:00:00'),
+              max_datetime: Date.parse(today + 'T' + '23:59:59')
+          })
         console.log('resetDaysInRangeIntoToday')
     }
     const setValidDate = (dateRange) =>{
@@ -194,7 +199,9 @@ export function MainNavBar(props){
                             daysInRange: false,
                             min_date: '',
                             max_date: '',
-                            currentDate: ''
+                            currentDate: today,
+                            min_datetime: setToday() + 'T00:00:00',
+                            max_datetime: setToday() + 'T23:59:59',
                         })} size={"small"} variant={"contained"} title={'Точки пожаров за сегодня'}>Сегодня</Button>
 
                         <Button className={NavBarStyles.buttonSort} onClick={()=>setContext({
@@ -242,7 +249,7 @@ export function MainNavBar(props){
                         </div>
                         <div className={Range_days.button_time}>
                             <button className={Range_days.save_time} onClick={()=>setValidDate(dateRange)}>Сохранить</button>
-                            <button className={Range_days.reset_time}  >Сбросить</button>
+                            <button className={Range_days.reset_time} onClick={()=>resetDaysInRangeIntoToday()} >Сбросить</button>
                         </div>
                     </div>
                 </div>

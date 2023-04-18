@@ -29,7 +29,6 @@ export function MutableImageOverlay(){
     const request = async (date,min_time,max_time) =>{
         console.log(date,min_time,max_time)
         let current_time;
-
             for(let cycle_time = Number(min_time);cycle_time <= Number(max_time); cycle_time++){
                 try{
                 current_time = currentTimeToString(cycle_time)

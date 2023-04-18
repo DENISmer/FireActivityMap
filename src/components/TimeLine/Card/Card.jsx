@@ -28,8 +28,6 @@ export function Card(props){
     CARD_DATE_AS_DATE = Date.parse(newDate.join('-'))
 
 
-
-
     const dayClick = () => {
 
         result = newDate.join("-");
