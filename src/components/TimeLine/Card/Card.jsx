@@ -1,19 +1,15 @@
 import react, {useContext, useState} from 'react';
 import card from './Card.module.css'
 import { Context } from '../../Map/Context';
+import {RequestForImagesData} from "../../Map/RequestsForImagesData/RequestForImagesData";
 
 export function Card(props){
 
     const [context, setContext] = useContext(Context);
     const [isActive,setIsActive] = useState({active: false, day: null})
     let newDate = [];
-    let newDateForMaxDate = [];
-    let resultForMax;
     let result;
     let CARD_DATE_AS_DATE = Date.parse([props.year, props.month, props.day].join("-"));
-    let RESULT_DATE_AS_DATE;
-    let CURRENT_DATE_AS_DATE;
-    let MIN;
     let card_day = props.day.toString();
 
     if(props.day < 10 && props.month < 10){
@@ -29,7 +25,7 @@ export function Card(props){
 
 
     const dayClick = () => {
-
+        props.updateTime(RequestForImagesData(context))
         result = newDate.join("-");
 
         setContext({
@@ -41,27 +37,9 @@ export function Card(props){
             currentDate: result,
             min_date:'',
             max_date:'',
-            min_datetime: Date.parse(result + 'T' + '00:00:00'),
-            max_datetime: Date.parse(result + 'T' + '23:59:59')
+            min_datetime: Date.parse(result + 'T00:00:00'),
+            max_datetime: Date.parse(result + 'T23:59:59')
         })
-
-
-        // if(context.singleDay && RESULT_DATE_AS_DATE > Date.parse(context.currentDate) && RESULT_DATE_AS_DATE - Date.parse(context.currentDate) <= 518400000){
-        //     setContext({
-        //         singleDay: false,
-        //         week: false,
-        //         today: false,
-        //         last_24_hours: false,
-        //         daysInRange: true,
-        //         currentDate: '',
-        //         min_date: context.currentDate,
-        //         max_date: result,
-        //         min_datetime: Date.parse(result + 'T' + '00:00:00'),
-        //         max_datetime: Date.parse(result + 'T' + '23:59:59')
-        //     })
-        //     MIN = Date.parse(context.min_date);
-        //
-
     };
 
     return<>

@@ -10,6 +10,7 @@ import axios from 'axios';
 import loader from '../../icons/loading-loading-forever.gif'
 import gsap from 'gsap';
 import {useCookies} from "react-cookie";
+import {RequestForImagesData} from "./RequestsForImagesData/RequestForImagesData";
 
 function GetIcon(_iconSize){
     return L.icon({
@@ -49,7 +50,7 @@ export function Mark_render(onDateChange) {
                 if(response.data.points.length === 0){
                     setIsRender(false)
                 }
-                console.log('request: ', response.data.points);
+                //console.log('request: ', response.data.points);
                 await setPoints(response.data.points)
                 //await localStorage.setItem('points',JSON.stringify(response.data.points))
                 if(!unmounted){
@@ -70,12 +71,12 @@ export function Mark_render(onDateChange) {
             })
         //removeContextCookie(['context'])
         setContextCookie('context',context,5 * 10);
-        console.log(contextCookies.context)
+        //console.log(contextCookies.context)
         return () => {unmounted = true}
     }
 
     const localStore = async (points) =>{
-        console.log('localStore works')
+        //console.log('localStore works')
         await setPoints(JSON.parse(localStorage.getItem('points')))
     }
     useEffect(  ()=>{
@@ -83,8 +84,8 @@ export function Mark_render(onDateChange) {
             if(contextCookies.context !== undefined){
                 setContext(contextCookies.context)
                 //setPoints(JSON.parse(localStorage.getItem('points')))
-                console.log('context is empty')
-                console.log(context)
+                // console.log('context is empty')
+                // console.log(context)
             }
         }
         else {
@@ -115,7 +116,7 @@ export function Mark_render(onDateChange) {
 
         }
         //localStore(points)
-        console.log('request: ', points);
+        //console.log('request: ', points);
     },[context]);
 
 

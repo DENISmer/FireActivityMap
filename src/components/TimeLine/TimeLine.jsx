@@ -27,11 +27,29 @@ export function TimeLine(){
     const [min_time, setMin_Time] = useState('00:00:00');
     const [max_time, setMax_Time] = useState('23:59:59');
     const [showTimePanel, setShowTimePanel] = useState(false);
+    const [timeRange,setTimeRange] = useState([]);
+    const [val, setVal] = useState();
+    let localFormattingArray = [];
 
-    const [val, setVAL] = useState();
     const timeValue = (e, val)=>{
-        console.warn(val)
-        setVAL(val)
+        console.warn(timeRange)
+        let currentTime = timeSlider.find((element) => element.value === val).label.split('')
+        let minTime = currentTime[0] + currentTime[1] + ':' + currentTime[2] + currentTime[3] + ':00';
+
+        let datetime_as_date = Date.parse(context.currentDate + 'T' + minTime);
+        setContext({
+            singleDay: true,
+            week: false,
+            today: false,
+            last_24_hours: false,
+            daysInRange: false,
+            currentDate: context.currentDate,
+            min_date:'',
+            max_date:'',
+            min_datetime: datetime_as_date,
+            max_datetime: datetime_as_date
+        })
+
     }
     const [timeSlider, setTimeSlider] = useState([ {
         value: 0,
@@ -52,6 +70,10 @@ export function TimeLine(){
         {
             value: 40,
             label: '01:00',
+        },
+        {
+            value: 100,
+            label: '01:00',
         }]);
 
     //setCookie('currentDay','2022-5-11', {path: '/',maxAge: 5 * 3600})
@@ -69,7 +91,6 @@ export function TimeLine(){
     const show_time_panel = () =>{
         setShowTimePanel(!showTimePanel);
     }
-
 
     const getMonth = (daysInMonth) =>{
         currentMonth = [];
@@ -103,8 +124,16 @@ export function TimeLine(){
         }
         else return null
     }
+    const updateTime = (timeArray) =>{
+        setTimeRange(timeArray)
+        for(let i = 0;i < timeRange.length;i++){
+            localFormattingArray.push({value: i*10, label: timeRange[i]})
+            console.log(timeArray[i])
+        }
+        setTimeSlider(localFormattingArray)
+    }
 
-    const updateTime = (min_time, max_time) => {
+    const setTime = (min_time, max_time) => {
         if(context.singleDay){
             let min_datetime_as_date = Date.parse(context.currentDate + 'T' + min_time);
             let max_datetime_as_date = Date.parse(context.currentDate + 'T' + max_time);
@@ -160,24 +189,25 @@ export function TimeLine(){
                     exitDone: Timeline.transition_exit
                 }} unmountOnExit>
                     <div className={Timeline.divSlider}>
-                        <b className={Timeline.val}>{val}</b>
+                        {/*<b className={Timeline.val}>{timeRange}</b>*/}
+                        <button className={Timeline.val} onClick={resetTime}>Сбросить время</button>
                         <Slider
-                            color='secondary'
+                            color='primary'
                             sx={{
                                 width: 500,
                                 '& .MuiSlider-mark' : {
                                     height: 10
                                 }
                             }}
-                            defaultValue={30}
+                            defaultValue={10}
                             track={false}
-
                             onChange={timeValue}
                             step={10}
                             marks={timeSlider}
                             min={0}
                             max={100}
                         />
+
                     </div>
 
                 </CSSTransition>
@@ -196,7 +226,7 @@ export function TimeLine(){
                                 scrollToSelected={true}
                             >
                                 {showTimeLine && month.map((day, index) =>(
-                                    <Card index={index + 1} day={day} key={index} month={value.month() + 1} year={value.year()} />
+                                    <Card index={index + 1} day={day} key={index} month={value.month() + 1} year={value.year()} updateTime={updateTime}/>
                                 ))}
                             </ScrollMenu>
                         </div>

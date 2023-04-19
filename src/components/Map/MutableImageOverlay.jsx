@@ -60,6 +60,7 @@ export function MutableImageOverlay(){
     useEffect( () =>{
         if(context.singleDay){
             img = context.currentDate.split('-').join('')
+            console.log(min_time)
             min_time = new Date(context.min_datetime).toString().split(' ')[4].split(':')[0] + new Date(context.min_datetime).toString().split(' ')[4].split(':')[1]
             max_time = new Date(context.max_datetime).toString().split(' ')[4].split(':')[0] + new Date(context.max_datetime).toString().split(' ')[4].split(':')[1]
 

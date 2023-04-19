@@ -84,14 +84,14 @@ export function MapComponent(){
     const changeLayer = (layer) =>{
         setBaseLayer(layer)
     }
-    useEffect(()=>{
-        return ()=> MemoizedMutableImageOverlay.destroy();
-    },[MemoizedMutableImageOverlay])
-
-    useEffect(() => {
-
-        return () => MarkersLayer.destroy()
-    }, [MemoizedChildComponentMark_render])
+    // useEffect(()=>{
+    //     return ()=> MemoizedMutableImageOverlay.destroy();
+    // },[MemoizedMutableImageOverlay])
+    //
+    // useEffect(() => {
+    //
+    //     return () => MarkersLayer.destroy()
+    // }, [MemoizedChildComponentMark_render])
 
     const [cookies,setCookie] = useCookies(['currentDay']);
 
