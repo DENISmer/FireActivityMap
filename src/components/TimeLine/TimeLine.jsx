@@ -14,6 +14,7 @@ import {CurrentDayDisplay} from "./CurrentDayDisplay/CurrentDayDisplay";
 import {useCookies} from "react-cookie";
 import {Context} from "../Map/Context";
 import {ClocksForDate} from "./ClocksForDate/ClocksForDate";
+import Slider from '@mui/material/Slider';
 import TimeIcon from "../../icons/2x/clock.png"
 
 
@@ -26,6 +27,33 @@ export function TimeLine(){
     const [min_time, setMin_Time] = useState('00:00:00');
     const [max_time, setMax_Time] = useState('23:59:59');
     const [showTimePanel, setShowTimePanel] = useState(false);
+
+    const [val, setVAL] = useState();
+    const timeValue = (e, val)=>{
+        console.warn(val)
+        setVAL(val)
+    }
+    const [timeSlider, setTimeSlider] = useState([ {
+        value: 0,
+        label: '00:00',
+    },
+        {
+            value: 10,
+            label: '00:15',
+        },
+        {
+            value: 20,
+            label: '00:30',
+        },
+        {
+            value: 30,
+            label: '00:45',
+        },
+        {
+            value: 40,
+            label: '01:00',
+        }]);
+
     //setCookie('currentDay','2022-5-11', {path: '/',maxAge: 5 * 3600})
     let currentMonth = [];
 
@@ -113,7 +141,6 @@ export function TimeLine(){
                 }} unmountOnExit>
 
                 <ClocksForDate updateTime={updateTime} resetTime={resetTime}/>
-
                 </CSSTransition>
 
                 <CSSTransition in={!showTimeLine} timeout={300} classNames={{
@@ -124,6 +151,34 @@ export function TimeLine(){
                 }} unmountOnExit>
 
                     <CurrentDayDisplay date={context}/>
+                </CSSTransition>
+
+                <CSSTransition in={showTimeLine} timeout={300} classNames={{
+                    enterActive: Timeline.transition_enter,
+                    enterDone: Timeline.transition_enter_active,
+                    exitActive: Timeline.transition_exit_active,
+                    exitDone: Timeline.transition_exit
+                }} unmountOnExit>
+                    <div className={Timeline.divSlider}>
+                        <b className={Timeline.val}>{val}</b>
+                        <Slider
+                            color='secondary'
+                            sx={{
+                                width: 500,
+                                '& .MuiSlider-mark' : {
+                                    height: 10
+                                }
+                            }}
+                            defaultValue={30}
+                            track={false}
+
+                            onChange={timeValue}
+                            step={10}
+                            marks={timeSlider}
+                            min={0}
+                            max={100}
+                        />
+                    </div>
 
                 </CSSTransition>
 
@@ -134,6 +189,7 @@ export function TimeLine(){
                     exitDone: Timeline.transition_exit
                 }} unmountOnExit>
                     <div className={Timeline.Main_TimeLine}>
+
                         <button name={'scrollRollback'}>{'<='}</button>
                         <div className={Timeline.scrollDays}>
                             <ScrollMenu
@@ -169,4 +225,3 @@ export function TimeLine(){
     )
 
 }
-

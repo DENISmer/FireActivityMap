@@ -118,10 +118,6 @@
 .save_time:hover{
     background-color: #006efd;
 }
-
-.body_time{
-
-}
 .show_time_panel{
     width: 44px;
     height: 40px;
@@ -135,4 +131,22 @@
 }
 .hide_time_panel{
     visibility: hidden;
+}
+.divSlider{
+    text-align: center;
+    z-index: 900;
+    position: absolute;
+    bottom: 80px;
+    width: 600px;
+    height: 55px;
+    background-color: white;
+    border-radius: 15px;
+    right: 65px;
+    color: black;
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.25);
+}
+.val{
+    float: right;
+    bottom: 0;
+    font-size: 16px;
 }
