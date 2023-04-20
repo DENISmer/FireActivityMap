@@ -11,7 +11,7 @@ import loader from '../../icons/loading-loading-forever.gif'
 import gsap from 'gsap';
 import {useCookies} from "react-cookie";
 import {RequestForImagesData} from "./RequestsForImagesData/RequestForImagesData";
-
+import {URL_FOR_MARKS} from '../../config/config'
 function GetIcon(_iconSize){
     return L.icon({
         iconUrl: require("../../icons/red_dot_marker.png"),
@@ -24,11 +24,11 @@ export function Mark_render(onDateChange) {
     const [localCurrentDay,setLocalCurrentDay] = useState()
 
     const URL_S = {
-        URL_SINGLE_DAY : `http://192.168.56.1:8080/api/fires/points/?date=${context.currentDate}`,
-        URL_TODAY : 'http://192.168.56.1:8080/api/fires/points/today/',
-        URL_DAYS_RANGE : `http://192.168.56.1:8080/api/fires/points/?date_min=${context.min_date}T00:00:00&date_max=${context.max_date}T23:59:59`,
-        URL_WEEK : 'http://192.168.56.1:8080/api/fires/points/week/',
-        URL_LAST_24_HOURS : 'http://192.168.56.1:8080/api/fires/points/twentyfourhours/',
+        URL_SINGLE_DAY : `${URL_FOR_MARKS.URL_SINGLE_DAY}${context.currentDate}`,
+        URL_TODAY : `${URL_FOR_MARKS.URL_TODAY}`,
+        URL_DAYS_RANGE : `${URL_FOR_MARKS.URL_DAYS_RANGE}${context.min_date}T00:00:00&date_max=${context.max_date}T23:59:59`,
+        URL_WEEK : `${URL_FOR_MARKS.URL_WEEK}`,
+        URL_LAST_24_HOURS : `${URL_FOR_MARKS.URL_LAST_24_HOURS}`,
     }
 
     const [points,setPoints] = useState([])

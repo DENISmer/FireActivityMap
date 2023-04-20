@@ -1,4 +1,4 @@
-import react, {useContext, useState} from 'react';
+import react, {useContext, useEffect, useState} from 'react';
 import card from './Card.module.css'
 import { Context } from '../../Map/Context';
 import {RequestForImagesData} from "../../Map/RequestsForImagesData/RequestForImagesData";
@@ -24,8 +24,8 @@ export function Card(props){
     CARD_DATE_AS_DATE = Date.parse(newDate.join('-'))
 
 
+
     const dayClick = () => {
-        props.updateTime(RequestForImagesData(context))
         result = newDate.join("-");
 
         setContext({
@@ -40,6 +40,13 @@ export function Card(props){
             min_datetime: Date.parse(result + 'T00:00:00'),
             max_datetime: Date.parse(result + 'T23:59:59')
         })
+        try {
+            props.updateTime(RequestForImagesData(context))
+        }
+        catch (e){
+            console.log(e.message)
+        }
+
     };
 
     return<>

@@ -1,9 +1,6 @@
-import {useContext, useEffect, useState} from "react";
-import {Context} from "../Context";
 import axios from "axios";
-import L from "leaflet";
-import {ImageOverlay} from "react-leaflet/ImageOverlay";
-//import {image} from '../../../data/map_images/chinfire/20220515/0705/'
+import {URL_FOR_IMAGES} from "../../../config/config";
+
 export function RequestForImagesData(context){
     let file;
     let min_time;
@@ -24,7 +21,7 @@ export function RequestForImagesData(context){
 
         let current_time;
 
-        if(context.singleDay){
+        if(context.singleDay && context.min_datetime !== undefined){
             date = context.currentDate.split('-').join('')
             min_time = new Date(context.min_datetime).toString().split(' ')[4].split(':')[0] + new Date(context.min_datetime).toString().split(' ')[4].split(':')[1]
             max_time = new Date(context.max_datetime).toString().split(' ')[4].split(':')[0] + new Date(context.max_datetime).toString().split(' ')[4].split(':')[1]
@@ -34,15 +31,13 @@ export function RequestForImagesData(context){
             try{
 
                 current_time = currentTimeToString(cycle_time)
-                file = require(`../../../data/map_images/chinfire/${date}/${current_time}/FY3D_MERSI_GBAL_L1_${date}_${current_time}_1000M_MS.txt`)
+                file = require(`../../../${URL_FOR_IMAGES.SOURCE}/${date}/${current_time}/${URL_FOR_IMAGES.IMAGE_TXT_START_NAME}${date}_${current_time}${URL_FOR_IMAGES.TXT_END_NAME}`)
 
                 if(file){
                 axios.get(file).then(response => {
                     if(response.data.length !== 0){
                         console.log('time: ',currentTimeToString(cycle_time))
                         imagesTime.push(currentTimeToString(cycle_time))
-                        //localDataArray.push({img: require(`../../../data/map_images/chinfire/20220515/${current_time}/FY3D_MERSI_GBAL_L1_20220515_${current_time}_0250M_MS_smoke_250M.png`),txt: L.latLngBounds(L.latLng(Number(response.data.split('\n')[0]),Number(response.data.split('\n')[1])),L.latLng(Number(response.data.split('\n')[2]),Number(response.data.split('\n')[3])))})
-                        //console.log(localDataArray)
                         if(Number(current_time) === 1000){
                             console.log('data= ', response.data)
                         }

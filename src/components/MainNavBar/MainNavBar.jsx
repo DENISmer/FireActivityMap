@@ -193,7 +193,7 @@ export function MainNavBar(props){
                         <b className={NavBarStyles.heading_sort}>Сортировать данные за:</b>
                         <Button className={NavBarStyles.buttonSort} onClick={()=>setContext({
                             today: true,
-                            singleDay: false,
+                            singleDay: true,
                             week: false,
                             last_24_hours: false,
                             daysInRange: false,

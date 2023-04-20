@@ -96,7 +96,7 @@ export function MapComponent(){
     const [cookies,setCookie] = useCookies(['currentDay']);
 
     return <>
-        <MapContainer zoomControl={false} maxZoom={18} zoom={4} minZoom={3.6}
+        <MapContainer zoomControl={false} maxZoom={16} zoom={4} minZoom={2}
                       center={center}
                       ref={setMap}
                       doubleClickZoom={false}

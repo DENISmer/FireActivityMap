@@ -51,30 +51,7 @@ export function TimeLine(){
         })
 
     }
-    const [timeSlider, setTimeSlider] = useState([ {
-        value: 0,
-        label: '00:00',
-    },
-        {
-            value: 10,
-            label: '00:15',
-        },
-        {
-            value: 20,
-            label: '00:30',
-        },
-        {
-            value: 30,
-            label: '00:45',
-        },
-        {
-            value: 40,
-            label: '01:00',
-        },
-        {
-            value: 100,
-            label: '01:00',
-        }]);
+    const [timeSlider, setTimeSlider] = useState([]);
 
     //setCookie('currentDay','2022-5-11', {path: '/',maxAge: 5 * 3600})
     let currentMonth = [];
@@ -127,7 +104,7 @@ export function TimeLine(){
     const updateTime = (timeArray) =>{
         setTimeRange(timeArray)
         for(let i = 0;i < timeRange.length;i++){
-            localFormattingArray.push({value: i*10, label: timeRange[i]})
+            localFormattingArray.push({value: i*9, label: timeRange[i]})
             console.log(timeArray[i])
         }
         setTimeSlider(localFormattingArray)
@@ -181,36 +158,36 @@ export function TimeLine(){
 
                     <CurrentDayDisplay date={context}/>
                 </CSSTransition>
+                {context.singleDay &&
+                    <CSSTransition in={showTimeLine} timeout={300} classNames={{
+                        enterActive: Timeline.transition_enter,
+                        enterDone: Timeline.transition_enter_active,
+                        exitActive: Timeline.transition_exit_active,
+                        exitDone: Timeline.transition_exit
+                    }} unmountOnExit>
+                        <div className={Timeline.divSlider}>
+                            {/*<b className={Timeline.val}>{timeRange}</b>*/}
+                            <button className={Timeline.val} onClick={resetTime}>Сбросить время</button>
+                            <Slider
+                                color='primary'
+                                sx={{
+                                    width: 700,
+                                    '& .MuiSlider-mark' : {
+                                        height: 10
+                                    }
+                                }}
+                                defaultValue={10}
+                                track={false}
+                                onChange={timeValue}
+                                step={9}
+                                marks={timeSlider}
+                                min={0}
+                                max={175}
+                            />
+                        </div>
+                    </CSSTransition>
+                }
 
-                <CSSTransition in={showTimeLine} timeout={300} classNames={{
-                    enterActive: Timeline.transition_enter,
-                    enterDone: Timeline.transition_enter_active,
-                    exitActive: Timeline.transition_exit_active,
-                    exitDone: Timeline.transition_exit
-                }} unmountOnExit>
-                    <div className={Timeline.divSlider}>
-                        {/*<b className={Timeline.val}>{timeRange}</b>*/}
-                        <button className={Timeline.val} onClick={resetTime}>Сбросить время</button>
-                        <Slider
-                            color='primary'
-                            sx={{
-                                width: 500,
-                                '& .MuiSlider-mark' : {
-                                    height: 10
-                                }
-                            }}
-                            defaultValue={10}
-                            track={false}
-                            onChange={timeValue}
-                            step={10}
-                            marks={timeSlider}
-                            min={0}
-                            max={100}
-                        />
-
-                    </div>
-
-                </CSSTransition>
 
                 <CSSTransition in={showTimeLine} timeout={300} classNames={{
                     enterActive: Timeline.transition_enter,
