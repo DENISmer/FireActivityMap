@@ -51,10 +51,13 @@ export function MapComponent(){
         {name: 'Спутник', type: 'baseLayer', url: 'https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v9/tiles/{z}/{x}/{y}?access_token=sk.eyJ1IjoicnViaW5uYXciLCJhIjoiY2xiMTFmcnZmMXBnbDNwbXA4bHFkcDdyciJ9.CxX9zdanJzvnGxgEDz7bJw'},
         {name: 'Тёмная', type: 'baseLayer', url: 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png'},
         {name: 'ESRI', type: 'baseLayer', url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'},
-        {name: 'Спутниковые снимки', type: 'imageOverlay', url: null},
+        //{name: 'Спутниковые снимки', type: 'imageOverlay', url: null},
         {name: 'Точки возгорания', type: 'markersOverlay', url: null},
         {name: 'Границы регионов', type: 'regionBorders', url: MutableImageOverlay},
-        {name: 'Заповедники', type: 'natureReserves', url: null}
+        {name: 'Заповедники', type: 'natureReserves', url: null},
+        {name: 'FY-3D 250M', type: 'imageOverlayFY3D250', url: null},
+        {name: 'FY-3D 1000M', type: 'imageOverlayFY3D1000', url: null}
+
     ]
 
     const [baseLayer,setBaseLayer] = useState(layersDict[0].url);
@@ -62,12 +65,24 @@ export function MapComponent(){
     const [showMarkers,setShowMarkers] = useState(false);
     const [showBorders,setShowBorders] = useState(false);
     const [showNatureReserves, setShowNatureReserves] = useState(false);
-
+    const [showFy3d250ImageOverlay,setShowFy3d250ImageOverlay] = useState(false)
+    const [showFy3d1000ImageOverlay, setShowFy3d1000ImageOverlay] = useState(false)
     const MemoizedMutableImageOverlay = useMemo(()=> MutableImageOverlay,[context])
     const MemoizedChildComponentMark_render = useMemo(() => MarkersLayer, [context])
 
     const borders = () => {
         setShowBorders(!showBorders)
+    }
+
+    const fy3d1000ImageOverlay = () =>{
+        //setShowImageOverlay(true);
+        setShowFy3d1000ImageOverlay(!showFy3d1000ImageOverlay)
+        setShowFy3d250ImageOverlay(false)
+    }
+    const fy3d250ImageOverlay = () =>{
+        //setShowImageOverlay(true);
+        setShowFy3d1000ImageOverlay(false)
+        setShowFy3d250ImageOverlay(!showFy3d250ImageOverlay);
     }
 
     const natureReserves = () => {
@@ -84,14 +99,6 @@ export function MapComponent(){
     const changeLayer = (layer) =>{
         setBaseLayer(layer)
     }
-    // useEffect(()=>{
-    //     return ()=> MemoizedMutableImageOverlay.destroy();
-    // },[MemoizedMutableImageOverlay])
-    //
-    // useEffect(() => {
-    //
-    //     return () => MarkersLayer.destroy()
-    // }, [MemoizedChildComponentMark_render])
 
     const [cookies,setCookie] = useCookies(['currentDay']);
 
@@ -119,6 +126,13 @@ export function MapComponent(){
                             bordersValue={showBorders}
                             natureReservesValue = {showNatureReserves}
                             markersValue={showMarkers}
+
+                            fy3d250Value={showFy3d250ImageOverlay}
+                            fy3d250Show={fy3d250ImageOverlay}
+
+                            fy3d1000Value={showFy3d1000ImageOverlay}
+                            fy3d1000Show={fy3d1000ImageOverlay}
+
                             imageValue={showImageOverlay}
                             imageOverlayShow={imageOverlay}
                             NatureReservesShow={natureReserves}
@@ -128,7 +142,9 @@ export function MapComponent(){
                 <MemoizedChildComponentTimeline />
                 <TileLayer url={baseLayer}/>
 
-                {showImageOverlay && <MemoizedMutableImageOverlay />}
+                {showFy3d1000ImageOverlay && <MemoizedMutableImageOverlay  fy3d1000Settings={showFy3d1000ImageOverlay}/>}
+                {showFy3d250ImageOverlay && <MemoizedMutableImageOverlay  fy3d250Settings={showFy3d250ImageOverlay}/>}
+
                 {showBorders && CoordsData.map((port) => (<Polyline positions={port} color={'pink'}/>))}
                 {showNatureReserves && Nature_reserves_coords.map((port) => (<Polyline positions={port} color={'red'}/>))}
                 {showMarkers && <MemoizedChildComponentMark_render />}

@@ -5,7 +5,7 @@ import axios from "axios";
 import L from 'leaflet'
 import {URL_FOR_IMAGES} from "../../config/config";
 
-export function MutableImageOverlay(){
+export function MutableImageOverlay(props){
     const [context,setContext] = useContext(Context)
     let file;
     let min_time;
@@ -13,7 +13,7 @@ export function MutableImageOverlay(){
     const [imgTxt,setImgTxt] = useState([])
     let localdataArray = [];
     let img;
-
+    let Fy3dSourceEndName;
     const currentTimeToString = (current_time) =>{
         if(current_time < 10) {
             return '000' + current_time.toString();
@@ -27,18 +27,26 @@ export function MutableImageOverlay(){
 
     const request = async (date,min_time,max_time) =>{
         console.log(date,min_time,max_time)
+
+        if(props.fy3d250Settings){
+            Fy3dSourceEndName = URL_FOR_IMAGES.IMAGE_FY_3D_0250M_END_NAME
+        }
+        else if(props.fy3d1000Settings){
+            Fy3dSourceEndName = URL_FOR_IMAGES.IMAGE_FY_3D_1000M_END_NAME
+        }
+
         let current_time;
             for(let cycle_time = Number(min_time);cycle_time <= Number(max_time); cycle_time++){
                 try{
                 current_time = currentTimeToString(cycle_time)
-                    console.log(`../../${URL_FOR_IMAGES.SOURCE}/${date}/${current_time}/${URL_FOR_IMAGES.IMAGE_TXT_START_NAME}${date}_${current_time}${URL_FOR_IMAGES.IMAGE_FY_3D_0250M_END_NAME}`)
+                    //console.log(`../../${URL_FOR_IMAGES.SOURCE}/${date}/${current_time}/${URL_FOR_IMAGES.IMAGE_TXT_START_NAME}${date}_${current_time}${URL_FOR_IMAGES.IMAGE_FY_3D_0250M_END_NAME}`)
                 file = require(`../../${URL_FOR_IMAGES.SOURCE}/${date}/${current_time}/${URL_FOR_IMAGES.IMAGE_TXT_START_NAME}${date}_${current_time}${URL_FOR_IMAGES.TXT_END_NAME}`)
 
                 await axios.get(file).then(response => {
                     console.log(date)
                     if(response.data.length !== 0){
                         console.log('time: ',current_time)
-                        localdataArray.push({img: require(`../../${URL_FOR_IMAGES.SOURCE}/${date}/${current_time}/${URL_FOR_IMAGES.IMAGE_TXT_START_NAME}${date}_${current_time}${URL_FOR_IMAGES.IMAGE_FY_3D_0250M_END_NAME}`),txt: L.latLngBounds(L.latLng(Number(response.data.split('\n')[0]),Number(response.data.split('\n')[1])),L.latLng(Number(response.data.split('\n')[2]),Number(response.data.split('\n')[3])))})
+                        localdataArray.push({img: require(`../../${URL_FOR_IMAGES.SOURCE}/${date}/${current_time}/${URL_FOR_IMAGES.IMAGE_TXT_START_NAME}${date}_${current_time}${Fy3dSourceEndName}`),txt: L.latLngBounds(L.latLng(Number(response.data.split('\n')[0]),Number(response.data.split('\n')[1])),L.latLng(Number(response.data.split('\n')[2]),Number(response.data.split('\n')[3])))})
                     }
                     else {
 
@@ -75,9 +83,6 @@ export function MutableImageOverlay(){
         {()=> console.log(imgTxt.length)}
         {context.singleDay && imgTxt && imgTxt.map((image,index)=> (
             <ImageOverlay
-                // updateWhenZooming={false}
-                // updateWhenIdle={true}
-                //preferCanvas={true}
                 url={image.img}
                 bounds={image.txt}
                 key={index}/>

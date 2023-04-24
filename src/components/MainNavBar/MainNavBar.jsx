@@ -139,16 +139,37 @@ export function MainNavBar(props){
                                                         //inputProps={{ 'aria-labelledby': labelId }}
                                                     />
                                                 }
-                                                </ListItem> : <ListItem key={index}>
-                                                    {listItem.name}{
-                                                    <Switch
-                                                        checked={props.bordersValue}
-                                                        edge="end"
-                                                        onChange={()=>props.bordersShow()}
-                                                        //inputProps={{ 'aria-labelledby': labelId }}
-                                                    />
-                                                }
                                                 </ListItem>
+                                                : listItem.type === 'imageOverlayFY3D250' ?
+                                                    <ListItem key={index}>
+                                                        {listItem.name}{
+                                                        <Switch
+                                                            checked={props.fy3d250Value}
+                                                            edge="end"
+                                                            onChange={()=>props.fy3d250Show()}
+                                                        />
+                                                    }
+                                                    </ListItem> : listItem.type === 'imageOverlayFY3D1000' ?
+                                                    <ListItem key={index}>
+                                                        {listItem.name}{
+                                                        <Switch
+                                                            checked={props.fy3d1000Value}
+                                                            edge="end"
+                                                            onChange={()=>props.fy3d1000Show()}
+                                                            //inputProps={{ 'aria-labelledby': labelId }}
+                                                        />
+                                                    }
+                                                    </ListItem> :
+                                                        <ListItem key={index}>
+                                                            {listItem.name}{
+                                                            <Switch
+                                                                checked={props.bordersValue}
+                                                                edge="end"
+                                                                onChange={()=>props.bordersShow()}
+                                                                //inputProps={{ 'aria-labelledby': labelId }}
+                                                            />
+                                                        }
+                                                        </ListItem>
                             ))
                             }
                         </List>
