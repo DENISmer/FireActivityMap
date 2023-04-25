@@ -24,7 +24,6 @@ export function Card(props){
     CARD_DATE_AS_DATE = Date.parse(newDate.join('-'))
 
 
-
     const dayClick = () => {
         result = newDate.join("-");
 
@@ -41,7 +40,7 @@ export function Card(props){
             max_datetime: Date.parse(result + 'T23:59:59')
         })
         try {
-            props.updateTime(RequestForImagesData(context))
+            //props.updateTime(RequestForImagesData(context))
         }
         catch (e){
             console.log(e.message)

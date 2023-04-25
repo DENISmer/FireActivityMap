@@ -22,36 +22,9 @@ export function TimeLine(){
     const [showTimeLine, setShowTimeLine] = useState(false)
     const [value, setValue] = React.useState(dayjs(Date.now()));
     const [month,setMonth] = useState([]);
-    const [cookies,setCookie] = useCookies(['currentDay']);
     const [context,setContext] = useContext(Context)
-    const [min_time, setMin_Time] = useState('00:00:00');
-    const [max_time, setMax_Time] = useState('23:59:59');
     const [showTimePanel, setShowTimePanel] = useState(false);
-    const [timeRange,setTimeRange] = useState([]);
-    const [val, setVal] = useState();
-    let localFormattingArray = [];
 
-    const timeValue = (e, val)=>{
-        console.warn(timeRange)
-        let currentTime = timeSlider.find((element) => element.value === val).label.split('')
-        let minTime = currentTime[0] + currentTime[1] + ':' + currentTime[2] + currentTime[3] + ':00';
-
-        let datetime_as_date = Date.parse(context.currentDate + 'T' + minTime);
-        setContext({
-            singleDay: true,
-            week: false,
-            today: false,
-            last_24_hours: false,
-            daysInRange: false,
-            currentDate: context.currentDate,
-            min_date:'',
-            max_date:'',
-            min_datetime: datetime_as_date,
-            max_datetime: datetime_as_date
-        })
-
-    }
-    const [timeSlider, setTimeSlider] = useState([]);
 
     //setCookie('currentDay','2022-5-11', {path: '/',maxAge: 5 * 3600})
     let currentMonth = [];
@@ -81,34 +54,8 @@ export function TimeLine(){
     const getDays = (year,month) =>{
         return getMonth(new Date(year,month,0).getDate())
     }
-    const resetTime = () =>{
-        if(context.singleDay){
-            let min_datetime_as_date = Date.parse(context.currentDate + 'T' + '00:00:00');
-            let max_datetime_as_date = Date.parse(context.currentDate + 'T' + '23:59:59');
 
-            setContext({
-                singleDay: true,
-                week: false,
-                today: false,
-                last_24_hours: false,
-                daysInRange: false,
-                currentDate: context.currentDate,
-                min_date:'',
-                max_date:'',
-                min_datetime: min_datetime_as_date,
-                max_datetime: max_datetime_as_date
-            })
-        }
-        else return null
-    }
-    const updateTime = (timeArray) =>{
-        setTimeRange(timeArray)
-        for(let i = 0;i < timeRange.length;i++){
-            localFormattingArray.push({value: i*9, label: timeRange[i]})
-            console.log(timeArray[i])
-        }
-        setTimeSlider(localFormattingArray)
-    }
+
 
     const setTime = (min_time, max_time) => {
         if(context.singleDay){
@@ -138,15 +85,14 @@ export function TimeLine(){
                 <button  className={Timeline.TimeLine_button} onClick={()=>handle()}>
                     {showTimeLine ?  <img src={NavBarCloseIcon} width={32} height={35}/> : <img src={TimeLineIcon} width={32} height={35}/>}
                 </button>
-
-                <CSSTransition in={showTimePanel} timeout={300} classNames={{
+                    <CSSTransition in={showTimeLine} timeout={300} classNames={{
                     enterActive: Timeline.transition_enter,
                     enterDone: Timeline.transition_enter_active,
                     exitActive: Timeline.transition_exit_active,
                     exitDone: Timeline.transition_exit
                 }} unmountOnExit>
 
-                <ClocksForDate updateTime={updateTime} resetTime={resetTime}/>
+                <ClocksForDate />
                 </CSSTransition>
 
                 <CSSTransition in={!showTimeLine} timeout={300} classNames={{
@@ -158,35 +104,6 @@ export function TimeLine(){
 
                     <CurrentDayDisplay date={context}/>
                 </CSSTransition>
-                {context.singleDay &&
-                    <CSSTransition in={showTimeLine} timeout={300} classNames={{
-                        enterActive: Timeline.transition_enter,
-                        enterDone: Timeline.transition_enter_active,
-                        exitActive: Timeline.transition_exit_active,
-                        exitDone: Timeline.transition_exit
-                    }} unmountOnExit>
-                        <div className={Timeline.divSlider}>
-                            {/*<b className={Timeline.val}>{timeRange}</b>*/}
-                            <button className={Timeline.val} onClick={resetTime}>Сбросить время</button>
-                            <Slider
-                                color='primary'
-                                sx={{
-                                    width: 700,
-                                    '& .MuiSlider-mark' : {
-                                        height: 10
-                                    }
-                                }}
-                                defaultValue={10}
-                                track={false}
-                                onChange={timeValue}
-                                step={9}
-                                marks={timeSlider}
-                                min={0}
-                                max={175}
-                            />
-                        </div>
-                    </CSSTransition>
-                }
 
 
                 <CSSTransition in={showTimeLine} timeout={300} classNames={{
@@ -203,7 +120,7 @@ export function TimeLine(){
                                 scrollToSelected={true}
                             >
                                 {showTimeLine && month.map((day, index) =>(
-                                    <Card index={index + 1} day={day} key={index} month={value.month() + 1} year={value.year()} updateTime={updateTime}/>
+                                    <Card index={index + 1} day={day} key={index} month={value.month() + 1} year={value.year()}/>
                                 ))}
                             </ScrollMenu>
                         </div>

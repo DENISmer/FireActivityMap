@@ -1,32 +1,92 @@
-import react, {useState} from 'react'
+import react, {useContext, useEffect, useState} from 'react'
 import TimeField from "react-simple-timefield";
 import Timeline from  "../TimeLine.module.css";
+import Slider from "@mui/material/Slider";
+import React from "react";
+import {Context} from "../../Map/Context";
+import {RequestForImagesData} from "../../Map/RequestsForImagesData/RequestForImagesData";
 
 export function ClocksForDate(props){
+    const [context,setContext] = useContext(Context)
+    let localFormattingArray = [];
+    const [timeRange,setTimeRange] = useState([]);
 
-    const [min_time, setMin_Time] = useState('00:00:00');
-    const [max_time, setMax_Time] = useState('23:59:59');
 
+    const timeValue = (e, val)=>{
+        //console.warn(timeRange)
+        let currentTime = timeSlider.find((element) => element.value === val).label.split('')
+        let minTime = currentTime[0] + currentTime[1] + ':' + currentTime[2] + currentTime[3] + ':00';
+
+        let datetime_as_date = Date.parse(context.currentDate + 'T' + minTime);
+        setContext({
+            singleDay: true,
+            week: false,
+            today: false,
+            last_24_hours: false,
+            daysInRange: false,
+            currentDate: context.currentDate,
+            min_date:'',
+            max_date:'',
+            min_datetime: datetime_as_date,
+            max_datetime: datetime_as_date
+        })
+
+    }
+    const [timeSlider, setTimeSlider] = useState([]);
+    const resetTime = () =>{
+        if(context.singleDay){
+            let min_datetime_as_date = Date.parse(context.currentDate + 'T00:00:00');
+            let max_datetime_as_date = Date.parse(context.currentDate + 'T23:59:59');
+
+            setContext({
+                singleDay: true,
+                week: false,
+                today: false,
+                last_24_hours: false,
+                daysInRange: false,
+                currentDate: context.currentDate,
+                min_date:'',
+                max_date:'',
+                min_datetime: min_datetime_as_date,
+                max_datetime: max_datetime_as_date
+            })
+        }
+        else return null
+    }
+    useEffect(()=>{
+        updateTime(RequestForImagesData(context))
+
+    },[context])
+
+    const updateTime = (timeArray) =>{
+        setTimeRange(timeArray)
+        for(let i = 0;i < timeRange.length;i++){
+            localFormattingArray.push({value: i*9, label: timeRange[i]})
+            console.log(timeArray[i])
+        }
+        setTimeSlider(localFormattingArray)
+    }
 
     return(<>
-        <div className={Timeline.date_time_div}>
-            <div className={Timeline.date_time_min_div}>
-                <b className={Timeline.date_time_label}>Укажите начальное время: </b>
-                <TimeField showSeconds={true}
-                           onChange={(event, value) =>{setMin_Time(value)}}
+            <div className={Timeline.divSlider}>
+                <button className={Timeline.val} onClick={resetTime}>Сбросить время</button>
+                <Slider
+                    color='primary'
+                    sx={{
+                        width: 700,
+                        '& .MuiSlider-mark': {
+                            height: 10
+                        }
+                    }}
+                    defaultValue={10}
+                    track={false}
+                    onChange={timeValue}
+                    step={9}
+                    marks={timeSlider}
+                    min={0}
+                    max={175}
                 />
             </div>
-            <div className={Timeline.date_time_max_div}>
-                <b className={Timeline.date_time_label}>Укажите конечное время: </b>
-                <TimeField value={max_time} showSeconds={true}
-                           onChange={(event, value) =>{setMax_Time(value)}}
-                />
-            </div>
-            <div>
-                <button className={Timeline.save_time} onClick={() => props.updateTime(min_time,max_time)}>Сохранить</button>
-                <button className={Timeline.reset_time} onClick={(event) => {props.resetTime(); setMax_Time('23:59:59'); setMin_Time('00:00:00')}}>Сбросить</button>
-            </div>
-        </div>
         </>
     )
 }
