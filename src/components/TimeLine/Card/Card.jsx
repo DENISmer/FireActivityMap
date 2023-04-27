@@ -2,15 +2,22 @@ import react, {useContext, useEffect, useState} from 'react';
 import card from './Card.module.css'
 import { Context } from '../../Map/Context';
 import {RequestForImagesData} from "../../Map/RequestsForImagesData/RequestForImagesData";
+import {ClocksForDate} from "../ClocksForDate/ClocksForDate";
+import {info} from "autoprefixer";
 
 export function Card(props){
 
     const [context, setContext] = useContext(Context);
-    const [isActive,setIsActive] = useState({active: false, day: null})
+    const [isActive,setIsActive] = useState(false)
     let newDate = [];
     let result;
     let CARD_DATE_AS_DATE = Date.parse([props.year, props.month, props.day].join("-"));
     let card_day = props.day.toString();
+    let cardDayAsInfo;
+
+    const tryInfoAboutMarks = () =>{
+
+    }
 
     if(props.day < 10 && props.month < 10){
         newDate = [props.year, '0' + props.month, '0' + props.day]
@@ -21,10 +28,11 @@ export function Card(props){
     else{
         newDate = [props.year, props.month, props.day]
     }
-    CARD_DATE_AS_DATE = Date.parse(newDate.join('-'))
+    CARD_DATE_AS_DATE = Date.parse(newDate.join('-'));
 
 
     const dayClick = () => {
+        console.log(props.info.data.date)
         result = newDate.join("-");
 
         setContext({
@@ -40,7 +48,7 @@ export function Card(props){
             max_datetime: Date.parse(result + 'T23:59:59')
         })
         try {
-            //props.updateTime(RequestForImagesData(context))
+            //updateTime(RequestForImagesData(context))
         }
         catch (e){
             console.log(e.message)

@@ -54,17 +54,28 @@ export function ClocksForDate(props){
         else return null
     }
     useEffect(()=>{
-        updateTime(RequestForImagesData(context))
+        try {
+            updateTime(RequestForImagesData(context))
+        }
+        catch (e){
+            console.warn(e.message)
+        }
 
     },[context])
 
     const updateTime = (timeArray) =>{
-        setTimeRange(timeArray)
+        setTimeRange(timeArray);
         for(let i = 0;i < timeRange.length;i++){
             localFormattingArray.push({value: i*9, label: timeRange[i]})
             console.log(timeArray[i])
         }
-        setTimeSlider(localFormattingArray)
+        if(localFormattingArray.length >=1){
+            setTimeSlider(localFormattingArray);
+        }
+        else{
+            return null
+        }
+
     }
 
     return(<>

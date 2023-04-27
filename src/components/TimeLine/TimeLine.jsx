@@ -1,4 +1,4 @@
-import React, {react, useContext, useState} from 'react';
+import React, {react, useCallback, useContext, useEffect, useState} from 'react';
 import Timeline from  "./TimeLine.module.css";
 import {CSSTransition} from "react-transition-group";
 import NavBarCloseIcon from "../../icons/closeButton/2x/twotone_close_black_24dp.png";
@@ -11,11 +11,10 @@ import dayjs from "dayjs";
 import {LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {CurrentDayDisplay} from "./CurrentDayDisplay/CurrentDayDisplay";
-import {useCookies} from "react-cookie";
 import {Context} from "../Map/Context";
 import {ClocksForDate} from "./ClocksForDate/ClocksForDate";
-import Slider from '@mui/material/Slider';
-import TimeIcon from "../../icons/2x/clock.png"
+import {RequestForDataView} from "./RequestForDataView";
+
 
 
 export function TimeLine(){
@@ -24,7 +23,7 @@ export function TimeLine(){
     const [month,setMonth] = useState([]);
     const [context,setContext] = useContext(Context)
     const [showTimePanel, setShowTimePanel] = useState(false);
-
+    let infoAboutMarks;
 
     //setCookie('currentDay','2022-5-11', {path: '/',maxAge: 5 * 3600})
     let currentMonth = [];
@@ -48,6 +47,7 @@ export function TimeLine(){
             currentMonth.push(i)
         }
         setMonth(currentMonth)
+        console.log('month: ', value.month());
         return month
     }
 
@@ -77,23 +77,26 @@ export function TimeLine(){
         }
         else return null
     }
+    const call = useCallback(()=>{
+        return RequestForDataView()
+
+    },[showTimeLine])
 
     return(
             <>
-
-
                 <button  className={Timeline.TimeLine_button} onClick={()=>handle()}>
                     {showTimeLine ?  <img src={NavBarCloseIcon} width={32} height={35}/> : <img src={TimeLineIcon} width={32} height={35}/>}
                 </button>
+                {context.singleDay &&
                     <CSSTransition in={showTimeLine} timeout={300} classNames={{
-                    enterActive: Timeline.transition_enter,
-                    enterDone: Timeline.transition_enter_active,
-                    exitActive: Timeline.transition_exit_active,
-                    exitDone: Timeline.transition_exit
-                }} unmountOnExit>
+                        enterActive: Timeline.transition_enter,
+                        enterDone: Timeline.transition_enter_active,
+                        exitActive: Timeline.transition_exit_active,
+                        exitDone: Timeline.transition_exit
+                    }} unmountOnExit>
 
-                <ClocksForDate />
-                </CSSTransition>
+                        <ClocksForDate />
+                    </CSSTransition>}
 
                 <CSSTransition in={!showTimeLine} timeout={300} classNames={{
                     enterActive: Timeline.transition_enter,
@@ -120,7 +123,7 @@ export function TimeLine(){
                                 scrollToSelected={true}
                             >
                                 {showTimeLine && month.map((day, index) =>(
-                                    <Card index={index + 1} day={day} key={index} month={value.month() + 1} year={value.year()}/>
+                                    <Card index={index + 1} day={day} key={index} info={call()} month={value.month() + 1} year={value.year()}/>
                                 ))}
                             </ScrollMenu>
                         </div>
@@ -144,7 +147,6 @@ export function TimeLine(){
                         </div>
                     </div>
                 </CSSTransition>
-
             </>
     )
 

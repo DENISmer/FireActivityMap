@@ -67,6 +67,7 @@ export function MapComponent(){
     const [showNatureReserves, setShowNatureReserves] = useState(false);
     const [showFy3d250ImageOverlay,setShowFy3d250ImageOverlay] = useState(false)
     const [showFy3d1000ImageOverlay, setShowFy3d1000ImageOverlay] = useState(false)
+
     const MemoizedMutableImageOverlay = useMemo(()=> MutableImageOverlay,[context])
     const MemoizedChildComponentMark_render = useMemo(() => MarkersLayer, [context])
 

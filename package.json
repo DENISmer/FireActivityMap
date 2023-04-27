@@ -20,6 +20,7 @@
     "leaflet": "^1.8.0-alpha.0",
     "leaflet-measure": "^3.1.0",
     "material-ui-popup-state": "^5.0.4",
+    "path-browserify": "^1.0.1",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.0",
     "react-calendar": "^4.0.0",
