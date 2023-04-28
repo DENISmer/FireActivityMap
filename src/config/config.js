@@ -6,6 +6,10 @@ export const URL_FOR_MARKS = {
     URL_LAST_24_HOURS : `http://192.168.56.1:8080/api/fires/points/twentyfourhours/`,
 }
 
+export const URL_FOR_COORDS = {
+    COUNTRY_COORDS : `data/coordinateFiles/countryCoords.json`,
+    NATURE_RESERVES_COORDS : `data/coordinateFiles/NatureReservesCoords.json`,
+}
 export const URL_FOR_IMAGES = {
     SOURCE : `data/map_images/chinfire`,
     IMAGE_TXT_START_NAME : `FY3D_MERSI_GBAL_L1_`,

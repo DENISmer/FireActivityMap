@@ -44,7 +44,7 @@ export function MutableImageOverlay(props){
 
                 await axios.get(file).then(response => {
                     console.log(date)
-                    if(response.data.length !== 0){
+                    if(response.data.length !== 0) {
                         console.log('time: ',current_time)
                         localdataArray.push({img: require(`../../${URL_FOR_IMAGES.SOURCE}/${date}/${current_time}/${URL_FOR_IMAGES.IMAGE_TXT_START_NAME}${date}_${current_time}${Fy3dSourceEndName}`),txt: L.latLngBounds(L.latLng(Number(response.data.split('\n')[0]),Number(response.data.split('\n')[1])),L.latLng(Number(response.data.split('\n')[2]),Number(response.data.split('\n')[3])))})
                     }
