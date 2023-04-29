@@ -34,7 +34,7 @@
     "react-leaflet-markercluster": "^3.0.0-rc1",
     "react-multi-date-picker": "^3.3.4",
     "react-router-dom": "^6.6.2",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^5.0.1",
     "react-simple-timefield": "^3.3.1",
     "react-transition-group": "^4.4.5",
     "web-vitals": "^2.1.4"
@@ -45,9 +45,6 @@
     "autoprefixer": "^9.8.8",
     "css-loader": "^5.2.7",
     "lodash": "^4.17.19",
-    "postcss": "^8.3.1",
-    "postcss-import": "^14.0.2",
-    "postcss-loader": "~3.0.0",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^3.0.0"
   },
   "scripts": {

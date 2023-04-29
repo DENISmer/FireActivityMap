@@ -15,17 +15,14 @@ import React, {useRef} from "react";
 import {MainNavBar} from "../MainNavBar/MainNavBar";
 import {Header} from "../Header/Header";
 import {MouseCoordinates} from "../Info/Coordinates";
-import Mark_render from "./mark_render";
 import {useState, createContext, useContext, useEffect, useMemo, useCallback} from "react";
 import {TimeLine} from "../TimeLine/TimeLine";
 import {Ruler} from './Ruler/Ruler.jsx'
 import { Context } from "./Context";
-import '../../data/map_images/chinfire/20220515/0705/FY3D_MERSI_GBAL_L1_20220515_0705_1000M_MS_7_20_21.png'
 import {useCookies} from "react-cookie";
 import {MutableImageOverlay} from "./MutableImageOverlay";
 import CoordsData from "./countreCoords.json";
 import Nature_reserves_coords from "./Nature_reserves_data.json";
-import {ImageOverlay} from "react-leaflet/ImageOverlay";
 import {MarkersLayer} from "./MarkersLayer/markersLayer";
 
 const MyContext = createContext("Without provider");

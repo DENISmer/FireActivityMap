@@ -1,9 +1,6 @@
 import react, {useContext, useEffect, useState} from 'react';
 import card from './Card.module.css'
 import { Context } from '../../Map/Context';
-import {RequestForImagesData} from "../../Map/RequestsForImagesData/RequestForImagesData";
-import {ClocksForDate} from "../ClocksForDate/ClocksForDate";
-import {info} from "autoprefixer";
 
 export function Card(props){
 
@@ -32,7 +29,7 @@ export function Card(props){
 
 
     const dayClick = () => {
-        console.log(props.info.data.date)
+        //console.log(props.info.data.date)
         result = newDate.join("-");
 
         setContext({
