@@ -1,21 +1,19 @@
 import L from 'leaflet';
 import {
-    GeoJSON,
-    LayerGroup,
     LayersControl,
     MapContainer,
     ScaleControl,
     TileLayer,
     ZoomControl,
-    Polyline, FeatureGroup, AttributionControl, Polygon
+    Polyline
 } from "react-leaflet";
 import 'leaflet/dist/leaflet.css'
 import './Map.css';
-import React, {useRef} from "react";
+import React from "react";
 import {MainNavBar} from "../MainNavBar/MainNavBar";
 import {Header} from "../Header/Header";
 import {MouseCoordinates} from "../Info/Coordinates";
-import {useState, createContext, useContext, useEffect, useMemo, useCallback} from "react";
+import {useState, createContext, useMemo} from "react";
 import {TimeLine} from "../TimeLine/TimeLine";
 import {Ruler} from './Ruler/Ruler.jsx'
 import { Context } from "./Context";
@@ -24,6 +22,8 @@ import {MutableImageOverlay} from "./MutableImageOverlay";
 import CoordsData from "./countreCoords.json";
 import Nature_reserves_coords from "./Nature_reserves_data.json";
 import {MarkersLayer} from "./MarkersLayer/markersLayer";
+import axios from "axios";
+import {URL_FOR_MARKS} from "../../config/config";
 
 const MyContext = createContext("Without provider");
 
@@ -35,7 +35,7 @@ function GetIcon(_iconSize){
 }
 
 //const MemoizedChildComponentMark_render = React.memo(Mark_render);
-const MemoizedChildComponentTimeline = React.memo(TimeLine);
+//const MemoizedChildComponentTimeline = React.memo(TimeLine);
 
 export function MapComponent(){
     const [context, setContext] = useState(Context);
@@ -64,14 +64,23 @@ export function MapComponent(){
     const [showNatureReserves, setShowNatureReserves] = useState(false);
     const [showFy3d250ImageOverlay,setShowFy3d250ImageOverlay] = useState(false)
     const [showFy3d1000ImageOverlay, setShowFy3d1000ImageOverlay] = useState(false)
+    const MemoizedTimeline = useMemo(()=> TimeLine,[context])
+    const [infoAboutMarks, setInfoAboutMarks] = useState()
 
-    const MemoizedMutableImageOverlay = useMemo(()=> MutableImageOverlay,[context])
+    //const MemoizedMutableImageOverlay = useMemo(()=> MutableImageOverlay,[context])
     const MemoizedChildComponentMark_render = useMemo(() => MarkersLayer, [context])
 
+    const requestForInfoWhenMapIsReady = () => {//запрос дней на наличие точек
+        axios.get(URL_FOR_MARKS.URL_GET_INFO).then(async response =>{
+            await setInfoAboutMarks(response.data.date)
+            }
+        )
+    }
+
+    //показ~скрытие слоев
     const borders = () => {
         setShowBorders(!showBorders)
     }
-
     const fy3d1000ImageOverlay = () =>{
         //setShowImageOverlay(true);
         setShowFy3d1000ImageOverlay(!showFy3d1000ImageOverlay)
@@ -82,11 +91,9 @@ export function MapComponent(){
         setShowFy3d1000ImageOverlay(false)
         setShowFy3d250ImageOverlay(!showFy3d250ImageOverlay);
     }
-
     const natureReserves = () => {
         setShowNatureReserves(!showNatureReserves);
     }
-
     const markers = () => {
         setShowMarkers(!showMarkers)
     }
@@ -104,6 +111,7 @@ export function MapComponent(){
         <MapContainer zoomControl={false} maxZoom={16} zoom={4} minZoom={2}
                       center={center}
                       ref={setMap}
+                      whenReady={requestForInfoWhenMapIsReady}
                       doubleClickZoom={false}
                       maxBounds={[[-110,-170],[100,200]]}
         >
@@ -137,24 +145,16 @@ export function MapComponent(){
                             markersShow={markers}
                             bordersShow={borders}
                 />
-                <MemoizedChildComponentTimeline />
+                <MemoizedTimeline info={infoAboutMarks}/>
                 <TileLayer url={baseLayer}/>
 
-                {showFy3d1000ImageOverlay && <MemoizedMutableImageOverlay  fy3d1000Settings={showFy3d1000ImageOverlay}/>}
-                {showFy3d250ImageOverlay && <MemoizedMutableImageOverlay  fy3d250Settings={showFy3d250ImageOverlay}/>}
+                {showFy3d1000ImageOverlay && <MutableImageOverlay  fy3d1000Settings={showFy3d1000ImageOverlay}/>}
+                {showFy3d250ImageOverlay && <MutableImageOverlay  fy3d250Settings={showFy3d250ImageOverlay}/>}
 
                 {showBorders && CoordsData.map((port) => (<Polyline positions={port} color={'pink'}/>))}
                 {showNatureReserves && Nature_reserves_coords.map((port) => (<Polyline positions={port} color={'red'}/>))}
                 {showMarkers && <MemoizedChildComponentMark_render />}
 
-                {/*<LayersControl.>*/}
-                {/*    <LayersControl.Overlay name="Точки пожаров" checked={false}>*/}
-                {/*            <LayerGroup >*/}
-                {/*                <MemoizedChildComponentMark_render />*/}
-                {/*            </LayerGroup>*/}
-                {/*    </LayersControl.Overlay>*/}
-
-                {/*</LayersControl>*/}
             </Context.Provider>
         </MapContainer>
 

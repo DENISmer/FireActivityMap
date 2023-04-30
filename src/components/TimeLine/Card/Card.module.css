@@ -23,6 +23,24 @@
     font-weight: bold;
     font-size: 14px;
 }
+.HasInfo{
+    min-width: 30px;
+    width: auto;
+    height: 40px;
+    background-color: rgba(4, 141, 50, 0.32);
+    border: none;
+    margin: 1px;
+    border-radius: 3px;
+    display: flex;
+    font-weight: bold;
+    font-size: 14px;
+}
+.HasInfo:hover{
+    background-color: rgba(0, 0, 0, 0.65);
+    font-weight: bold;
+    color: white;
+    transition: 0.3s;
+}
 .Card>span{
     margin: auto 5px;
 }
