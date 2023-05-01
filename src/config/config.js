@@ -1,9 +1,10 @@
 export const URL_FOR_MARKS = {
-    URL_SINGLE_DAY : `http://192.168.56.1:8080/api/fires/points/?date=`,
-    URL_TODAY : 'http://192.168.56.1:8080/api/fires/points/today/',
-    URL_DAYS_RANGE : `http://192.168.56.1:8080/api/fires/points/?date_min=`,
-    URL_WEEK : `http://192.168.56.1:8080/api/fires/points/week/`,
-    URL_LAST_24_HOURS : `http://192.168.56.1:8080/api/fires/points/twentyfourhours/`,
+    URL_SINGLE_DAY : `http://45.146.167.192:8080/api/fires/points/?date=`,
+    URL_TODAY : 'http://45.146.167.192:8080/api/fires/points/today/',
+    URL_DAYS_RANGE : `http://45.146.167.192:8080/api/fires/points/?date_min=`,
+    URL_WEEK : `http://45.146.167.192:8080/api/fires/points/week/`,
+    URL_LAST_24_HOURS : `http://45.146.167.192:8080/api/fires/points/twentyfourhours/`,
+    URL_GET_INFO : `http://45.146.167.192:8080/api/fires/days/`
 }
 
 export const URL_FOR_COORDS = {

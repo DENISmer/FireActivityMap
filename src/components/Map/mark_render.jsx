@@ -35,12 +35,7 @@ export function Mark_render(onDateChange) {
     const [isRender,setIsRender] = useState(false)
     const [serverError, setServerError] = useState(false)
 
-    // if(cookies.currentDay){
-    //     setContext(cookies.currentDay)
-    // }
-    // else {
-    //     setCookie('2022-15-05')
-    // }
+
     const RequestForData = (context,url) =>{
         let unmounted = false
         //localStorage.clear();
