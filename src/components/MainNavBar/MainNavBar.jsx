@@ -105,7 +105,7 @@ export function MainNavBar(props){
                                         </ListItem>
                                     </div>
                                     : listItem.type === 'imageOverlay' ?
-                                        <div>
+                                        <div className={NavBarStyles.style_map}>
                                             <b>Отображение дополнительных данных</b>
                                             <ListItem key={index}>
                                                 {listItem.name}{

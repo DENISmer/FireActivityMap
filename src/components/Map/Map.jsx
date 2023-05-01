@@ -19,11 +19,11 @@ import {Ruler} from './Ruler/Ruler.jsx'
 import { Context } from "./Context";
 import {useCookies} from "react-cookie";
 import {MutableImageOverlay} from "./MutableImageOverlay";
-import CoordsData from "./countreCoords.json";
-import Nature_reserves_coords from "./Nature_reserves_data.json";
 import {MarkersLayer} from "./MarkersLayer/markersLayer";
 import axios from "axios";
 import {URL_FOR_MARKS} from "../../config/config";
+import {CounrtyBorders} from "./layers/countryBorders";
+import {NatureReserves} from "./layers/NatureReservesBorders";
 
 const MyContext = createContext("Without provider");
 
@@ -150,9 +150,9 @@ export function MapComponent(){
 
                 {showFy3d1000ImageOverlay && <MutableImageOverlay  fy3d1000Settings={showFy3d1000ImageOverlay}/>}
                 {showFy3d250ImageOverlay && <MutableImageOverlay  fy3d250Settings={showFy3d250ImageOverlay}/>}
-
-                {showBorders && CoordsData.map((port) => (<Polyline positions={port} color={'pink'}/>))}
-                {showNatureReserves && Nature_reserves_coords.map((port) => (<Polyline positions={port} color={'red'}/>))}
+\
+                {showBorders && <CounrtyBorders/>}
+                {showNatureReserves && <NatureReserves/>}
                 {showMarkers && <MemoizedChildComponentMark_render />}
 
             </Context.Provider>

@@ -7,6 +7,7 @@ export const URL_FOR_MARKS = {
     URL_GET_INFO : `http://45.146.167.192:8080/api/fires/days/`
 }
 
+
 export const URL_FOR_COORDS = {
     COUNTRY_COORDS : `data/coordinateFiles/countryCoords.json`,
     NATURE_RESERVES_COORDS : `data/coordinateFiles/NatureReservesCoords.json`,
