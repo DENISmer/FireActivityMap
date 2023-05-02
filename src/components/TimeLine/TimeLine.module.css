@@ -145,8 +145,22 @@
     color: black;
     box-shadow: 0 0 0 2px rgba(0,0,0,0.25);
 }
-.val{
+.val {
+    margin: 9px 5px ;
+    height: 35px;
     float: right;
-    bottom: 0;
+    position: center;
     font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.05);
+    color: #fdfdfe;
+    background-color: #007fff;
+}
+.val:hover{
+    background-color: #006efd;
+}
+.val:active{
+    color: #007fff;
+    background-color: #dadada;
 }

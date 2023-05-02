@@ -3,6 +3,8 @@ import Timeline from  "./TimeLine.module.css";
 import {CSSTransition} from "react-transition-group";
 import NavBarCloseIcon from "../../icons/closeButton/2x/twotone_close_black_24dp.png";
 import TimeLineIcon from "../../icons/timeLineButton/2x/outline_calendar_month_black_24dp.png"
+import BackArrow from "../../icons/2x/outline_arrow_back_black_24dp.png";
+import ForwardArrow from "../../icons/2x/outline_arrow_forward_black_24dp.png";
 import {ScrollMenu} from "react-horizontal-scrolling-menu";
 import {Card} from "./Card/Card";
 import TextField from '@mui/material/TextField'
@@ -14,6 +16,7 @@ import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {CurrentDayDisplay} from "./CurrentDayDisplay/CurrentDayDisplay";
 import {Context} from "../Map/Context";
 import {ClocksForDate} from "./ClocksForDate/ClocksForDate";
+
 
 
 
@@ -35,6 +38,7 @@ export function TimeLine(props){
             setShowTimePanel(false);
         }
     }
+
     const getMonth = (daysInMonth) =>{
         currentMonth = [];
         for(let i = 1;i <= daysInMonth;i++){
@@ -45,16 +49,16 @@ export function TimeLine(props){
         return month
     }
 
-    const getDays = (year,month) =>{
+    const getDays = (year,month) => {
         return getMonth(new Date(year,month,0).getDate());
     }
 
     const setPrevMonthValue = () =>{//установка предыдущего месяца
-        setValue(new Date(value.getFullYear().toString(),(value.getMonth() - 1),value.getDay()))
-        getDays(value.getFullYear(), value.getMonth())
+        setValue(new Date(value.getFullYear(),(value.getMonth() - 1),value.getDay()))
+        getDays(value.getFullYear(), value.getMonth()-2)
     }
     const setNextMonthValue = () =>{//установка следующего месяца
-        setValue(new Date(value.getFullYear().toString(),(value.getMonth() + 1),value.getDay()))
+        setValue(new Date(value.getFullYear(),(value.getMonth() + 1),value.getDay()))
         getDays(value.getFullYear(), value.getMonth() + 2)
     }
 
@@ -103,8 +107,12 @@ export function TimeLine(props){
                                 ))}
                             </ScrollMenu>
                         </div>
-                        <button name={'scrollRollback'} onClick={() =>setPrevMonthValue()}>{'<='}</button>
-                        <button name={'scrollForward'} onClick={() => setNextMonthValue()}>=></button>
+                        <button  onClick={() =>setPrevMonthValue()}>
+                            <img src={BackArrow} width={28} height={28}></img>
+                        </button>
+                        <button onClick={() => setNextMonthValue()}>
+                            <img src={ForwardArrow} width={28} height={28}></img>
+                        </button>
                         <div className={Timeline.datePicker}>
                             <LocalizationProvider dateAdapter={AdapterDateFns}>
                                 <DatePicker
