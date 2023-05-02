@@ -159,7 +159,7 @@ export function Mark_render(onDateChange) {
             //mar = cluster.getAllChildMarkers().find(marker => marker.options.brightness > 320)
             html: cluster.getChildCount(),
             className: CUSTOM_CLUSTER_STYLE,
-            iconSize: L.point(35, 35, true),
+            iconSize: L.point(45, 35, true),
         })
     }
     return(<>

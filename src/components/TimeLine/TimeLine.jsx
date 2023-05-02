@@ -46,7 +46,7 @@ export function TimeLine(props){
         }
         setMonth(currentMonth)
         console.log('month: ', month);
-        return month
+        //return month
     }
 
     const getDays = (year,month) => {
@@ -54,14 +54,21 @@ export function TimeLine(props){
     }
 
     const setPrevMonthValue = () =>{//установка предыдущего месяца
-        setValue(new Date(value.getFullYear(),(value.getMonth() - 1),value.getDay()))
-        getDays(value.getFullYear(), value.getMonth()-2)
+        setValue(new Date(value.getFullYear(),(value.getMonth()),0))
     }
     const setNextMonthValue = () =>{//установка следующего месяца
-        setValue(new Date(value.getFullYear(),(value.getMonth() + 1),value.getDay()))
-        getDays(value.getFullYear(), value.getMonth() + 2)
+        setValue(new Date(value.getFullYear(),(value.getMonth() + 2),0))
     }
 
+    useEffect(()=>{
+        try{
+            console.log(value.getMonth() + 1)
+            getDays(value.getFullYear(), value.getMonth() + 1)
+        }
+        catch (e){
+            console.warn(e.message)
+        }
+    },[value])
     return(
             <>
                 <button  className={Timeline.TimeLine_button} onClick={()=>handle()}>
@@ -106,13 +113,16 @@ export function TimeLine(props){
                                     <Card index={index + 1} day={day} info={props.info} key={index} month={value.getMonth() + 1} year={value.getFullYear()}/>
                                 ))}
                             </ScrollMenu>
-                        </div>
-                        <button  onClick={() =>setPrevMonthValue()}>
+
+                            <button  onClick={() =>setPrevMonthValue()}>
                             <img src={BackArrow} width={28} height={28}></img>
                         </button>
-                        <button onClick={() => setNextMonthValue()}>
-                            <img src={ForwardArrow} width={28} height={28}></img>
-                        </button>
+
+                            <button onClick={() => setNextMonthValue()}>
+                                <img src={ForwardArrow} width={28} height={28}></img>
+                            </button>
+                        </div>
+
                         <div className={Timeline.datePicker}>
                             <LocalizationProvider dateAdapter={AdapterDateFns}>
                                 <DatePicker
