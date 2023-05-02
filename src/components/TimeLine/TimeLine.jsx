@@ -114,16 +114,15 @@ export function TimeLine(props){
                                 ))}
                             </ScrollMenu>
 
-                            <button  onClick={() =>setPrevMonthValue()}>
-                            <img src={BackArrow} width={28} height={28}></img>
-                        </button>
 
-                            <button onClick={() => setNextMonthValue()}>
-                                <img src={ForwardArrow} width={28} height={28}></img>
-                            </button>
+
+
                         </div>
 
                         <div className={Timeline.datePicker}>
+                            <button className={Timeline.switch_month} onClick={() =>setPrevMonthValue()}>
+                            <img src={BackArrow} width={20} height={20}></img>
+                        </button>
                             <LocalizationProvider dateAdapter={AdapterDateFns}>
                                 <DatePicker
                                     views={['year', 'month']}
@@ -139,6 +138,9 @@ export function TimeLine(props){
                                     renderInput={(params) => <TextField size={"small"}{...params} helperText={null} />}
                                 />
                             </LocalizationProvider>
+                            <button className={Timeline.switch_month} onClick={() => setNextMonthValue()}>
+                            <img src={ForwardArrow} width={20} height={20}></img>
+                        </button>
                         </div>
                     </div>
                 </CSSTransition>

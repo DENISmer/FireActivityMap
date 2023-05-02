@@ -1,7 +1,7 @@
 .Card{
     min-width: 30px;
     width: auto;
-    height: 40px;
+    height: 38px;
     background-color: rgba(0, 157, 255, 0.32);
     border: none;
     margin: 1px;
@@ -13,7 +13,7 @@
 .Active{
     min-width: 30px;
     width: auto;
-    height: 40px;
+    height: 38px;
     background-color: rgb(255, 255, 255);
     color: #000000;
     border: solid 1px black;
@@ -26,7 +26,7 @@
 .HasInfo{
     min-width: 30px;
     width: auto;
-    height: 40px;
+    height: 38px;
     background-color: rgba(4, 141, 50, 0.32);
     border: none;
     margin: 1px;

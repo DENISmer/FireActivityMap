@@ -14,7 +14,7 @@
     height: auto;
     box-shadow: 0 0 0 2px rgba(0,0,0,0.25);
     align-content: flex-end;
-    padding: 4px;
+    padding: 4.5px;
     cursor: pointer;
 }
 .scrollDays{
@@ -61,9 +61,9 @@
     padding-left: 0;
     left: 500px;
     display: flex;
-    width: 165px;
-    max-width: 170px;
-    min-width: 170px;
+    /*width: 165px;*/
+    max-width: 255px;
+    min-width: 190px;
 }
 
 .date_time_div{
@@ -81,7 +81,10 @@
     width: auto;
     height: auto;
 }
-
+.switch_month{
+    margin-top: 1px;
+    max-height: 38px;
+}
 .date_time_label{
     font-size: 16px;
 }
@@ -136,12 +139,12 @@
     text-align: center;
     z-index: 900;
     position: absolute;
-    bottom: 80px;
+    bottom: 90px;
     width: 900px;
-    height: 55px;
+    height: 50px;
     background-color: white;
-    border-radius: 15px;
-    right: 300px;
+    border-radius: 5px;
+    right: 60px;
     color: black;
     box-shadow: 0 0 0 2px rgba(0,0,0,0.25);
 }
