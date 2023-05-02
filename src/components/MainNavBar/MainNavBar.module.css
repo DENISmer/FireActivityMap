@@ -11,11 +11,10 @@
     font-size: 1.3em;
 }
 .list{
-    margin: 3px;
+    margin: 0 auto;
 }
 
 .style_map{
-    margin-top: 5px;
     float: left;
 }
 .navBarMainInstruments{
@@ -26,7 +25,6 @@
     padding: 5px;
 }
 .navBarSortDate{
-    display: flex;
     flex-direction: column;
     margin: 7px;
     border-radius: 3px;
@@ -110,7 +108,22 @@
 }
 
 .buttonSort{
-    margin: 20em;
+    font-size: 16px;
+    width: 17%;
+    height: 30px;
+    color: #fdfdfe;
+    border: none;
+    border-radius: 3px;
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.05);
+    background-color: #0059ff;
+    margin: 0 2px;
+}
+.buttonSort:hover{
+    background-color: #006efd;
+}
+.buttonSort:active{
+    color: #fdfdfe;
+    background-color: #0059ff;
 }
 
 .date_time_max_div{
@@ -140,4 +153,60 @@
 }
 .reset_time:hover{
     background-color: #006efd;
+}
+.markersYellow{
+    float: left;
+    line-height: 20px;
+    margin-right: 7px;
+    width: 55px;
+    border: solid 1px;
+    background: #F8F40266;
+    border-radius: 60px;
+    text-align: center;
+}
+.markersOrange{
+    float: left;
+    line-height: 20px;
+    width: 100px;
+    margin-right: 7px;
+    border: solid 1px;
+    background: #F3661D72;
+    border-radius: 60px;
+    text-align: center;
+}
+.markersRed{
+    float: left;
+    line-height: 20px;
+    width: 100px;
+    margin-right: 7px;
+    border: solid 1px;
+    background: #EC0C0C72;
+    border-radius: 60px;
+    text-align: center;
+}
+.markersExtraHot{
+    float: left;
+    line-height: 20px;
+    width: 55px;
+    margin-right: 7px;
+    border: solid 1px;
+    background: #980000D8;
+    border-radius: 60px;
+    text-align: center;
+}
+.spanInfo{
+    text-align: center;
+}
+.markersDiv{
+    margin:0 auto;
+    width: 400px;
+    height: 22px;
+    float: left;
+}
+.divSwitch{
+
+}
+.listItem{
+
+    margin: -10px auto;
 }

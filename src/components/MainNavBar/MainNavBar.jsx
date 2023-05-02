@@ -5,15 +5,14 @@ import NavBarCloseIcon from '../../icons/closeButton/2x/twotone_close_black_24dp
 import 'react-calendar/dist/Calendar.css';
 import {CSSTransition} from "react-transition-group";
 import {Context} from "../Map/Context";
-import Button from "@mui/material/Button";
-import L from 'leaflet';
 import {Checkbox, List, ListItem, Switch} from "@mui/material";
 import DatePanel from "react-multi-date-picker/plugins/date_panel"
 import Range_days from "./MainNavBar.module.css";
 import TimeField from "react-simple-timefield";
 import transition from "react-element-popper/animations/transition"
 import DatePicker, {DateObject} from "react-multi-date-picker";
-import {value} from "lodash/seq";
+import Timeline from "../TimeLine/TimeLine.module.css";
+import {ClocksForDate} from "../TimeLine/ClocksForDate/ClocksForDate";
 
 
 
@@ -91,10 +90,10 @@ export function MainNavBar(props){
                 <div className={NavBarStyles.navBar}>
                     <div className={NavBarStyles.navBarMainInstruments}>
                         <List className={NavBarStyles.list}>
-                            <b>Варианты подстилающей карты</b><br></br>
+                            <b>Варианты подстилающей карты</b><br/>
                             { props.layers.map((listItem,index)=>(listItem.type === 'baseLayer' ?
                                     <div className={NavBarStyles.style_map}>
-                                        <ListItem key={index}>
+                                        <ListItem  key={index}>
                                             {listItem.name}{
                                             <Checkbox
                                                 checked={listItem.name === props.layers.find(name => name.url === props.layersValue).name}
@@ -104,22 +103,10 @@ export function MainNavBar(props){
                                         }
                                         </ListItem>
                                     </div>
-                                    : listItem.type === 'imageOverlay' ?
-                                        <div className={NavBarStyles.style_map}>
-                                            <b>Отображение дополнительных данных</b>
-                                            <ListItem key={index}>
-                                                {listItem.name}{
-                                                <Switch
-                                                    checked={props.imageValue}
-                                                    edge="end"
-                                                    onChange={()=>props.imageOverlayShow()}
-                                                    //inputProps={{ 'aria-labelledby': labelId }}
-                                                />
-                                            }
-                                            </ListItem>
-                                        </div>
                                         : listItem.type === 'markersOverlay' ?
-                                            <ListItem key={index}>
+                                        <div className={NavBarStyles.divSwitch}>
+                                            <b>Отображение дополнительных данных</b>
+                                            <ListItem className={NavBarStyles.listItem} key={index}>
                                                 {listItem.name}{
                                                 <Switch
                                                     checked={props.markersValue}
@@ -129,8 +116,24 @@ export function MainNavBar(props){
                                                 />
                                             }
                                             </ListItem>
+                                            {props.markersValue && <div className={NavBarStyles.markersDiv}>
+                                                <div className={NavBarStyles.markersYellow}>
+                                                    <span className={NavBarStyles.spanInfo}>{'<593K'}</span>
+                                                </div>
+                                                <div className={NavBarStyles.markersOrange}>
+                                                    <span className={NavBarStyles.spanInfo}>{'>593K<613'}</span>
+                                                </div>
+                                                <div className={NavBarStyles.markersRed}>
+                                                    <span className={NavBarStyles.spanInfo}>{'>613K<663K'}</span>
+                                                </div>
+                                                <div className={NavBarStyles.markersExtraHot}>
+                                                    <span className={NavBarStyles.spanInfo}>{'>663K'}</span>
+                                                </div>
+                                            </div>}
+                                        </div>
                                             : listItem.type === 'natureReserves' ?
-                                                <ListItem key={index}>
+                                            <div className={NavBarStyles.divSwitch}>
+                                                <ListItem className={NavBarStyles.listItem} key={index}>
                                                     {listItem.name}{
                                                     <Switch
                                                         checked={props.natureReservesValue}
@@ -140,8 +143,10 @@ export function MainNavBar(props){
                                                     />
                                                 }
                                                 </ListItem>
+                                            </div>
                                                 : listItem.type === 'imageOverlayFY3D250' ?
-                                                    <ListItem key={index}>
+                                                <div className={NavBarStyles.divSwitch}>
+                                                    <ListItem className={NavBarStyles.listItem} key={index}>
                                                         {listItem.name}{
                                                         <Switch
                                                             checked={props.fy3d250Value}
@@ -149,18 +154,24 @@ export function MainNavBar(props){
                                                             onChange={()=>props.fy3d250Show()}
                                                         />
                                                     }
-                                                    </ListItem> : listItem.type === 'imageOverlayFY3D1000' ?
-                                                    <ListItem key={index}>
-                                                        {listItem.name}{
-                                                        <Switch
-                                                            checked={props.fy3d1000Value}
-                                                            edge="end"
-                                                            onChange={()=>props.fy3d1000Show()}
-                                                            //inputProps={{ 'aria-labelledby': labelId }}
-                                                        />
-                                                    }
-                                                    </ListItem> :
-                                                        <ListItem key={index}>
+                                                    </ListItem>
+                                                </div>
+                                                    : listItem.type === 'imageOverlayFY3D1000' ?
+                                                    <div  className={NavBarStyles.divSwitch}>
+                                                        <ListItem className={NavBarStyles.listItem} key={index}>
+                                                            {listItem.name}{
+                                                            <Switch
+                                                                checked={props.fy3d1000Value}
+                                                                edge="end"
+                                                                onChange={()=>props.fy3d1000Show()}
+                                                                //inputProps={{ 'aria-labelledby': labelId }}
+                                                            />
+                                                        }
+                                                        </ListItem>
+                                                    </div>
+                                                    :
+                                                    <div className={NavBarStyles.divSwitch}>
+                                                        <ListItem className={NavBarStyles.listItem} key={index}>
                                                             {listItem.name}{
                                                             <Switch
                                                                 checked={props.bordersValue}
@@ -170,6 +181,7 @@ export function MainNavBar(props){
                                                             />
                                                         }
                                                         </ListItem>
+                                                    </div>
                             ))
                             }
                         </List>
@@ -212,7 +224,7 @@ export function MainNavBar(props){
 
                     <div className={NavBarStyles.navBarSortDate}>
                         <b className={NavBarStyles.heading_sort}>Сортировать данные за:</b>
-                        <Button className={NavBarStyles.buttonSort} onClick={()=>setContext({
+                        <button className={NavBarStyles.buttonSort} onClick={()=>setContext({
                             today: true,
                             singleDay: true,
                             week: false,
@@ -223,9 +235,9 @@ export function MainNavBar(props){
                             currentDate: today,
                             min_datetime: setToday() + 'T00:00:00',
                             max_datetime: setToday() + 'T23:59:59',
-                        })} size={"small"} variant={"contained"} title={'Точки пожаров за сегодня'}>Сегодня</Button>
+                        })} title={'Точки пожаров за сегодня'}>Сегодня</button>
 
-                        <Button className={NavBarStyles.buttonSort} onClick={()=>setContext({
+                        <button className={NavBarStyles.buttonSort} onClick={()=>setContext({
                             today: false,
                             singleDay: false,
                             week: false,
@@ -234,9 +246,9 @@ export function MainNavBar(props){
                             min_date: '',
                             max_date: '',
                             currentDate: ''
-                        })} size={"small"} variant={"contained"} title={'Точки пожаров за 24 часа'}>24 часа</Button>
+                        })} title={'Точки пожаров за 24 часа'}>24 часа</button>
 
-                        <Button className={NavBarStyles.buttonSort} onClick={()=>setContext({
+                        <button className={NavBarStyles.buttonSort} onClick={()=>setContext({
                             today: false,
                             singleDay: false,
                             week: true,
@@ -245,7 +257,7 @@ export function MainNavBar(props){
                             min_date: '',
                             max_date: '',
                             currentDate: ''
-                        })} size={"small"} variant={"contained"} title={'Точки пожаров за неделю'}>Неделя</Button>
+                        })} title={'Точки пожаров за неделю'}>Неделя</button>
                     </div>
 
 
