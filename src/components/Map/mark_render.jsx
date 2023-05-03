@@ -177,10 +177,12 @@ export function Mark_render(onDateChange) {
                     (context.min_datetime <= Date.parse(nat.datetime) && Date.parse(nat.datetime) <= context.max_datetime) &&
                     <Marker icon={GetIcon(10, 10, nat.temperature)}
                             key={index}
-                            position={new L.LatLng(nat.longitude,nat.latitude)}
+                            position={new L.LatLng(nat.latitude, nat.longitude)}
                     >
                         <Popup closeButton={false} key={index}>
-                            Координаты: {nat.latitude}, {nat.longitude}
+                            Широта: {nat.latitude}
+                            <br/>
+                            Долгота: {nat.latitude}
                             <br/>
                             Температура: {nat.temperature}
                             <br/>
@@ -192,12 +194,16 @@ export function Mark_render(onDateChange) {
                 {context.daysInRange && points.length!== 0 && points.map((nat, index) => (
                     <Marker icon={GetIcon(10, 10, nat.temperature)}
                             key={index}
-                            position={new L.LatLng(nat.longitude, nat.latitude)}
+                            position={new L.LatLng(nat.latitude, nat.longitude)}
                             updateWhenZooming={false}
                             updateWhenIdle={true}
                     >
                         <Popup closeButton={false} key={index}>
-                            Координаты: {nat.latitude}, {nat.longitude}
+                            Широта: {nat.latitude}
+                            <br/>
+                            Долгота: {nat.latitude}
+                            <br/>
+                            {nat.longitude}
                             <br/>
                             Температура: {nat.temperature}
                             <br/>
