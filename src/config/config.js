@@ -6,12 +6,13 @@ export const URL_FOR_MARKS = {
     URL_LAST_24_HOURS : `http://45.146.167.192:8080/api/fires/points/twentyfourhours/`,
     URL_GET_INFO : `http://45.146.167.192:8080/api/fires/days/`
 }
+
 export const URL_FOR_FILES = {
     URL_SHP_DATETIME : `http://45.146.167.192:8080/api/fires/load/shapefile/`, //get params:date_time=2022-11-12T12:15&subject_tag=ALTAY
     URL_PDF : `http://45.146.167.192:8080/api/fires/load/pdf/`, //get params:date_time=2022-11-12T12:15&subject_tag=ALTAY&cloud_shielding=12&operator_fio=xjxjjxx
     URL_FOR_SETTLEMENTS : `http://45.146.167.192:8080/api/fires/settlement_least_5/` //get params:date или date_min и date_max & list_ids=(true,yes,1,t,no, false, 0, f)
-
 }
+
 export const URL_FOR_COORDS = {
     COUNTRY_COORDS : `data/coordinateFiles/countryCoords.json`,
     NATURE_RESERVES_COORDS : `data/coordinateFiles/NatureReservesCoords.json`,

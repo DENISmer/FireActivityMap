@@ -123,7 +123,7 @@ export function Mark_render(onDateChange) {
 
         markersInCluster.find((marker, index) => {
 
-                childrensBrightness = marker.options.children.props.children[6];
+                childrensBrightness = marker.options.children.props.children[7];
                 //console.log(marker.options.children.props.children[6])
                 GetIcon(5,5,childrensBrightness)
                 if(childrensBrightness >= 390){
@@ -182,7 +182,7 @@ export function Mark_render(onDateChange) {
                         <Popup closeButton={false} key={index}>
                             Широта: {nat.latitude}
                             <br/>
-                            Долгота: {nat.latitude}
+                            Долгота: {nat.longitude}
                             <br/>
                             Температура: {nat.temperature}
                             <br/>
@@ -201,9 +201,8 @@ export function Mark_render(onDateChange) {
                         <Popup closeButton={false} key={index}>
                             Широта: {nat.latitude}
                             <br/>
-                            Долгота: {nat.latitude}
+                            Долгота: {nat.longitude}
                             <br/>
-                            {nat.longitude}
                             <br/>
                             Температура: {nat.temperature}
                             <br/>
