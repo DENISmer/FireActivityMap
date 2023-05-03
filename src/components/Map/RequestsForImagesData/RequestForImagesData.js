@@ -1,7 +1,7 @@
 import axios from "axios";
 import {URL_FOR_IMAGES} from "../../../config/config";
 
-export function RequestForImagesData(context){
+export async function RequestForImagesData(context){
     let file;
     let min_time;
     let max_time;
@@ -21,7 +21,7 @@ export function RequestForImagesData(context){
 
         let current_time;
 
-        if(context.singleDay && context.min_datetime !== undefined){
+        if(context.singleDay && context.min_datetime !== undefined && context.max_datetime !== undefined){
             date = context.currentDate.split('-').join('')
             min_time = new Date(context.min_datetime).toString().split(' ')[4].split(':')[0] + new Date(context.min_datetime).toString().split(' ')[4].split(':')[1]
             max_time = new Date(context.max_datetime).toString().split(' ')[4].split(':')[0] + new Date(context.max_datetime).toString().split(' ')[4].split(':')[1]
@@ -34,7 +34,7 @@ export function RequestForImagesData(context){
                 file = require(`../../../${URL_FOR_IMAGES.SOURCE}/${date}/${current_time}/${URL_FOR_IMAGES.IMAGE_TXT_START_NAME}${date}_${current_time}${URL_FOR_IMAGES.TXT_END_NAME}`)
 
                 if(file){
-                axios.get(file).then(response => {
+                await axios.get(file).then(response => {
                     if(response.data.length !== 0){
                         console.log('time: ',currentTimeToString(cycle_time))
                         imagesTime.push(currentTimeToString(cycle_time))
@@ -42,6 +42,7 @@ export function RequestForImagesData(context){
                             console.log('data= ', response.data)
                         }
                     }
+                    else return null
                 })
                 }
             }
@@ -50,5 +51,5 @@ export function RequestForImagesData(context){
                 //continue
             }
         }
-    return imagesTime;
+     return await imagesTime;
 }

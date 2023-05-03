@@ -149,7 +149,6 @@ export function MapComponent(){
 
                 {showFy3d1000ImageOverlay && <MutableImageOverlay  fy3d1000Settings={showFy3d1000ImageOverlay}/>}
                 {showFy3d250ImageOverlay && <MutableImageOverlay  fy3d250Settings={showFy3d250ImageOverlay}/>}
-\
                 {showBorders && <CounrtyBorders/>}
                 {showNatureReserves && <NatureReserves/>}
                 {showMarkers && <MemoizedChildComponentMark_render />}

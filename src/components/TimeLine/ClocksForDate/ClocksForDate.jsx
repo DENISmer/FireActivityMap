@@ -5,12 +5,14 @@ import Slider from "@mui/material/Slider";
 import React from "react";
 import {Context} from "../../Map/Context";
 import {RequestForImagesData} from "../../Map/RequestsForImagesData/RequestForImagesData";
-
 export function ClocksForDate(props){
     const [context,setContext] = useContext(Context)
+
     let localFormattingArray = [];
+
     const [timeRange,setTimeRange] = useState([]);
 
+    let localContextCurrentDay;
 
     const timeValue = (e, val)=>{
         //console.warn(timeRange)
@@ -18,6 +20,7 @@ export function ClocksForDate(props){
         let minTime = currentTime[0] + currentTime[1] + ':' + currentTime[2] + currentTime[3] + ':00';
 
         let datetime_as_date = Date.parse(context.currentDate + 'T' + minTime);
+        console.log(datetime_as_date)
         setContext({
             singleDay: true,
             week: false,
@@ -54,19 +57,32 @@ export function ClocksForDate(props){
         else return null
     }
     useEffect(()=>{
-        try {
-            updateTime(RequestForImagesData(context))
-        }
-        catch (e){
-            console.warn(e.message)
-        }
+            try {
+                RequestForImagesData(context).then(response =>{
+                    for(let i = 0;i < response.length;i++){
+                        localFormattingArray.push({value: i*9, label: response[i]})
+                        console.log(response[i])
+                    }
+                    if(localFormattingArray.length >=1){
+                        setTimeSlider(localFormattingArray);
+                    }
+                    else{
+                        return null
+                    }
+                    }
+                )
+                console.log('NO ERROR')
+            }
+            catch (e){
+                console.warn(e.message)
+            }
 
     },[context])
 
     const updateTime = (timeArray) =>{
-        setTimeRange(timeArray);
-        for(let i = 0;i < timeRange.length;i++){
-            localFormattingArray.push({value: i*9, label: timeRange[i]})
+        console.log(timeArray.length)
+        for(let i = 0;i < timeArray.length;i++){
+            localFormattingArray.push({value: i*9, label: timeArray[i]})
             console.log(timeArray[i])
         }
         if(localFormattingArray.length >=1){
