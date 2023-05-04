@@ -3,7 +3,7 @@ import {Marker, Polyline, Popup} from "react-leaflet";
 import L from 'leaflet';
 import Icon from 'leaflet';
 import {useEffect, useState} from "react";
-import icon from '../../../icons/2x/outline_maps_home_work_black_24dp.png'
+//import icon from '../../../icons/2x/outline_maps_home_work_black_24dp.png'
 
 function GetIcon(_iconSize) {
     return L.icon({

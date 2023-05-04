@@ -132,12 +132,14 @@ export function MapComponent(){
 
             <Header />
             <SettLements/>
-            <ModalReport active={modalActive} setActive={setModalActive}/>
+
 
 
             <MouseCoordinates />
 
             <Context.Provider value={[context, setContext]}>
+
+                <ModalReport active={modalActive} setActive={setModalActive}/>
                 <MainNavBar map={map}
                             layers={layersDict}
                             layersChange={changeLayer}
