@@ -16,6 +16,7 @@ export const URL_FOR_FILES = {
 export const URL_FOR_COORDS = {
     COUNTRY_COORDS : `data/coordinateFiles/countryCoords.json`,
     NATURE_RESERVES_COORDS : `data/coordinateFiles/NatureReservesCoords.json`,
+    SETTLEMENTS: 'data/coordinateFiles/settLements.json',
 }
 export const URL_FOR_IMAGES = {
     SOURCE : `data/map_images/chinfire`,

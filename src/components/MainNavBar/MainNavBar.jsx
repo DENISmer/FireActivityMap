@@ -88,6 +88,12 @@ export function MainNavBar(props){
             }} unmountOnExit>
 
                 <div className={NavBarStyles.navBar}>
+                    <div className={NavBarStyles.reportPdf}>
+                        <button className={NavBarStyles.reportButton} onClick={props.modal}>Отчёт в PDF</button>
+                    </div>
+                    <div className={NavBarStyles.reportShp}>
+                        <button className={NavBarStyles.reportButton} onClick={props.modal}>Отчёт в SHP</button>
+                    </div>
                     <div className={NavBarStyles.navBarMainInstruments}>
                         <List className={NavBarStyles.list}>
                             <b>Варианты подстилающей карты</b><br/>
@@ -121,7 +127,7 @@ export function MainNavBar(props){
                                                     <span className={NavBarStyles.spanInfo}>{'<593K'}</span>
                                                 </div>
                                                 <div className={NavBarStyles.markersOrange}>
-                                                    <span className={NavBarStyles.spanInfo}>{'>593K<613'}</span>
+                                                    <span className={NavBarStyles.spanInfo}>{'>593K<613K'}</span>
                                                 </div>
                                                 <div className={NavBarStyles.markersRed}>
                                                     <span className={NavBarStyles.spanInfo}>{'>613K<663K'}</span>
@@ -169,7 +175,20 @@ export function MainNavBar(props){
                                                         }
                                                         </ListItem>
                                                     </div>
-                                                    :
+                                                    : listItem.type === 'settLement' ?
+                                                        <div  className={NavBarStyles.divSwitch}>
+                                                            <ListItem className={NavBarStyles.listItem} key={index}>
+                                                                {listItem.name}{
+                                                                <Switch
+                                                                    checked={props.settLementValue}
+                                                                    edge="end"
+                                                                    onChange={()=>props.settLementShow()}
+                                                                    //inputProps={{ 'aria-labelledby': labelId }}
+                                                                />
+                                                            }
+                                                            </ListItem>
+                                                        </div>
+                                                        :
                                                     <div className={NavBarStyles.divSwitch}>
                                                         <ListItem className={NavBarStyles.listItem} key={index}>
                                                             {listItem.name}{
@@ -197,7 +216,6 @@ export function MainNavBar(props){
                     {/*        exitActive: NavBarStyles.transition_exit_active,*/}
                     {/*        exitDone: NavBarStyles.transition_exit*/}
                     {/*    }} unmountOnExit>*/}
-
                     {/*        <div className={NavBarStyles.wrapper}>*/}
                     {/*            <TextField*/}
                     {/*                label="широта"*/}

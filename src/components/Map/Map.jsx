@@ -5,7 +5,7 @@ import {
     ScaleControl,
     TileLayer,
     ZoomControl,
-    Polyline
+    Polyline, Marker
 } from "react-leaflet";
 import 'leaflet/dist/leaflet.css'
 import './Map.css';
@@ -24,6 +24,9 @@ import axios from "axios";
 import {URL_FOR_MARKS} from "../../config/config";
 import {CounrtyBorders} from "./layers/countryBorders";
 import {NatureReserves} from "./layers/NatureReservesBorders";
+import {SettLements} from "./layers/localities";
+import {ModalReport} from "../MainNavBar/reportModal/Modal";
+
 
 const MyContext = createContext("Without provider");
 
@@ -51,20 +54,21 @@ export function MapComponent(){
         {name: 'Точки возгорания', type: 'markersOverlay', url: null},
         {name: 'Границы регионов', type: 'regionBorders', url: MutableImageOverlay},
         {name: 'Заповедники', type: 'natureReserves', url: null},
+        {name: 'Населённые пункты', type: 'settLement', url: null},
         {name: 'FY-3D 250M', type: 'imageOverlayFY3D250', url: null},
         {name: 'FY-3D 1000M', type: 'imageOverlayFY3D1000', url: null}
-
     ]
-
+    const [modalActive, setModalActive] = useState(false)
     const [baseLayer,setBaseLayer] = useState(layersDict[0].url);
     const [showImageOverlay, setShowImageOverlay] = useState(false);
     const [showMarkers,setShowMarkers] = useState(false);
     const [showBorders,setShowBorders] = useState(false);
     const [showNatureReserves, setShowNatureReserves] = useState(false);
-    const [showFy3d250ImageOverlay,setShowFy3d250ImageOverlay] = useState(false)
-    const [showFy3d1000ImageOverlay, setShowFy3d1000ImageOverlay] = useState(false)
-    const MemoizedTimeline = useMemo(()=> TimeLine,[context])
-    const [infoAboutMarks, setInfoAboutMarks] = useState()
+    const [showFy3d250ImageOverlay,setShowFy3d250ImageOverlay] = useState(false);
+    const [showFy3d1000ImageOverlay, setShowFy3d1000ImageOverlay] = useState(false);
+    const MemoizedTimeline = useMemo(()=> TimeLine,[context]);
+    const [infoAboutMarks, setInfoAboutMarks] = useState();
+    const [settLementShow, setSettLementShow] = useState();
 
     //const MemoizedMutableImageOverlay = useMemo(()=> MutableImageOverlay,[context])
     const MemoizedChildComponentMark_render = useMemo(() => MarkersLayer, [context])
@@ -76,6 +80,13 @@ export function MapComponent(){
         )
     }
 
+    const modal = () =>{
+        setModalActive(true)
+    }
+
+    const settLement = () =>{
+        setSettLementShow(!settLementShow)
+    }
     //показ~скрытие слоев
     const borders = () => {
         setShowBorders(!showBorders)
@@ -120,6 +131,9 @@ export function MapComponent(){
             <Ruler />
 
             <Header />
+            <SettLements/>
+            <ModalReport active={modalActive} setActive={setModalActive}/>
+
 
             <MouseCoordinates />
 
@@ -131,6 +145,12 @@ export function MapComponent(){
                             bordersValue={showBorders}
                             natureReservesValue = {showNatureReserves}
                             markersValue={showMarkers}
+
+                            modalValue = {modalActive}
+                            modal={modal}
+
+                            settLementValue={settLementShow}
+                            settLementShow={settLement}
 
                             fy3d250Value={showFy3d250ImageOverlay}
                             fy3d250Show={fy3d250ImageOverlay}
@@ -149,13 +169,11 @@ export function MapComponent(){
 
                 {showFy3d1000ImageOverlay && <MutableImageOverlay  fy3d1000Settings={showFy3d1000ImageOverlay}/>}
                 {showFy3d250ImageOverlay && <MutableImageOverlay  fy3d250Settings={showFy3d250ImageOverlay}/>}
-\
                 {showBorders && <CounrtyBorders/>}
                 {showNatureReserves && <NatureReserves/>}
                 {showMarkers && <MemoizedChildComponentMark_render />}
 
             </Context.Provider>
         </MapContainer>
-
     </>
     }

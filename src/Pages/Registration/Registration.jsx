@@ -198,7 +198,7 @@ export function Registration(){
 
                     <div className={newStyle.file_input_box}>
                         <label className={newStyle.file_label}>Прикрепите документ, подтверждающий информацию</label>
-                        <input className={newStyle.file_input} type={"file"} required/>
+                        <input className={newStyle.file_input} type={"file"} accept={'.docx,.doc,.pdf,.obt'} required/>
                     </div>
 
                     <input className={newStyle.button} type="submit" disabled={!isValid}/>
