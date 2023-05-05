@@ -3,8 +3,65 @@ import React, {useContext, useState} from 'react';
 import {Context} from "../../Map/Context";
 import {URL_FOR_FILES} from "../../../config/config";
 import axios from "axios";
+import {value} from "lodash/seq";
+import {slidingWindow} from "react-horizontal-scrolling-menu";
+import {isEmpty} from "lodash";
+import {isRouteErrorResponse} from "react-router-dom";
 
+async function checkStates(pdfDateTime,pdfSubjectTag,cloudShielding,operatorFullName, url) {
+    if(!pdfDateTime || !pdfSubjectTag || !cloudShielding || !operatorFullName){
+        console.log('undef: ', pdfDateTime,pdfSubjectTag,cloudShielding,operatorFullName)
+        return false
+    }
+    else{
+        await axios.get(url).then(response => {
+            if(response.status === 200){
+                if(typeof response.data === 'object'){
+                    if(response.data.file_inf){
+                        console.log(response.data.file_inf)//данные введены верно, но данных нет
+                        return false
+                    }
+                    else if(response.data.fields_error){
+                        console.log(response.data.fields_error)//данные введены верно
+                        return false
+                    }
+                }
+                else{//если данные введены правильно и создан/есть отчет за выбранный период
+                    console.log("ready to next page", url)
+                    return true;
+                }
+            }
+            else{
+                console.warn('network error')
+                return false
+            }
+        }).catch(e => {
+            console.log(e.message);
+            return false
+        })
+    }
+    //window.open(URL,"_blank")
+}
 export function ModalReport ({active, setActive}){
+
+    const subjectNames = [
+        {name: 'Алтайский край', tag: 'ALTAY'},
+        {name: 'Республика Бурятия', tag: 'BUR'},
+        {name: 'Республика Алтай', tag: 'GALTAY'},
+        {name: 'Иркутская область', tag: 'IRK'},
+        {name: 'Кемеровская область', tag: 'KEM'},
+        {name: 'Республика Хакасия', tag: 'KHAK'},
+        {name: 'Ханты-Мансийский автономный округ - Югра', tag: 'HMAO'},
+        {name: 'Красноярский край', tag: 'KRSN'},
+        {name: 'Новосибирская область', tag: 'NSK'},
+        {name: 'Омская область', tag: 'OMSK'},
+        {name: 'Республика Саха (Якутия)', tag: 'SAHA'},
+        {name: 'Томская область', tag: 'TOMSK'},
+        {name: 'Республика Тыва', tag: 'TUVA'},
+        {name: 'Тюменская область', tag: 'TUM'},
+        {name: 'Ямало-Ненецкий автоноиный округ', tag: 'YANAO'},
+        {name: 'Забайкальский край', tag: 'ZAB'}
+    ]
 
     const [context, setContext] = useContext(Context)
     const [pdfDateTime,setPdfDateTime] = useState(context.currentDate)
@@ -13,7 +70,10 @@ export function ModalReport ({active, setActive}){
     const [operatorFullName,setOperatorFullName] = useState()
     const [settlementsArray,setSettlementsArray] = useState()
     const [settlementsIsActive,setsettlementsIsActive] = useState(false)
-    const requestForSettlements = () => {
+    const URL = `${URL_FOR_FILES.URL_PDF}?date_time=${pdfDateTime}&cloud_shielding=${cloudShielding}&operator_fio=${operatorFullName}&subject_tag=${pdfSubjectTag}`
+
+    let requestReady = false
+    const requestForSettlements = () => {//запрос данных на массив id населенных пунктов
         try{
             axios.get(`${URL_FOR_FILES.URL_FOR_SETTLEMENTS}?date=${context.currentDate}&list_ids=${true}`).then(
                 async response =>{
@@ -29,9 +89,51 @@ export function ModalReport ({active, setActive}){
             console.log(e.message)
         }
     }
-    const checkStates = () => {
-        console.log(pdfDateTime,pdfSubjectTag,cloudShielding,operatorFullName)
-        console.log(`${URL_FOR_FILES.URL_PDF}?date_time=${'2022-11-12T12:15'}&cloud_shielding=${cloudShielding}&operator_fio=${operatorFullName}&subject_tag=${pdfSubjectTag}`)
+
+    const fioToGet = (e,value) => {
+        let localArray = value.split('')
+        let fioResult;
+        for(let cell in localArray){
+            if(localArray[cell] === ' '){
+                localArray[cell] = `+`
+            }
+        }
+        setOperatorFullName(localArray.join(''))
+        console.log(localArray.join(''))
+    }
+    const checkStatess = async () => {
+        if(!pdfDateTime || !pdfSubjectTag || !cloudShielding || !operatorFullName){
+            console.log('undef: ', pdfDateTime,pdfSubjectTag,cloudShielding,operatorFullName)
+            return false
+        }
+        else{
+           await axios.get(URL).then(response => {
+                if(response.status === 200){
+                    if(typeof response.data === 'object'){
+                        if(response.data.file_inf){
+                            console.log(response.data.file_inf)//данные введены верно, но данных нет
+                            return false
+                        }
+                        else if(response.data.fields_error){
+                            console.log(response.data.fields_error)//данные введены верно
+                            return false
+                        }
+                    }
+                    else{//если данные введены правильно и создан/есть отчет за выбранный период
+                        console.log("ready to next page", URL)
+                        return true;
+                    }
+                }
+                else{
+                    console.warn('network error')
+                    return false
+                }
+            }).catch(e => {
+                console.log(e.message);
+                return false
+            })
+        }
+        //window.open(URL,"_blank")
     }
         //`${URL_FOR_FILES.URL_PDF}?date_time=${'2022-11-12T12:15'}&subject_tag=${pdfSubjectTag}&cloud_shielding=${cloudShielding}&operator_fio=${operatorFullName}`
     return<>
@@ -50,12 +152,13 @@ export function ModalReport ({active, setActive}){
                         <label className={modalStyle.modal_label}>subject_tag</label>
 
                         <input list={'browsers'} type={"text"} className={modalStyle.modal_input}
+                               placeholder={'Введите название и выберите регион'}
                                value={pdfSubjectTag}
-                               onClick={() =>requestForSettlements()}
+                               onClick={""}
                                onChange={(e) => setPdfSubjectTag(e.target.value)}/>
-                        <datalist id="browsers" >
-                            {settlementsIsActive && settlementsArray.map((settlement,index)=>(<option>{settlement}</option>)
 
+                        <datalist id="browsers" >
+                            {subjectNames.map((settlement,index)=>(<option key={index} value={settlement.tag}>{settlement.name}</option>)
                             )}
                         </datalist>
                     </div>
@@ -63,7 +166,7 @@ export function ModalReport ({active, setActive}){
                     <div className={modalStyle.modal_div}>
                         <label className={modalStyle.modal_label}>cloud_shielding</label>
 
-                        <input type={"text"} className={modalStyle.modal_input}
+                        <input type={"number"} className={modalStyle.modal_input}
                                value={cloudShielding}
                                onChange={(e) => setCloudShielding(e.target.value)}/>
                     </div>
@@ -73,9 +176,9 @@ export function ModalReport ({active, setActive}){
 
                         <input type={"text"} className={modalStyle.modal_input}
                                value={operatorFullName}
-                               onChange={(e) => setOperatorFullName(e.target.value)}/>
+                               onChange={(e) => fioToGet(e,e.target.value)}/>
                     </div>
-                <button onClick={() => checkStates()}>check states</button>
+                <button onClick={() => checkStates(pdfDateTime,pdfSubjectTag,cloudShielding,operatorFullName,URL).then(response => {window.open(URL,"_blank")})}>check states</button>
                     <a className={modalStyle.modal_button} href={`${URL_FOR_FILES.URL_PDF}?date_time=${pdfDateTime}&cloud_shielding=${cloudShielding}&operator_fio=${operatorFullName}&subject_tag=${pdfSubjectTag}`} target={"_blank"} value={"Сохранить отчёт"}>сформировать</a>
             </div>
         </div>
