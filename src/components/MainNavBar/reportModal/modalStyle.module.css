@@ -77,3 +77,11 @@
     color: red;
     background-color: white;
 }
+.modal_button_open{
+    color: #ffffff;
+    background-color: rgba(53, 187, 95, 0.46);
+}
+.modal_button_open:hover{
+    color: #146e0b;
+    background-color: rgb(255, 255, 255);
+}

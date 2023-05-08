@@ -89,10 +89,10 @@ export function MainNavBar(props){
 
                 <div className={NavBarStyles.navBar}>
                     <div className={NavBarStyles.reportPdf}>
-                        <button className={NavBarStyles.reportButton} onClick={props.modal}>Отчёт в PDF</button>
+                        <button className={NavBarStyles.reportButton} onClick={props.modalPDF}>Отчёт в PDF</button>
                     </div>
                     <div className={NavBarStyles.reportShp}>
-                        <button className={NavBarStyles.reportButton} onClick={props.modal}>Отчёт в SHP</button>
+                        <button className={NavBarStyles.reportButton} onClick={props.modalSHP}>Отчёт в SHP</button>
                     </div>
                     <div className={NavBarStyles.navBarMainInstruments}>
                         <List className={NavBarStyles.list}>

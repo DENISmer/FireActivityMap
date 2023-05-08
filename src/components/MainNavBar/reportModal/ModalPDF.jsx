@@ -3,28 +3,11 @@ import React, {useContext, useState} from 'react';
 import {Context} from "../../Map/Context";
 import {URL_FOR_FILES} from "../../../config/config";
 import axios from "axios";
+import {subjectNames} from "../../../config/config";
 
 
-export function ModalReport ({active, setActive}){
+export function ModalReportPDF ({active, setActive}){
 
-    const subjectNames = [
-        {name: 'Алтайский край', tag: 'ALTAY'},
-        {name: 'Республика Бурятия', tag: 'BUR'},
-        {name: 'Республика Алтай', tag: 'GALTAY'},
-        {name: 'Иркутская область', tag: 'IRK'},
-        {name: 'Кемеровская область', tag: 'KEM'},
-        {name: 'Республика Хакасия', tag: 'KHAK'},
-        {name: 'Ханты-Мансийский автономный округ - Югра', tag: 'HMAO'},
-        {name: 'Красноярский край', tag: 'KRSN'},
-        {name: 'Новосибирская область', tag: 'NSK'},
-        {name: 'Омская область', tag: 'OMSK'},
-        {name: 'Республика Саха (Якутия)', tag: 'SAHA'},
-        {name: 'Томская область', tag: 'TOMSK'},
-        {name: 'Республика Тыва', tag: 'TUVA'},
-        {name: 'Тюменская область', tag: 'TUM'},
-        {name: 'Ямало-Ненецкий автоноиный округ', tag: 'YANAO'},
-        {name: 'Забайкальский край', tag: 'ZAB'}
-    ]
 
     const [context, setContext] = useContext(Context)
     const [pdfDateTime,setPdfDateTime] = useState(context.currentDate)
@@ -106,7 +89,7 @@ export function ModalReport ({active, setActive}){
 
 
                 <div className={modalStyle.modal_div}>
-                        <label className={modalStyle.modal_label}>date_time</label>
+                        <label className={modalStyle.modal_label}>Дата и время</label>
 
                         <input  type={"datetime-local"} className={modalStyle.modal_input}
 
@@ -120,7 +103,7 @@ export function ModalReport ({active, setActive}){
 
                     <div className={modalStyle.modal_div}>
 
-                        <label className={modalStyle.modal_label}>subject_tag</label>
+                        <label className={modalStyle.modal_label}>Район обнаружения ТВВ</label>
 
                         <input list={'browsers'} type={"text"} className={modalStyle.modal_input}
                                placeholder={'Введите название и выберите регион'}
@@ -140,7 +123,7 @@ export function ModalReport ({active, setActive}){
 
                     <div className={modalStyle.modal_div}>
 
-                        <label className={modalStyle.modal_label}>cloud_shielding</label>
+                        <label className={modalStyle.modal_label}>Экранирование облачностью</label>
 
                         <input type={"number"} className={modalStyle.modal_input}
                                value={cloudShielding}
@@ -153,7 +136,7 @@ export function ModalReport ({active, setActive}){
 
                     <div className={modalStyle.modal_div}>
 
-                        <label className={modalStyle.modal_label}>operator_fio</label>
+                        <label className={modalStyle.modal_label}>Ф.И.О Оператора</label>
 
                         <input type={"text"} className={modalStyle.modal_input}
                                value={operatorFullName}
@@ -164,7 +147,7 @@ export function ModalReport ({active, setActive}){
                     </div>
 
                 {readyToTheNextPage ?
-                    <button className={modalStyle.modal_button} onClick={() => toThePdf()} >Открыть отчет</button>
+                    <button className={`${modalStyle.modal_button} ${modalStyle.modal_button_open}`} onClick={() => toThePdf()} >Открыть отчет</button>
                     :
                     <button className={modalStyle.modal_button} onClick={() => checkStates()}>Проверить наличие данных</button>}
             </div>
