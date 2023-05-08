@@ -12,14 +12,12 @@ export function ModalReportSHP ({active, setActive, map}){
     const [context, setContext] = useContext(Context)
     const [pdfDateTime,setPdfDateTime] = useState(context.currentDate)
     const [pdfSubjectTag,setPdfSubjectTag] = useState()
-    const [cloudShielding,setCloudShielding] = useState()
-    const [operatorFullName,setOperatorFullName] = useState()
     const [readyToTheNextPage,setReadyToTheNextPage] = useState(false)
-    const URL = `${URL_FOR_FILES.URL_PDF}?date_time=${pdfDateTime}&cloud_shielding=${cloudShielding}&operator_fio=${operatorFullName}&subject_tag=${pdfSubjectTag}`
+    const URL = `${URL_FOR_FILES.URL_SHP_DATETIME}?date_time=${pdfDateTime}&subject_tag=${pdfSubjectTag}`
 
 
     const checkStates = async () => {//проверка на наличие пдф по введенным данным
-        if(!pdfDateTime || !pdfSubjectTag || !cloudShielding || !operatorFullName){
+        if(!pdfDateTime || !pdfSubjectTag){
             alert("Проверьте введенные данные")
             return false
         }
@@ -27,8 +25,8 @@ export function ModalReportSHP ({active, setActive, map}){
             await axios.get(URL).then(response => {
                 if(response.status === 200){
                     if(typeof response.data === 'object'){
-                        if(response.data.file_inf){
-                            alert(`Error: ${response.data.file_inf}\nОшибка: нет данных по вашему запросу`)//данные введены верно, но данных нет
+                        if(response.data.file_info){
+                            alert(`Error: ${response.data.file_info}\nОшибка: нет данных по вашему запросу`)//данные введены верно, но данных нет
                             setReadyToTheNextPage(false)
                         }
                         else if(response.data.fields_error){
@@ -103,7 +101,7 @@ export function ModalReportSHP ({active, setActive, map}){
 
 
                 {readyToTheNextPage ?
-                    <button className={`${modalStyle.modal_button} ${modalStyle.modal_button_open}`} onClick={() => toThePdf()} >Открыть отчет</button>
+                    <button className={`${modalStyle.modal_button} ${modalStyle.modal_button_open}`} onClick={() => toThePdf()} >Загрузить</button>
                     :
                     <button className={modalStyle.modal_button} onClick={() => checkStates()}>Проверить наличие данных</button>}
             </div>

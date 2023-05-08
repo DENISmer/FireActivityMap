@@ -65,7 +65,7 @@ export function Mark_render(onDateChange) {
                 console.log(error.status)
             })
         //removeContextCookie(['context'])
-        setContextCookie('context',context,5 * 10);
+        setContextCookie('context',context,5 * 3600);
         //console.log(contextCookies.context)
         return () => {unmounted = true}
     }
