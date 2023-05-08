@@ -203,7 +203,6 @@ export function Mark_render(onDateChange) {
                             <br/>
                             Долгота: {nat.longitude}
                             <br/>
-                            <br/>
                             Температура: {nat.temperature}
                             <br/>
                             Время: {nat.datetime}

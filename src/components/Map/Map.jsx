@@ -27,7 +27,8 @@ import {NatureReserves} from "./layers/NatureReservesBorders";
 import {SettLements} from "./layers/localities";
 import {ModalReportPDF} from "../MainNavBar/reportModal/ModalPDF";
 import {ModalReportSHP} from "../MainNavBar/reportModal/ModalSHP";
-import {disableMapDragging,enableMapDragging} from "./MapEvents/MapEvents";
+import {enableMapDragging} from "./MapEvents/MapEvents";
+import {layersDict} from "../../config/config";
 
 
 const MyContext = createContext("Without provider");
@@ -48,18 +49,7 @@ export function MapComponent(){
     const center = L.latLng(65.505, 106.09)
     const [map,setMap] = useState(null)
 
-    const layersDict = [
-        {name: 'Улицы', type: 'baseLayer', url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png'},
-        {name: 'Спутник', type: 'baseLayer', url: 'https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v9/tiles/{z}/{x}/{y}?access_token=sk.eyJ1IjoicnViaW5uYXciLCJhIjoiY2xiMTFmcnZmMXBnbDNwbXA4bHFkcDdyciJ9.CxX9zdanJzvnGxgEDz7bJw'},
-        {name: 'Тёмная', type: 'baseLayer', url: 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png'},
-        {name: 'ESRI', type: 'baseLayer', url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'},
-        {name: 'Точки возгорания', type: 'markersOverlay', url: null},
-        {name: 'Границы регионов', type: 'regionBorders', url: MutableImageOverlay},
-        {name: 'Заповедники', type: 'natureReserves', url: null},
-        {name: 'Населённые пункты', type: 'settLement', url: null},
-        {name: 'FY-3D 250M', type: 'imageOverlayFY3D250', url: null},
-        {name: 'FY-3D 1000M', type: 'imageOverlayFY3D1000', url: null}
-    ]
+
     const [SHPModalActive, setSHPModalActive] = useState(false)
     const [PDFModalActive, setPDFModalActive] = useState(false)
     const [baseLayer,setBaseLayer] = useState(layersDict[0].url);
@@ -137,17 +127,17 @@ export function MapComponent(){
             <ScaleControl position={"bottomleft"} />
             <Ruler />
 
-            <Header />
+            <Header map={map}/>
             <SettLements/>
 
 
 
-            <MouseCoordinates />
+            <MouseCoordinates map={map}/>
 
             <Context.Provider value={[context, setContext]}>
 
-                <ModalReportPDF active={PDFModalActive} setActive={setPDFModalActive}/>
-                <ModalReportSHP active={SHPModalActive} setActive={setSHPModalActive}/>
+                <ModalReportPDF active={PDFModalActive} setActive={setPDFModalActive} map={map}/>
+                <ModalReportSHP active={SHPModalActive} setActive={setSHPModalActive} map={map}/>
 
                 <MainNavBar map={map}
                             layers={layersDict}
@@ -177,7 +167,7 @@ export function MapComponent(){
                             markersShow={markers}
                             bordersShow={borders}
                 />
-                <MemoizedTimeline info={infoAboutMarks}/>
+                <MemoizedTimeline info={infoAboutMarks} map={map}/>
                 <TileLayer url={baseLayer}/>
 
                 {showFy3d1000ImageOverlay && <MutableImageOverlay  fy3d1000Settings={showFy3d1000ImageOverlay}/>}

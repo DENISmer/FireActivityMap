@@ -97,7 +97,12 @@ export function ClocksForDate(props){
     }
 
     return(<>
-            <div className={Timeline.divSlider} onMouseDown={() => disableMapDragging(props.map)} onMouseUp={() => enableMapDragging(props.map)}>
+            <div className={Timeline.divSlider}
+                 onMouseDown={() => disableMapDragging(props.map)}
+                 onMouseUp={() => enableMapDragging(props.map)}
+            >
+
+
                 <button className={Timeline.val} onClick={resetTime}>Сбросить время</button>
                 <Slider
                     color='primary'

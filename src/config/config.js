@@ -43,3 +43,16 @@ export const subjectNames = [
     {name: 'Ямало-Ненецкий автоноиный округ', tag: 'YANAO'},
     {name: 'Забайкальский край', tag: 'ZAB'}
 ]
+
+export const layersDict = [
+    {name: 'Улицы', type: 'baseLayer', url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png'},
+    {name: 'Спутник', type: 'baseLayer', url: 'https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v9/tiles/{z}/{x}/{y}?access_token=sk.eyJ1IjoicnViaW5uYXciLCJhIjoiY2xiMTFmcnZmMXBnbDNwbXA4bHFkcDdyciJ9.CxX9zdanJzvnGxgEDz7bJw'},
+    {name: 'Тёмная', type: 'baseLayer', url: 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png'},
+    {name: 'ESRI', type: 'baseLayer', url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'},
+    {name: 'Точки возгорания', type: 'markersOverlay', url: null},
+    {name: 'Границы регионов', type: 'regionBorders', url: null},
+    {name: 'Заповедники', type: 'natureReserves', url: null},
+    {name: 'Населённые пункты', type: 'settLement', url: null},
+    {name: 'FY-3D 250M', type: 'imageOverlayFY3D250', url: null},
+    {name: 'FY-3D 1000M', type: 'imageOverlayFY3D1000', url: null}
+]

@@ -4,9 +4,9 @@ import {Context} from "../../Map/Context";
 import {URL_FOR_FILES} from "../../../config/config";
 import axios from "axios";
 import {subjectNames} from "../../../config/config";
+import {disableMapDragging,enableMapDragging} from "../../Map/MapEvents/MapEvents";
 
-
-export function ModalReportSHP ({active, setActive}){
+export function ModalReportSHP ({active, setActive, map}){
 
 
     const [context, setContext] = useContext(Context)
@@ -58,8 +58,15 @@ export function ModalReportSHP ({active, setActive}){
     }
 
     return<>
-        <div className={active ? `${modalStyle.modal} ${modalStyle.modal_active}` : modalStyle.modal} onClick={()=> setActive(false)}>
-            <div className={active ? `${modalStyle.modal_content} ${modalStyle.modal_content_active}` : modalStyle.modal_content} onClick={e => e.stopPropagation()}>
+        <div className={active ? `${modalStyle.modal} ${modalStyle.modal_active}` : modalStyle.modal}
+             onClick={()=> setActive(false)}
+             onMouseDown={() => disableMapDragging(map)}
+             onMouseUp={() => enableMapDragging(map)}
+        >
+
+
+            <div className={active ? `${modalStyle.modal_content} ${modalStyle.modal_content_active}` : modalStyle.modal_content}
+                 onClick={e => e.stopPropagation()}>
 
 
                 <div className={modalStyle.modal_div}>
