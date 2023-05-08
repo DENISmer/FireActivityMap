@@ -16,7 +16,7 @@ export const URL_FOR_FILES = {
 export const URL_FOR_COORDS = {
     COUNTRY_COORDS : `data/coordinateFiles/countryCoords.json`,
     NATURE_RESERVES_COORDS : `data/coordinateFiles/NatureReservesCoords.json`,
-    SETTLEMENTS: 'data/coordinateFiles/settLements.json',
+    SETTLEMENTS: 'data/coordinateFiles/settLements.js',
 }
 export const URL_FOR_IMAGES = {
     SOURCE : `data/map_images/chinfire`,
@@ -52,7 +52,7 @@ export const layersDict = [
     {name: 'Точки возгорания', type: 'markersOverlay', url: null},
     {name: 'Границы регионов', type: 'regionBorders', url: null},
     {name: 'Заповедники', type: 'natureReserves', url: null},
-    {name: 'Населённые пункты', type: 'settLement', url: null},
+    {name: 'Населённые пункты (5км от ТВВ)', type: 'settlement', url: null},
     {name: 'FY-3D 250M', type: 'imageOverlayFY3D250', url: null},
     {name: 'FY-3D 1000M', type: 'imageOverlayFY3D1000', url: null}
 ]

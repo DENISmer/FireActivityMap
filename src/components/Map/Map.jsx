@@ -61,10 +61,11 @@ export function MapComponent(){
     const [showFy3d1000ImageOverlay, setShowFy3d1000ImageOverlay] = useState(false);
     const MemoizedTimeline = useMemo(()=> TimeLine,[context]);
     const [infoAboutMarks, setInfoAboutMarks] = useState();
-    const [settLementShow, setSettLementShow] = useState();
+    const [settLementShow, setSettLementShow] = useState(false);
 
     //const MemoizedMutableImageOverlay = useMemo(()=> MutableImageOverlay,[context])
     const MemoizedChildComponentMark_render = useMemo(() => MarkersLayer, [context])
+    const MemoizedChildComponentSettlements = useMemo(() => SettLements, [context])
 
     const requestForInfoWhenMapIsReady = () => {//запрос дней на наличие точек
         axios.get(URL_FOR_MARKS.URL_GET_INFO).then(async response =>{
@@ -128,13 +129,15 @@ export function MapComponent(){
             <Ruler />
 
             <Header map={map}/>
-            <SettLements/>
+
 
 
 
             <MouseCoordinates map={map}/>
 
             <Context.Provider value={[context, setContext]}>
+
+                {settLementShow && <MemoizedChildComponentSettlements />}
 
                 <ModalReportPDF active={PDFModalActive} setActive={setPDFModalActive} map={map}/>
                 <ModalReportSHP active={SHPModalActive} setActive={setSHPModalActive} map={map}/>

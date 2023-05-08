@@ -1,14 +1,14 @@
-import {URL_FOR_COORDS} from '../../../config/config'
+import {URL_FOR_COORDS, URL_FOR_FILES} from '../../../config/config'
 import {Marker, Polyline, Popup} from "react-leaflet";
 import L from 'leaflet';
-import Icon from 'leaflet';
-import {localities} from "../../../data/coordinateFiles/localities";
-import {useEffect, useState} from "react";
-//import icon from '../../../icons/2x/outline_maps_home_work_black_24dp.png'
+import {settlements} from "../../../data/coordinateFiles/settLements";
+import {useContext, useEffect, useState} from "react";
+import axios from "axios";
+import {Context} from "../Context";
 
 function GetIcon(_iconSize) {
     return L.icon({
-        iconUrl: require("../../../icons/red_dot_marker.png"),
+        iconUrl: require("../../../icons/locality/black-24dp/1x/outline_location_city_black_24dp.png"),
         iconSize: [_iconSize]
     })
 }
@@ -16,59 +16,56 @@ function GetIcon(_iconSize) {
 
 export function SettLements(){
 
-    let reply
     let localSettLementArray=[];
-    const [settLementArray, setLementArray] = useState();
-    const [active, setActive] = useState(false);
+    const [settlementArray, setSettlementArray] = useState([]);
+    const [context,setContext] = useContext(Context)
 
 
-    // const request = async() =>{
-    //
-    //     try {
-    //         return await require(`../../../${URL_FOR_COORDS.SETTLEMENTS}`)
-    //     }
-    //     catch (e) {
-    //         console.log(e)
-    //     }
-    // }
-    //
-    // reply = request()
-    //
-    //
-    // useEffect(() => {
-    //     request().then(response =>{
-    //         setActive(true)
-    //         for (let index in response){
-    //             if (response.hasOwnProperty(index)){
-    //                 // console.log(reply[index].name + '\n', 'longitude: ' + reply[index].longitude + '\n', 'latitude: ' + reply[index].latitude)
-    //                 localSettLementArray.push({name: response[index].name, longitude: response[index].longitude,latitude: response[index].latitude})
-    //             }
-    //         }
-    //         setLementArray(localSettLementArray)
-    //         // console.log('useEffect: ' + settLementArray)
-    //         // console.log(localSettLementArray[0].name)
-    //     })
-    // },[])
+    const requestForSettlements = async () => {//запрос данных на массив id населенных пунктов
+        let localSettlements;
+        try{
+            await axios.get(`${URL_FOR_FILES.URL_FOR_SETTLEMENTS}?date=${context.currentDate}&list_ids=${true}`).then(
+                response =>{
+                    console.log(response.data['settlement_ids'].length)
+                    if(response.data['settlement_ids'].length > 0){
+                        console.log(response.data)
+                        localSettlements = response.data['settlement_ids']
+                        return response.data
+                    }
+                }
+            )
+        }
+        catch (e){
+            console.log(e.message)
+        }
+        return await localSettlements
+    }
 
-    // console.log(localSettLementArray)
-    // console.log('NOT useEffect: ' + settLementArray)
+    useEffect(() => {
+        try{
+            requestForSettlements().then((requestData) => {
+                for(let i = 0;i < requestData.length;i++){
+                    localSettLementArray.push(settlements[0][requestData[i]])
+                }
+                setSettlementArray(localSettLementArray)
+                console.log(localSettLementArray)
+            });
+        }
+        catch (e){
+            console.log(e.message)
+        }
+
+    },[context])
 
     return<>
-        {active && localities.map((pnt, index) => (
+        {settlementArray.map((pnt, index) => (
             <Marker
-                icon={Icon}
+                icon={GetIcon(20,20,pnt.name)}
                 key={index}
-                position={new L.LatLng(pnt.longitude, pnt.latitude)}>
+                position={new L.LatLng(Number(pnt.latitude), Number(pnt.longitude))}>
                 <Popup>{pnt.name}</Popup>
             </Marker>
         ))}
 
-
-        {/*{localities.map((loc, index) =>(*/}
-        {/*    <Marker*/}
-        {/*    key={index}*/}
-        {/*    position={new L.LatLng(loc.latitude, loc.longitude)}>*/}
-        {/*    </Marker>*/}
-        {/*))}*/}
     </>
 }

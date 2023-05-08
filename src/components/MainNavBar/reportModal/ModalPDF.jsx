@@ -52,23 +52,6 @@ export function ModalReportPDF ({active, setActive,map}){
         }
     }
 
-    // const requestForSettlements = () => {//запрос данных на массив id населенных пунктов
-    //     try{
-    //         axios.get(`${URL_FOR_FILES.URL_FOR_SETTLEMENTS}?date=${context.currentDate}&list_ids=${true}`).then(
-    //             async response =>{
-    //                 console.log(response.data['settlement_ids'].length)
-    //                 if(response.data['settlement_ids'].length > 0){
-    //                     await setSettlementsArray(response.data['settlement_ids'])
-    //                     await setsettlementsIsActive(true)
-    //                 }
-    //             }
-    //         )
-    //     }
-    //     catch (e){
-    //         console.log(e.message)
-    //     }
-    // }
-
     const fioToGet = (e,value) => {//пробелы в ФИО заменяет на "+" работает при onChange
         let localArray = value.split('')
         for(let cell in localArray){

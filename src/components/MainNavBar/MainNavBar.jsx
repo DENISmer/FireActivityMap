@@ -187,7 +187,7 @@ export function MainNavBar(props){
                                                         }
                                                         </ListItem>
                                                     </div>
-                                                    : listItem.type === 'settLement' ?
+                                                    : listItem.type === 'settlement' ?
                                                         <div  className={NavBarStyles.divSwitch}>
                                                             <ListItem className={NavBarStyles.listItem} key={index}>
                                                                 {listItem.name}{

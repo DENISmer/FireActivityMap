@@ -1,4 +1,4 @@
-[
+export const settlements = [
   {
     "1":{
       "name":"\u041d\u041e\u0420\u0418\u041b\u042c\u0421\u041a",
