@@ -5,6 +5,8 @@ import Slider from "@mui/material/Slider";
 import React from "react";
 import {Context} from "../../Map/Context";
 import {RequestForImagesData} from "../../Map/RequestsForImagesData/RequestForImagesData";
+import {disableMapDragging,enableMapDragging} from "../../Map/MapEvents/MapEvents";
+
 export function ClocksForDate(props){
     const [context,setContext] = useContext(Context)
 
@@ -95,7 +97,7 @@ export function ClocksForDate(props){
     }
 
     return(<>
-            <div className={Timeline.divSlider}>
+            <div className={Timeline.divSlider} onMouseDown={() => disableMapDragging(props.map)} onMouseUp={() => enableMapDragging(props.map)}>
                 <button className={Timeline.val} onClick={resetTime}>Сбросить время</button>
                 <Slider
                     color='primary'

@@ -16,9 +16,7 @@ import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {CurrentDayDisplay} from "./CurrentDayDisplay/CurrentDayDisplay";
 import {Context} from "../Map/Context";
 import {ClocksForDate} from "./ClocksForDate/ClocksForDate";
-
-
-
+import {disableMapDragging,enableMapDragging} from "../Map/MapEvents/MapEvents";
 
 
 export function TimeLine(props){
@@ -82,7 +80,7 @@ export function TimeLine(props){
                         exitDone: Timeline.transition_exit
                     }} unmountOnExit>
 
-                        <ClocksForDate />
+                        <ClocksForDate map={props.map}/>
                     </CSSTransition>}
 
                 <CSSTransition in={!showTimeLine} timeout={300} classNames={{
@@ -102,7 +100,7 @@ export function TimeLine(props){
                     exitActive: Timeline.transition_exit_active,
                     exitDone: Timeline.transition_exit
                 }} unmountOnExit>
-                    <div className={Timeline.Main_TimeLine}>
+                    <div className={Timeline.Main_TimeLine} onMouseDown={() => disableMapDragging(props.map)} onMouseUp={() => enableMapDragging(props.map)}>
 
 
                         <div className={Timeline.scrollDays}>

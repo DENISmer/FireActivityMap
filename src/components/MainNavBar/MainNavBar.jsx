@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import NavBarStyles from './MainNavBar.module.css';
 import NavBarIcon from '../../icons/NavBarIcons/2x/twotone_miscellaneous_services_black_24dp.png';
 import NavBarCloseIcon from '../../icons/closeButton/2x/twotone_close_black_24dp.png';
@@ -8,11 +8,9 @@ import {Context} from "../Map/Context";
 import {Checkbox, List, ListItem, Switch} from "@mui/material";
 import DatePanel from "react-multi-date-picker/plugins/date_panel"
 import Range_days from "./MainNavBar.module.css";
-import TimeField from "react-simple-timefield";
 import transition from "react-element-popper/animations/transition"
 import DatePicker, {DateObject} from "react-multi-date-picker";
-import Timeline from "../TimeLine/TimeLine.module.css";
-import {ClocksForDate} from "../TimeLine/ClocksForDate/ClocksForDate";
+import {disableMapDragging,enableMapDragging} from '../Map/MapEvents/MapEvents'
 
 
 
@@ -25,6 +23,20 @@ export function MainNavBar(props){
     const [context, setContext] = useContext(Context);
     const [dateRange, setDateRange] = useState([new DateObject()]);
     const today = [new Date(Date.now()).getFullYear(),new Date(Date.now()).getMonth(),new Date(Date.now()).getDate()].join('-');
+
+    const mouseDown = ()=> {
+        if(showNavBar) {
+            if (props.map) props.map.dragging.disable();
+        }
+        else{
+            if (props.map) props.map.dragging.enable();
+        }
+    }
+    const mouseUp = () => {
+        if(props.map) props.map.dragging.enable();
+    }
+
+
     const setToday = () =>{
         return [new Date(Date.now()).getFullYear(),new Date(Date.now()).getMonth(),new Date(Date.now()).getDate()].join('-');
     }
@@ -87,7 +99,7 @@ export function MainNavBar(props){
                 exitDone: NavBarStyles.transition_exit
             }} unmountOnExit>
 
-                <div className={NavBarStyles.navBar}>
+                <div className={NavBarStyles.navBar} onMouseDown={() =>disableMapDragging(props.map)} onMouseUp={() => enableMapDragging(props.map)}>
                     <div className={NavBarStyles.reportPdf}>
                         <button className={NavBarStyles.reportButton} onClick={props.modal}>Отчёт в PDF</button>
                     </div>

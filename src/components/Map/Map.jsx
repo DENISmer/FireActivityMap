@@ -26,7 +26,7 @@ import {CounrtyBorders} from "./layers/countryBorders";
 import {NatureReserves} from "./layers/NatureReservesBorders";
 import {SettLements} from "./layers/localities";
 import {ModalReport} from "../MainNavBar/reportModal/Modal";
-
+import {disableMapDragging,enableMapDragging} from "./MapEvents/MapEvents";
 
 const MyContext = createContext("Without provider");
 
@@ -117,7 +117,7 @@ export function MapComponent(){
 
     const [cookies,setCookie] = useCookies(['currentDay']);
 
-    return <>
+    return <div onMouseUp={() => enableMapDragging(map)}>
         <MapContainer zoomControl={false} maxZoom={16} zoom={4} minZoom={2}
                       center={center}
                       ref={setMap}
@@ -130,12 +130,12 @@ export function MapComponent(){
             <ScaleControl position={"bottomleft"} />
             <Ruler />
 
-            <Header />
+            <Header map={map}/>
             <SettLements/>
 
 
 
-            <MouseCoordinates />
+            <MouseCoordinates map={map}/>
 
             <Context.Provider value={[context, setContext]}>
 
@@ -166,7 +166,7 @@ export function MapComponent(){
                             markersShow={markers}
                             bordersShow={borders}
                 />
-                <MemoizedTimeline info={infoAboutMarks}/>
+                <MemoizedTimeline info={infoAboutMarks} map={map}/>
                 <TileLayer url={baseLayer}/>
 
                 {showFy3d1000ImageOverlay && <MutableImageOverlay  fy3d1000Settings={showFy3d1000ImageOverlay}/>}
@@ -177,5 +177,5 @@ export function MapComponent(){
 
             </Context.Provider>
         </MapContainer>
-    </>
+    </div>
     }
