@@ -27,6 +27,7 @@ import {NatureReserves} from "./layers/NatureReservesBorders";
 import {SettLements} from "./layers/localities";
 import {ModalReportPDF} from "../MainNavBar/reportModal/ModalPDF";
 import {ModalReportSHP} from "../MainNavBar/reportModal/ModalSHP";
+import {disableMapDragging,enableMapDragging} from "./MapEvents/MapEvents";
 
 
 const MyContext = createContext("Without provider");
@@ -123,7 +124,7 @@ export function MapComponent(){
 
     const [cookies,setCookie] = useCookies(['currentDay']);
 
-    return <>
+    return <div onMouseUp={() => enableMapDragging(map)}>
         <MapContainer zoomControl={false} maxZoom={16} zoom={4} minZoom={2}
                       center={center}
                       ref={setMap}
@@ -187,5 +188,5 @@ export function MapComponent(){
 
             </Context.Provider>
         </MapContainer>
-    </>
+    </div>
     }
