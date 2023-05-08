@@ -25,3 +25,21 @@ export const URL_FOR_IMAGES = {
     IMAGE_FY_3D_0250M_END_NAME : `_0250M_MS_smoke_250M.png`,
     TXT_END_NAME : `_1000M_MS.txt`,
 }
+export const subjectNames = [
+    {name: 'Алтайский край', tag: 'ALTAY'},
+    {name: 'Республика Бурятия', tag: 'BUR'},
+    {name: 'Республика Алтай', tag: 'GALTAY'},
+    {name: 'Иркутская область', tag: 'IRK'},
+    {name: 'Кемеровская область', tag: 'KEM'},
+    {name: 'Республика Хакасия', tag: 'KHAK'},
+    {name: 'Ханты-Мансийский автономный округ - Югра', tag: 'HMAO'},
+    {name: 'Красноярский край', tag: 'KRSN'},
+    {name: 'Новосибирская область', tag: 'NSK'},
+    {name: 'Омская область', tag: 'OMSK'},
+    {name: 'Республика Саха (Якутия)', tag: 'SAHA'},
+    {name: 'Томская область', tag: 'TOMSK'},
+    {name: 'Республика Тыва', tag: 'TUVA'},
+    {name: 'Тюменская область', tag: 'TUM'},
+    {name: 'Ямало-Ненецкий автоноиный округ', tag: 'YANAO'},
+    {name: 'Забайкальский край', tag: 'ZAB'}
+]

@@ -25,8 +25,9 @@ import {URL_FOR_MARKS} from "../../config/config";
 import {CounrtyBorders} from "./layers/countryBorders";
 import {NatureReserves} from "./layers/NatureReservesBorders";
 import {SettLements} from "./layers/localities";
-import {ModalReport} from "../MainNavBar/reportModal/Modal";
-import {disableMapDragging,enableMapDragging} from "./MapEvents/MapEvents";
+import {ModalReportPDF} from "../MainNavBar/reportModal/ModalPDF";
+import {ModalReportSHP} from "../MainNavBar/reportModal/ModalSHP";
+
 
 const MyContext = createContext("Without provider");
 
@@ -58,7 +59,8 @@ export function MapComponent(){
         {name: 'FY-3D 250M', type: 'imageOverlayFY3D250', url: null},
         {name: 'FY-3D 1000M', type: 'imageOverlayFY3D1000', url: null}
     ]
-    const [modalActive, setModalActive] = useState(false)
+    const [SHPModalActive, setSHPModalActive] = useState(false)
+    const [PDFModalActive, setPDFModalActive] = useState(false)
     const [baseLayer,setBaseLayer] = useState(layersDict[0].url);
     const [showImageOverlay, setShowImageOverlay] = useState(false);
     const [showMarkers,setShowMarkers] = useState(false);
@@ -80,8 +82,12 @@ export function MapComponent(){
         )
     }
 
-    const modal = () =>{
-        setModalActive(true)
+    const modalSHP = () =>{
+        setSHPModalActive(true)
+    }
+
+    const modalPDF = () =>{
+        setPDFModalActive(true)
     }
 
     const settLement = () =>{
@@ -117,7 +123,7 @@ export function MapComponent(){
 
     const [cookies,setCookie] = useCookies(['currentDay']);
 
-    return <div onMouseUp={() => enableMapDragging(map)}>
+    return <>
         <MapContainer zoomControl={false} maxZoom={16} zoom={4} minZoom={2}
                       center={center}
                       ref={setMap}
@@ -130,16 +136,18 @@ export function MapComponent(){
             <ScaleControl position={"bottomleft"} />
             <Ruler />
 
-            <Header map={map}/>
+            <Header />
             <SettLements/>
 
 
 
-            <MouseCoordinates map={map}/>
+            <MouseCoordinates />
 
             <Context.Provider value={[context, setContext]}>
 
-                <ModalReport active={modalActive} setActive={setModalActive}/>
+                <ModalReportPDF active={PDFModalActive} setActive={setPDFModalActive}/>
+                <ModalReportSHP active={SHPModalActive} setActive={setSHPModalActive}/>
+
                 <MainNavBar map={map}
                             layers={layersDict}
                             layersChange={changeLayer}
@@ -148,8 +156,10 @@ export function MapComponent(){
                             natureReservesValue = {showNatureReserves}
                             markersValue={showMarkers}
 
-                            modalValue = {modalActive}
-                            modal={modal}
+                            SHPmodalValue = {SHPModalActive}
+                            PDFmodalValue = {PDFModalActive}
+                            modalPDF={modalPDF}
+                            modalSHP={modalSHP}
 
                             settLementValue={settLementShow}
                             settLementShow={settLement}
@@ -166,7 +176,7 @@ export function MapComponent(){
                             markersShow={markers}
                             bordersShow={borders}
                 />
-                <MemoizedTimeline info={infoAboutMarks} map={map}/>
+                <MemoizedTimeline info={infoAboutMarks}/>
                 <TileLayer url={baseLayer}/>
 
                 {showFy3d1000ImageOverlay && <MutableImageOverlay  fy3d1000Settings={showFy3d1000ImageOverlay}/>}
@@ -177,5 +187,5 @@ export function MapComponent(){
 
             </Context.Provider>
         </MapContainer>
-    </div>
+    </>
     }
