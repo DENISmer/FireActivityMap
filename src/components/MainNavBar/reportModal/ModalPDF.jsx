@@ -27,7 +27,7 @@ export function ModalReportPDF ({active, setActive,map}){
             await axios.get(URL).then(response => {
                 if(response.status === 200){
                     if(typeof response.data === 'object'){
-                        if(response.data.file_inf){
+                        if(response.data.file_info){
                             alert(`Error: ${response.data.file_inf}\nОшибка: нет данных по вашему запросу`)//данные введены верно, но данных нет
                             setReadyToTheNextPage(false)
                         }

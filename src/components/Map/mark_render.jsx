@@ -14,7 +14,7 @@ import {RequestForImagesData} from "./RequestsForImagesData/RequestForImagesData
 import {URL_FOR_MARKS} from '../../config/config'
 function GetIcon(_iconSize){
     return L.icon({
-        iconUrl: require("../../icons/red_dot_marker.png"),
+        iconUrl: require("../../icons/fire point/favicon-32x32.png"),
         iconSize: [_iconSize]
     })
 }
@@ -175,7 +175,7 @@ export function Mark_render(onDateChange) {
             >
                 {context.singleDay && points.length!== 0 && points.map((nat, index) => (
                     (context.min_datetime <= Date.parse(nat.datetime) && Date.parse(nat.datetime) <= context.max_datetime) &&
-                    <Marker icon={GetIcon(10, 10, nat.temperature)}
+                    <Marker icon={GetIcon(20, 20, nat.temperature)}
                             key={index}
                             position={new L.LatLng(nat.latitude, nat.longitude)}
                     >
