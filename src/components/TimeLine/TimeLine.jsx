@@ -12,7 +12,7 @@ import {DatePicker} from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
 import {AdapterDateFns} from '@mui/x-date-pickers/AdapterDateFns'
 import {LocalizationProvider} from "@mui/x-date-pickers";
-import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
+import {ru} from 'date-fns/locale'
 import {CurrentDayDisplay} from "./CurrentDayDisplay/CurrentDayDisplay";
 import {Context} from "../Map/Context";
 import {ClocksForDate} from "./ClocksForDate/ClocksForDate";
@@ -121,13 +121,14 @@ export function TimeLine(props){
                             <button className={Timeline.switch_month} onClick={() =>setPrevMonthValue()}>
                             <img src={BackArrow} width={20} height={20}></img>
                         </button>
-                            <LocalizationProvider dateAdapter={AdapterDateFns}>
+                            <LocalizationProvider locale={ru} dateAdapter={AdapterDateFns}>
                                 <DatePicker
                                     views={['year', 'month']}
                                     label="Год и месяц"
                                     minDate={dayjs('2012-03-01')}
                                     maxDate={Date.now()}
                                     value={value}
+
                                     onChange={(value) => {
                                         setValue(value)
                                         getDays(value.getFullYear(), value.getMonth() + 1)

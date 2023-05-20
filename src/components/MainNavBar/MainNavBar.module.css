@@ -12,6 +12,12 @@
 .list{
     margin: 0 auto;
 }
+.list_b_name{
+    font-weight: bold;
+    font-size: 14px;
+    font-family: Arial, serif;
+    margin-bottom: -50px;
+}
 
 .style_map{
     float: left;
@@ -202,7 +208,10 @@
     float: left;
 }
 .divSwitch{
-
+    margin-bottom: -25px;
+    font-size: small;
+    font-weight: bold;
+    font-family: Arial, serif;
 }
 .listItem{
 

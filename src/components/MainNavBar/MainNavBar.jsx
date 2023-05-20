@@ -108,7 +108,7 @@ export function MainNavBar(props){
                     </div>
                     <div className={NavBarStyles.navBarMainInstruments}>
                         <List className={NavBarStyles.list}>
-                            <b>Варианты подстилающей карты</b><br/>
+                            <b className={NavBarStyles.list_b_name}>Варианты подстилающей карты</b><br/>
                             { props.layers.map((listItem,index)=>(listItem.type === 'baseLayer' ?
                                     <div className={NavBarStyles.style_map}>
                                         <ListItem  key={index}>
@@ -123,7 +123,7 @@ export function MainNavBar(props){
                                     </div>
                                         : listItem.type === 'markersOverlay' ?
                                         <div className={NavBarStyles.divSwitch}>
-                                            <b>Отображение дополнительных данных</b>
+                                            <b className={NavBarStyles.list_b_name}>Отображение дополнительных данных</b>
                                             <ListItem className={NavBarStyles.listItem} key={index}>
                                                 {listItem.name}{
                                                 <Switch
