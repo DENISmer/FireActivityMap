@@ -65,6 +65,7 @@ export function MapComponent(){
 
     //const MemoizedMutableImageOverlay = useMemo(()=> MutableImageOverlay,[context])
     const MemoizedChildComponentMark_render = useMemo(() => MarkersLayer, [context])
+
     const MemoizedChildComponentSettlements = useMemo(() => SettLements, [context])
 
     const requestForInfoWhenMapIsReady = () => {//запрос дней на наличие точек
@@ -122,6 +123,7 @@ export function MapComponent(){
                       whenReady={requestForInfoWhenMapIsReady}
                       doubleClickZoom={false}
                       maxBounds={[[-110,-170],[100,200]]}
+
         >
 
             <ZoomControl position={'bottomleft'}/>
@@ -131,15 +133,13 @@ export function MapComponent(){
             <Header map={map}/>
 
 
-
-
             <MouseCoordinates map={map}/>
 
             <Context.Provider value={[context, setContext]}>
 
-                {settLementShow && <MemoizedChildComponentSettlements />}
 
                 <ModalReportPDF active={PDFModalActive} setActive={setPDFModalActive} map={map}/>
+
                 <ModalReportSHP active={SHPModalActive} setActive={setSHPModalActive} map={map}/>
 
                 <MainNavBar map={map}
@@ -170,14 +170,22 @@ export function MapComponent(){
                             markersShow={markers}
                             bordersShow={borders}
                 />
+
                 <MemoizedTimeline info={infoAboutMarks} map={map}/>
+
                 <TileLayer url={baseLayer}/>
 
                 {showFy3d1000ImageOverlay && <MutableImageOverlay  fy3d1000Settings={showFy3d1000ImageOverlay}/>}
+
                 {showFy3d250ImageOverlay && <MutableImageOverlay  fy3d250Settings={showFy3d250ImageOverlay}/>}
+
                 {showBorders && <CounrtyBorders/>}
+
                 {showNatureReserves && <NatureReserves/>}
+
                 {showMarkers && <MemoizedChildComponentMark_render />}
+
+                {settLementShow && <MemoizedChildComponentSettlements map={map}/>}
 
             </Context.Provider>
         </MapContainer>

@@ -1,5 +1,5 @@
 import {URL_FOR_COORDS, URL_FOR_FILES} from '../../../config/config'
-import {Marker, Polyline, Popup} from "react-leaflet";
+import {Marker, Polyline, Popup, useMapEvents} from "react-leaflet";
 import L from 'leaflet';
 import {settlements} from "../../../data/coordinateFiles/settLements";
 import {useContext, useEffect, useState} from "react";
@@ -14,12 +14,21 @@ function GetIcon(_iconSize) {
 }
 
 
-export function SettLements(){
+export function SettLements(props){
 
     let localSettLementArray=[];
     const [settlementArray, setSettlementArray] = useState([]);
     const [context,setContext] = useContext(Context)
+    const [zoomLevel,setZoomLevel] = useState(props.map.getZoom())
 
+    const mapEvents = useMapEvents({
+        zoomend: () => {
+            console.log(props.map.getZoom())
+            setZoomLevel(props.map.getZoom())
+
+            return props.map.getZoom();
+        },
+    });
 
     const requestForSettlements = async () => {//запрос данных на массив id населенных пунктов
         let localSettlements;
@@ -40,6 +49,8 @@ export function SettLements(){
         }
         return await localSettlements
     }
+
+
 
     useEffect(() => {
         try{

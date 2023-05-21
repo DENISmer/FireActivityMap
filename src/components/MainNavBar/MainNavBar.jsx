@@ -11,38 +11,27 @@ import Range_days from "./MainNavBar.module.css";
 import transition from "react-element-popper/animations/transition"
 import DatePicker, {DateObject} from "react-multi-date-picker";
 import {disableMapDragging,enableMapDragging} from '../Map/MapEvents/MapEvents'
+import {useMapEvents} from "react-leaflet";
 
 
 
 
 export function MainNavBar(props){
     const [showNavBar, setShowNavBar] = useState(false);
-    const [showFlyToForm,setshowFlyToForm] = useState(false);
-    const [latitude,setLatitude] = useState(1);
-    const [longitude,setLongitude] = useState(1);
     const [context, setContext] = useContext(Context);
     const [dateRange, setDateRange] = useState([new DateObject()]);
     const today = [new Date(Date.now()).getFullYear(),new Date(Date.now()).getMonth(),new Date(Date.now()).getDate()].join('-');
 
-    const mouseDown = ()=> {
-        if(showNavBar) {
-            if (props.map) props.map.dragging.disable();
-        }
-        else{
-            if (props.map) props.map.dragging.enable();
-        }
-    }
-    const mouseUp = () => {
-        if(props.map) props.map.dragging.enable();
-    }
-
-
     const setToday = () =>{
         return [new Date(Date.now()).getFullYear(),new Date(Date.now()).getMonth(),new Date(Date.now()).getDate()].join('-');
     }
+
+
     const resetDaysInRangeIntoToday = () => {
         let today = [new Date(Date.now()).getFullYear(),new Date(Date.now()).getMonth(),new Date(Date.now()).getDate()].join('-');
+
         setDateRange([new DateObject()]);
+
         console.log(today)
           setContext({
               singleDay: false,
@@ -56,14 +45,19 @@ export function MainNavBar(props){
               min_datetime: Date.parse(today + 'T' + '00:00:00'),
               max_datetime: Date.parse(today + 'T' + '23:59:59')
           })
+
         console.log('resetDaysInRangeIntoToday')
     }
+
+
     const setValidDate = (dateRange) =>{
         let minDate = dateRange[0].year + '-' + dateRange[0].month.number + '-' + dateRange[0].day;
         let maxDate = dateRange[1].year + '-' + dateRange[1].month.number + '-' + dateRange[1].day;
-        console.log(dateRange)
+
         setDaysInRange(minDate,maxDate)
     }
+
+
     const setDaysInRange = (minDate,maxDate) =>{
          setContext({
                     singleDay: false,
@@ -77,14 +71,11 @@ export function MainNavBar(props){
                     min_datetime: Date.parse('2022-05-11T00:00:00'),
                     max_datetime: Date.parse('2022-05-11T23:59:59')
                 })
+
         console.log('firstDate: ',minDate);
         console.log('firstDate: ',maxDate)
     }
 
-    // const DisplayPosition = () => {
-    //     console.log(latitude,typeof longitude)
-    //     props.map.flyTo(L.latLng(Number(latitude),Number(longitude)), 13)
-    // }
 
     return(
         <>
@@ -194,7 +185,9 @@ export function MainNavBar(props){
                                                                 <Switch
                                                                     checked={props.settLementValue}
                                                                     edge="end"
-                                                                    onChange={()=>props.settLementShow()}
+                                                                    onChange={()=> {
+                                                                        props.settLementShow()
+                                                                    }}
                                                                     //inputProps={{ 'aria-labelledby': labelId }}
                                                                 />
                                                             }
