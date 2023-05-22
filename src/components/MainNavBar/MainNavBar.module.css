@@ -8,6 +8,7 @@
     background-color: transparent;
     border-radius: 3px;
     font-size: 1.3em;
+    width: 440px;
 }
 .list{
     margin: 0 auto;
@@ -21,6 +22,10 @@
 
 .style_map{
     float: left;
+    margin: -7px;
+    font-size: small;
+    font-weight: bold;
+    font-family: Arial, serif;
 }
 .navBarMainInstruments{
     margin: 7px;
@@ -208,6 +213,7 @@
     float: left;
 }
 .divSwitch{
+    width: 300px;
     margin-bottom: -25px;
     font-size: small;
     font-weight: bold;

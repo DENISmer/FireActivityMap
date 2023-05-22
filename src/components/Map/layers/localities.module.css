@@ -1,0 +1,9 @@
+.pointName{
+    font-size: 12px;
+    font-family: Arial, serif;
+    color: yellow;
+    text-shadow: 1px 0 1px #000,
+    0 1px 1px #000,
+    -1px 0 1px #000,
+    0 -1px 1px #000;
+}

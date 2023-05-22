@@ -1,15 +1,17 @@
 import {URL_FOR_COORDS, URL_FOR_FILES} from '../../../config/config'
-import {Marker, Polyline, Popup, useMapEvents} from "react-leaflet";
+import {Marker, Polygon, Polyline, Popup, useMapEvents} from "react-leaflet";
 import L from 'leaflet';
-import {settlements} from "../../../data/coordinateFiles/settLements";
+import {settlements} from "../../../data/coordinateFiles/settlement_out";
 import {useContext, useEffect, useState} from "react";
 import axios from "axios";
 import {Context} from "../Context";
+import markerStyleForCities from './localities.module.css'
 
-function GetIcon(_iconSize) {
-    return L.icon({
-        iconUrl: require("../../../icons/locality/black-24dp/1x/outline_location_city_black_24dp.png"),
-        iconSize: [_iconSize]
+function GetIcon(_iconSize,name) {
+    return L.divIcon({
+        className: markerStyleForCities.pointName,
+        html: name,
+        iconSize: [_iconSize],
     })
 }
 
@@ -70,11 +72,13 @@ export function SettLements(props){
 
     return<>
         {settlementArray.map((pnt, index) => (
+            //{zoomLevel >}
+            //console.log(pnt.poly[0])
+            //pnt.poly !== null && <Polygon positions={[pnt.poly][0]} color={'red'}/>
             <Marker
-                icon={GetIcon(20,20,pnt.name)}
+                icon={GetIcon(40,pnt.name + pnt.population + pnt.type)}
                 key={index}
                 position={new L.LatLng(Number(pnt.latitude), Number(pnt.longitude))}>
-                <Popup>{pnt.name}</Popup>
             </Marker>
         ))}
 
