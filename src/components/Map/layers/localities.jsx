@@ -76,7 +76,7 @@ export function SettLements(props){
             //console.log(pnt.poly[0])
             //pnt.poly !== null && <Polygon positions={[pnt.poly][0]} color={'red'}/>
             <Marker
-                icon={GetIcon(40,pnt.name + pnt.population + pnt.type)}
+                icon={GetIcon(40,pnt.name)}
                 key={index}
                 position={new L.LatLng(Number(pnt.latitude), Number(pnt.longitude))}>
             </Marker>
