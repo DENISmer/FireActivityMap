@@ -1,7 +1,7 @@
 import {URL_FOR_COORDS, URL_FOR_FILES} from '../../../config/config'
 import {Marker, Polygon, Polyline, Popup, useMapEvents} from "react-leaflet";
 import L from 'leaflet';
-import {settlements} from "../../../data/coordinateFiles/settlement_out";
+import {settlements} from "../../../data/coordinateFiles/settLements";
 import {useContext, useEffect, useState} from "react";
 import axios from "axios";
 import {Context} from "../Context";

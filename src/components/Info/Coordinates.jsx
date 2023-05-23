@@ -1,13 +1,27 @@
-import react, {useState} from 'react'
+import {useState} from 'react'
 import './Coordiantes.css'
 import {useMapEvent} from "react-leaflet";
 import React from "react";
 import {disableMapDragging, enableMapDragging} from "../Map/MapEvents/MapEvents";
 
+export function convertToDms (dd, isLng){
+    let dir = dd < 0
+        ? isLng ? 'з' : 'ю'
+        : isLng ? 'в' : 'с';
+
+    let absDd = Math.abs(dd);
+    let deg = absDd | 0;
+    let frac = absDd - deg;
+    let min = (frac * 60) | 0;
+    let sec = frac * 3600 - min * 60;
+    sec = Math.round(sec * 100) / 100;
+    console.log(deg + "°" + min + "'" + sec + '"' + dir)
+    return deg + "°" + min + "'" + sec + '"' + dir;
+}
 export function MouseCoordinates(props) {
     const [position, setPosition] = useState({})
 
-    function convertToDms(dd, isLng) {
+    const convertToDms =(dd, isLng) => {
         let dir = dd < 0
             ? isLng ? 'з' : 'ю'
             : isLng ? 'в' : 'с';
@@ -19,6 +33,7 @@ export function MouseCoordinates(props) {
         let sec = frac * 3600 - min * 60;
         // Round it to 2 decimal points.
         sec = Math.round(sec * 100) / 100;
+        console.log(deg + "°" + min + "'" + sec + '"' + dir)
         return deg + "°" + min + "'" + sec + '"' + dir;
     }
 
@@ -29,7 +44,7 @@ export function MouseCoordinates(props) {
     const {lat, lng} = position
 
     return(
-        <div className={'main'} onMouseDown={() => disableMapDragging(props.map)} onMouseUp={() => enableMapDragging(props.map)}>
+        <div className={'main'} onClick={() => convertToDms(83.051754,true)} onMouseDown={() => disableMapDragging(props.map)} onMouseUp={() => enableMapDragging(props.map)}>
             <b></b>{lat}.ш<br />
             <b></b>{lng}.д
         </div >
