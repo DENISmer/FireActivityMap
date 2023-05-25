@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import {useForm} from 'react-hook-form'
 import newStyle from './Auth.module.css';
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 
 
@@ -14,62 +15,40 @@ export function Login(){
         reset,
     } = useForm({mode: "onBlur"});
 
-    const onSubmit = (data) => {
-        alert(JSON.stringify(data));
-        reset();
+    const onSubmit = async (data) => {
+        //alert(JSON.stringify(data.Pass));
+        //reset()
+        console.log(data.Email, data.Pass)
+        await axios({url: `https://fam.rcpod.space/api/auth/jwt/create/`,
+            method: 'POST',
+            data :
+            {
+                email: data.Email,
+                password: data.Pass
+
+                //refresh_token: JSON.stringify("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY4NTIwMDcyMiwiaWF0IjoxNjg1MDI3OTIyLCJqdGkiOiIzZWExYzczOS0xZjI5LTQ3NDEtOTc2Yi0zZjIxNzAwODI3N2YiLCJ1c2VyX2lkIjo5fQ.r4sJa2LFHLyXAxiyeqgoMb1q7tpMbwEfuc9ZHBd56Ak")
+            },
+            headers: {
+            'Content-Type': "application/json",
+            //'Cache-Control': 'no-cache'
+            //'Access-Control-Allow-Headers': '*',
+            //'Access-Control-Allow-Methods': "POST"
+            //'Access-Control-Allow-Origin': "*"
+                }
+    }).then(data => { if(data.status === 200){
+            navigate('/Map')
+        }
+        }).catch(e => console.log(e.message))
     }
 
     const navigate = useNavigate();
 
-    // const [email, setEmail] = useState('');
-    // const [password, setPassword] = useState('');
-    // const [emailDirty, setEmailDirty] =useState(false);
-    // const [passwordDirty, setPasswordlDirty] =useState(false);
-    // const [formValid, setFormValid] = useState(false);
-    //
+    const [email, setEmail] = useState();
+    const [password, setPassword] = useState();
+
+
     // const [emailError, setEmailError] = useState('Email не можкт быть пустым');
     // const [passwordError, setPasswordError] = useState('Пароль не может быть пустым');
-    //
-    // useEffect(() => {
-    //     if (emailError || passwordError){
-    //         setFormValid(false)
-    //     }else{
-    //         setFormValid(true)
-    //     }
-    // },[emailError,passwordError])
-    //
-    // const blurHandler = (e) =>{
-    //     switch (e.target.name){
-    //         case 'email':
-    //             setEmailDirty(true);
-    //             break
-    //         case 'password':
-    //             setPasswordlDirty(true);
-    //             break
-    //     }
-    // }
-    //
-    // const emailHandler = (e) =>{
-    //     setEmail(e.target.value)
-    //     const re = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-    //     if (!re.test(String(e.target.value).toLowerCase())){
-    //         setEmailError('Некорректный Email')
-    //     }else {
-    //         setEmailError('')
-    //     }
-    // }
-    //
-    // const passwordHandler = (e) =>{
-    //     setPassword(e.target.value)
-    //     if (e.target.value < 6 || e.target.value > 12){
-    //         setPasswordError('Пароль должен быть больше 6 и меньше 12 символов');
-    //         if (!e.target.value){
-    //             setPasswordError('Пароль не может быть пустым')
-    //         }
-    //     }else{
-    //         setPasswordError('')
-    //     }
-    // }
 
     const URL = "https://jsonplaceholder.typicode.com/users/";
 
@@ -92,6 +71,8 @@ export function Login(){
 
                     <div className={newStyle.input_box}>
                         <input
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                             className={newStyle.email_input}
                             {...register("Email",{
                                 required: "Это поле обязательно для заполнения",
@@ -101,6 +82,7 @@ export function Login(){
                                 },
                                 pattern: /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
                             })}
+                            required
                         />
                         <label className={newStyle.email_label}>Email</label>
                     </div>
@@ -109,10 +91,22 @@ export function Login(){
                     </div>
 
                     <div className={newStyle.input_box}>
-                        <input type="password" className={newStyle.password_input} required/>
+                        <input type="password" className={newStyle.password_input}
+                               value={password}
+                               onChange={(e) => setPassword(e.target.value)}
+                               {...register("Pass",{
+                                   required: "Это поле обязательно для заполнения",
+                                   maxLength: {
+                                       value : 20,
+                                       message: "Маскимум 15 символов"
+                                   }
+                               })}
+                               required/>
                         <label htmlFor="" className={newStyle.password_label}>Пароль</label>
                     </div>
-
+                    <div className={newStyle.error}>
+                        {errors?.Pass && <p>{errors?.Pass?.message || "Неверный формат!"}</p>}
+                    </div>
                     <input className={newStyle.button} type="submit" value="Войти" disabled={!isValid}/>
 
                     <div className={newStyle.register}>

@@ -10,7 +10,6 @@ import {Restore_password} from "./Pages/Restore_Page/RestorePassword";
 import {Profile} from "./Pages/User_profile/Profile";
 import {Test_Page} from "./Pages/User_profile/Test/Test_Page";
 import {User_manual} from "./Pages/Users_guide/User_manual";
-import {Admin} from "./Pages/admin";
 
 export default function App(){
 
