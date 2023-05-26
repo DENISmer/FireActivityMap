@@ -3,17 +3,21 @@ import {useForm} from 'react-hook-form'
 import newStyle from './Auth.module.css';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import {useCookies} from "react-cookie";
 
 
 export function Login(){
+    const [refreshTokenCookies,setRefreshTokenCookie,removeRefreshTokenCookie] = useCookies(['refreshToken','accessToken']);
+    //const [accessTokenCookies,setAccessTokenCookie,removeAccessTokenCookie] = useCookies(['accessToken']);
 
+    const [loginError,setLoginError] = useState(false)
     const {
         register,
         formState: {errors, isValid},
         handleSubmit,
         reset,
     } = useForm({mode: "onBlur"});
+
 
     const onSubmit = async (data) => {
         //alert(JSON.stringify(data.Pass));
@@ -25,20 +29,25 @@ export function Login(){
             {
                 email: data.Email,
                 password: data.Pass
-
-                //refresh_token: JSON.stringify("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY4NTIwMDcyMiwiaWF0IjoxNjg1MDI3OTIyLCJqdGkiOiIzZWExYzczOS0xZjI5LTQ3NDEtOTc2Yi0zZjIxNzAwODI3N2YiLCJ1c2VyX2lkIjo5fQ.r4sJa2LFHLyXAxiyeqgoMb1q7tpMbwEfuc9ZHBd56Ak")
             },
             headers: {
             'Content-Type': "application/json",
-            //'Cache-Control': 'no-cache'
-            //'Access-Control-Allow-Headers': '*',
-            //'Access-Control-Allow-Methods': "POST"
-            //'Access-Control-Allow-Origin': "*"
                 }
-    }).then(data => { if(data.status === 200){
-            navigate('/Map')
-        }
-        }).catch(e => console.log(e.message))
+    }).then(response => {
+            if(response.status === 200){
+                //console.log(response.data.refresh)
+                setRefreshTokenCookie('refreshToken',response.data.refresh, {maxAge: 48 * 3600})
+                setRefreshTokenCookie('accessToken',response.data.refresh, {maxAge: 300})
+                navigate('/Map')
+            }
+            else{
+                //setLoginError(true)
+            }
+        }).catch(e => {
+            console.log(e.message)
+            setLoginError(true)
+            }
+        )
     }
 
     const navigate = useNavigate();
@@ -46,9 +55,6 @@ export function Login(){
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
 
-
-    // const [emailError, setEmailError] = useState('Email не можкт быть пустым');
-    // const [passwordError, setPasswordError] = useState('Пароль не может быть пустым');
 
     const URL = "https://jsonplaceholder.typicode.com/users/";
 
@@ -72,7 +78,10 @@ export function Login(){
                     <div className={newStyle.input_box}>
                         <input
                             value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            onChange={(e) => {
+                                setEmail(e.target.value)
+                            }}
+                            onClick={()=> setLoginError(false)}
                             className={newStyle.email_input}
                             {...register("Email",{
                                 required: "Это поле обязательно для заполнения",
@@ -93,7 +102,10 @@ export function Login(){
                     <div className={newStyle.input_box}>
                         <input type="password" className={newStyle.password_input}
                                value={password}
-                               onChange={(e) => setPassword(e.target.value)}
+                               onChange={(e) => {
+                                   setPassword(e.target.value)
+                               }}
+                               onClick={()=> setLoginError(false)}
                                {...register("Pass",{
                                    required: "Это поле обязательно для заполнения",
                                    maxLength: {
@@ -106,8 +118,9 @@ export function Login(){
                     </div>
                     <div className={newStyle.error}>
                         {errors?.Pass && <p>{errors?.Pass?.message || "Неверный формат!"}</p>}
+                        {loginError ? <p>{"Пожайлуйста, проверьте введенные данные"}</p> : null}
                     </div>
-                    <input className={newStyle.button} type="submit" value="Войти" disabled={!isValid}/>
+                    <input className={newStyle.button} type="submit" value="Войти" onClick={() => setLoginError(false)} disabled={!isValid}/>
 
                     <div className={newStyle.register}>
                         <p>Нет аккаунта? <a href="" onClick={()=> navigate('/Registration')}>Зарегистрироваться</a></p>

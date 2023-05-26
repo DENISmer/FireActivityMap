@@ -12,6 +12,7 @@ import transition from "react-element-popper/animations/transition"
 import DatePicker, {DateObject} from "react-multi-date-picker";
 import {disableMapDragging,enableMapDragging} from '../Map/MapEvents/MapEvents'
 import {useMapEvents} from "react-leaflet";
+import {useCookies} from "react-cookie";
 
 
 
@@ -21,6 +22,8 @@ export function MainNavBar(props){
     const [context, setContext] = useContext(Context);
     const [dateRange, setDateRange] = useState([new DateObject()]);
     const today = [new Date(Date.now()).getFullYear(),new Date(Date.now()).getMonth(),new Date(Date.now()).getDate()].join('-');
+
+    const [refreshTokenCookies,setRefreshTokenCookie,removeRefreshTokenCookie] = useCookies(['refreshToken','accessToken']);
 
     const setToday = () =>{
         return [new Date(Date.now()).getFullYear(),new Date(Date.now()).getMonth(),new Date(Date.now()).getDate()].join('-');
@@ -79,7 +82,11 @@ export function MainNavBar(props){
 
     return(
         <>
-            <button  className={NavBarStyles.show_hide_NavBar} onClick={() => setShowNavBar(!showNavBar)}>
+            <button  className={NavBarStyles.show_hide_NavBar} onClick={() => {
+                setShowNavBar(!showNavBar)
+                console.log('access: ',refreshTokenCookies['accessToken'])
+                console.log('refresh: ',refreshTokenCookies['refreshToken'])
+            }}>
                 {showNavBar ?  <img src={NavBarCloseIcon} width={32} height={35}/> : <img src={NavBarIcon} width={32} height={35}/>}
             </button>
 

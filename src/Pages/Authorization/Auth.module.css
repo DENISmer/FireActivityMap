@@ -118,8 +118,13 @@
 }
 
 .error{
-    color: red;
+    color: #ff2525;
     font-size: 18px;
+    text-shadow: 0.5px 0 1px #000,
+    0 1px 1px #000,
+    -1px 0 1px #000,
+    0 -1px 1px #000;
+
 }
 
 .button{

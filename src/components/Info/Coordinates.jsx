@@ -29,7 +29,7 @@ export function MouseCoordinates(props) {
     const {lat, lng} = position
 
     return(
-        <div className={'main'} onClick={() => convertToDms(83.051754,true)} onMouseDown={() => disableMapDragging(props.map)} onMouseUp={() => enableMapDragging(props.map)}>
+        <div className={'main'} onMouseDown={() => disableMapDragging(props.map)} onMouseUp={() => enableMapDragging(props.map)}>
             <b></b>{lat}.ш<br />
             <b></b>{lng}.д
         </div >

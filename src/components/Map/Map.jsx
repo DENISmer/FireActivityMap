@@ -24,11 +24,12 @@ import axios from "axios";
 import {URL_FOR_MARKS} from "../../config/config";
 import {CounrtyBorders} from "./layers/countryBorders";
 import {NatureReserves} from "./layers/NatureReservesBorders";
-import {SettLements} from "./layers/localities";
+import {Settlements} from "./layers/localities";
 import {ModalReportPDF} from "../MainNavBar/reportModal/ModalPDF";
 import {ModalReportSHP} from "../MainNavBar/reportModal/ModalSHP";
 import {enableMapDragging} from "./MapEvents/MapEvents";
 import {layersDict} from "../../config/config";
+import { useNavigate } from "react-router-dom";
 
 
 const MyContext = createContext("Without provider");
@@ -63,12 +64,21 @@ export function MapComponent(){
     const [infoAboutMarks, setInfoAboutMarks] = useState();
     const [settLementShow, setSettLementShow] = useState(false);
 
+    const [refreshTokenCookies,setRefreshTokenCookie,removeRefreshTokenCookie] = useCookies(['refreshToken','accessToken']);
+
+    const navigate = useNavigate();
+
     //const MemoizedMutableImageOverlay = useMemo(()=> MutableImageOverlay,[context])
     const MemoizedChildComponentMark_render = useMemo(() => MarkersLayer, [context])
 
-    const MemoizedChildComponentSettlements = useMemo(() => SettLements, [context])
+    const MemoizedChildComponentSettlements = useMemo(() => Settlements, [context])
 
     const requestForInfoWhenMapIsReady = () => {//запрос дней на наличие точек
+        console.log(refreshTokenCookies['refreshToken'])
+        if(!refreshTokenCookies['refreshToken']){
+            navigate('/')
+            console.log('OKOK')
+        }
         axios.get(URL_FOR_MARKS.URL_GET_INFO).then(async response =>{
             await setInfoAboutMarks(response.data.date)
             }

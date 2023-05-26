@@ -11,8 +11,11 @@ import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import earth from '../../../icons/earth.gif';
 import {Link} from "react-router-dom";
+import {useCookies} from "react-cookie";
 
 export default function AccountMenu() {
+
+    const [refreshTokenCookies,setRefreshTokenCookie,removeRefreshTokenCookie] = useCookies(['refreshToken','accessToken']);
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -83,7 +86,9 @@ export default function AccountMenu() {
                     </ListItemIcon>
                     Настройки
                 </MenuItem>
-                <MenuItem component={Link} to={'/'}>
+                <MenuItem component={Link} to={'/'} onClick={() => {
+                    removeRefreshTokenCookie(['refreshToken'],{path: '/'})
+                }}>
                     <ListItemIcon>
                         <Logout fontSize="small" />
                     </ListItemIcon>

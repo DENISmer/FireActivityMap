@@ -1,16 +1,12 @@
-import {LayerGroup, Marker, Popup,} from 'react-leaflet';
-import React, {useCallback, useContext, useEffect, useState} from 'react';
-import nationalParks from '../Info/national-parks.json';
+import { Marker, Popup,} from 'react-leaflet';
+import React, {useContext, useEffect, useState} from 'react';
 import MarkerClusterGroup from 'react-leaflet-cluster';
 import clusters from './Mark_render.module.css'
 import L from 'leaflet';
 import {Context} from './Context'
-import {PointsRequest} from "./PointsRequest/PointsRequest";
 import axios from 'axios';
 import loader from '../../icons/loading-loading-forever.gif'
-import gsap from 'gsap';
 import {useCookies} from "react-cookie";
-import {RequestForImagesData} from "./RequestsForImagesData/RequestForImagesData";
 import {URL_FOR_MARKS} from '../../config/config'
 function GetIcon(_iconSize){
     return L.icon({
@@ -70,17 +66,10 @@ export function Mark_render(onDateChange) {
         return () => {unmounted = true}
     }
 
-    const localStore = async (points) =>{
-        //console.log('localStore works')
-        await setPoints(JSON.parse(localStorage.getItem('points')))
-    }
     useEffect(  ()=>{
         if(context.currentDate === undefined || context.daysInRange === undefined){
             if(contextCookies.context !== undefined){
                 setContext(contextCookies.context)
-                //setPoints(JSON.parse(localStorage.getItem('points')))
-                // console.log('context is empty')
-                // console.log(context)
             }
         }
         else {

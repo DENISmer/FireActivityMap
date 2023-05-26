@@ -17,7 +17,7 @@ export default function App(){
         <>
             <BrowserRouter>
             <Routes>
-                <Route exact path="/" element={<Login />}/>
+                <Route exac path="/" element={<Login />}/>
                 <Route exac path='/Registration' element={<Registration />}/>
                 <Route exac path='/Map' element={<MapComponent />}/>
                 <Route exac path='/Acc' element={<AccountMenu />}/>
