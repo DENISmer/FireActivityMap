@@ -21,7 +21,7 @@ import {useCookies} from "react-cookie";
 import {MutableImageOverlay} from "./MutableImageOverlay";
 import {MarkersLayer} from "./MarkersLayer/markersLayer";
 import axios from "axios";
-import {URL_FOR_MARKS} from "../../config/config";
+import {URL_FOR_MARKS, URL_FOR_USER} from "../../config/config";
 import {CounrtyBorders} from "./layers/countryBorders";
 import {NatureReserves} from "./layers/NatureReservesBorders";
 import {Settlements} from "./layers/localities";
@@ -74,15 +74,38 @@ export function MapComponent(){
     const MemoizedChildComponentSettlements = useMemo(() => Settlements, [context])
 
     const requestForInfoWhenMapIsReady = () => {//запрос дней на наличие точек
-        console.log(refreshTokenCookies['refreshToken'])
-        if(!refreshTokenCookies['refreshToken']){
-            navigate('/')
-            console.log('OKOK')
-        }
-        axios.get(URL_FOR_MARKS.URL_GET_INFO).then(async response =>{
+        axios.get(URL_FOR_MARKS.URL_GET_INFO,{headers :
+                {
+                    Authorization : `Bearer ${refreshTokenCookies['accessToken']}`
+                }
+        })
+            .then(async response =>{
             await setInfoAboutMarks(response.data.date)
             }
         )
+            .catch(error=>{
+                if(error.request.status === 403 || error.request.status === 401){
+                    axios(URL_FOR_USER.URL_REFRESH,
+                        {
+                            method : 'POST',
+                            data : {
+                                refresh_token: refreshTokenCookies['refreshToken']
+                            }
+                        })
+                        .then(response => {
+                            setRefreshTokenCookie('accessToken', response.data.access, 5 * 3600)
+                            console.log(response.data)
+                        })
+                        .catch((e) => {
+                            navigate('/')
+                            removeRefreshTokenCookie('refreshToken')
+                        })
+                }
+                else if(error.request.status >= 500){
+                    console.log(error.message)
+                }
+                console.log(error.status)
+            })
     }
 
     const modalSHP = () =>{

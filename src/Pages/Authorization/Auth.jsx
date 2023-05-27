@@ -4,6 +4,7 @@ import newStyle from './Auth.module.css';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import {useCookies} from "react-cookie";
+import {URL_FOR_USER} from "../../config/config";
 
 
 export function Login(){
@@ -23,7 +24,7 @@ export function Login(){
         //alert(JSON.stringify(data.Pass));
         //reset()
         console.log(data.Email, data.Pass)
-        await axios({url: `https://fam.rcpod.space/api/auth/jwt/create/`,
+        await axios(URL_FOR_USER.URL_CREATE,{
             method: 'POST',
             data :
             {
@@ -36,8 +37,8 @@ export function Login(){
     }).then(response => {
             if(response.status === 200){
                 //console.log(response.data.refresh)
-                setRefreshTokenCookie('refreshToken',response.data.refresh, {maxAge: 48 * 3600})
-                setRefreshTokenCookie('accessToken',response.data.refresh, {maxAge: 300})
+                setRefreshTokenCookie('refreshToken',response.data.refresh, {maxAge: 5 * 3600})
+                setRefreshTokenCookie('accessToken',response.data.access, {maxAge: 5 * 3600})
                 navigate('/Map')
             }
             else{
@@ -109,7 +110,7 @@ export function Login(){
                                {...register("Pass",{
                                    required: "Это поле обязательно для заполнения",
                                    maxLength: {
-                                       value : 20,
+                                       value : 15,
                                        message: "Маскимум 15 символов"
                                    }
                                })}

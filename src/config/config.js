@@ -1,16 +1,26 @@
+
+const domain = `https://fam.rcpod.space/api`
+
 export const URL_FOR_MARKS = {
-    URL_SINGLE_DAY: `https://fam.rcpod.space/api/fires/points/?date=`,
-    URL_TODAY: 'https://fam.rcpod.space/api/fires/points/today/',
-    URL_DAYS_RANGE: `https://fam.rcpod.space/api/fires/points/?date_min=`,
-    URL_WEEK: `https://fam.rcpod.space/api/fires/points/week/`,
-    URL_LAST_24_HOURS: `https://fam.rcpod.space/api/fires/points/twentyfourhours/`,
-    URL_GET_INFO: `https://fam.rcpod.space/api/fires/days/`
+    URL_SINGLE_DAY: `${domain}/fires/points/?date=`,
+    URL_TODAY: `${domain}/fires/points/today/`,
+    URL_DAYS_RANGE: `${domain}/fires/points/?date_min=`,
+    URL_WEEK: `${domain}/fires/points/week/`,
+    URL_LAST_24_HOURS: `${domain}/fires/points/twentyfourhours/`,
+    URL_GET_INFO: `${domain}/fires/days/`
+}
+
+export const URL_FOR_USER = {
+    URL_CREATE: `${domain}/auth/jwt/create/`,
+    URL_REFRESH: `${domain}/auth/jwt/refresh/`,
+    URL_EDIT_MYSELF: `${domain}/auth/user/me/`,
+    URL_REGISTER: `${domain}/auth/users/`
 }
 
 export const URL_FOR_FILES = {
-    URL_SHP_DATETIME: `https://fam.rcpod.space/api/fires/load/shapefile/`, //get params:date_time=2022-11-12T12:15&subject_tag=ALTAY
-    URL_PDF: `https://fam.rcpod.space/api/fires/load/pdf/`, //get params:date_time=2022-11-12T12:15&subject_tag=ALTAY&cloud_shielding=12&operator_fio=xjxjjxx
-    URL_FOR_SETTLEMENTS: `https://fam.rcpod.space/api/fires/settlement_least_5/` //get params:date или date_min и date_max & list_ids=(true,yes,1,t,no, false, 0, f)
+    URL_SHP_DATETIME: `${domain}/fires/load/shapefile/`, //get params:date_time=2022-11-12T12:15&subject_tag=ALTAY
+    URL_PDF: `${domain}/fires/load/pdf/`, //get params:date_time=2022-11-12T12:15&subject_tag=ALTAY&cloud_shielding=12&operator_fio=xjxjjxx
+    URL_FOR_SETTLEMENTS: `${domain}/fires/settlement_least_5/` //get params:date или date_min и date_max & list_ids=(true,yes,1,t,no, false, 0, f)
 }
 
 export const URL_FOR_COORDS = {

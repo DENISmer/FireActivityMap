@@ -1,4 +1,4 @@
-import {URL_FOR_COORDS, URL_FOR_FILES} from '../../../config/config'
+import {URL_FOR_COORDS, URL_FOR_FILES, URL_FOR_USER} from '../../../config/config'
 import {Marker, Polygon, Polyline, Popup, useMapEvents} from "react-leaflet";
 import L from 'leaflet';
 import {settlements} from "../../../data/coordinateFiles/settlement_out2";
@@ -6,6 +6,8 @@ import {useContext, useEffect, useState} from "react";
 import axios from "axios";
 import {Context} from "../Context";
 import markerStyleForCities from './localities.module.css'
+import {useCookies} from "react-cookie";
+import {useNavigate} from "react-router-dom";
 
 function GetIcon(_iconSize,name,isOrdinary,type) {
     const locationStyle ={
@@ -30,14 +32,16 @@ function GetIcon(_iconSize,name,isOrdinary,type) {
 
 
 export function Settlements(props){
-    let key
     let localSettLementArray=[];
+
+    const [refreshTokenCookies,setRefreshTokenCookie,removeRefreshTokenCookie] = useCookies(['refreshToken','accessToken']);
+
+    const navigate = useNavigate();
+
     const [settlementArray, setSettlementArray] = useState([]);
     const [context,setContext] = useContext(Context)
     const [zoomLevel,setZoomLevel] = useState(props.map.getZoom())
     const [zoomStart,setZoomStart] = useState(false)
-    const st = settlements
-    const limeOptions = { color: 'lime' }
 
     let setArr = [];
     const mapEvents = useMapEvents({
@@ -54,14 +58,19 @@ export function Settlements(props){
     });
 
     for(let key in settlements){
-        //<Polygon positions={item[key].poly} color={'pink'}/>
-        //item[key].poly && console.log(item[key].poly)
         setArr.push(settlements[key])
     }
+
     const requestForSettlements = async () => {//запрос данных на массив id населенных пунктов
         let localSettlements;
         try{
-            await axios.get(`${URL_FOR_FILES.URL_FOR_SETTLEMENTS}?date=${context.currentDate}&list_ids=${true}`).then(
+            await axios.get(`${URL_FOR_FILES.URL_FOR_SETTLEMENTS}?date=${context.currentDate}&list_ids=${true}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${refreshTokenCookies['accessToken']}`
+                    }
+                })
+                .then(
                 response =>{
                     console.log(response.data['settlement_ids'].length)
                     if(response.data['settlement_ids'].length > 0){
@@ -71,6 +80,28 @@ export function Settlements(props){
                     }
                 }
             )
+                .catch(error =>{
+                    if(error.request.status === 403 || error.request.status === 401){
+                        axios(URL_FOR_USER.URL_REFRESH,
+                            {
+                                method : 'POST',
+                                data : {
+                                    refresh_token: refreshTokenCookies['refreshToken']
+                                }
+                            })
+                            .then(async response => {
+                                await setRefreshTokenCookie('accessToken', response.data.access, 5 * 3600)
+                                console.log(response.data)
+                            })
+                            .catch((e) => {
+                                navigate('/')
+                                removeRefreshTokenCookie('refreshToken')
+                            })
+                    }
+                    else if(error.request.status >= 500){
+                        console.log(error.message)
+                    }
+                })
         }
         catch (e){
             console.log(e.message)

@@ -7,7 +7,8 @@ import {Context} from './Context'
 import axios from 'axios';
 import loader from '../../icons/loading-loading-forever.gif'
 import {useCookies} from "react-cookie";
-import {URL_FOR_MARKS} from '../../config/config'
+import {URL_FOR_MARKS, URL_FOR_USER} from '../../config/config'
+import {useNavigate} from "react-router-dom";
 function GetIcon(_iconSize){
     return L.icon({
         iconUrl: require("../../icons/fire point/favicon-32x32.png"),
@@ -16,8 +17,12 @@ function GetIcon(_iconSize){
 }
 export function Mark_render(onDateChange) {
     const [contextCookies,setContextCookie,removeContextCookie] = useCookies(['context']);
+    const [refreshTokenCookies,setRefreshTokenCookie,removeRefreshTokenCookie] = useCookies(['refreshToken','accessToken']);
+
+    const navigate = useNavigate();
     const [context, setContext] = useContext(Context);
     const [localCurrentDay,setLocalCurrentDay] = useState()
+
 
     const URL_S = {
         URL_SINGLE_DAY : `${URL_FOR_MARKS.URL_SINGLE_DAY}${context.currentDate}`,
@@ -34,16 +39,19 @@ export function Mark_render(onDateChange) {
 
     const RequestForData = (context,url) =>{
         let unmounted = false
-        //localStorage.clear();
-        console.log(url)
-        axios.get(`${url}`)
+
+
+        axios.get(`${url}`,{headers:
+                {Authorization: `Bearer ${refreshTokenCookies['accessToken']}`}
+        })
             .then(async response => {
                 if(response.data.points.length === 0){
                     setIsRender(false)
                 }
-                //console.log('request: ', response.data.points);
+
                 await setPoints(response.data.points)
-                //await localStorage.setItem('points',JSON.stringify(response.data.points))
+
+
                 if(!unmounted){
                     setTimeout(()=>{
                         setIsRender(false)
@@ -51,8 +59,25 @@ export function Mark_render(onDateChange) {
                 }
             })
             .catch(error=>{
+
                 setIsRender(false)
-                if(error.request.status === 400){
+
+                if(error.request.status === 403 || error.request.status === 401){
+                    axios(URL_FOR_USER.URL_REFRESH,
+                        {
+                            method : 'POST',
+                            data : {
+                                refresh_token: refreshTokenCookies['refreshToken']
+                            }
+                        })
+                        .then(response => {
+                            setRefreshTokenCookie('accessToken', response.data.access, 5 * 3600)
+                            console.log(response.data)
+                    })
+                        .catch((e) => {
+                            navigate('/')
+                            removeRefreshTokenCookie('refreshToken')
+                        })
                 }
                 else if(error.request.status >= 500){
                     setServerError(false)

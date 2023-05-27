@@ -1,13 +1,15 @@
 import React, {useEffect, useState} from "react";
 import {useForm} from 'react-hook-form'
 import newStyle from './registration.module.css';
-import { useNavigate } from "react-router-dom";
-import {value} from "lodash/seq";
+import {useNavigate} from "react-router-dom";
+import {URL_FOR_USER} from "../../config/config";
+import axios from "axios";
 
 
 
 export function Registration(){
 
+    const [requestError, setRequestError] = useState(false);
     const {
         register,
         formState: {errors, isValid},
@@ -16,61 +18,33 @@ export function Registration(){
     } = useForm({mode: "onBlur"});
 
     const onSubmit = (data) => {
-        alert(JSON.stringify(data));
-        reset();
+        // alert(JSON.stringify(data));
+        // reset();
+        //console.log(data.fileList[0])
+        axios(URL_FOR_USER.URL_REGISTER,{
+            method: 'POST',
+            data: {
+                email : data.Email,
+                last_name : data.secondName,
+                first_name : data.firstName,
+                middle_name : data.surnameName,
+                organization_name : data.organizationName,
+                file : data.fileList[0]
+            },headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+            .then(response => {
+                console.log(response.data)
+                navigate('/')
+            })
+            .catch(e => {
+                console.log(e.message)
+                setRequestError(true)
+            })
     }
 
     const navigate = useNavigate();
-
-    // const [email, setEmail] = useState('');
-    // const [password, setPassword] = useState('');
-    // const [emailDirty, setEmailDirty] =useState(false);
-    // const [passwordDirty, setPasswordlDirty] =useState(false);
-    // const [formValid, setFormValid] = useState(false);
-    //
-    // const [emailError, setEmailError] = useState('Email не можкт быть пустым');
-    // const [passwordError, setPasswordError] = useState('Пароль не может быть пустым');
-    //
-    // useEffect(() => {
-    //     if (emailError || passwordError){
-    //         setFormValid(false)
-    //     }else{
-    //         setFormValid(true)
-    //     }
-    // },[emailError,passwordError])
-    //
-    // const blurHandler = (e) =>{
-    //     switch (e.target.name){
-    //         case 'email':
-    //             setEmailDirty(true);
-    //             break
-    //         case 'password':
-    //             setPasswordlDirty(true);
-    //             break
-    //     }
-    // }
-    //
-    // const emailHandler = (e) =>{
-    //     setEmail(e.target.value)
-    //     const re = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-    //     if (!re.test(String(e.target.value).toLowerCase())){
-    //         setEmailError('Некорректный Email')
-    //     }else {
-    //         setEmailError('')
-    //     }
-    // }
-    //
-    // const passwordHandler = (e) =>{
-    //     setPassword(e.target.value)
-    //     if (e.target.value < 6 || e.target.value > 12){
-    //         setPasswordError('Пароль должен быть больше 6 и меньше 12 символов');
-    //         if (!e.target.value){
-    //             setPasswordError('Пароль не может быть пустым')
-    //         }
-    //     }else{
-    //         setPasswordError('')
-    //     }
-    // }
 
     const URL = "https://jsonplaceholder.typicode.com/users/";
 
@@ -198,7 +172,13 @@ export function Registration(){
 
                     <div className={newStyle.file_input_box}>
                         <label className={newStyle.file_label}>Прикрепите документ, подтверждающий информацию</label>
-                        <input className={newStyle.file_input} type={"file"} accept={'.docx,.doc,.pdf,.obt'} required/>
+                        <input className={newStyle.file_input} type={"file"} accept={'.docx,.doc,.pdf,.obt'}
+                               {...register("fileList",{
+                                    required: "Это поле обязательно для заполнения",
+                        })}/>
+                    </div>
+                    <div className={newStyle.error}>
+                        {requestError && <p>{"Ошибка авторизации! Проверьте введенные данные"}</p>}
                     </div>
 
                     <input className={newStyle.button} type="submit" disabled={!isValid}/>

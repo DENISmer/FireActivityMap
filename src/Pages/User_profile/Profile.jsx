@@ -60,7 +60,8 @@ export function Profile(){
                     <hr/>
                     <br/>
                     <button className='restore_button' onClick={()=> navigate("/restore_access")}>Изменить пароль</button>
-                    <a className='href-navigation' href={'https://fam.rcpod.space/admin/login/?next=/admin/'} target={'_blank'} >TEST</a>
+                    <button className='restore_button' onClick={()=> navigate("/Admin")}>Администрирование</button>
+                    <a className='href-navigation' href={'https://fam.rcpod.space/admin/'} target={'_blank'} >TEST</a>
                 </div>
             </div>
         </div>
