@@ -7,8 +7,8 @@ import {subjectNames} from "../../../config/config";
 import {disableMapDragging,enableMapDragging} from "../../Map/MapEvents/MapEvents";
 import {useCookies} from "react-cookie";
 import {useNavigate} from "react-router-dom";
-import {SetModalTimeDecorator} from "./SetModalTimeDecorator";
 import dayjs from "dayjs";
+import {SetModalTimeDecorator} from "./SetModalTimeDecorator";
 
 export function ModalReportPDF ({active, setActive,map}){
 
@@ -24,19 +24,9 @@ export function ModalReportPDF ({active, setActive,map}){
     const [readyToTheNextPage,setReadyToTheNextPage] = useState(false)
     const URL = `${URL_FOR_FILES.URL_PDF}?date_time=${pdfDateTime}&cloud_shielding=${cloudShielding}&operator_fio=${operatorFullName}&subject_tag=${pdfSubjectTag}`
 
-    const setTimeFromContext = () => {
-        if(context.min_datetime){
-            setPdfDateTime(dayjs(context.min_datetime).format("YYYY-MM-DDThh:mm"))
-        }
-        else if(context.currentDate){
-            setPdfDateTime(dayjs(context.currentDate  + 'T00:00').format("YYYY-MM-DDThh:mm"))
-        }
-
-        return null
-    }
     useEffect(() => {
-        setTimeFromContext()
-    },[])
+        SetModalTimeDecorator(context,setPdfDateTime)
+    },[context])
 
     useEffect(() => {
         setReadyToTheNextPage(false)
@@ -86,7 +76,33 @@ export function ModalReportPDF ({active, setActive,map}){
                         })
                         .then(response => {
                             setRefreshTokenCookie('accessToken', response.data.access, 5 * 3600)
-                            console.log(response.data)
+
+                            axios.get(URL,{
+                                headers: {
+                                    Authorization : `Bearer ${refreshTokenCookies['accessToken']}`
+                                }
+                            })
+                                .then(response => {
+                                    if(response.status === 200){
+                                        if(typeof response.data === 'object'){
+                                            if(response.data.file_info){
+                                                alert(`Error: ${response.data.file_info}\nОшибка: нет данных по вашему запросу`)//данные введены верно, но данных нет
+                                                setReadyToTheNextPage(false)
+                                            }
+                                            else if(response.data.fields_error){
+                                                console.log(`Error: ${response.data.fields_error}\nОшибка: данные введены неверно`)//данные введены верно
+                                                setReadyToTheNextPage(false)
+                                            }
+                                        }
+                                        else{//если данные введены правильно и создан/есть отчет за выбранный период
+                                            setReadyToTheNextPage(true)
+                                        }
+                                    }
+                                    else{
+                                        alert(`${response.status} network error`)
+                                        setReadyToTheNextPage(false)
+                                    }
+                                })
                         })
                         .catch((e) => {
                             navigate('/')
@@ -134,7 +150,7 @@ export function ModalReportPDF ({active, setActive,map}){
                 <div className={modalStyle.modal_div}>
                         <label className={modalStyle.modal_label}>Дата и время</label>
 
-                        <input  type={"datetime-local"} id={'dateTime'} className={modalStyle.modal_input}
+                        <input  type={"datetime-local"} id={'dateTime'} max={dayjs().format("YYYY-MM-DDThh:mm")} className={modalStyle.modal_input}
 
                                 value={pdfDateTime}
                                 onChange={(e) => {

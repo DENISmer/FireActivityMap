@@ -160,7 +160,7 @@ export function MainNavBar(props){
                                                 }
                                                 </ListItem>
                                             </div>
-                                                : listItem.type === 'imageOverlayFY3D250' ?
+                                                : listItem.type === 'Suomi NPP' ?
                                                 <div className={NavBarStyles.divSwitch}>
                                                     <ListItem className={NavBarStyles.listItem} key={index}>
                                                         {listItem.name}{
@@ -172,7 +172,7 @@ export function MainNavBar(props){
                                                     }
                                                     </ListItem>
                                                 </div>
-                                                    : listItem.type === 'imageOverlayFY3D1000' ?
+                                                    : listItem.type === 'NOAA-20' ?
                                                     <div  className={NavBarStyles.divSwitch}>
                                                         <ListItem className={NavBarStyles.listItem} key={index}>
                                                             {listItem.name}{

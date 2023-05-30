@@ -51,7 +51,6 @@ export function Mark_render(onDateChange) {
 
                 await setPoints(response.data.points)
 
-
                 if(!unmounted){
                     setTimeout(()=>{
                         setIsRender(false)
@@ -71,7 +70,23 @@ export function Mark_render(onDateChange) {
                         })
                         .then(response => {
                             setRefreshTokenCookie('accessToken', response.data.access, 5 * 3600)
-                            console.log(response.data)
+
+                            axios.get(`${url}`,{headers:
+                                    {Authorization: `Bearer ${refreshTokenCookies['accessToken']}`}
+                            })
+                                .then(async response => {
+                                    if(response.data.points.length === 0){
+                                        setIsRender(false)
+                                    }
+
+                                    await setPoints(response.data.points)
+
+                                    if(!unmounted){
+                                        setTimeout(()=>{
+                                            setIsRender(false)
+                                        },100)
+                                    }
+                                })
                     })
                         .catch((e) => {
                             navigate('/')

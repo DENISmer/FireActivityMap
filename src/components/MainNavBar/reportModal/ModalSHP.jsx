@@ -8,6 +8,7 @@ import {disableMapDragging,enableMapDragging} from "../../Map/MapEvents/MapEvent
 import {useCookies} from "react-cookie";
 import {useNavigate} from "react-router-dom";
 import {SetModalTimeDecorator} from "./SetModalTimeDecorator";
+import dayjs from "dayjs";
 
 export function ModalReportSHP ({active, setActive, map}){
 
@@ -17,7 +18,7 @@ export function ModalReportSHP ({active, setActive, map}){
 
     const [context, setContext] = useContext(Context)
 
-    const [pdfDateTime,setPdfDateTime] = useState(context.currentDate + 'T00:00')
+    const [pdfDateTime,setPdfDateTime] = useState(dayjs().format("YYYY-MM-DDThh:mm"))
 
     const [pdfSubjectTag,setPdfSubjectTag] = useState()
 
@@ -28,7 +29,7 @@ export function ModalReportSHP ({active, setActive, map}){
 
     useEffect(() => {
         SetModalTimeDecorator(context,setPdfDateTime)
-    })
+    },[context])
 
     useEffect(() => {
         setReadyToTheNextPage(false)
@@ -79,7 +80,34 @@ export function ModalReportSHP ({active, setActive, map}){
                             })
                             .then(response => {
                                 setRefreshTokenCookie('accessToken', response.data.access, 5 * 3600)
-                                console.log(response.data)
+
+
+                                axios.get(URL,{
+                                    headers: {
+                                        Authorization : `Bearer ${refreshTokenCookies['accessToken']}`
+                                    }
+                                }).then(response => {
+                                    if(response.status === 200){
+                                        if(typeof response.data === 'object'){
+                                            if(response.data.file_info){
+                                                alert(`Error: ${response.data.file_info}\nОшибка: нет данных по вашему запросу`)//данные введены верно, но данных нет
+                                                setReadyToTheNextPage(false)
+                                            }
+                                            else if(response.data.fields_error){
+                                                console.log(`Error: ${response.data.fields_error}\nОшибка: данные введены неверно`)//данные введены верно
+                                                setReadyToTheNextPage(false)
+                                            }
+                                        }
+                                        else{//если данные введены правильно и создан/есть отчет за выбранный период
+                                            console.log("ready to next page", URL)
+                                            setReadyToTheNextPage(true)
+                                        }
+                                    }
+                                    else{
+                                        alert(`${response.status} network error`)
+                                        setReadyToTheNextPage(false)
+                                    }
+                                })
                             })
                             .catch((e) => {
                                 navigate('/')
@@ -119,7 +147,7 @@ export function ModalReportSHP ({active, setActive, map}){
                 <div className={modalStyle.modal_div}>
                     <label className={modalStyle.modal_label}>Выберите время</label>
 
-                    <input  type={"datetime-local"} className={modalStyle.modal_input}
+                    <input  type={"datetime-local"} max={dayjs().format("YYYY-MM-DDThh:mm")} className={modalStyle.modal_input}
 
                             value={pdfDateTime}
                             onChange={(e) => {

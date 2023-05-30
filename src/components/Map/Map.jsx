@@ -97,11 +97,21 @@ export function MapComponent(){
                                 refresh_token: refreshTokenCookies['refreshToken']
                             }
                         })
-                        .then(response => {
+                        .then(async response => {
                             setUserAuthAccess(true)
                             setRefreshTokenCookie('accessToken', response.data.access, 5 * 3600)
                             setInfoAboutMarks(response.data.date)
-                            console.log(response.data)
+
+                            axios.get(URL_FOR_MARKS.URL_GET_INFO,{headers :
+                                    {
+                                        Authorization : `Bearer ${refreshTokenCookies['accessToken']}`
+                                    }
+                            })
+                                .then(async response =>{
+                                        await setInfoAboutMarks(response.data.date)
+                                        setUserAuthAccess(true)
+                                    }
+                                )
                         })
                         .catch((e) => {
                             setUserAuthAccess(false)
@@ -120,6 +130,7 @@ export function MapComponent(){
     useEffect(()=>{
         requestForInfoWhenMapIsReady();
     },[])
+
     const modalSHP = () =>{
         setSHPModalActive(true)
     }
@@ -163,7 +174,7 @@ export function MapComponent(){
 
     return <>
         {userAuthAccess ? <div onMouseUp={() => enableMapDragging(map)}>
-            <MapContainer zoomControl={false} maxZoom={16} zoom={4} minZoom={2}
+            <MapContainer zoomControl={false} maxZoom={16} zoom={4} minZoom={3}
                           center={center}
                           ref={setMap}
                           whenReady={() => requestForInfoWhenMapIsReady()}

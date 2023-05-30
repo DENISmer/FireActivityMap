@@ -1,6 +1,6 @@
 
 const domain = `https://fam.rcpod.space/api`
-
+//запросы для точек пожаров и информации к ним
 export const URL_FOR_MARKS = {
     URL_SINGLE_DAY: `${domain}/fires/points/?date=`,
     URL_TODAY: `${domain}/fires/points/today/`,
@@ -10,24 +10,30 @@ export const URL_FOR_MARKS = {
     URL_GET_INFO: `${domain}/fires/days/`
 }
 
+//зарпосы для управления аккаунтов пользователя
 export const URL_FOR_USER = {
     URL_CREATE: `${domain}/auth/jwt/create/`,
     URL_REFRESH: `${domain}/auth/jwt/refresh/`,
     URL_EDIT_MYSELF: `${domain}/auth/user/me/`,
-    URL_REGISTER: `${domain}/auth/users/`
+    URL_REGISTER: `${domain}/auth/users/`,
+    URL_GET_USER_INFO: `${domain}/auth/user/me/`
 }
 
+//запросы для формирования файлов .shp И .pdf
 export const URL_FOR_FILES = {
-    URL_SHP_DATETIME: `${domain}/fires/load/shapefile/`, //get params:date_time=2022-11-12T12:15&subject_tag=ALTAY
-    URL_PDF: `${domain}/fires/load/pdf/`, //get params:date_time=2022-11-12T12:15&subject_tag=ALTAY&cloud_shielding=12&operator_fio=xjxjjxx
-    URL_FOR_SETTLEMENTS: `${domain}/fires/settlement_least_5/` //get params:date или date_min и date_max & list_ids=(true,yes,1,t,no, false, 0, f)
+    URL_SHP_DATETIME: `${domain}/fires/load/shapefile/`,
+    URL_PDF: `${domain}/fires/load/pdf/`,
+    URL_FOR_SETTLEMENTS: `${domain}/fires/settlement_least_5/`
 }
 
+//относительные пути для различных полигонов
 export const URL_FOR_COORDS = {
     COUNTRY_COORDS: `data/coordinateFiles/countryCoords.json`,
     NATURE_RESERVES_COORDS: `data/coordinateFiles/NatureReservesCoords.json`,
     SETTLEMENTS: 'data/coordinateFiles/settLements.js',
 }
+
+//относительные пути для картинок (устаревшая версия)
 export const URL_FOR_IMAGES = {
     SOURCE: `data/map_images/chinfire`,
     IMAGE_TXT_START_NAME: `FY3D_MERSI_GBAL_L1_`,
@@ -35,6 +41,8 @@ export const URL_FOR_IMAGES = {
     IMAGE_FY_3D_0250M_END_NAME: `_0250M_MS_smoke_250M.png`,
     TXT_END_NAME: `_1000M_MS.txt`,
 }
+
+//словарь с субьектами и их тэгами
 export const subjectNames = [
     {name: 'Алтайский край', tag: 'ALTAY'},
     {name: 'Республика Бурятия', tag: 'BUR'},
@@ -54,8 +62,11 @@ export const subjectNames = [
     {name: 'Забайкальский край', tag: 'ZAB'}
 ]
 
+//словарь с обьектами подстилающих слоев + накладываемых слоев
 export const layersDict = [
-    {name: 'Улицы', type: 'baseLayer', url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png'},
+    {   name: 'Улицы',
+        type: 'baseLayer',
+        url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png'},
     {
         name: 'Спутник',
         type: 'baseLayer',
@@ -75,6 +86,6 @@ export const layersDict = [
     {name: 'Границы регионов', type: 'regionBorders', url: null},
     {name: 'Заповедники', type: 'natureReserves', url: null},
     {name: 'Населённые пункты (5км от ТВВ)', type: 'settlement', url: null},
-    {name: 'FY-3D 250M', type: 'imageOverlayFY3D250', url: null},
-    {name: 'FY-3D 1000M', type: 'imageOverlayFY3D1000', url: null}
+    {name: 'Suomi NPP', type: 'Suomi NPP', url: null},
+    {name: 'NOAA-20', type: 'NOAA-20', url: null}
 ]
