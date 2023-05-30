@@ -1,5 +1,5 @@
 import {useContext} from 'react';
-import card from './Card.module.css'
+import card from './Card.module.css';
 import { Context } from '../../Map/Context';
 
 export function Card(props){

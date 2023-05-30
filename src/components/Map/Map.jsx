@@ -73,6 +73,7 @@ export function MapComponent(){
 
     const MemoizedChildComponentSettlements = useMemo(() => Settlements, [context])
 
+
     const requestForInfoWhenMapIsReady = () => {//запрос дней на наличие точек
         axios.get(URL_FOR_MARKS.URL_GET_INFO,{headers :
                 {
@@ -94,6 +95,7 @@ export function MapComponent(){
                         })
                         .then(response => {
                             setRefreshTokenCookie('accessToken', response.data.access, 5 * 3600)
+                            setInfoAboutMarks(response.data.date)
                             console.log(response.data)
                         })
                         .catch((e) => {
@@ -107,6 +109,8 @@ export function MapComponent(){
                 console.log(error.status)
             })
     }
+
+    document.addEventListener("DOMContentLoaded", () =>requestForInfoWhenMapIsReady());
 
     const modalSHP = () =>{
         setSHPModalActive(true)
@@ -153,7 +157,7 @@ export function MapComponent(){
         <MapContainer zoomControl={false} maxZoom={16} zoom={4} minZoom={2}
                       center={center}
                       ref={setMap}
-                      whenReady={requestForInfoWhenMapIsReady}
+                      //whenReady={requestForInfoWhenMapIsReady}
                       doubleClickZoom={false}
                       maxBounds={[[-110,-170],[100,200]]}
 

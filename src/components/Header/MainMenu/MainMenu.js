@@ -15,7 +15,7 @@ export function MainMenu() {
                     <Button  className="dropdown-menu" {...bindTrigger(popupState)}>
                         {<img src={MenuIcon} width={33} ></img>}
                     </Button>
-                    <Menu {...bindMenu(popupState)}>
+                    <Menu {...bindMenu(popupState)} onClick>
                         <MenuItem onClick={popupState.close}>О нас</MenuItem>
                         <MenuItem component={Link} to={'/Manual'} onClick={popupState.close}>Руководоство</MenuItem>
                         <MenuItem onClick={popupState.close}>FAQ</MenuItem>

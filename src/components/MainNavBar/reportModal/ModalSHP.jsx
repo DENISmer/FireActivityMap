@@ -1,19 +1,38 @@
 import modalStyle from './modalStyle.module.css';
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Context} from "../../Map/Context";
-import {URL_FOR_FILES} from "../../../config/config";
+import {URL_FOR_FILES, URL_FOR_USER} from "../../../config/config";
 import axios from "axios";
 import {subjectNames} from "../../../config/config";
 import {disableMapDragging,enableMapDragging} from "../../Map/MapEvents/MapEvents";
+import {useCookies} from "react-cookie";
+import {useNavigate} from "react-router-dom";
+import {SetModalTimeDecorator} from "./SetModalTimeDecorator";
 
 export function ModalReportSHP ({active, setActive, map}){
 
+    const [refreshTokenCookies,setRefreshTokenCookie,removeRefreshTokenCookie] = useCookies(['refreshToken','accessToken']);
+
+    const navigate = useNavigate()
 
     const [context, setContext] = useContext(Context)
-    const [pdfDateTime,setPdfDateTime] = useState(context.currentDate)
+
+    const [pdfDateTime,setPdfDateTime] = useState(context.currentDate + 'T00:00')
+
     const [pdfSubjectTag,setPdfSubjectTag] = useState()
+
     const [readyToTheNextPage,setReadyToTheNextPage] = useState(false)
+
     const URL = `${URL_FOR_FILES.URL_SHP_DATETIME}?date_time=${pdfDateTime}&subject_tag=${pdfSubjectTag}`
+
+
+    useEffect(() => {
+        SetModalTimeDecorator(context,setPdfDateTime)
+    })
+
+    useEffect(() => {
+        setReadyToTheNextPage(false)
+    },[pdfSubjectTag,pdfDateTime])
 
 
     const checkStates = async () => {//проверка на наличие пдф по введенным данным
@@ -22,7 +41,11 @@ export function ModalReportSHP ({active, setActive, map}){
             return false
         }
         else{
-            await axios.get(URL).then(response => {
+            await axios.get(URL,{
+                headers: {
+                    Authorization : `Bearer ${refreshTokenCookies['accessToken']}`
+                }
+            }).then(response => {
                 if(response.status === 200){
                     if(typeof response.data === 'object'){
                         if(response.data.file_info){
@@ -43,12 +66,38 @@ export function ModalReportSHP ({active, setActive, map}){
                     alert(`${response.status} network error`)
                     setReadyToTheNextPage(false)
                 }
-            }).catch(e => {
-                console.log(e.message);
-                setReadyToTheNextPage(false)
             })
+                .catch(e => {
+                    console.log(e.response.data);
+                    if(e.request.status === 403 || e.request.status === 401){
+                        axios(URL_FOR_USER.URL_REFRESH,
+                            {
+                                method : 'POST',
+                                data : {
+                                    refresh_token: refreshTokenCookies['refreshToken']
+                                }
+                            })
+                            .then(response => {
+                                setRefreshTokenCookie('accessToken', response.data.access, 5 * 3600)
+                                console.log(response.data)
+                            })
+                            .catch((e) => {
+                                navigate('/')
+                                removeRefreshTokenCookie('refreshToken')
+                            })
+                    }
+                    else if(e.response.data.file_info === "1"){
+                        alert(`Error: ${e.response.data.file_info}\nОшибка: нет данных по вашему запросу`)//данные введены верно, но данных нет
+                    }
+                    else if(e.response.data.fields_error) {
+                        alert(`Error: ${e.response.data.fields_error}\nОшибка: не все поля заполнены`)
+                    }
+
+                    setReadyToTheNextPage(false)
+                })
         }
     }
+
 
 
     const toThePdf = () => {//открывает URL в новой вкладке, если проверка прошла успешна
@@ -68,7 +117,7 @@ export function ModalReportSHP ({active, setActive, map}){
 
 
                 <div className={modalStyle.modal_div}>
-                    <label className={modalStyle.modal_label}>Дата и время</label>
+                    <label className={modalStyle.modal_label}>Выберите время</label>
 
                     <input  type={"datetime-local"} className={modalStyle.modal_input}
 

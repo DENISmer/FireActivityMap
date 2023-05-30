@@ -59,7 +59,6 @@ export function Mark_render(onDateChange) {
                 }
             })
             .catch(error=>{
-
                 setIsRender(false)
 
                 if(error.request.status === 403 || error.request.status === 401){

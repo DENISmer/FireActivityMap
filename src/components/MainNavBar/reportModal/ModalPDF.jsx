@@ -1,34 +1,63 @@
 import modalStyle from './modalStyle.module.css';
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Context} from "../../Map/Context";
-import {URL_FOR_FILES} from "../../../config/config";
+import {URL_FOR_FILES, URL_FOR_USER} from "../../../config/config";
 import axios from "axios";
 import {subjectNames} from "../../../config/config";
 import {disableMapDragging,enableMapDragging} from "../../Map/MapEvents/MapEvents";
+import {useCookies} from "react-cookie";
+import {useNavigate} from "react-router-dom";
+import {SetModalTimeDecorator} from "./SetModalTimeDecorator";
+import dayjs from "dayjs";
 
 export function ModalReportPDF ({active, setActive,map}){
 
+    const [refreshTokenCookies,setRefreshTokenCookie,removeRefreshTokenCookie] = useCookies(['refreshToken','accessToken']);
+
+    const navigate = useNavigate()
 
     const [context, setContext] = useContext(Context)
-    const [pdfDateTime,setPdfDateTime] = useState(context.currentDate)
+    const [pdfDateTime,setPdfDateTime] = useState(dayjs().format("YYYY-MM-DDThh:mm"))
     const [pdfSubjectTag,setPdfSubjectTag] = useState()
     const [cloudShielding,setCloudShielding] = useState()
     const [operatorFullName,setOperatorFullName] = useState()
     const [readyToTheNextPage,setReadyToTheNextPage] = useState(false)
     const URL = `${URL_FOR_FILES.URL_PDF}?date_time=${pdfDateTime}&cloud_shielding=${cloudShielding}&operator_fio=${operatorFullName}&subject_tag=${pdfSubjectTag}`
 
+    const setTimeFromContext = () => {
+        if(context.min_datetime){
+            setPdfDateTime(dayjs(context.min_datetime).format("YYYY-MM-DDThh:mm"))
+        }
+        else if(context.currentDate){
+            setPdfDateTime(dayjs(context.currentDate  + 'T00:00').format("YYYY-MM-DDThh:mm"))
+        }
 
-    const checkStates = async () => {//проверка на наличие пдф по введенным данным
+        return null
+    }
+    useEffect(() => {
+        setTimeFromContext()
+    },[])
+
+    useEffect(() => {
+        setReadyToTheNextPage(false)
+    },[operatorFullName,cloudShielding,pdfSubjectTag,pdfDateTime])
+
+    const checkStates = async () => {//проверка на наличие пдф по введенным даннымsetPdfDateTime(context.currentDate + 'T00:00')
         if(!pdfDateTime || !pdfSubjectTag || !cloudShielding || !operatorFullName){
             alert("Проверьте введенные данные")
             return false
         }
         else{
-            await axios.get(URL).then(response => {
+            await axios.get(URL,{
+                headers: {
+                    Authorization : `Bearer ${refreshTokenCookies['accessToken']}`
+                }
+            })
+                .then(response => {
                 if(response.status === 200){
                     if(typeof response.data === 'object'){
                         if(response.data.file_info){
-                            alert(`Error: ${response.data.file_inf}\nОшибка: нет данных по вашему запросу`)//данные введены верно, но данных нет
+                            alert(`Error: ${response.data.file_info}\nОшибка: нет данных по вашему запросу`)//данные введены верно, но данных нет
                             setReadyToTheNextPage(false)
                         }
                         else if(response.data.fields_error){
@@ -37,7 +66,6 @@ export function ModalReportPDF ({active, setActive,map}){
                         }
                     }
                     else{//если данные введены правильно и создан/есть отчет за выбранный период
-                        console.log("ready to next page", URL)
                         setReadyToTheNextPage(true)
                     }
                 }
@@ -45,8 +73,33 @@ export function ModalReportPDF ({active, setActive,map}){
                     alert(`${response.status} network error`)
                     setReadyToTheNextPage(false)
                 }
-            }).catch(e => {
-                console.log(e.message);
+            })
+                .catch(e => {
+                console.log(e.response.data);
+                if(e.request.status === 403 || e.request.status === 401){
+                    axios(URL_FOR_USER.URL_REFRESH,
+                        {
+                            method : 'POST',
+                            data : {
+                                refresh_token: refreshTokenCookies['refreshToken']
+                            }
+                        })
+                        .then(response => {
+                            setRefreshTokenCookie('accessToken', response.data.access, 5 * 3600)
+                            console.log(response.data)
+                        })
+                        .catch((e) => {
+                            navigate('/')
+                            removeRefreshTokenCookie('refreshToken')
+                        })
+                }
+                else if(e.response.data.file_info === "1"){
+                    alert(`Error: ${e.response.data.file_info}\nОшибка: нет данных по вашему запросу`)//данные введены верно, но данных нет
+                }
+                else if(e.response.data.fields_error) {
+                    alert(`Error: ${e.response.data.fields_error}\nОшибка: не все поля заполнены`)
+                }
+
                 setReadyToTheNextPage(false)
             })
         }
@@ -81,7 +134,7 @@ export function ModalReportPDF ({active, setActive,map}){
                 <div className={modalStyle.modal_div}>
                         <label className={modalStyle.modal_label}>Дата и время</label>
 
-                        <input  type={"datetime-local"} className={modalStyle.modal_input}
+                        <input  type={"datetime-local"} id={'dateTime'} className={modalStyle.modal_input}
 
                                 value={pdfDateTime}
                                 onChange={(e) => {
