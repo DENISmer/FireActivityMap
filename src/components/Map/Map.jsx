@@ -9,7 +9,7 @@ import {
 } from "react-leaflet";
 import 'leaflet/dist/leaflet.css'
 import './Map.css';
-import React from "react";
+import React, {useEffect} from "react";
 import {MainNavBar} from "../MainNavBar/MainNavBar";
 import {Header} from "../Header/Header";
 import {MouseCoordinates} from "../Info/Coordinates";
@@ -30,7 +30,8 @@ import {ModalReportSHP} from "../MainNavBar/reportModal/ModalSHP";
 import {enableMapDragging} from "./MapEvents/MapEvents";
 import {layersDict} from "../../config/config";
 import { useNavigate } from "react-router-dom";
-
+import loader from '../../icons/loading-loading-forever.gif'
+import "./Map.css"
 
 const MyContext = createContext("Without provider");
 
@@ -64,6 +65,8 @@ export function MapComponent(){
     const [infoAboutMarks, setInfoAboutMarks] = useState();
     const [settLementShow, setSettLementShow] = useState(false);
 
+    const [userAuthAccess,setUserAuthAccess] = useState(false)
+
     const [refreshTokenCookies,setRefreshTokenCookie,removeRefreshTokenCookie] = useCookies(['refreshToken','accessToken']);
 
     const navigate = useNavigate();
@@ -82,6 +85,7 @@ export function MapComponent(){
         })
             .then(async response =>{
             await setInfoAboutMarks(response.data.date)
+            setUserAuthAccess(true)
             }
         )
             .catch(error=>{
@@ -94,13 +98,16 @@ export function MapComponent(){
                             }
                         })
                         .then(response => {
+                            setUserAuthAccess(true)
                             setRefreshTokenCookie('accessToken', response.data.access, 5 * 3600)
                             setInfoAboutMarks(response.data.date)
                             console.log(response.data)
                         })
                         .catch((e) => {
-                            navigate('/')
+                            setUserAuthAccess(false)
                             removeRefreshTokenCookie('refreshToken')
+                            setTimeout(()=>{navigate('/')},1500)
+
                         })
                 }
                 else if(error.request.status >= 500){
@@ -110,8 +117,9 @@ export function MapComponent(){
             })
     }
 
-    document.addEventListener("DOMContentLoaded", () =>requestForInfoWhenMapIsReady());
-
+    useEffect(()=>{
+        requestForInfoWhenMapIsReady();
+    },[])
     const modalSHP = () =>{
         setSHPModalActive(true)
     }
@@ -153,78 +161,82 @@ export function MapComponent(){
 
     const [cookies,setCookie] = useCookies(['currentDay']);
 
-    return <div onMouseUp={() => enableMapDragging(map)}>
-        <MapContainer zoomControl={false} maxZoom={16} zoom={4} minZoom={2}
-                      center={center}
-                      ref={setMap}
-                      //whenReady={requestForInfoWhenMapIsReady}
-                      doubleClickZoom={false}
-                      maxBounds={[[-110,-170],[100,200]]}
+    return <>
+        {userAuthAccess ? <div onMouseUp={() => enableMapDragging(map)}>
+            <MapContainer zoomControl={false} maxZoom={16} zoom={4} minZoom={2}
+                          center={center}
+                          ref={setMap}
+                          whenReady={() => requestForInfoWhenMapIsReady()}
+                          doubleClickZoom={false}
+                          maxBounds={[[-110, -170], [100, 200]]}
 
-        >
+            >
 
-            <ZoomControl position={'bottomleft'}/>
-            <ScaleControl position={"bottomleft"} />
-            <Ruler />
+                <ZoomControl position={'bottomleft'}/>
+                <ScaleControl position={"bottomleft"}/>
+                <Ruler/>
 
-            <Header map={map}/>
-
-
-            <MouseCoordinates map={map}/>
-
-            <Context.Provider value={[context, setContext]}>
+                <Header map={map}/>
 
 
-                <ModalReportPDF active={PDFModalActive} setActive={setPDFModalActive} map={map}/>
+                <MouseCoordinates map={map}/>
 
-                <ModalReportSHP active={SHPModalActive} setActive={setSHPModalActive} map={map}/>
+                <Context.Provider value={[context, setContext]}>
 
-                <MainNavBar map={map}
-                            layers={layersDict}
-                            layersChange={changeLayer}
-                            layersValue={baseLayer}
-                            bordersValue={showBorders}
-                            natureReservesValue = {showNatureReserves}
-                            markersValue={showMarkers}
 
-                            SHPmodalValue = {SHPModalActive}
-                            PDFmodalValue = {PDFModalActive}
-                            modalPDF={modalPDF}
-                            modalSHP={modalSHP}
+                    <ModalReportPDF active={PDFModalActive} setActive={setPDFModalActive} map={map}/>
 
-                            settLementValue={settLementShow}
-                            settLementShow={settLement}
+                    <ModalReportSHP active={SHPModalActive} setActive={setSHPModalActive} map={map}/>
 
-                            fy3d250Value={showFy3d250ImageOverlay}
-                            fy3d250Show={fy3d250ImageOverlay}
+                    <MainNavBar map={map}
+                                layers={layersDict}
+                                layersChange={changeLayer}
+                                layersValue={baseLayer}
+                                bordersValue={showBorders}
+                                natureReservesValue={showNatureReserves}
+                                markersValue={showMarkers}
 
-                            fy3d1000Value={showFy3d1000ImageOverlay}
-                            fy3d1000Show={fy3d1000ImageOverlay}
+                                SHPmodalValue={SHPModalActive}
+                                PDFmodalValue={PDFModalActive}
+                                modalPDF={modalPDF}
+                                modalSHP={modalSHP}
 
-                            imageValue={showImageOverlay}
-                            imageOverlayShow={imageOverlay}
-                            NatureReservesShow={natureReserves}
-                            markersShow={markers}
-                            bordersShow={borders}
-                />
+                                settLementValue={settLementShow}
+                                settLementShow={settLement}
 
-                <MemoizedTimeline info={infoAboutMarks} map={map}/>
+                                fy3d250Value={showFy3d250ImageOverlay}
+                                fy3d250Show={fy3d250ImageOverlay}
 
-                <TileLayer url={baseLayer}/>
+                                fy3d1000Value={showFy3d1000ImageOverlay}
+                                fy3d1000Show={fy3d1000ImageOverlay}
 
-                {showFy3d1000ImageOverlay && <MutableImageOverlay  fy3d1000Settings={showFy3d1000ImageOverlay}/>}
+                                imageValue={showImageOverlay}
+                                imageOverlayShow={imageOverlay}
+                                NatureReservesShow={natureReserves}
+                                markersShow={markers}
+                                bordersShow={borders}
+                    />
 
-                {showFy3d250ImageOverlay && <MutableImageOverlay  fy3d250Settings={showFy3d250ImageOverlay}/>}
+                    <MemoizedTimeline info={infoAboutMarks} map={map}/>
 
-                {showBorders && <CounrtyBorders/>}
+                    <TileLayer url={baseLayer}/>
 
-                {showNatureReserves && <NatureReserves/>}
+                    {showFy3d1000ImageOverlay && <MutableImageOverlay fy3d1000Settings={showFy3d1000ImageOverlay}/>}
 
-                {showMarkers && <MemoizedChildComponentMark_render />}
+                    {showFy3d250ImageOverlay && <MutableImageOverlay fy3d250Settings={showFy3d250ImageOverlay}/>}
 
-                {settLementShow && <MemoizedChildComponentSettlements map={map}/>}
+                    {showBorders && <CounrtyBorders/>}
 
-            </Context.Provider>
-        </MapContainer>
-    </div>
+                    {showNatureReserves && <NatureReserves/>}
+
+                    {showMarkers && <MemoizedChildComponentMark_render/>}
+
+                    {settLementShow && <MemoizedChildComponentSettlements map={map}/>}
+
+                </Context.Provider>
+            </MapContainer>
+        </div> : <div className={'userLoadingDiv'}><img className={'userLoading'} width={100} height={100} src={loader} alt={'#'}/></div>}
+    </>
+
+
     }

@@ -88,6 +88,7 @@ export default function AccountMenu() {
                 </MenuItem>
                 <MenuItem component={Link} to={'/'} onClick={() => {
                     removeRefreshTokenCookie('refreshToken',{path: '/'})
+                    removeRefreshTokenCookie('accessToken',{path: '/'})
                 }}>
                     <ListItemIcon>
                         <Logout fontSize="small" />

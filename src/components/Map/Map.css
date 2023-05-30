@@ -9,3 +9,13 @@
     z-index: 1000;
     width: 50px;
 }
+.userLoadingDiv{
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(225, 225, 232, 0.89);
+}
+.userLoading{
+    position: relative;
+    top: 45%;
+    left: 45%;
+}

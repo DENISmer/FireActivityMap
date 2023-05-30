@@ -4,6 +4,7 @@ import {ImageOverlay} from "react-leaflet/ImageOverlay";
 import axios from "axios";
 import L from 'leaflet'
 import {URL_FOR_IMAGES} from "../../config/config";
+import {TileLayer} from "react-leaflet";
 
 export function MutableImageOverlay(props){
     const [context,setContext] = useContext(Context)
@@ -80,14 +81,11 @@ export function MutableImageOverlay(props){
 
     },[context])
     return(<>
-        {()=> console.log(imgTxt.length)}
-        {context.singleDay && imgTxt && imgTxt.map((image,index)=> (
-            <ImageOverlay
-                url={image.img}
-                bounds={image.txt}
-                key={index}/>
-            )
-        )}
+
+            <TileLayer
+                url={`https://geosib.rcpod.ru/tile/tile/zxy/43013/20230326/D/~gi5t_-C220+300+.5~ri3a_+C.04.8+2_i2a_+_i1a_+/{z}/{x}/{y}.png`}
+                //bounds={image.txt}
+                />
 
     </>)
 }
