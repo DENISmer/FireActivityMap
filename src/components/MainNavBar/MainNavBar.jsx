@@ -5,7 +5,7 @@ import NavBarCloseIcon from '../../icons/closeButton/2x/twotone_close_black_24dp
 import 'react-calendar/dist/Calendar.css';
 import {CSSTransition} from "react-transition-group";
 import {Context} from "../Map/Context";
-import {Checkbox, List, ListItem, Switch} from "@mui/material";
+import {Checkbox, List, ListItem, Select, Switch} from "@mui/material";
 import DatePanel from "react-multi-date-picker/plugins/date_panel"
 import Range_days from "./MainNavBar.module.css";
 import transition from "react-element-popper/animations/transition"
@@ -294,7 +294,7 @@ export function MainNavBar(props){
                     <div className={Range_days.navBarMainInstruments}>
                         <b>Сбор данных за несколько дней (не более 7 дней):</b>
                         <div className={Range_days.date_time_max_div}>
-                            <p4 className={Range_days.date_time_label}>Укажите начальный и конечный день: </p4>
+                            <p4>Укажите начальный и конечный день: </p4>
                             <DatePicker
                                 range
                                 value={dateRange}
@@ -304,7 +304,7 @@ export function MainNavBar(props){
                                 rangeHover
                                 animations={[
                                     transition({
-                                        from: 35,
+                                        from: 40,
                                         transition: "all 400ms cubic-bezier(0.335, 0.010, 0.030, 1.360)",
                                     }),
                                 ]}

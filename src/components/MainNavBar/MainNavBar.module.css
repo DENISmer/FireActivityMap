@@ -14,8 +14,9 @@
     margin: 0 auto;
 }
 .list_b_name{
+    text-decoration-line: underline;
     font-weight: bold;
-    font-size: 14px;
+    font-size: 15px;
     font-family: Arial, serif;
     margin-bottom: -50px;
 }
@@ -23,7 +24,7 @@
 .style_map{
     float: left;
     margin: -7px;
-    font-size: small;
+    font-size: 15px;
     font-weight: bold;
     font-family: Arial, serif;
 }
@@ -215,12 +216,11 @@
 .divSwitch{
     width: 300px;
     margin-bottom: -25px;
-    font-size: small;
+    font-size: 15px;
     font-weight: bold;
     font-family: Arial, serif;
 }
 .listItem{
-
     margin: -10px auto;
 }
 .reportPdf{

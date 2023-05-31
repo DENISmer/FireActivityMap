@@ -135,9 +135,8 @@ export function Profile(){
                     </div>
                     <hr/>
                     <br/>
-                    <button className='restore_button' onClick={()=> navigate("/restore_access")}>Изменить пароль</button>
-                    <button className='restore_button' onClick={()=> navigate("/Admin")}>Администрирование</button>
-                    <a className='href-navigation' href={'https://fam.rcpod.space/admin/'} target={'_blank'} >TEST</a>
+                    <button className={Profile_Style.button} onClick={()=> navigate("/restore_access")}>Изменить пароль</button>
+                    <button className={Profile_Style.button} onClick={()=> navigate("/Admin")}>Администрирование</button>
                 </div>
             </div>
         </div>

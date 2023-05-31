@@ -19,6 +19,6 @@ export function CounrtyBorders(){
     reply = request()
 
     return<>
-        {reply.map((port => <Polyline positions={port} color={'pink'}/>))}
+        {reply.map((port => <Polyline positions={port} color={'#ff00a8'}/>))}
     </>
 }

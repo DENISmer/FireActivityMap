@@ -95,8 +95,8 @@ export function Registration(){
                                     message: "Минимум 2 символа"
                                 },
                                 maxLength: {
-                                    value : 15,
-                                    message: "Маскимум 15 символов"
+                                    value : 20,
+                                    message: "Маскимум 20 символов"
                                 },
                                 pattern: /[A-Za-zА-Яа-я]{3}/
                             })}
@@ -118,8 +118,8 @@ export function Registration(){
                                     message: "Минимум 2 символа"
                                 },
                                 maxLength: {
-                                    value : 15,
-                                    message: "Маскимум 15 символов"
+                                    value : 20,
+                                    message: "Маскимум 20 символов"
                                 },
                                 pattern: /[A-Za-zА-Яа-я]{3}/
                             })}
@@ -137,12 +137,12 @@ export function Registration(){
                             {...register("organizationName",{
                                 required: "Это поле обязательно для заполнения",
                                 minLength: {
-                                    value : 5,
+                                    value : 2,
                                     message: "Минимум 2 символа"
                                 },
                                 maxLength: {
                                     value : 20,
-                                    message: "Маскимум 15 символов"
+                                    message: "Маскимум20 символов"
                                 },
                             })}
                         />
@@ -158,8 +158,8 @@ export function Registration(){
                             {...register("Email",{
                                 required: "Это поле обязательно для заполнения",
                                 maxLength: {
-                                    value : 20,
-                                    message: "Маскимум 15 символов"
+                                    value : 30,
+                                    message: "Маскимум 30 символов"
                                 },
                                 pattern: /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
                             })}

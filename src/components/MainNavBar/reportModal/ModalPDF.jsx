@@ -164,7 +164,7 @@ export function ModalReportPDF ({active, setActive,map}){
 
                         <label className={modalStyle.modal_label}>Район обнаружения ТВВ</label>
 
-                        <input list={'browsers'} type={"text"} className={modalStyle.modal_input}
+                        <input list={"browsers"} type={"text"} className={modalStyle.modal_input}
                                placeholder={'Введите название и выберите регион'}
                                value={pdfSubjectTag}
                                onClick={""}
@@ -173,7 +173,7 @@ export function ModalReportPDF ({active, setActive,map}){
                                    setReadyToTheNextPage(false)
                                }}/>
 
-                        <datalist id="browsers" >
+                        <datalist id="browsers">
                             {subjectNames.map((settlement,index)=>(<option key={index} value={settlement.tag}>{settlement.name}</option>)
                             )}
                         </datalist>

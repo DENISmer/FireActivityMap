@@ -9,7 +9,7 @@ import IconButton from '@mui/material/IconButton';
 import {Tooltip} from '@mui/material';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
-import earth from '../../../icons/earth.gif';
+import profile from '../../../icons/1x/outline_face_unlock_black_24dp.png';
 import {Link} from "react-router-dom";
 import {useCookies} from "react-cookie";
 
@@ -37,7 +37,7 @@ export default function AccountMenu() {
                         aria-haspopup="true"
                         aria-expanded={open ? 'true' : undefined}
                     >
-                        <Avatar sx={{ width: 32, height: 32 }}><img className="acc-img" src={earth}></img></Avatar>
+                        <Avatar sx={{ width: 32, height: 32 }}><img className="acc-img" src={profile}></img></Avatar>
                     </IconButton>
                 </Tooltip>
             </Box>
@@ -77,15 +77,9 @@ export default function AccountMenu() {
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
                 <MenuItem component={Link} to={'/Profile'}>
-                    <Avatar><img className="acc-img" src={earth}></img></Avatar> Профиль
+                    <Avatar><img className="acc-img" src={profile}></img></Avatar> Профиль
                 </MenuItem>
                 <Divider />
-                <MenuItem>
-                    <ListItemIcon>
-                        <Settings fontSize="small" />
-                    </ListItemIcon>
-                    Настройки
-                </MenuItem>
                 <MenuItem component={Link} to={'/'} onClick={() => {
                     removeRefreshTokenCookie('refreshToken',{path: '/'})
                     removeRefreshTokenCookie('accessToken',{path: '/'})

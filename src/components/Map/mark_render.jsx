@@ -15,6 +15,22 @@ function GetIcon(_iconSize){
         iconSize: [_iconSize]
     })
 }
+
+function convertToDms (dd, isLng) {
+    let dir = dd < 0
+        ? isLng ? ' з' : ' ю'
+        : isLng ? ' в' : ' с';
+
+    let absDd = Math.abs(dd);
+    let deg = absDd | 0;
+    let frac = absDd - deg;
+    let min = (frac * 60) | 0;
+    let sec = frac * 3600 - min * 60;
+    // Round it to 2 decimal points.
+    sec = Math.round(sec * 100) / 100;
+    return deg + "°" + min + "'" + sec + '"' + dir;
+}
+
 export function Mark_render(onDateChange) {
     const [contextCookies,setContextCookie,removeContextCookie] = useCookies(['context']);
     const [refreshTokenCookies,setRefreshTokenCookie,removeRefreshTokenCookie] = useCookies(['refreshToken','accessToken']);
@@ -205,12 +221,12 @@ export function Mark_render(onDateChange) {
                     (context.min_datetime <= Date.parse(nat.datetime) && Date.parse(nat.datetime) <= context.max_datetime) &&
                     <Marker icon={GetIcon(20, 20, nat.temperature)}
                             key={index}
-                            position={new L.LatLng(nat.latitude, nat.longitude)}
+                            position={L.latLng(nat.latitude,nat.longitude)}
                     >
                         <Popup closeButton={false} key={index}>
-                            Широта: {nat.latitude}
+                            Широта: {convertToDms(nat.latitude, false) + ".ш"}
                             <br/>
-                            Долгота: {nat.longitude}
+                            Долгота: {convertToDms(nat.longitude, true) + ".д"}
                             <br/>
                             Температура: {nat.temperature}
                             <br/>
@@ -227,9 +243,9 @@ export function Mark_render(onDateChange) {
                             updateWhenIdle={true}
                     >
                         <Popup closeButton={false} key={index}>
-                            Широта: {nat.latitude}
+                            Широта: {convertToDms(nat.latitude, false) + ".ш"}
                             <br/>
-                            Долгота: {nat.longitude}
+                            Долгота: {convertToDms(nat.longitude, true) + ".д"}
                             <br/>
                             Температура: {nat.temperature}
                             <br/>
