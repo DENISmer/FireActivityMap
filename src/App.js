@@ -4,7 +4,6 @@ import {MapComponent} from "./components/Map/Map.jsx";
 import {Registration} from "./Pages/Registration/Registration";
 import {BrowserRouter, Routes, Route, Link} from "react-router-dom";
 import {Login} from "./Pages/Authorization/Auth";
-import AccountMenu from "./components/Header/AccountMenu/AccountMenu";
 import Restore from "./Pages/Restore_Page/RestoreAccess"
 import {Restore_password} from "./Pages/Restore_Page/RestorePassword";
 import {Profile} from "./Pages/User_profile/Profile";
@@ -20,7 +19,6 @@ export default function App(){
                 <Route exac path="/" element={<Login />}/>
                 <Route exac path='/Registration' element={<Registration />}/>
                 <Route exac path='/Map' element={<MapComponent />}/>
-                <Route exac path='/Acc' element={<AccountMenu />}/>
                 <Route exac path='/Restore_access' element={<Restore />}/>
                 <Route exac path='/Restore_password' element={<Restore_password />}/>
                 <Route exac path='/Profile' element ={<Profile/>}/>

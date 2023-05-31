@@ -17,7 +17,7 @@ export function ModalReportPDF ({active, setActive,map}){
     const navigate = useNavigate()
 
     const [context, setContext] = useContext(Context)
-    const [pdfDateTime,setPdfDateTime] = useState(dayjs().format("YYYY-MM-DDThh:mm"))
+    const [pdfDateTime,setPdfDateTime] = useState(dayjs(new Date()).format("YYYY-MM-DDThh:mm"))
     const [pdfSubjectTag,setPdfSubjectTag] = useState()
     const [cloudShielding,setCloudShielding] = useState()
     const [operatorFullName,setOperatorFullName] = useState()
@@ -26,7 +26,7 @@ export function ModalReportPDF ({active, setActive,map}){
 
     useEffect(() => {
         SetModalTimeDecorator(context,setPdfDateTime)
-    },[context])
+    },[])
 
     useEffect(() => {
         setReadyToTheNextPage(false)

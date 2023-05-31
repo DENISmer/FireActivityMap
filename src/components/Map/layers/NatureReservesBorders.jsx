@@ -1,5 +1,5 @@
 import  {URL_FOR_COORDS} from '../../../config/config'
-import {Polyline} from "react-leaflet";
+import {Polygon, Polyline} from "react-leaflet";
 
 
 export function NatureReserves(){
@@ -19,7 +19,7 @@ export function NatureReserves(){
     reply = request()
 
     return<>
-        {reply.map((port => <Polyline positions={port} color={'red'}/>))}
+        {reply.map((port => <Polygon positions={port} color={'forestgreen'}/>))}
     </>
 
 

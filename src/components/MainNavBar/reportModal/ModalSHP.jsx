@@ -18,7 +18,7 @@ export function ModalReportSHP ({active, setActive, map}){
 
     const [context, setContext] = useContext(Context)
 
-    const [pdfDateTime,setPdfDateTime] = useState(dayjs().format("YYYY-MM-DDThh:mm"))
+    const [pdfDateTime,setPdfDateTime] = useState(dayjs(new Date()).format("YYYY-MM-DDThh:mm"))
 
     const [pdfSubjectTag,setPdfSubjectTag] = useState()
 

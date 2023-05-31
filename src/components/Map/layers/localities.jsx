@@ -168,7 +168,7 @@ export function Settlements(props){
             key={index}
             position={new L.LatLng(Number(item.latitude), Number(item.longitude))}>
             </Marker>
-        {item.poly && <Polyline color={'yellowgreen'} positions={item.poly}/>}
+        {item.poly && <Polyline color={'cyan'} positions={item.poly}/>}
             </div>
             )))} </div> : null}
     </>

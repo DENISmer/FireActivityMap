@@ -2,18 +2,17 @@ import React, {useEffect, useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import Profile_Style from "./Profile_style.module.css";
 import "../background-space.css"
-import {removeClass} from "leaflet/src/dom/DomUtil";
 import axios from "axios";
-import {URL_FOR_USER} from "../../config/config";
+import { URL_FOR_USER} from "../../config/config";
 import {useCookies} from "react-cookie";
+import loader from "../../icons/loading-loading-forever.gif";
+import '../../components/Map/Map.css'
 
 export function Profile(){
 
     const navigate = useNavigate();
 
     const [refreshTokenCookies,setRefreshTokenCookie,removeRefreshTokenCookie] = useCookies(['refreshToken','accessToken']);
-
-    let firstName, lastName, middleName, email, organizationName;
 
     const [userInfo,setUserInfo] = useState({
         email : 'нет информации',
@@ -22,6 +21,9 @@ export function Profile(){
         lastName : 'нет информации',
         organizationName : 'нет информации',
     })
+
+    const [userAccess, setUserAccess] = useState(false)
+
 
     useEffect(()=>{
         axios((URL_FOR_USER.URL_GET_USER_INFO),{
@@ -38,6 +40,7 @@ export function Profile(){
                     middleName: (!response.data.middle_name || response.data.middle_name === "") ? '' : response.data.middle_name,
                     organizationName: (!response.data.organization_name || response.data.organization_name === "") ? 'нет информации' : response.data.organization_name
                 })
+                await setUserAccess(true)
 
             }
             )
@@ -52,6 +55,7 @@ export function Profile(){
                         })
                         .then(response => {
                             setRefreshTokenCookie('accessToken', response.data.access, 5 * 3600)
+                            setUserAccess(true)
                             axios((URL_FOR_USER.URL_GET_USER_INFO),{
                                 method: 'GET',
                                 headers :
@@ -66,20 +70,23 @@ export function Profile(){
                                         middleName: (!response.data.middle_name || response.data.middle_name === "") ? '' : response.data.middle_name,
                                         organizationName: (!response.data.organization_name || response.data.organization_name === "") ? 'нет информации' : response.data.organization_name
                                     })
+
                                     }
                                 )
                             console.log(response.data)
                         })
                         .catch((e) => {
                             removeRefreshTokenCookie('refreshToken')
+                            setUserAccess(false)
                             setTimeout(()=>{navigate('/')},1500)
 
                         })
                 }
                 else if(error.request.status >= 500){
-                    console.log(error.message)
+                    removeRefreshTokenCookie('refreshToken')
+                    setUserAccess(false)
+                    setTimeout(()=>{navigate('/')},1500)
                 }
-                console.log(error.status)
             })
     },[])
 
@@ -90,7 +97,7 @@ export function Profile(){
     }
 
     return<>
-        <div className={Profile_Style.parent}>
+        { userAccess ? <div className={Profile_Style.parent}>
             <div className="space Stars1"></div>
             <div className="space Stars2"></div>
             <div className="space Stars3"></div>
@@ -98,7 +105,7 @@ export function Profile(){
                 <h3 className={Profile_Style.h}>Информация о пользователе</h3>
                 <div className={Profile_Style.leftBox}>
                     <div className={Profile_Style.Navigation}>
-                        <a className={Profile_Style.hrefNavigation} onClick={()=> navigate('/Map')}>Перейти к карте</a>
+                        <a className={Profile_Style.hrefNavigation} onClick={() => navigate('/Map')}>Перейти к карте</a>
                         <hr className={Profile_Style.hr}/>
                     </div>
 
@@ -114,14 +121,15 @@ export function Profile(){
 
                     <div className={Profile_Style.exit}>
                         <hr className={Profile_Style.hrExit}/>
-                        <a className={Profile_Style.hrefNavigation} onClick={()=> logoutHandle()}>Выйти</a>
+                        <a className={Profile_Style.hrefNavigation} onClick={() => logoutHandle()}>Выйти</a>
                     </div>
                 </div>
 
                 <div className={Profile_Style.rightBox}>
                     <div>
                         <label className='labels'>Имя</label>
-                        <legend className={Profile_Style.legends}>{userInfo.lastName +' '+ userInfo.firstName +' '+userInfo.middleName}</legend>
+                        <legend
+                            className={Profile_Style.legends}>{userInfo.lastName + ' ' + userInfo.firstName + ' ' + userInfo.middleName}</legend>
                     </div>
                     <hr className='hr'/>
                     <div>
@@ -135,10 +143,13 @@ export function Profile(){
                     </div>
                     <hr/>
                     <br/>
-                    <button className={Profile_Style.button} onClick={()=> navigate("/restore_access")}>Изменить пароль</button>
-                    <button className={Profile_Style.button} onClick={()=> navigate("/Admin")}>Администрирование</button>
+                    <button className={Profile_Style.button} onClick={() => navigate("/restore_access")}>Изменить
+                        пароль
+                    </button>
+                    <button className={Profile_Style.button} onClick={() => navigate("/Admin")}>Администрирование
+                    </button>
                 </div>
             </div>
-        </div>
+        </div> : <div className={'userLoadingDiv'}><img className={'userLoading'} width={100} height={100} src={loader} alt={'#'}/></div>}
     </>
 }

@@ -12,7 +12,7 @@ import {useNavigate} from "react-router-dom";
 function GetIcon(_iconSize){
     return L.icon({
         iconUrl: require("../../icons/fire point/favicon-32x32.png"),
-        iconSize: [_iconSize]
+        iconSize: [_iconSize],
     })
 }
 
