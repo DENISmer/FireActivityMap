@@ -1,3 +1,7 @@
+.parent{
+    height: 85vh;
+    width: 100vw;
+}
 .panelManual{
     background: #ffffff;
     width: 95%;
@@ -6,6 +10,7 @@
     margin: 5% auto 0;
     box-shadow: 2px 5px 10px;
     color: #0282c9;
+    overflow: auto;
 }
 .leftBox{
     border: solid 1px #0003b6;

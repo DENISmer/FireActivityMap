@@ -18,7 +18,6 @@
     font-weight: bold;
     font-size: 15px;
     font-family: Arial, serif;
-    margin-bottom: -50px;
 }
 
 .style_map{
@@ -235,7 +234,6 @@
     background-color: white;
 }
 .reportShp{
-
     position: absolute;
     z-index: 450;
     top: -1.7em;
@@ -263,4 +261,14 @@
 .reportButton:active{
     color: #fdfdfe;
     background-color: #0059ff;
+}
+.compositesImageDiv{
+    margin-bottom: 10px;
+    font-size: 15px;
+    font-weight: bold;
+    font-family: Arial, serif;
+}
+.compositesImageCheckBox{
+    margin-left: 15px;
+    margin-top: -5px;
 }

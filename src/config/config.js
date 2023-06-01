@@ -83,10 +83,34 @@ export const layersDict = [
         type: 'baseLayer',
         url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
     },
+
     {name: 'Точки возгорания', type: 'markersOverlay', url: null},
     {name: 'Границы регионов', type: 'regionBorders', url: null},
     {name: 'Заповедники', type: 'natureReserves', url: null},
     {name: 'Населённые пункты (5км от ТВВ)', type: 'settlement', url: null},
     {name: 'Suomi NPP', type: 'Suomi NPP', url: null},
     {name: 'NOAA-20', type: 'NOAA-20', url: null}
+]
+
+export const SettingImage = [
+    {
+        name: 'Видимые + ИК',
+        type: 'ImageOptional',
+
+    },
+    {
+        name: 'ИК',
+        type: 'ImageOptional',
+
+    },
+    {
+        name: 'Дымы',
+        type: 'ImageOptional',
+
+    },
+    {
+        name: 'Натуральные цвета',
+        type: 'ImageOptional',
+
+    },
 ]

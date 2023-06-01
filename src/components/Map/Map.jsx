@@ -59,8 +59,8 @@ export function MapComponent(){
     const [showMarkers,setShowMarkers] = useState(false);
     const [showBorders,setShowBorders] = useState(false);
     const [showNatureReserves, setShowNatureReserves] = useState(false);
-    const [showFy3d250ImageOverlay,setShowFy3d250ImageOverlay] = useState(false);
-    const [showFy3d1000ImageOverlay, setShowFy3d1000ImageOverlay] = useState(false);
+    const [showSuomiNPPImageOverlay,setShowSuomiNPPImageOverlay] = useState(false);
+    const [showNOAAImageOverlay, setShowNOAAImageOverlay] = useState(false);
     const MemoizedTimeline = useMemo(()=> TimeLine,[context]);
     const [infoAboutMarks, setInfoAboutMarks] = useState();
     const [settLementShow, setSettLementShow] = useState(false);
@@ -121,6 +121,8 @@ export function MapComponent(){
                         })
                 }
                 else if(error.request.status >= 500){
+                    setUserAuthAccess(false)
+                    setTimeout(()=>{navigate('/')},1500)
                     console.log(error.message)
                 }
                 console.log(error.status)
@@ -146,15 +148,15 @@ export function MapComponent(){
     const borders = () => {
         setShowBorders(!showBorders)
     }
-    const fy3d1000ImageOverlay = () =>{
+    const NOAAImageOverlay = () =>{
         //setShowImageOverlay(true);
-        setShowFy3d1000ImageOverlay(!showFy3d1000ImageOverlay)
-        setShowFy3d250ImageOverlay(false)
+        setShowNOAAImageOverlay(!showNOAAImageOverlay)
+        setShowSuomiNPPImageOverlay(false)
     }
-    const fy3d250ImageOverlay = () =>{
+    const SuomiImageOverlay = () =>{
         //setShowImageOverlay(true);
-        setShowFy3d1000ImageOverlay(false)
-        setShowFy3d250ImageOverlay(!showFy3d250ImageOverlay);
+        setShowNOAAImageOverlay(false)
+        setShowSuomiNPPImageOverlay(!showSuomiNPPImageOverlay);
     }
     const natureReserves = () => {
         setShowNatureReserves(!showNatureReserves);
@@ -166,7 +168,7 @@ export function MapComponent(){
         setShowImageOverlay(!showImageOverlay)
     }
 
-    const changeLayer = (layer) =>{
+    const changeLayer = (layer) => {
         setBaseLayer(layer)
     }
 
@@ -215,11 +217,11 @@ export function MapComponent(){
                                 settLementValue={settLementShow}
                                 settLementShow={settLement}
 
-                                fy3d250Value={showFy3d250ImageOverlay}
-                                fy3d250Show={fy3d250ImageOverlay}
+                                SuomiValue={showSuomiNPPImageOverlay}
+                                SuomiShow={SuomiImageOverlay}
 
-                                fy3d1000Value={showFy3d1000ImageOverlay}
-                                fy3d1000Show={fy3d1000ImageOverlay}
+                                NOAAValue={showNOAAImageOverlay}
+                                NOAAShow={NOAAImageOverlay}
 
                                 imageValue={showImageOverlay}
                                 imageOverlayShow={imageOverlay}
@@ -232,9 +234,9 @@ export function MapComponent(){
 
                     <TileLayer url={baseLayer}/>
 
-                    {showFy3d1000ImageOverlay && <MutableImageOverlay fy3d1000Settings={showFy3d1000ImageOverlay}/>}
+                    {showNOAAImageOverlay && <MutableImageOverlay fy3d1000Settings={showNOAAImageOverlay}/>}
 
-                    {showFy3d250ImageOverlay && <MutableImageOverlay fy3d250Settings={showFy3d250ImageOverlay}/>}
+                    {showSuomiNPPImageOverlay && <MutableImageOverlay fy3d250Settings={showSuomiNPPImageOverlay}/>}
 
                     {showBorders && <CounrtyBorders/>}
 

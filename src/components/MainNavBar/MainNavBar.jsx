@@ -107,7 +107,7 @@ export function MainNavBar(props){
                     <div className={NavBarStyles.navBarMainInstruments}>
                         <List className={NavBarStyles.list}>
                             <b className={NavBarStyles.list_b_name}>Варианты подстилающей карты</b><br/>
-                            { props.layers.map((listItem,index)=>(listItem.type === 'baseLayer' ?
+                            {props.layers.map((listItem,index)=>(listItem.type === 'baseLayer' ?
                                     <div className={NavBarStyles.style_map}>
                                         <ListItem  key={index}>
                                             {listItem.name}{
@@ -162,12 +162,14 @@ export function MainNavBar(props){
                                             </div>
                                                 : listItem.type === 'Suomi NPP' ?
                                                 <div className={NavBarStyles.divSwitch}>
+                                                    <br></br>
+                                                    <b className={NavBarStyles.list_b_name}>Спутниковые снимки</b>
                                                     <ListItem className={NavBarStyles.listItem} key={index}>
                                                         {listItem.name}{
                                                         <Switch
-                                                            checked={props.fy3d250Value}
+                                                            checked={props.SuomiValue}
                                                             edge="end"
-                                                            onChange={()=>props.fy3d250Show()}
+                                                            onChange={()=>props.SuomiShow()}
                                                         />
                                                     }
                                                     </ListItem>
@@ -177,14 +179,46 @@ export function MainNavBar(props){
                                                         <ListItem className={NavBarStyles.listItem} key={index}>
                                                             {listItem.name}{
                                                             <Switch
-                                                                checked={props.fy3d1000Value}
+                                                                checked={props.NOAAValue}
                                                                 edge="end"
-                                                                onChange={()=>props.fy3d1000Show()}
-                                                                //inputProps={{ 'aria-labelledby': labelId }}
+                                                                onChange={()=>props.NOAAShow()}
                                                             />
                                                         }
                                                         </ListItem>
+
+                                                        {(props.SuomiValue || props.NOAAValue) && <div className={NavBarStyles.compositesImageDiv}>
+                                                            <b className={NavBarStyles.list_b_name}>Опции отображения</b>
+                                                            <div className={NavBarStyles.compositesImageCheckBox}>
+                                                                <label>Видимые + ИК</label>
+                                                                <Checkbox size={"small"}/>
+                                                            </div>
+                                                            <div className={NavBarStyles.compositesImageCheckBox}>
+                                                                <label>ИК</label>
+                                                                <Checkbox size={"small"}/>
+                                                            </div>
+                                                            <div className={NavBarStyles.compositesImageCheckBox}>
+                                                                <label>Дымы</label>
+                                                                <Checkbox size={"small"}/>
+                                                            </div>
+                                                            <div className={NavBarStyles.compositesImageCheckBox}>
+                                                                <label>Натуральные цвета</label>
+                                                                <Checkbox size={"small"}/>
+                                                            </div>
+                                                        </div>}
                                                     </div>
+
+                                                    // :  (listItem.type ==='ImageOptional' && (props.NOAAValue || props.SuomiValue)) ?
+                                                    //     <div className={NavBarStyles.compositesImageDiv}>
+                                                    //         <ListItem  key={index}>
+                                                    //             {listItem.name}{
+                                                    //             <Checkbox
+                                                    //                 size={"small"}
+                                                    //                 edge="end"
+                                                    //
+                                                    //             />
+                                                    //         }
+                                                    //         </ListItem>
+                                                    //     </div>
                                                     : listItem.type === 'settlement' ?
                                                         <div  className={NavBarStyles.divSwitch}>
                                                             <ListItem className={NavBarStyles.listItem} key={index}>

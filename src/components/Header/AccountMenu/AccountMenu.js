@@ -7,7 +7,6 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import {Tooltip} from '@mui/material';
-import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import profile from '../../../icons/1x/outline_face_unlock_black_24dp.png';
 import {Link} from "react-router-dom";

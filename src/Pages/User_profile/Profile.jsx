@@ -7,6 +7,7 @@ import { URL_FOR_USER} from "../../config/config";
 import {useCookies} from "react-cookie";
 import loader from "../../icons/loading-loading-forever.gif";
 import '../../components/Map/Map.css'
+import Manual_Style from "../Users_guide/User_manual.module.css";
 
 export function Profile(){
 
@@ -109,14 +110,14 @@ export function Profile(){
                         <hr className={Profile_Style.hr}/>
                     </div>
 
-                    <div className={Profile_Style.Navigation}>
-                        <a className={Profile_Style.hrefNavigation}>FAQ</a>
-                        <hr className={Profile_Style.hr}/>
+                    <div className={Manual_Style.Navigation}>
+                        <a className={Manual_Style.hrefNavigation} onClick={()=> navigate("/Manual")}>Руководство пользователя</a>
+                        <hr className={Manual_Style.hr} />
                     </div>
 
                     <div className={Profile_Style.Navigation}>
                         <a className={Profile_Style.hrefNavigation}>О нас</a>
-                        <hr className={Profile_Style.hr}/>
+                        <hr className={Profile_Style.hr} />
                     </div>
 
                     <div className={Profile_Style.exit}>

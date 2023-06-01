@@ -44,8 +44,8 @@ export function User_manual(){
                                         Authorization : `Bearer ${refreshTokenCookies['accessToken']}`
                                     }
                             })
-                                .then(async response =>{
-                                        await setUserAccess(true)
+                                .then(response =>{
+                                         setUserAccess(true)
                                     }
                                 )
                         })
@@ -66,7 +66,7 @@ export function User_manual(){
         requestForInfoWhenMapIsReady()
     },[])
     return<>
-        {userAccess ? <div>
+        {userAccess ? <div className={Manual_Style.parent}>
             <div className="space Stars1"></div>
             <div className="space Stars2"></div>
             <div className="space Stars3"></div>
@@ -79,7 +79,7 @@ export function User_manual(){
                     </div>
 
                     <div className={Manual_Style.Navigation}>
-                        <a className={Manual_Style.hrefNavigation}>FAQ</a>
+                        <a className={Manual_Style.hrefNavigation} onClick={() => navigate('/Profile')}>Профиль</a>
                         <hr className={Manual_Style.hr}/>
                     </div>
 
@@ -95,7 +95,6 @@ export function User_manual(){
                 </div>
 
                 <div className={Manual_Style.rightBox}>
-                    {/*onClick={()=>navigate('/Test_Page')}*/}
                     <a className='href-navigation'>TEST</a>
                 </div>
             </div>
