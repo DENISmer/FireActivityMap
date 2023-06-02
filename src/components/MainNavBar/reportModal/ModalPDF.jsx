@@ -26,7 +26,7 @@ export function ModalReportPDF ({active, setActive,map}){
 
     useEffect(() => {
         SetModalTimeDecorator(context,setPdfDateTime)
-    },[])
+    },[context])
 
     useEffect(() => {
         setReadyToTheNextPage(false)

@@ -34,6 +34,7 @@ function GetIcon(_iconSize,name,isOrdinary,type) {
 export function Settlements(props){
     let localSettLementArray=[];
 
+    const localNamesArray = []
     const [refreshTokenCookies,setRefreshTokenCookie,removeRefreshTokenCookie] = useCookies(['refreshToken','accessToken']);
 
     const navigate = useNavigate();
@@ -44,22 +45,22 @@ export function Settlements(props){
     const [zoomStart,setZoomStart] = useState(false)
 
     let setArr = [];
+
+
+
+
     const mapEvents = useMapEvents({
         zoomstart: () =>{
             setZoomStart(true)
         },
         zoomend: () => {
             setZoomStart(false)
-            console.log(props.map.getZoom())
             setZoomLevel(props.map.getZoom())
 
             return props.map.getZoom();
         },
     });
 
-    for(let key in settlements){
-        setArr.push(settlements[key])
-    }
 
     const requestForSettlements = async () => {//запрос данных на массив id населенных пунктов
         let localSettlements;
@@ -78,6 +79,7 @@ export function Settlements(props){
                         localSettlements = response.data['settlement_ids']
                         return response.data
                     }
+                    else setSettlementArray([])
                 }
             )
                 .catch(error =>{
@@ -111,16 +113,31 @@ export function Settlements(props){
 
 
 
-
     useEffect(() => {
         try{
             requestForSettlements().then((requestData) => {
-                for(let i = 0;i < requestData.length;i++){
-                    //localSettLementArray.push(settlements[0][requestData[i]])
+                if(!requestData){
+                    setSettlementArray([])
                 }
-                setSettlementArray(localSettLementArray)
-                console.log(localSettLementArray)
-            });
+                else{
+                    for(let i = 0;i < requestData.length;i++) {
+                        localSettLementArray.push(settlements[requestData[i].toString()])
+                        localNamesArray.push(requestData[i].toString())
+                    }
+                }
+            }).then(()=>{
+                setArr = [];
+                for(let key in settlements){
+                if(localNamesArray.includes(key)) {
+                    setArr.push({base: settlements[key], isOrdinary: false})
+
+                }
+                else {
+                    setArr.push({base: settlements[key], isOrdinary: true})
+                }
+            }
+                setSettlementArray(setArr)
+            })
         }
         catch (e){
             console.log(e.message)
@@ -128,48 +145,41 @@ export function Settlements(props){
 
     },[context])
 
+
+
+
     return<>
-        {/*{settlementArray.map((pnt, index) => (*/}
-        {/*    //{zoomLevel >}*/}
-        {/*    //console.log(pnt.poly[0])*/}
-        {/*    //pnt.poly !== null && <Polygon positions={[pnt.poly][0]} color={'red'}/>*/}
-        {/*    <Marker*/}
-        {/*        icon={GetIcon(40,pnt.name)}*/}
-        {/*        key={index}*/}
-        {/*        position={new L.LatLng(Number(pnt.latitude), Number(pnt.longitude))}>*/}
-        {/*    </Marker>*/}
-        {/*))}*/}
-
-        {/*{settlements.map((item, index) => {for(let key in item){*/}
-        {/*    <Polyline color={'black'} positions={item[key].poly}><Popup></Popup></Polyline>*/}
-        {/*    //item[key].poly && console.log(item[key].poly)*/}
-        {/*}})}*/}
-        {/*{setArr.map(((item,index) => ((zoomLevel <= 8 && item.poly && (item.type === "city")) ||*/}
-        {/*    (zoomLevel >= 7 && zoomLevel <= 9 && item.poly && (item.type === "town")))*/}
-        {/*    && <Polyline color={'black'} positions={item.poly}><Popup>{item.name}</Popup></Polyline>))}*/}
-
-        {!zoomStart ? <div>{zoomLevel <= 8 && setArr.map(((item, index) => ((item.latitude && item.longitude && (item.type === "city"))
-            && <Marker
-                icon={GetIcon(40, item.name, true, item.type)}
-                key={index}
-                position={new L.LatLng(Number(item.latitude), Number(item.longitude))}>
-            </Marker>)))}
-
-        {zoomLevel >= 9  && setArr.map(((item,index) => (((item.latitude && item.longitude) && ((item.type === "town") || (item.type === "city")))
-            && <Marker
-            icon={GetIcon(40,item.name,true,item.type)}
+        {settlementArray.map((pnt, index) => (!pnt.isOrdinary &&
+            <Marker
+            icon={GetIcon(40,pnt.base.name,false,pnt.base.type)}
             key={index}
-            position={new L.LatLng(Number(item.latitude), Number(item.longitude))}>
-            </Marker>)))}
-
-        {zoomLevel >= 12  && setArr.map(((item,index) => (((item.poly || (item.latitude && item.longitude)) && ((item.type === "village") || (item.type === "town") || (item.type === "city")))
-            && <div><Marker
-            icon={GetIcon(40,item.name,true,item.type)}
-            key={index}
-            position={new L.LatLng(Number(item.latitude), Number(item.longitude))}>
+            position={new L.LatLng(Number(pnt.base.latitude), Number(pnt.base.longitude))}>
             </Marker>
-        {item.poly && <Polyline color={'cyan'} positions={item.poly}/>}
+        ))}
+
+        {!zoomStart ? <div>{zoomLevel <= 8 && settlementArray.map(((item, index) => ((item.base.latitude && item.base.longitude && (item.base.type === "city"))
+            && <Marker
+                icon={GetIcon(40, item.base.name, item.isOrdinary, item.base.type)}
+                key={index}
+                position={new L.LatLng(Number(item.base.latitude), Number(item.base.longitude))}>
+            </Marker>)))}
+
+        {zoomLevel >= 9 && settlementArray.map(((item,index) => (((item.base.latitude && item.base.longitude) && (item.isOrdinary) && ((item.base.type === "town") || (item.base.type === "city")))
+            && <Marker
+            icon={GetIcon(40,item.base.name,item.isOrdinary,item.base.type)}
+            key={index}
+            position={new L.LatLng(Number(item.base.latitude), Number(item.base.longitude))}>
+            </Marker>)))}
+
+        {zoomLevel >= 12  && settlementArray.map(((item,index) => (((item.base.poly || (item.base.latitude && item.base.longitude))&& (item.isOrdinary) && ((item.base.type === "village") || (item.base.type === "town") || (item.base.type === "city")))
+            && <div><Marker
+            icon={GetIcon(40,item.base.name,item.isOrdinary,item.base.type)}
+            key={index}
+            position={new L.LatLng(Number(item.base.latitude), Number(item.base.longitude))}>
+            </Marker>
+        {/*{item.base.poly && <Polyline color={'cyan'} positions={item.base.poly}/>}*/}
             </div>
-            )))} </div> : null}
+            )))}
+        </div> : null}
     </>
 }
