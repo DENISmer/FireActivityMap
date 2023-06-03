@@ -7,7 +7,8 @@ export const URL_FOR_MARKS = {
     URL_DAYS_RANGE: `${domain}/fires/points/?date_min=`,
     URL_WEEK: `${domain}/fires/points/week/`,
     URL_LAST_24_HOURS: `${domain}/fires/points/twentyfourhours/`,
-    URL_GET_INFO: `${domain}/fires/days/`
+    URL_GET_INFO: `${domain}/fires/days/`,
+    URL_GET_TIME_FROM_DATE: `${domain}/fires/time_of_date/`
 }
 
 //зарпосы для управления аккаунтов пользователя
@@ -92,25 +93,29 @@ export const layersDict = [
     {name: 'NOAA-20', type: 'NOAA-20', url: null}
 ]
 
-export const SettingImage = [
+export const imageSettings = [
     {
         name: 'Видимые + ИК',
         type: 'ImageOptional',
+        composite: `~gi5t_-C220+300+.5~ri3a_+C.04.8+2_i2a_+_i1a_+`
 
     },
     {
         name: 'ИК',
         type: 'ImageOptional',
+        composite: `~ri4t_-C220+322+.4_i5t_+_i5t_+`
 
     },
     {
         name: 'Дымы',
         type: 'ImageOptional',
+        composite: `~rv3a_+C.032.13+1.8_i1a_+C.02.23+1.8_i5t_-C260+300+.7`
 
     },
     {
         name: 'Натуральные цвета',
         type: 'ImageOptional',
+        composite: `~ri1a_+C0+1+2_v4a_+_v3a_+`
 
     },
 ]

@@ -33,10 +33,10 @@ export function MutableImageOverlay(props){
     },[context])
     return(<>
         {props.fy3d250Settings && context.singleDay && <TileLayer
-            url={`https://geosib.rcpod.ru/tile/tile/zxy/${satellite.Suomi_NPP}/${currentDate}/D/~gi5t_-C220+300+.5~ri3a_+C.04.8+2_i2a_+_i1a_+/{z}/{x}/{y}.png`}
+            url={`https://geosib.rcpod.ru/tile/tile/zxy/${satellite.Suomi_NPP}/${currentDate}/F/${props.composite}/{z}/{x}/{y}.png`}
         />}
         {props.fy3d1000Settings && context.singleDay && <TileLayer
-            url={`https://geosib.rcpod.ru/tile/tile/zxy/${satellite.NOAA_20}/${currentDate}/D/~gi5t_-C220+300+.5~ri3a_+C.04.8+2_i2a_+_i1a_+/{z}/{x}/{y}.png`}
+            url={`https://geosib.rcpod.ru/tile/tile/zxy/${satellite.NOAA_20}/${currentDate}/D/${props.composite}/{z}/{x}/{y}.png`}
         />}
 
 

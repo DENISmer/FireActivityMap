@@ -18,7 +18,7 @@ export function ModalReportSHP ({active, setActive, map}){
 
     const [context, setContext] = useContext(Context)
 
-    const [pdfDateTime,setPdfDateTime] = useState(dayjs(new Date()).format("YYYY-MM-DDThh:mm"))
+    const [pdfDateTime,setPdfDateTime] = useState(dayjs(new Date()).format("YYYY-MM-DDTHH:mm"))
 
     const [pdfSubjectTag,setPdfSubjectTag] = useState()
 
@@ -147,7 +147,7 @@ export function ModalReportSHP ({active, setActive, map}){
                 <div className={modalStyle.modal_div}>
                     <label className={modalStyle.modal_label}>Выберите время</label>
 
-                    <input  type={"datetime-local"} max={dayjs().format("YYYY-MM-DDThh:mm")} className={modalStyle.modal_input}
+                    <input  type={"datetime-local"} max={dayjs().format("YYYY-MM-DDTHH:mm")} className={modalStyle.modal_input}
 
                             value={pdfDateTime}
                             onChange={(e) => {

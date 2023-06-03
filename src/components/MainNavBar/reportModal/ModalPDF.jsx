@@ -17,7 +17,7 @@ export function ModalReportPDF ({active, setActive,map}){
     const navigate = useNavigate()
 
     const [context, setContext] = useContext(Context)
-    const [pdfDateTime,setPdfDateTime] = useState(dayjs(new Date()).format("YYYY-MM-DDThh:mm"))
+    const [pdfDateTime,setPdfDateTime] = useState(dayjs(new Date()).format("YYYY-MM-DDTHH:mm"))
     const [pdfSubjectTag,setPdfSubjectTag] = useState()
     const [cloudShielding,setCloudShielding] = useState()
     const [operatorFullName,setOperatorFullName] = useState()
@@ -150,7 +150,7 @@ export function ModalReportPDF ({active, setActive,map}){
                 <div className={modalStyle.modal_div}>
                         <label className={modalStyle.modal_label}>Дата и время</label>
 
-                        <input  type={"datetime-local"} id={'dateTime'} max={dayjs().format("YYYY-MM-DDThh:mm")} className={modalStyle.modal_input}
+                        <input  type={"datetime-local"} id={'dateTime'} max={dayjs().format("YYYY-MM-DDTHH:mm")} className={modalStyle.modal_input}
 
                                 value={pdfDateTime}
                                 onChange={(e) => {

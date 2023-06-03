@@ -1,6 +1,10 @@
 import {useContext} from 'react';
 import card from './Card.module.css';
 import { Context } from '../../Map/Context';
+import axios from "axios";
+import {URL_FOR_MARKS, URL_FOR_USER} from "../../../config/config";
+import {useCookies} from "react-cookie";
+import {useNavigate} from "react-router-dom";
 
 export function Card(props){
 
@@ -10,6 +14,8 @@ export function Card(props){
     let result;
     let CARD_DATE_AS_DATE = Date.parse([props.year, props.month, props.day].join("-"));
     let card_day = props.day.toString();
+
+
 
     //приведение даты, содержащейся в каждой карточке к правильному виду
     if(props.day < 10 && props.month < 10){
@@ -28,7 +34,6 @@ export function Card(props){
         if(props.info[props.year]['0' + props.month].includes(newDate.join('-'))){
             isActive = true
         }
-        else {console.log('NOPE')}
     }
     catch (e){
         console.log(e.message)

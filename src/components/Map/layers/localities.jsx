@@ -8,6 +8,7 @@ import {Context} from "../Context";
 import markerStyleForCities from './localities.module.css'
 import {useCookies} from "react-cookie";
 import {useNavigate} from "react-router-dom";
+import MarkerClusterGroup from "react-leaflet-cluster";
 
 function GetIcon(_iconSize,name,isOrdinary,type) {
     const locationStyle ={
@@ -32,7 +33,6 @@ function GetIcon(_iconSize,name,isOrdinary,type) {
 
 
 export function Settlements(props){
-    let localSettLementArray=[];
 
     const localNamesArray = []
     const [refreshTokenCookies,setRefreshTokenCookie,removeRefreshTokenCookie] = useCookies(['refreshToken','accessToken']);
@@ -121,7 +121,7 @@ export function Settlements(props){
                 }
                 else{
                     for(let i = 0;i < requestData.length;i++) {
-                        localSettLementArray.push(settlements[requestData[i].toString()])
+                        //localSettLementArray.push(settlements[requestData[i].toString()])
                         localNamesArray.push(requestData[i].toString())
                     }
                 }
@@ -130,7 +130,7 @@ export function Settlements(props){
                 for(let key in settlements){
                 if(localNamesArray.includes(key)) {
                     setArr.push({base: settlements[key], isOrdinary: false})
-
+                    console.log(settlements[key].name)
                 }
                 else {
                     setArr.push({base: settlements[key], isOrdinary: true})
@@ -157,29 +157,54 @@ export function Settlements(props){
             </Marker>
         ))}
 
-        {!zoomStart ? <div>{zoomLevel <= 8 && settlementArray.map(((item, index) => ((item.base.latitude && item.base.longitude && (item.base.type === "city"))
+        {!zoomStart ? <div>{zoomLevel <= 8 && settlementArray.map(((item, index) => ( item.isOrdinary &&(item.base.latitude && item.base.longitude && (item.base.type === "city"))
             && <Marker
                 icon={GetIcon(40, item.base.name, item.isOrdinary, item.base.type)}
                 key={index}
                 position={new L.LatLng(Number(item.base.latitude), Number(item.base.longitude))}>
             </Marker>)))}
 
-        {zoomLevel >= 9 && settlementArray.map(((item,index) => (((item.base.latitude && item.base.longitude) && (item.isOrdinary) && ((item.base.type === "town") || (item.base.type === "city")))
+        {zoomLevel >= 9 && settlementArray.map(((item,index) => (item.isOrdinary && ((item.base.latitude && item.base.longitude) && (item.isOrdinary) && ((item.base.type === "town") || (item.base.type === "city")))
             && <Marker
             icon={GetIcon(40,item.base.name,item.isOrdinary,item.base.type)}
             key={index}
             position={new L.LatLng(Number(item.base.latitude), Number(item.base.longitude))}>
             </Marker>)))}
 
-        {zoomLevel >= 12  && settlementArray.map(((item,index) => (((item.base.poly || (item.base.latitude && item.base.longitude))&& (item.isOrdinary) && ((item.base.type === "village") || (item.base.type === "town") || (item.base.type === "city")))
-            && <div><Marker
-            icon={GetIcon(40,item.base.name,item.isOrdinary,item.base.type)}
-            key={index}
-            position={new L.LatLng(Number(item.base.latitude), Number(item.base.longitude))}>
-            </Marker>
-        {/*{item.base.poly && <Polyline color={'cyan'} positions={item.base.poly}/>}*/}
-            </div>
+
+        {zoomLevel >= 12  && settlementArray.map(((item,index) => ((((item.base.latitude && item.base.longitude)) && (item.isOrdinary) && ((item.base.type === "village") || (item.base.type === "town") || (item.base.type === "city")))
+                && <div>{
+                item.base.poly && <Polyline color={'cyan'} positions={item.base.poly}/>}
+                <MarkerClusterGroup
+                    key={Date.now()}
+                    singleMarkerMode={false}
+
+                >
+                    <Marker
+                    icon={GetIcon(40,item.base.name,item.isOrdinary,item.base.type)}
+                    key={index}
+                    position={new L.LatLng(Number(item.base.latitude), Number(item.base.longitude))}>
+                </Marker>
+                </MarkerClusterGroup>
+        </div>
             )))}
-        </div> : null}
+            {zoomLevel >= 15  && settlementArray.map(((item,index) => ((((item.base.latitude && item.base.longitude)) && (item.isOrdinary) && (item.base.type === "hamlet"))
+                && <div>{
+                    item.base.poly && <Polyline color={'cyan'} positions={item.base.poly}/>}
+                    <MarkerClusterGroup
+                        key={Date.now()}
+                        singleMarkerMode={false}
+
+                    >
+                        <Marker
+                            icon={GetIcon(40,item.base.name,item.isOrdinary,item.base.type)}
+                            key={index}
+                            position={new L.LatLng(Number(item.base.latitude), Number(item.base.longitude))}>
+                        </Marker>
+                    </MarkerClusterGroup>
+                </div>
+            )))}
+    </div> : null}
     </>
 }
+//

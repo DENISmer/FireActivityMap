@@ -21,14 +21,18 @@ import {useCookies} from "react-cookie";
 import {MutableImageOverlay} from "./MutableImageOverlay";
 import {MarkersLayer} from "./MarkersLayer/markersLayer";
 import axios from "axios";
-import {URL_FOR_MARKS, URL_FOR_USER} from "../../config/config";
+
 import {CounrtyBorders} from "./layers/countryBorders";
 import {NatureReserves} from "./layers/NatureReservesBorders";
 import {Settlements} from "./layers/localities";
 import {ModalReportPDF} from "../MainNavBar/reportModal/ModalPDF";
 import {ModalReportSHP} from "../MainNavBar/reportModal/ModalSHP";
 import {enableMapDragging} from "./MapEvents/MapEvents";
+
 import {layersDict} from "../../config/config";
+import {URL_FOR_MARKS, URL_FOR_USER} from "../../config/config";
+import {imageSettings} from "../../config/config";
+
 import { useNavigate } from "react-router-dom";
 import loader from '../../icons/loading-loading-forever.gif'
 import "./Map.css"
@@ -54,18 +58,26 @@ export function MapComponent(){
 
     const [SHPModalActive, setSHPModalActive] = useState(false)
     const [PDFModalActive, setPDFModalActive] = useState(false)
+
     const [baseLayer,setBaseLayer] = useState(layersDict[0].url);
+    const [compositeForImage,setCompositeForImage] = useState(imageSettings[0].composite)
+
     const [showImageOverlay, setShowImageOverlay] = useState(false);
     const [showMarkers,setShowMarkers] = useState(false);
     const [showBorders,setShowBorders] = useState(false);
     const [showNatureReserves, setShowNatureReserves] = useState(false);
+
     const [showSuomiNPPImageOverlay,setShowSuomiNPPImageOverlay] = useState(false);
     const [showNOAAImageOverlay, setShowNOAAImageOverlay] = useState(false);
+
     const MemoizedTimeline = useMemo(()=> TimeLine,[context]);
+
     const [infoAboutMarks, setInfoAboutMarks] = useState();
     const [settLementShow, setSettLementShow] = useState(false);
 
     const [userAuthAccess,setUserAuthAccess] = useState(false)
+
+
 
     const [refreshTokenCookies,setRefreshTokenCookie,removeRefreshTokenCookie] = useCookies(['refreshToken','accessToken']);
 
@@ -172,6 +184,10 @@ export function MapComponent(){
         setBaseLayer(layer)
     }
 
+    const changeComposite = (composite) => {
+        setCompositeForImage(composite)
+    }
+
     const [cookies,setCookie] = useCookies(['currentDay']);
 
     return <>
@@ -205,6 +221,7 @@ export function MapComponent(){
                                 layers={layersDict}
                                 layersChange={changeLayer}
                                 layersValue={baseLayer}
+
                                 bordersValue={showBorders}
                                 natureReservesValue={showNatureReserves}
                                 markersValue={showMarkers}
@@ -223,6 +240,10 @@ export function MapComponent(){
                                 NOAAValue={showNOAAImageOverlay}
                                 NOAAShow={NOAAImageOverlay}
 
+                                compositeList={imageSettings}
+                                ImageComposite={compositeForImage}
+                                compositeChange={changeComposite}
+
                                 imageValue={showImageOverlay}
                                 imageOverlayShow={imageOverlay}
                                 NatureReservesShow={natureReserves}
@@ -234,9 +255,9 @@ export function MapComponent(){
 
                     <TileLayer url={baseLayer}/>
 
-                    {showNOAAImageOverlay && <MutableImageOverlay fy3d1000Settings={showNOAAImageOverlay}/>}
+                    {showNOAAImageOverlay && <MutableImageOverlay fy3d1000Settings={showNOAAImageOverlay} composite={compositeForImage}/>}
 
-                    {showSuomiNPPImageOverlay && <MutableImageOverlay fy3d250Settings={showSuomiNPPImageOverlay}/>}
+                    {showSuomiNPPImageOverlay && <MutableImageOverlay fy3d250Settings={showSuomiNPPImageOverlay} composite={compositeForImage}/>}
 
                     {showBorders && <CounrtyBorders/>}
 

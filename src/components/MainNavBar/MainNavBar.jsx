@@ -186,25 +186,20 @@ export function MainNavBar(props){
                                                         }
                                                         </ListItem>
 
-                                                        {(props.SuomiValue || props.NOAAValue) && <div className={NavBarStyles.compositesImageDiv}>
-                                                            <b className={NavBarStyles.list_b_name}>Опции отображения</b>
-                                                            <div className={NavBarStyles.compositesImageCheckBox}>
-                                                                <label>Видимые + ИК</label>
-                                                                <Checkbox size={"small"}/>
+                                                        {(props.SuomiValue || props.NOAAValue) && props.compositeList.map((com, index)=>(
+                                                            <div>
+                                                                <ListItem  key={index}>
+                                                                    {com.name}{
+                                                                    <Checkbox
+                                                                        checked={com.composite === props.compositeList.find(composite => composite.composite === props.ImageComposite).composite}
+                                                                        edge="end"
+                                                                        onChange={()=>props.compositeChange(com.composite)}
+                                                                    />
+                                                                }
+                                                                </ListItem>
                                                             </div>
-                                                            <div className={NavBarStyles.compositesImageCheckBox}>
-                                                                <label>ИК</label>
-                                                                <Checkbox size={"small"}/>
-                                                            </div>
-                                                            <div className={NavBarStyles.compositesImageCheckBox}>
-                                                                <label>Дымы</label>
-                                                                <Checkbox size={"small"}/>
-                                                            </div>
-                                                            <div className={NavBarStyles.compositesImageCheckBox}>
-                                                                <label>Натуральные цвета</label>
-                                                                <Checkbox size={"small"}/>
-                                                            </div>
-                                                        </div>}
+                                                        ))
+                                                        }
                                                     </div>
 
                                                     // :  (listItem.type ==='ImageOptional' && (props.NOAAValue || props.SuomiValue)) ?
