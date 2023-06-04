@@ -1,0 +1,119 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 73vw;
+    height: 60vh;
+    background: #f1f1f1;
+    margin-left: 20%;
+    word-break: break-all;
+    border: 1px solid rgba(0, 0, 0, 0.274);
+}
+
+.bloc-tabs {
+    display: flex;
+}
+.tabs {
+    font-size: 18px;
+    padding: 15px;
+    text-align: center;
+    width: 50%;
+    background: rgba(128, 128, 128, 0.075);
+    cursor: pointer;
+    box-sizing: content-box;
+    position: relative;
+    outline: none;
+    transition: all 0.3s;
+}
+.tabsNotActive{
+    font-size: 18px;
+    padding: 15px;
+    text-align: center;
+    width: 50%;
+    border-right: black;
+    background-color: #c4dfec;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.274);
+    position: relative;
+    outline: none;
+    transition: all 0.25s;
+}
+.tabsNotActive:hover{
+    border: solid #a372c6;
+    border-radius: 1px;
+    transition: top 0.5s;
+}
+.active-tabs  {
+    text-decoration: underline crimson ;
+    font-size: 22px;
+    background: white;
+    border-bottom: 1px solid transparent;
+}
+
+.active-tabs::before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% + 2px);
+    height: 5px;
+    background: rgb(88, 147, 241);
+}
+
+button {
+    border: none;
+
+}
+
+.content-tabs {
+    flex-grow : 1;
+}
+
+.content {
+    background: white;
+    padding: 20px;
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+
+.content h2 {
+    font-size: 30px;
+    padding: 0 0 5px 0;
+}
+
+.content hr {
+    width: 100px;
+    height: 2px;
+    background: #222;
+    margin-bottom: 5px;
+}
+
+.content p {
+    color: black;
+    font-size: 24px;
+    width: 100%;
+    height: 100%;
+}
+
+.active-content {
+    display: block;
+}
+.screenP{
+    text-align: center;
+}
+.content ol{
+    color: red;
+}
+.content span{
+    color: black;
+    hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+}
+.figcaption{
+    color: black;
+}

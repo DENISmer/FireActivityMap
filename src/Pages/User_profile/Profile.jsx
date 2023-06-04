@@ -117,7 +117,7 @@ export function Profile(){
                     </div>
 
                     <div className={Profile_Style.Navigation}>
-                        <a className={Profile_Style.hrefNavigation}>О нас</a>
+                        <a className={Profile_Style.hrefNavigation} onClick={() => navigate('/About Us')}>О нас</a>
                         <hr className={Profile_Style.hr} />
                     </div>
 
@@ -129,7 +129,7 @@ export function Profile(){
 
                 <div className={Profile_Style.rightBox}>
                     <div>
-                        <label className='labels'>Имя</label>
+                        <label className='labels'>Ф.И.О</label>
                         <legend
                             className={Profile_Style.legends}>{userInfo.lastName + ' ' + userInfo.firstName + ' ' + userInfo.middleName}</legend>
                     </div>

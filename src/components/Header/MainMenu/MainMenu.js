@@ -15,7 +15,7 @@ export function MainMenu() {
                         {<img src={MenuIcon} width={33} ></img>}
                     </Button>
                     <Menu {...bindMenu(popupState)} onClick>
-                        <MenuItem onClick={popupState.close}>О нас</MenuItem>
+                        <MenuItem onClick={popupState.close} component={Link} to={'/About Us'}>О нас</MenuItem>
                         <MenuItem component={Link} to={'/Manual'} onClick={popupState.close}>Руководоство</MenuItem>
                     </Menu>
                 </React.Fragment>

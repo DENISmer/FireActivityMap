@@ -9,6 +9,7 @@ import {Restore_password} from "./Pages/Restore_Page/RestorePassword";
 import {Profile} from "./Pages/User_profile/Profile";
 import {Test_Page} from "./Pages/User_profile/Test/Test_Page";
 import {User_manual} from "./Pages/Users_guide/User_manual";
+import {AboutUs} from "./Pages/About us/About us"
 
 export default function App(){
 
@@ -25,6 +26,7 @@ export default function App(){
                 <Route exac path='/Test_Page' element = {<Test_Page/>}/>
                 <Route exac path='/Manual' element = {<User_manual/>}/>
                 <Route exac path='/Admin' />
+                <Route exac path='/About Us' element={<AboutUs/>}/>
             </Routes>
         </BrowserRouter>
         </>

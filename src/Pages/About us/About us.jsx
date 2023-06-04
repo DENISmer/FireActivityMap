@@ -1,15 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import {useNavigate} from "react-router-dom";
-import Manual_Style from "./User_manual.module.css";
+import About_us_Style from "../Users_guide/User_manual.module.css";
+import Style from "./About us Style.module.css"
 import "../background-space.css"
 import Profile_Style from "../User_profile/Profile_style.module.css";
 import axios from "axios";
 import {URL_FOR_MARKS, URL_FOR_USER} from "../../config/config";
 import {useCookies} from "react-cookie";
 import loader from "../../icons/loading-loading-forever.gif";
-import '../../components/Map/Map.css'
-import Tabs from './Tabs'
-export function User_manual(){
+
+
+export function AboutUs(){
 
     const navigate = useNavigate();
 
@@ -52,7 +53,7 @@ export function User_manual(){
                                     }
                             })
                                 .then(response =>{
-                                         setUserAccess(true)
+                                        setUserAccess(true)
                                     }
                                 )
                         })
@@ -73,27 +74,27 @@ export function User_manual(){
         requestForInfoWhenMapIsReady()
     },[])
     return<>
-        {userAccess ? <div className={Manual_Style.parent}>
+        {userAccess ? <div className={About_us_Style.parent}>
             <div className="space Stars1"></div>
             <div className="space Stars2"></div>
             <div className="space Stars3"></div>
-            <div className={Manual_Style.panelManual}>
-                <h3 className={Manual_Style.h}>На этой стрице вы можете ознакомиться с руководством пользователя</h3>
+            <div className={About_us_Style.panelManual}>
+                <h3 className={About_us_Style.h}>О нас</h3>
 
-                <div className={Manual_Style.leftBox}>
-                    <div className={Manual_Style.Navigation}>
-                        <a className={Manual_Style.hrefNavigation} onClick={() => navigate('/Map')}>Перейти к карте</a>
-                        <hr className={Manual_Style.hr}/>
+                <div className={About_us_Style.leftBox}>
+                    <div className={About_us_Style.Navigation}>
+                        <a className={About_us_Style.hrefNavigation} onClick={() => navigate('/Map')}>Перейти к карте</a>
+                        <hr className={About_us_Style.hr}/>
                     </div>
 
-                    <div className={Manual_Style.Navigation}>
-                        <a className={Manual_Style.hrefNavigation} onClick={() => navigate('/Profile')}>Профиль</a>
-                        <hr className={Manual_Style.hr}/>
+                    <div className={About_us_Style.Navigation}>
+                        <a className={About_us_Style.hrefNavigation} onClick={() => navigate('/Profile')}>Профиль</a>
+                        <hr className={About_us_Style.hr}/>
                     </div>
 
-                    <div className={Manual_Style.Navigation}>
-                        <a className={Manual_Style.hrefNavigation} onClick={() => navigate('/About Us')}>О нас</a>
-                        <hr className={Manual_Style.hr}/>
+                    <div className={About_us_Style.Navigation}>
+                        <a className={About_us_Style.hrefNavigation} onClick={() => navigate('/Manual')}>Руководство Пользователя</a>
+                        <hr className={About_us_Style.hr}/>
                     </div>
 
                     <div className={Profile_Style.exit}>
@@ -102,7 +103,15 @@ export function User_manual(){
                     </div>
                 </div>
 
-                <Tabs/>
+                <div className={About_us_Style.rightBox}>
+                        <font color={'black'}>
+                            Сибирский центр Федерального государственного бюджетного учреждения "Научно-исследовательский центр космической гидрометеорлогии "Планета" (ФГБУ НИЦ "Планета")"<br/>
+                            Адрес: 630099, Россия, г.Новосибирск ул.Советская 30<br/>
+                            Телефон: +7 383 363-46-05<br/>
+                            E-mail: kav@racpod.siberia.net<br/>
+                            <a href={'https://rcpod.ru/contacts/'}>https://rcpod.ru</a>
+                        </font>
+                </div>
 
             </div>
         </div> : <div className={'userLoadingDiv'}><img className={'userLoading'} width={100} height={100} src={loader} alt={'#'}/></div>}
