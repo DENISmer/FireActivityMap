@@ -65,6 +65,7 @@ export function Profile(){
                                     }
                             })
                                 .then(async response => {
+                                    setUserAccess(true)
                                     await setUserInfo({email: response.data.email ? response.data.email : 'нет информации',
                                         firstName: (!response.data.first_name || response.data.first_name === "") ? 'нет информации' : response.data.first_name,
                                         lastName: (!response.data.last_name || response.data.last_name === "") ? '' : response.data.last_name,

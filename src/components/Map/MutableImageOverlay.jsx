@@ -15,30 +15,37 @@ export function MutableImageOverlay(props){
         Suomi_NPP : '37849',
         NOAA_20 : '43013'
 }
-    const [currentDate,setCurrentDate] = useState(dayjs().format("YYYYMMDD"))
 
+    const [urlForImage,setUrlForImage] = useState()
 
 
     useEffect( () =>{
-        setCurrentDate(dayjs(context.currentDate).format("YYYYMMDD"))
-        if(context.singleDay && context.min_datetime !== undefined && !context.today){
+        let currentTime;
+        let currentDate;
+        let currentSatellite = props.fy3d250Settings ? satellite.Suomi_NPP : satellite.NOAA_20
 
-            console.log(min_time)
-            min_time = new Date(context.min_datetime).toString().split(' ')[4].split(':')[0] + new Date(context.min_datetime).toString().split(' ')[4].split(':')[1]
-            max_time = new Date(context.max_datetime).toString().split(' ')[4].split(':')[0] + new Date(context.max_datetime).toString().split(' ')[4].split(':')[1]
-
-            console.log(min_time,max_time)
+        if(context.singleDay && context.currentDate){
+            currentDate = dayjs(context.currentDate).format("YYYYMMDD")
+            if(dayjs(context.min_datetime).format("HHmmss") !== "000000"){
+                currentTime = "A" + dayjs(context.min_datetime).format("HHmmss")
+                setUrlForImage(`${URL_FOR_IMAGES.IMG_DOMAIN}/${currentSatellite}/${currentDate}/${currentTime}/${props.composite}/{z}/{x}/{y}.png`)
+            }
+            else{
+                currentTime = "D"
+                setUrlForImage(`${URL_FOR_IMAGES.IMG_DOMAIN}/${currentSatellite}/${currentDate}/${currentTime}/${props.composite}/{z}/{x}/{y}.png`)
+            }
         }
+        console.log('curTime: ',currentTime)
 
-    },[context])
+    },[context,props.composite,props.fy3d1000Settings,props.fy3d250Settings])
+
+
     return(<>
-        {props.fy3d250Settings && context.singleDay && <TileLayer
-            url={`https://geosib.rcpod.ru/tile/tile/zxy/${satellite.Suomi_NPP}/${currentDate}/F/${props.composite}/{z}/{x}/{y}.png`}
+        {props.fy3d250Settings && context.singleDay && urlForImage && <TileLayer
+            url={urlForImage}
         />}
-        {props.fy3d1000Settings && context.singleDay && <TileLayer
-            url={`https://geosib.rcpod.ru/tile/tile/zxy/${satellite.NOAA_20}/${currentDate}/D/${props.composite}/{z}/{x}/{y}.png`}
+        {props.fy3d1000Settings && context.singleDay && urlForImage && <TileLayer
+            url={urlForImage}
         />}
-
-
     </>)
 }

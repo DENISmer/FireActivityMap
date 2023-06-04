@@ -38,7 +38,7 @@ export function User_manual(){
                         .then(async response => {
                             setRefreshTokenCookie('accessToken', response.data.access, 5 * 3600)
 
-
+                            setUserAccess(true)
                             axios.get(URL_FOR_MARKS.URL_GET_INFO,{headers :
                                     {
                                         Authorization : `Bearer ${refreshTokenCookies['accessToken']}`

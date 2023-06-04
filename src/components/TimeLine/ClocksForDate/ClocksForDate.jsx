@@ -120,6 +120,10 @@ export function ClocksForDate(props){
                     }
                     }
                 )
+                    .catch(e=>{
+                        localFormattingArray = []
+                        setTimeSlider(localFormattingArray)
+                    })
                 console.log('NO ERROR')
             }
             catch (e){
@@ -154,7 +158,7 @@ export function ClocksForDate(props){
                 <Slider
                     color='primary'
                     sx={{
-                        width: 700,
+                        width: 800,
                         '& .MuiSlider-mark': {
                             height: 10
                         }
