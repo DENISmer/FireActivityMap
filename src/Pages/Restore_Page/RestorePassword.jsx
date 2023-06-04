@@ -1,7 +1,9 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import newStyle from "./Restore.module.css";
 import {useForm} from "react-hook-form";
+import {URL_FOR_USER} from "../../config/config";
+import axios from "axios";
 
 export function Restore_password(){
 
@@ -12,11 +14,28 @@ export function Restore_password(){
         reset,
     } = useForm({mode: "onBlur"});
 
-    const onSubmit = (data) => {
-        alert(JSON.stringify(data));
-        reset();
+    const onSubmit = () => {
+        //alert(JSON.stringify());
+        //reset();
+        axios(URL_FOR_USER.URL_CONFIRM_RESTORE_PASS,{
+            method: 'POST',
+            data: {
+                email: email,
+                token: token,
+                uuid: uuid,
+                password: password
+            }
+        })
+            .then((response)=> {
+                console.log(response.data)
+            })
+            .catch((error) => {
+                console.log(error.message)
+            })
     }
-
+       let email: ''
+       let token: ''
+       let uuid: ''
     const navigate = useNavigate();
 
     const [password,setPassword] = useState('');
@@ -25,7 +44,12 @@ export function Restore_password(){
     const [passwordRepeat, setPasswordRepeat] = useState('');
     const [passwordRepeatError, setPasswordRepeatError] = useState('');
 
-
+    useEffect(()=>{
+        let params = (new URL(document.location)).searchParams;
+        email =  params.get("email");
+        token = params.get("token");
+        uuid = params.get("uuid");
+    },[])
 
 
     return<>
@@ -41,11 +65,17 @@ export function Restore_password(){
                     <h2 className={newStyle.h2}>Смена пароля</h2>
 
                     <div className={newStyle.input_box}>
-                        <input type="password" className={newStyle.restore_input} />
-                        <label htmlFor="" className={newStyle.restore_label}>Введите новый пароль</label>
+                        <div className={newStyle.input_box}>
+                            <input type="text" className={newStyle.password_input}
+                                   value={password}
+                                   onChange={(e) => {
+                                       setPassword(e.target.value)
+                                   }}
+                                   />
+                        </div>
                     </div>
 
-                    <input className={newStyle.button} type="submit" value="Войти" disabled={!isValid}/>
+                    <input className={newStyle.button} type="submit" onClick={() => onSubmit()} value="Войти" disabled={!isValid}/>
 
 
                     <div className={newStyle.login}>

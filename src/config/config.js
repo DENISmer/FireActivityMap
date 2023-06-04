@@ -17,7 +17,9 @@ export const URL_FOR_USER = {
     URL_REFRESH: `${domain}/auth/jwt/refresh/`,
     URL_EDIT_MYSELF: `${domain}/auth/user/me/`,
     URL_REGISTER: `${domain}/auth/users/`,
-    URL_GET_USER_INFO: `${domain}/auth/user/me/`
+    URL_GET_USER_INFO: `${domain}/auth/user/me/`,
+    URL_CONFIRM_RESTORE_PASS: `${domain}/auth/users/confirm_reset_password/`,
+    URL_RESTORE_PASSWORD: `${domain}/auth/users/reset_password/`,
 }
 
 //запросы для формирования файлов .shp И .pdf

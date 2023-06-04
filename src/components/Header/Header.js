@@ -9,7 +9,7 @@ export function Header(props){
         <div onMouseDown={() => disableMapDragging(props.map)} onMouseUp={() => enableMapDragging(props.map)}>
             <header className="Header">
                 <div>
-                    <MainMenu />
+                    <MainMenu map={props.map}/>
                 </div>
                 <div className="label">
                     <h1>Fire Activity Map</h1>

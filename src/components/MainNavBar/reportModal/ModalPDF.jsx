@@ -125,7 +125,7 @@ export function ModalReportPDF ({active, setActive,map}){
         let localArray = value.split('')
         for(let cell in localArray){
             if(localArray[cell] === ' '){
-                localArray[cell] = `+`
+                localArray[cell] = ' '
             }
         }
         setOperatorFullName(localArray.join(''))
@@ -150,7 +150,7 @@ export function ModalReportPDF ({active, setActive,map}){
                 <div className={modalStyle.modal_div}>
                         <label className={modalStyle.modal_label}>Дата и время</label>
 
-                        <input  type={"datetime-local"} id={'dateTime'} max={dayjs().format("YYYY-MM-DDTHH:mm")} className={modalStyle.modal_input}
+                        <input  type={"datetime-local"} id={'dateTime'} max={dayjs(Date.now()).format("YYYY-MM-DDTHH:mm")} className={modalStyle.modal_input}
 
                                 value={pdfDateTime}
                                 onChange={(e) => {

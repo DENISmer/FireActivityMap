@@ -147,7 +147,7 @@ export function ModalReportSHP ({active, setActive, map}){
                 <div className={modalStyle.modal_div}>
                     <label className={modalStyle.modal_label}>Выберите время</label>
 
-                    <input  type={"datetime-local"} max={dayjs().format("YYYY-MM-DDTHH:mm")} className={modalStyle.modal_input}
+                    <input  type={"datetime-local"} max={dayjs(Date.now()).format("YYYY-MM-DDTHH:mm")} className={modalStyle.modal_input}
 
                             value={pdfDateTime}
                             onChange={(e) => {

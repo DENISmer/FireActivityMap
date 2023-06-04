@@ -185,35 +185,28 @@ export function MainNavBar(props){
                                                             />
                                                         }
                                                         </ListItem>
+                                                        <div>
+                                                            {(props.SuomiValue || props.NOAAValue) &&
+                                                                <b className={NavBarStyles.list_b_name}>Настройки
+                                                                    отображения</b>}
+                                                            {(props.SuomiValue || props.NOAAValue) && props.compositeList.map((com, index)=>(
+                                                                <div >
+                                                                    <ListItem  key={index} className={NavBarStyles.imagesComposite}>
+                                                                        {com.name}{
+                                                                        <Checkbox
+                                                                            checked={com.composite === props.compositeList.find(composite => composite.composite === props.ImageComposite).composite}
+                                                                            edge="end"
+                                                                            onChange={()=>props.compositeChange(com.composite)}
+                                                                        />
+                                                                    }
+                                                                    </ListItem>
+                                                                </div>
+                                                            ))
+                                                            }
+                                                        </div>
 
-                                                        {(props.SuomiValue || props.NOAAValue) && props.compositeList.map((com, index)=>(
-                                                            <div>
-                                                                <ListItem  key={index}>
-                                                                    {com.name}{
-                                                                    <Checkbox
-                                                                        checked={com.composite === props.compositeList.find(composite => composite.composite === props.ImageComposite).composite}
-                                                                        edge="end"
-                                                                        onChange={()=>props.compositeChange(com.composite)}
-                                                                    />
-                                                                }
-                                                                </ListItem>
-                                                            </div>
-                                                        ))
-                                                        }
+
                                                     </div>
-
-                                                    // :  (listItem.type ==='ImageOptional' && (props.NOAAValue || props.SuomiValue)) ?
-                                                    //     <div className={NavBarStyles.compositesImageDiv}>
-                                                    //         <ListItem  key={index}>
-                                                    //             {listItem.name}{
-                                                    //             <Checkbox
-                                                    //                 size={"small"}
-                                                    //                 edge="end"
-                                                    //
-                                                    //             />
-                                                    //         }
-                                                    //         </ListItem>
-                                                    //     </div>
                                                     : listItem.type === 'settlement' ?
                                                         <div  className={NavBarStyles.divSwitch}>
                                                             <ListItem className={NavBarStyles.listItem} key={index}>
@@ -249,37 +242,6 @@ export function MainNavBar(props){
 
 
 
-                    {/*<div className={NavBarStyles.navBarMainInstuments_Calendar} >*/}
-                    {/*    <button className={NavBarStyles.navBar_button} onClick={() => setshowFlyToForm(!showFlyToForm)}>Найти место</button>*/}
-                    {/*    <CSSTransition in={showFlyToForm} timeout={300} classNames={{*/}
-                    {/*        enterActive: NavBarStyles.transition_enter,*/}
-                    {/*        enterDone: NavBarStyles.transition_enter_active,*/}
-                    {/*        exitActive: NavBarStyles.transition_exit_active,*/}
-                    {/*        exitDone: NavBarStyles.transition_exit*/}
-                    {/*    }} unmountOnExit>*/}
-                    {/*        <div className={NavBarStyles.wrapper}>*/}
-                    {/*            <TextField*/}
-                    {/*                label="широта"*/}
-                    {/*                variant="outlined"*/}
-                    {/*                size={"small"}*/}
-                    {/*                type={"number"}*/}
-                    {/*                className={NavBarStyles.latitude}*/}
-                    {/*                value={latitude}*/}
-                    {/*                onChange={(e) => {setLatitude(e.target.value)}}*/}
-                    {/*            />*/}
-                    {/*            <TextField*/}
-                    {/*                label="долгота"*/}
-                    {/*                variant="outlined"*/}
-                    {/*                size={"small"}*/}
-                    {/*                type={"number"}*/}
-                    {/*                className={NavBarStyles.longitude}*/}
-                    {/*                value={longitude}*/}
-                    {/*                onChange={(e) => {setLongitude(e.target.value)}}*/}
-                    {/*            />*/}
-                    {/*            <button className={NavBarStyles.fly_to_button} onClick={()=>DisplayPosition(props.map)}>Найти!</button>*/}
-                    {/*        </div>*/}
-                    {/*    </CSSTransition>*/}
-                    {/*</div>*/}
 
                     <div className={NavBarStyles.navBarSortDate}>
                         <b className={NavBarStyles.heading_sort}>Сортировать данные за:</b>

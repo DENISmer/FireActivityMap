@@ -89,6 +89,11 @@ export function Profile(){
                     setUserAccess(false)
                     setTimeout(()=>{navigate('/')},1500)
                 }
+                else {
+                    removeRefreshTokenCookie('refreshToken')
+                    setUserAccess(false)
+                    setTimeout(()=>{navigate('/')},1500)
+                }
             })
     },[])
 
@@ -142,14 +147,15 @@ export function Profile(){
                     <div>
                         <label className='labels'>Email</label>
                         <legend className={Profile_Style.legends}>{userInfo.email}</legend>
-                    </div>
-                    <hr/>
-                    <br/>
-                    <button className={Profile_Style.button} onClick={() => navigate("/restore_access")}>Изменить
+
+                        <hr/>
+
+                        <button className={Profile_Style.button} onClick={() => navigate("/restore_access")}>Изменить
                         пароль
                     </button>
-                    <button className={Profile_Style.button} onClick={() => navigate("/Admin")}>Администрирование
-                    </button>
+                        <button className={Profile_Style.button} onClick={() => navigate("/Admin")}>Администрирование
+                        </button>
+                    </div>
                 </div>
             </div>
         </div> : <div className={'userLoadingDiv'}><img className={'userLoading'} width={100} height={100} src={loader} alt={'#'}/></div>}
