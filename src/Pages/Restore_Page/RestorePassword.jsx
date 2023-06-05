@@ -4,7 +4,7 @@ import newStyle from "./Restore.module.css";
 import {useForm} from "react-hook-form";
 import {URL_FOR_USER} from "../../config/config";
 import axios from "axios";
-
+import auth from '../Authorization/Auth.module.css'
 export function Restore_password(){
 
     const {
@@ -16,7 +16,7 @@ export function Restore_password(){
 
     const onSubmit = () => {
         //alert(JSON.stringify());
-        //reset();
+
         axios(URL_FOR_USER.URL_CONFIRM_RESTORE_PASS,{
             method: 'POST',
             data: {
@@ -27,28 +27,43 @@ export function Restore_password(){
             }
         })
             .then((response)=> {
-                console.log(response.data)
+                setSuccessPassRefresh(true);
+                setTimeout(()=>navigate('/'), 2500)
+                reset();
             })
             .catch((error) => {
-                console.log(error.message)
+                reset();
+                setSuccessPassRefresh(false);
+                setPasswordError(true)
             })
     }
-       let email: ''
-       let token: ''
-       let uuid: ''
     const navigate = useNavigate();
 
+
     const [password,setPassword] = useState('');
-    const [passwordError, setPasswordError] = useState('');
+    const [email,setEmail] = useState();
+    const [token,setToken] = useState();
+    const [uuid,setUuid] = useState();
+
+    const [successPassRefresh,setSuccessPassRefresh] = useState(false)
+
+    const [passwordError, setPasswordError] = useState(false);
 
     const [passwordRepeat, setPasswordRepeat] = useState('');
     const [passwordRepeatError, setPasswordRepeatError] = useState('');
 
     useEffect(()=>{
-        let params = (new URL(document.location)).searchParams;
-        email =  params.get("email");
-        token = params.get("token");
-        uuid = params.get("uuid");
+        try {
+            let params = (new URL(document.location)).searchParams;
+            setEmail(params.get("email"));
+            setToken(params.get("token"));
+            setUuid(params.get("uuid"));
+        }
+        catch {
+            setPasswordError(true);
+            setSuccessPassRefresh(false)
+        }
+
     },[])
 
 
@@ -64,18 +79,26 @@ export function Restore_password(){
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <h2 className={newStyle.h2}>Смена пароля</h2>
 
-                    <div className={newStyle.input_box}>
                         <div className={newStyle.input_box}>
-                            <input type="text" className={newStyle.password_input}
+                            <input type="password" className={newStyle.password_input}
                                    value={password}
                                    onChange={(e) => {
-                                       setPassword(e.target.value)
+                                       setPassword(e.target.value);
+                                       setSuccessPassRefresh(false);
+                                       setPasswordError(false);
                                    }}
                                    />
-                        </div>
-                    </div>
+                            { successPassRefresh && <div className={auth.success}>
+                                <p>Пароль успешно изменен.</p>
+                                <p>Автоматическая переадресация на страницу входа...</p>
+                            </div>}
+                            { passwordError && <div className={auth.error}>
+                                <p>Упс! Что-то пошло не так</p>
+                            </div>}
 
-                    <input className={newStyle.button} type="submit" onClick={() => onSubmit()} value="Войти" disabled={!isValid}/>
+                        </div>
+
+                    <input className={newStyle.button} type="submit" onClick={() => onSubmit()} value="Сохранить" disabled={!isValid}/>
 
 
                     <div className={newStyle.login}>

@@ -19,16 +19,25 @@ function GetIcon(_iconSize,name,isOrdinary,type) {
         ORDINARY_HAMLET: markerStyleForCities.ordinaryLocalityHamletName
         
     }
-    return L.divIcon({
-        className: !isOrdinary ? locationStyle.DESIGNATED :
-            (type === 'city') ? locationStyle.ORDINARY_CITY :
-            (type === 'town') ? locationStyle.ORDINARY_TOWN :
-            (type === 'village') ? locationStyle.ORDINARY_VILLAGE : locationStyle.ORDINARY_HAMLET,
+    if(name !== 'marker'){
+        return L.divIcon({
+            className: !isOrdinary ? locationStyle.DESIGNATED :
+                (type === 'city') ? locationStyle.ORDINARY_CITY :
+                    (type === 'town') ? locationStyle.ORDINARY_TOWN :
+                        (type === 'village') ? locationStyle.ORDINARY_VILLAGE : locationStyle.ORDINARY_HAMLET,
 
-        html: name,
+            html: name,
 
-        iconSize: [_iconSize],
-    })
+            iconUrl: require('../../../icons/cities/city.png'),
+            iconSize: [8,8],
+        })
+    }
+    else{
+        return L.icon({
+                iconUrl: require('../../../icons/cities/marker_for_city.drawio.png'),
+            iconSize: [13,13],
+        })
+    }
 }
 
 
@@ -156,8 +165,14 @@ export function Settlements(props){
             position={new L.LatLng(Number(pnt.base.latitude), Number(pnt.base.longitude))}>
             </Marker>
         ))}
+        {!zoomStart ? <div>{zoomLevel < 7 && settlementArray.map(((item, index) => ( item.isOrdinary &&(item.base.latitude && item.base.longitude && (item.base.type === "city"))
+            && <Marker
+                icon={GetIcon(40, 'marker', item.isOrdinary, item.base.type)}
+                key={index}
+                position={new L.LatLng(Number(item.base.latitude), Number(item.base.longitude))}>
+            </Marker>)))}
 
-        {!zoomStart ? <div>{zoomLevel <= 8 && settlementArray.map(((item, index) => ( item.isOrdinary &&(item.base.latitude && item.base.longitude && (item.base.type === "city"))
+        {zoomLevel >= 7 && settlementArray.map(((item, index) => ( item.isOrdinary &&(item.base.latitude && item.base.longitude && (item.base.type === "city"))
             && <Marker
                 icon={GetIcon(40, item.base.name, item.isOrdinary, item.base.type)}
                 key={index}
@@ -207,4 +222,3 @@ export function Settlements(props){
     </div> : null}
     </>
 }
-//
