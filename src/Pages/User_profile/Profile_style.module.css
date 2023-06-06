@@ -123,6 +123,7 @@
     background: #ffffff;
     color: #0a147e;
     transition: 0.5s;
+    border: solid 1px #0077c2;
 }
 .button:active{
     color: red;

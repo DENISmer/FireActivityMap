@@ -80,7 +80,8 @@ export function Restore_password(){
                     <h2 className={newStyle.h2}>Смена пароля</h2>
 
                         <div className={newStyle.input_box}>
-                            <input type="password" className={newStyle.password_input}
+                            <input
+                                placeholder={"Введите новый пароль"} type="password" className={newStyle.password_input}
                                    value={password}
                                    onChange={(e) => {
                                        setPassword(e.target.value);
@@ -98,7 +99,7 @@ export function Restore_password(){
 
                         </div>
 
-                    <input className={newStyle.button} type="submit" onClick={() => onSubmit()} value="Сохранить" disabled={!isValid}/>
+                        <input className={newStyle.button} type="submit" onClick={() => onSubmit()} value="Сохранить" disabled={!isValid}/>
 
 
                     <div className={newStyle.login}>

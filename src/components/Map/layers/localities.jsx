@@ -160,7 +160,7 @@ export function Settlements(props){
     return<>
         {settlementArray.map((pnt, index) => (!pnt.isOrdinary &&
             <Marker
-            icon={GetIcon(40,pnt.base.name,false,pnt.base.type)}
+            icon={GetIcon(50,pnt.base.name,false,pnt.base.type)}
             key={index}
             position={new L.LatLng(Number(pnt.base.latitude), Number(pnt.base.longitude))}>
             </Marker>
