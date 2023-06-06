@@ -144,8 +144,8 @@
 // }
 import React, {useState, useEffect} from 'react';
 import {useNavigate} from "react-router-dom";
-import {FormEvent} from "react";
 import newStyle from "./Restore.module.css";
+import auth from '../Authorization/Auth.module.css'
 import {useForm} from "react-hook-form";
 
 
@@ -155,24 +155,23 @@ export default function Restore() {
 
     const navigate = useNavigate();
 
-    const [ seconds, setSeconds ] = useState(60);
-    const [ timerActive, setTimerActive ] = useState(false);
-    const [ restoreSuccess, setRestoreSuccess ] = useState();
-    const [ active, setActive] = useState(true);
+    const [seconds, setSeconds ] = useState(30);
+    const [disable, setDisable] = useState(false);
+    const handleDisable = () => {
+        setDisable(true);
+        setTimeout(()=>setDisable(false),30000)
+        let timerId = seconds > 0 && setInterval(()=> {setSeconds((seconds) => (seconds >= 1 ? seconds - 1 : 0))},1000);
+        if (disable){
+            clearInterval(timerId)
+        }else {
+            setSeconds(30)
+        }
+    }
+
 
     useEffect(()=>{
 
-        if (active && timerActive){
-            let timerId = setInterval(()=> {timerActive && setSeconds((seconds)=>(seconds >= 1 ? seconds - 1 : 0))},1000);
-            setTimeout(()=>{ setActive(false); clearInterval(timerId)},60000);
-
-            isValid();
-        }else {
-            setActive(false);
-            setTimerActive(false);
-        }
-
-    }, [active, timerActive,restoreSuccess]);
+    }, [seconds]);
 
     const {
         register,
@@ -198,32 +197,30 @@ export default function Restore() {
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <h2 className={newStyle.h2}>Восстановление пароля</h2>
 
-                    <div className={newStyle.input_box}>
+
+                    {!disable && <div className={newStyle.input_box}>
                         <input
                             className={newStyle.restore_input}
-                            {...register("Email",{
+                            {...register("Email", {
                                 required: "Это поле обязательно для заполнения",
                                 maxLength: {
-                                    value : 20,
+                                    value: 20,
                                     message: "Маскимум 20 символов"
                                 },
                                 pattern: /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
                             })}
                         />
                         <label className={newStyle.restore_label}>Email</label>
-                    </div>
-                    <div className={newStyle.error}>
-                        {errors?.Email && <p>{errors?.Email?.message || "Неверный формат!"}</p>}
-                    </div>
+                    </div>}
 
+                        <div className={auth.error}>
+                    {errors?.Email && <p>{errors?.Email?.message || "Неверный формат!"}</p>}
+                        </div>
 
-                    {seconds
-                        ? <React.Fragment>
-                            <button className={newStyle.button} onClick={()=> setTimerActive(!timerActive)} disabled={active || !isValid}>Восстановить доступ</button>
-                            <div className={newStyle.seconds}>{seconds}</div>
+                    {!disable && <button className={newStyle.button} onClick={handleDisable}
+                             disabled={disable || !isValid}>Восстановить доступ</button>}
+                    {disable && <div className={newStyle.seconds}>Отправить запрос повторно через: {seconds}</div>}
 
-                        </React.Fragment>
-                        : <button className={newStyle.button} onClick={() => setSeconds(60)}>Отправить запрос повторно</button>}
 
 
                     <div className={newStyle.login}>

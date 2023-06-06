@@ -115,8 +115,7 @@
     color: white;
 }
 .seconds{
-    position: absolute;
-    left: 47%;
+    font-size: 22px;
     color: white;
 }
 .login{

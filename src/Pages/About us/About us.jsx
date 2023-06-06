@@ -104,6 +104,7 @@ export function AboutUs(){
                 </div>
 
                 <div className={About_us_Style.rightBox}>
+                    <div className={About_us_Style.aboutUs}>
                         <font color={'black'}>
                             Сибирский центр Федерального государственного бюджетного учреждения "Научно-исследовательский центр космической гидрометеорлогии "Планета" (ФГБУ НИЦ "Планета")"<br/>
                             Адрес: 630099, Россия, г.Новосибирск ул.Советская 30<br/>
@@ -111,6 +112,8 @@ export function AboutUs(){
                             E-mail: kav@racpod.siberia.net<br/>
                             <a href={'https://rcpod.ru/contacts/'}>https://rcpod.ru</a>
                         </font>
+                    </div>
+
                 </div>
 
             </div>

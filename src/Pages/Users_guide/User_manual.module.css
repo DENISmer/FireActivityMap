@@ -104,3 +104,9 @@
         transform: rotate(0deg);
     }
 }
+.aboutUs{
+    background-color: #eeeeee;
+    border: groove black;
+    border-radius: 1px;
+    padding-left: 15px;
+}
