@@ -21,12 +21,16 @@ import {disableMapDragging,enableMapDragging} from "../Map/MapEvents/MapEvents";
 
 export function TimeLine(props){
     const [showTimeLine, setShowTimeLine] = useState(false)
-    const [value, setValue] = useState(Date.now());
+    const [value, setValue] = useState();
     const [month,setMonth] = useState([]);
     const [context,setContext] = useContext(Context)
     const [showTimePanel, setShowTimePanel] = useState(false);
     //setCookie('currentDay','2022-5-11', {path: '/',maxAge: 5 * 3600})
     let currentMonth = [];
+
+    useEffect(()=>{
+        setValue(new Date())
+    },[])
 
     const handle = () =>{
         setShowTimeLine(!showTimeLine)
@@ -126,7 +130,7 @@ export function TimeLine(props){
                                     views={['year', 'month']}
                                     label="Год и месяц"
                                     minDate={dayjs('2012-03-01')}
-                                    maxDate={Date.now()}
+                                    maxDate={dayjs(new Date().getFullYear()+'-'+(new Date().getMonth()+ 2)+'-'+new Date().getDate())}
                                     value={value}
 
                                     onChange={(value) => {

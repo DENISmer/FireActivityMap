@@ -86,7 +86,7 @@ export function MapComponent(){
     //const MemoizedMutableImageOverlay = useMemo(()=> MutableImageOverlay,[context])
     const MemoizedChildComponentMark_render = useMemo(() => MarkersLayer, [context])
 
-    const MemoizedChildComponentSettlements = useMemo(() => Settlements, [context])
+    //const MemoizedChildComponentSettlements = useMemo(() => Settlements, [context])
 
 
     const requestForInfoWhenMapIsReady = () => {//запрос дней на наличие точек
@@ -192,7 +192,7 @@ export function MapComponent(){
 
     return <>
         {userAuthAccess ? <div onMouseUp={() => enableMapDragging(map)}>
-            <MapContainer zoomControl={false} maxZoom={16} zoom={4} minZoom={3}
+            <MapContainer zoomControl={false} maxZoom={15} zoom={4} minZoom={3}
                           center={center}
                           ref={setMap}
                           whenReady={() => requestForInfoWhenMapIsReady()}
@@ -265,7 +265,7 @@ export function MapComponent(){
 
                     {showMarkers && <MemoizedChildComponentMark_render/>}
 
-                    {settLementShow && <MemoizedChildComponentSettlements map={map}/>}
+                    {settLementShow && <Settlements map={map}/>}
 
                 </Context.Provider>
             </MapContainer>

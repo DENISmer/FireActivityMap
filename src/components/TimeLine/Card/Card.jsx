@@ -5,6 +5,7 @@ import axios from "axios";
 import {URL_FOR_MARKS, URL_FOR_USER} from "../../../config/config";
 import {useCookies} from "react-cookie";
 import {useNavigate} from "react-router-dom";
+import dayjs from "dayjs";
 
 export function Card(props){
 
@@ -40,6 +41,8 @@ export function Card(props){
     }
 
     const dayClick = () => {//обработчкик клика на карточку
+        console.log(dayjs(new Date().getFullYear()+'-'+(new Date().getMonth()+ 2)+'-'+new Date().getDate()))
+        console.log(dayjs('2012-03-01'))
         result = newDate.join("-");
 
         setContext({

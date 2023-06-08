@@ -1,4 +1,4 @@
-import react, {useContext, useEffect, useState} from 'react'
+import react, {useCallback, useContext, useEffect, useState} from 'react'
 import TimeField from "react-simple-timefield";
 import Timeline from  "../TimeLine.module.css";
 import Slider from "@mui/material/Slider";
@@ -28,6 +28,7 @@ export function ClocksForDate(props){
     const requestForTime = (contextCurrentDate) => {
         let result = []
         return axios(`${URL_FOR_MARKS.URL_GET_TIME_FROM_DATE}?date=${contextCurrentDate}`,{
+            method: 'GET',
             headers: {
                 Authorization: `Bearer ${refreshTokenCookies['accessToken']}`
             }
@@ -45,9 +46,18 @@ export function ClocksForDate(props){
                                 refresh_token: refreshTokenCookies['refreshToken']
                             }
                         })
-                        .then(async response => {
-                            await setRefreshTokenCookie('accessToken', response.data.access, 5 * 3600)
-                            console.log(response.data)
+                        .then(response => {
+                            setRefreshTokenCookie('accessToken', response.data.access, 5 * 3600)
+
+                            axios(`${URL_FOR_MARKS.URL_GET_TIME_FROM_DATE}?date=${contextCurrentDate}`,{
+                                method: 'GET',
+                                headers: {
+                                    Authorization: `Bearer ${refreshTokenCookies['accessToken']}`
+                                }
+                            })
+                                .then(async (response) => {
+                                    return response.data.time[context.currentDate]//!!!!
+                                })
                         })
                         .catch((e) => {
                             navigate('/')
@@ -60,7 +70,6 @@ export function ClocksForDate(props){
             })
         //return result
     }
-
     const timeValue = (e, val)=>{
         //console.warn(timeRange)
         console.log(timeSlider)
@@ -108,6 +117,7 @@ export function ClocksForDate(props){
     useEffect(()=>{
             try {
                 requestForTime(context.currentDate).then(response =>{
+                    console.log(response.sort())
                     for(let i = 0;i < response.length;i++){
                         localFormattingArray.push({value: i*9, label: response[i]})
                         console.log(localFormattingArray.length)
@@ -132,20 +142,6 @@ export function ClocksForDate(props){
 
     },[context])
 
-    const updateTime = (timeArray) =>{
-        console.log(timeArray.length)
-        for(let i = 0;i < timeArray.length;i++){
-            localFormattingArray.push({value: i*9, label: timeArray[i]})
-            console.log(localFormattingArray)
-        }
-        if(localFormattingArray.length >=1){
-            setTimeSlider(localFormattingArray);
-        }
-        else{
-            return null
-        }
-
-    }
 
     return(<>
             <div className={Timeline.divSlider}

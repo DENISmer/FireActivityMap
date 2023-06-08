@@ -57,9 +57,11 @@ export function Mark_render(onDateChange) {
         let unmounted = false
 
 
-        axios.get(`${url}`,{headers:
+        axios.get(`${url}`,
+            {
+            headers:
                 {Authorization: `Bearer ${refreshTokenCookies['accessToken']}`}
-        })
+            })
             .then(async response => {
                 if(response.data.points.length === 0){
                     setIsRender(false)
@@ -84,11 +86,15 @@ export function Mark_render(onDateChange) {
                                 refresh_token: refreshTokenCookies['refreshToken']
                             }
                         })
-                        .then(response => {
-                            setRefreshTokenCookie('accessToken', response.data.access, 5 * 3600)
+                        .then(async response =>{
+                            await setRefreshTokenCookie('accessToken', response.data.access, 5 * 3600)
 
-                            axios.get(`${url}`,{headers:
-                                    {Authorization: `Bearer ${refreshTokenCookies['accessToken']}`}
+                            await axios.get(`${url}`,
+                                {
+                                    headers:
+                                    {
+                                        Authorization: `Bearer ${refreshTokenCookies['accessToken']}`
+                                    }
                             })
                                 .then(async response => {
                                     if(response.data.points.length === 0){

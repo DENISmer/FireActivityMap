@@ -57,6 +57,27 @@ export function ModalReportPDF ({active, setActive,map}){
                     }
                     else{//если данные введены правильно и создан/есть отчет за выбранный период
                         setReadyToTheNextPage(true)
+                        console.log(response.data)
+
+                        let binaryString = window.atob(response.data);
+                        let binaryLen = binaryString.length;
+                        let bytes = new Uint8Array(binaryLen);
+                        for (let i = 0; i < binaryLen; i++) {
+                            let ascii = binaryString.charCodeAt(i);
+                            bytes[i] = ascii;
+                            console.log(bytes[i])
+                        }
+                        //return bytes;
+
+
+                        let blob = new Blob([bytes], {type: "application/pdf"});
+                        let link = document.createElement('a');
+                        link.href = window.URL.createObjectURL(blob);
+                        let fileName = "PDF File";
+                        link.download = fileName;
+                        link.click();
+                        console.log(blob)
+
                     }
                 }
                 else{
@@ -64,60 +85,63 @@ export function ModalReportPDF ({active, setActive,map}){
                     setReadyToTheNextPage(false)
                 }
             })
-                .catch(e => {
-                console.log(e.response.data);
-                if(e.request.status === 403 || e.request.status === 401){
-                    axios(URL_FOR_USER.URL_REFRESH,
-                        {
-                            method : 'POST',
-                            data : {
-                                refresh_token: refreshTokenCookies['refreshToken']
-                            }
-                        })
-                        .then(response => {
-                            setRefreshTokenCookie('accessToken', response.data.access, 5 * 3600)
-
-                            axios.get(URL,{
-                                headers: {
-                                    Authorization : `Bearer ${refreshTokenCookies['accessToken']}`
-                                }
-                            })
-                                .then(response => {
-                                    if(response.status === 200){
-                                        if(typeof response.data === 'object'){
-                                            if(response.data.file_info){
-                                                alert(`Error: ${response.data.file_info}\nОшибка: нет данных по вашему запросу`)//данные введены верно, но данных нет
-                                                setReadyToTheNextPage(false)
-                                            }
-                                            else if(response.data.fields_error){
-                                                console.log(`Error: ${response.data.fields_error}\nОшибка: данные введены неверно`)//данные введены верно
-                                                setReadyToTheNextPage(false)
-                                            }
-                                        }
-                                        else{//если данные введены правильно и создан/есть отчет за выбранный период
-                                            setReadyToTheNextPage(true)
-                                        }
-                                    }
-                                    else{
-                                        alert(`${response.status} network error`)
-                                        setReadyToTheNextPage(false)
-                                    }
-                                })
-                        })
-                        .catch((e) => {
-                            navigate('/')
-                            removeRefreshTokenCookie('refreshToken')
-                        })
-                }
-                else if(e.response.data.file_info === "1"){
-                    alert(`Error: ${e.response.data.file_info}\nОшибка: нет данных по вашему запросу`)//данные введены верно, но данных нет
-                }
-                else if(e.response.data.fields_error) {
-                    alert(`Error: ${e.response.data.fields_error}\nОшибка: не все поля заполнены`)
-                }
-
-                setReadyToTheNextPage(false)
-            })
+                .catch(e=>{
+                    console.log(e.message)
+                })
+            //     .catch(e => {
+            //    // console.log(e.response.data);
+            //     if(e.request.status === 403 || e.request.status === 401){
+            //         axios(URL_FOR_USER.URL_REFRESH,
+            //             {
+            //                 method : 'POST',
+            //                 data : {
+            //                     refresh_token: refreshTokenCookies['refreshToken']
+            //                 }
+            //             })
+            //             .then(response => {
+            //                 setRefreshTokenCookie('accessToken', response.data.access, 5 * 3600)
+            //
+            //                 axios.get(URL,{
+            //                     headers: {
+            //                         Authorization : `Bearer ${refreshTokenCookies['accessToken']}`
+            //                     }
+            //                 })
+            //                     .then(response => {
+            //                         if(response.status === 200){
+            //                             if(typeof response.data === 'object'){
+            //                                 if(response.data.file_info){
+            //                                     alert(`Error: ${response.data.file_info}\nОшибка: нет данных по вашему запросу`)//данные введены верно, но данных нет
+            //                                     setReadyToTheNextPage(false)
+            //                                 }
+            //                                 else if(response.data.fields_error){
+            //                                     console.log(`Error: ${response.data.fields_error}\nОшибка: данные введены неверно`)//данные введены верно
+            //                                     setReadyToTheNextPage(false)
+            //                                 }
+            //                             }
+            //                             else{//если данные введены правильно и создан/есть отчет за выбранный период
+            //                                 setReadyToTheNextPage(true)
+            //                             }
+            //                         }
+            //                         else{
+            //                             alert(`${response.status} network error`)
+            //                             setReadyToTheNextPage(false)
+            //                         }
+            //                     })
+            //             })
+            //             .catch((e) => {
+            //                 navigate('/')
+            //                 removeRefreshTokenCookie('refreshToken')
+            //             })
+            //     }
+            //     else if(e.response.data.file_info === "1"){
+            //         alert(`Error: ${e.response.data.file_info}\nОшибка: нет данных по вашему запросу`)//данные введены верно, но данных нет
+            //     }
+            //     else if(e.response.data.fields_error) {
+            //         alert(`Error: ${e.response.data.fields_error}\nОшибка: не все поля заполнены`)
+            //     }
+            //
+            //     setReadyToTheNextPage(false)
+            // })
         }
     }
 
@@ -132,7 +156,7 @@ export function ModalReportPDF ({active, setActive,map}){
     }
 
     const toThePdf = () => {//открывает URL в новой вкладке, если проверка прошла успешна
-        window.open(URL, "_blank")
+        //window.open(URL, "_blank")
     }
 
     return<>

@@ -25,7 +25,7 @@ export default function App(){
                 <Route exac path='/Profile' element ={<Profile/>}/>
                 <Route exac path='/Test_Page' element = {<Test_Page/>}/>
                 <Route exac path='/Manual' element = {<User_manual/>}/>
-                <Route exac path='/Admin' />
+                <Route exac path='/admin' />
                 <Route exac path='/About Us' element={<AboutUs/>}/>
             </Routes>
         </BrowserRouter>

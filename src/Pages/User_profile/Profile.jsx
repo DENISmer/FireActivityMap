@@ -153,7 +153,7 @@ export function Profile(){
                         <button className={Profile_Style.button} onClick={() => navigate("/restore_access")}>Изменить
                         пароль
                     </button>
-                        <button className={Profile_Style.button} onClick={() => navigate("/Admin")}>Администрирование
+                        <button className={Profile_Style.button} onClick={() => navigate("/admin")}>Администрирование
                         </button>
                     </div>
                 </div>

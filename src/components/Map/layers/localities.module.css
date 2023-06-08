@@ -17,7 +17,7 @@
     0 -1px 1px #000;
 }
 .ordinaryLocalityTownName{
-    font-size: 9.5px;
+    font-size: 10px;
     font-family: Arial, serif;
     color: #ffffff;
     text-shadow: 1px 0 1px #000,
@@ -26,7 +26,7 @@
     0 -1px 1px #000;
 }
 .ordinaryLocalityVillageName{
-    font-size: 9px;
+    font-size: 9.5px;
     font-family: Arial, serif;
     color: #ffffff;
     text-shadow: 1px 0 1px #000,
@@ -35,7 +35,7 @@
     0 -1px 1px #000;
 }
 .ordinaryLocalityHamletName{
-    font-size: 9px;
+    font-size: 9.5px;
     font-family: Arial, serif;
     color: #ffffff;
     text-shadow: 1px 0 1px #000,
