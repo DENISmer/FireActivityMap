@@ -64,9 +64,9 @@ export function User_manual(){
                         })
                 }
                 else if(error.request.status >= 500){
-                    console.log(error.message)
+                    // console.log(error.message)
                 }
-                console.log(error.status)
+                // console.log(error.status)
             })
     }
     useEffect(()=>{

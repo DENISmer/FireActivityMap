@@ -12,7 +12,7 @@ export function CounrtyBorders(){
             return require(`../../../${URL_FOR_COORDS.COUNTRY_COORDS}`)
         }
         catch (e) {
-            console.log(e)
+            // console.log(e)
         }
     }
 

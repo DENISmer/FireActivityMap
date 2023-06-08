@@ -75,7 +75,7 @@ export function Profile(){
 
                                     }
                                 )
-                            console.log(response.data)
+                            // console.log(response.data)
                         })
                         .catch((e) => {
                             removeRefreshTokenCookie('refreshToken')

@@ -11,7 +11,6 @@ import Range_days from "./MainNavBar.module.css";
 import transition from "react-element-popper/animations/transition"
 import DatePicker, {DateObject} from "react-multi-date-picker";
 import {disableMapDragging,enableMapDragging} from '../Map/MapEvents/MapEvents'
-import {useMapEvents} from "react-leaflet";
 import {useCookies} from "react-cookie";
 
 
@@ -35,7 +34,7 @@ export function MainNavBar(props){
 
         setDateRange([new DateObject()]);
 
-        console.log(today)
+        // console.log(today)
           setContext({
               singleDay: false,
               week: false,
@@ -49,7 +48,7 @@ export function MainNavBar(props){
               max_datetime: Date.parse(today + 'T' + '23:59:59')
           })
 
-        console.log('resetDaysInRangeIntoToday')
+        // console.log('resetDaysInRangeIntoToday')
     }
 
 
@@ -75,8 +74,8 @@ export function MainNavBar(props){
                     max_datetime: Date.parse('2022-05-11T23:59:59')
                 })
 
-        console.log('firstDate: ',minDate);
-        console.log('firstDate: ',maxDate)
+        // console.log('firstDate: ',minDate);
+        // console.log('firstDate: ',maxDate)
     }
 
 
@@ -84,8 +83,8 @@ export function MainNavBar(props){
         <>
             <button  className={NavBarStyles.show_hide_NavBar} onClick={() => {
                 setShowNavBar(!showNavBar)
-                console.log('access: ',refreshTokenCookies['accessToken'])
-                console.log('refresh: ',refreshTokenCookies['refreshToken'])
+                // console.log('access: ',refreshTokenCookies['accessToken'])
+                // console.log('refresh: ',refreshTokenCookies['refreshToken'])
             }}>
                 {showNavBar ?  <img src={NavBarCloseIcon} width={32} height={35}/> : <img src={NavBarIcon} width={32} height={35}/>}
             </button>

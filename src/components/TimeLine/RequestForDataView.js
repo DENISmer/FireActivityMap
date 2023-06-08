@@ -9,7 +9,7 @@ export async function RequestForDataView(){
         }
     )
     .catch(error => {
-        console.log(error.message)
+        // console.log(error.message)
     })
     return sendResp
 }

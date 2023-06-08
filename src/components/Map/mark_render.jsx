@@ -119,7 +119,7 @@ export function Mark_render(onDateChange) {
                     setServerError(false)
                     setIsRender(false)
                 }
-                console.log(error.status)
+                // console.log(error.status)
             })
         //removeContextCookie(['context'])
         setContextCookie('context',context,5 * 3600);
@@ -134,27 +134,27 @@ export function Mark_render(onDateChange) {
             }
         }
         else {
-            console.log(localCurrentDay, context.currentDate)
+            // console.log(localCurrentDay, context.currentDate)
             setIsRender(true)
             if (context.today) {
                 RequestForData(context, URL_S.URL_TODAY)
-                console.log('today')
+                // console.log('today')
             } else if(localCurrentDay === context.currentDate){
-                console.log('the same day')
+                // console.log('the same day')
                 setIsRender(false)
             }else if (context.singleDay) {
                 RequestForData(context, URL_S.URL_SINGLE_DAY)
-                console.log('singleDay')
+                // console.log('singleDay')
                 setLocalCurrentDay(context.currentDate)
             } else if (context.daysInRange) {
                 RequestForData(context, URL_S.URL_DAYS_RANGE)
-                console.log('daysInRange')
+                // console.log('daysInRange')
             } else if (context.week) {
                 RequestForData(context, URL_S.URL_WEEK)
-                console.log('week')
+                // console.log('week')
             } else if (context.last_24_hours) {
                 RequestForData(context, URL_S.URL_LAST_24_HOURS)
-                console.log('last_24_hours')
+                // console.log('last_24_hours')
             } else {
                 setIsRender(false)
             }
@@ -203,7 +203,7 @@ export function Mark_render(onDateChange) {
             CUSTOM_CLUSTER_STYLE = clusters.custom_marker_cluster_green
         }
         else{
-            console.log(childrensBrightness)
+            // console.log(childrensBrightness)
         }
         return L.divIcon({
             //mar = cluster.getAllChildMarkers().find(marker => marker.options.brightness > 320)

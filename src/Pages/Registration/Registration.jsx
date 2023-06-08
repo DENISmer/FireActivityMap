@@ -35,11 +35,11 @@ export function Registration(){
             }
         })
             .then(response => {
-                console.log(response.data)
+                // console.log(response.data)
                 navigate('/')
             })
             .catch(e => {
-                console.log(e.message)
+                // console.log(e.message)
                 setRequestError(true)
             })
     }
