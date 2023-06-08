@@ -43,7 +43,7 @@ export function TimeLine(props){
             currentMonth.push(i)
         }
         setMonth(currentMonth)
-        console.log('month: ', month);
+        // console.log('month: ', month);
         //return month
     }
 
@@ -60,11 +60,11 @@ export function TimeLine(props){
 
     useEffect(()=>{
         try{
-            console.log(value.getMonth() + 1)
+            // console.log(value.getMonth() + 1)
             getDays(value.getFullYear(), value.getMonth() + 1)
         }
         catch (e){
-            console.warn(e.message)
+            // console.warn(e.message)
         }
     },[value])
     return(

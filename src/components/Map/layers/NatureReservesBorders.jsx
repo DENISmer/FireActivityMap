@@ -12,7 +12,7 @@ export function NatureReserves(){
             return require(`../../../${URL_FOR_COORDS.NATURE_RESERVES_COORDS}`)
         }
         catch (e) {
-            console.log(e)
+            // console.log(e)
         }
     }
 

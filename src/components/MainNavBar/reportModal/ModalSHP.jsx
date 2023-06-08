@@ -54,12 +54,12 @@ export function ModalReportSHP ({active, setActive, map}){
                             setReadyToTheNextPage(false)
                         }
                         else if(response.data.fields_error){
-                            console.log(`Error: ${response.data.fields_error}\nОшибка: данные введены неверно`)//данные введены верно
+                            // console.log(`Error: ${response.data.fields_error}\nОшибка: данные введены неверно`)//данные введены верно
                             setReadyToTheNextPage(false)
                         }
                     }
                     else{//если данные введены правильно и создан/есть отчет за выбранный период
-                        console.log("ready to next page", URL)
+                        // console.log("ready to next page", URL)
                         setReadyToTheNextPage(true)
                     }
                 }
@@ -69,7 +69,7 @@ export function ModalReportSHP ({active, setActive, map}){
                 }
             })
                 .catch(e => {
-                    console.log(e.response.data);
+                    // console.log(e.response.data);
                     if(e.request.status === 403 || e.request.status === 401){
                         axios(URL_FOR_USER.URL_REFRESH,
                             {
@@ -94,12 +94,12 @@ export function ModalReportSHP ({active, setActive, map}){
                                                 setReadyToTheNextPage(false)
                                             }
                                             else if(response.data.fields_error){
-                                                console.log(`Error: ${response.data.fields_error}\nОшибка: данные введены неверно`)//данные введены верно
+                                                // console.log(`Error: ${response.data.fields_error}\nОшибка: данные введены неверно`)//данные введены верно
                                                 setReadyToTheNextPage(false)
                                             }
                                         }
                                         else{//если данные введены правильно и создан/есть отчет за выбранный период
-                                            console.log("ready to next page", URL)
+                                            // console.log("ready to next page", URL)
                                             setReadyToTheNextPage(true)
                                         }
                                     }

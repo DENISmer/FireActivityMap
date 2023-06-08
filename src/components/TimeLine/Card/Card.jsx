@@ -1,10 +1,6 @@
 import {useContext} from 'react';
 import card from './Card.module.css';
 import { Context } from '../../Map/Context';
-import axios from "axios";
-import {URL_FOR_MARKS, URL_FOR_USER} from "../../../config/config";
-import {useCookies} from "react-cookie";
-import {useNavigate} from "react-router-dom";
 
 export function Card(props){
 
@@ -36,7 +32,7 @@ export function Card(props){
         }
     }
     catch (e){
-        console.log(e.message)
+        // console.log(e.message)
     }
 
     const dayClick = () => {//обработчкик клика на карточку
@@ -58,7 +54,7 @@ export function Card(props){
             //updateTime(RequestForImagesData(context))
         }
         catch (e){
-            console.log(e.message)
+            // console.log(e.message)
         }
 
     };

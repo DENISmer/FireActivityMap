@@ -23,7 +23,7 @@ export function Login(){
     const onSubmit = async (data) => {
         //alert(JSON.stringify(data.Pass));
         //reset()
-        console.log(data.Email, data.Pass)
+        // console.log(data.Email, data.Pass)
         await axios(URL_FOR_USER.URL_CREATE,{
             method: 'POST',
             data :
@@ -45,7 +45,7 @@ export function Login(){
                 //setLoginError(true)
             }
         }).catch(e => {
-            console.log(e.message)
+            // console.log(e.message)
             setLoginError(true)
             }
         )

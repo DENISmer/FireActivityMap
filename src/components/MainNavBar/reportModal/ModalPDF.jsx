@@ -51,7 +51,7 @@ export function ModalReportPDF ({active, setActive,map}){
                             setReadyToTheNextPage(false)
                         }
                         else if(response.data.fields_error){
-                            console.log(`Error: ${response.data.fields_error}\nОшибка: данные введены неверно`)//данные введены верно
+                            // console.log(`Error: ${response.data.fields_error}\nОшибка: данные введены неверно`)//данные введены верно
                             setReadyToTheNextPage(false)
                         }
                     }
@@ -65,7 +65,7 @@ export function ModalReportPDF ({active, setActive,map}){
                 }
             })
                 .catch(e => {
-                console.log(e.response.data);
+                // console.log(e.response.data);
                 if(e.request.status === 403 || e.request.status === 401){
                     axios(URL_FOR_USER.URL_REFRESH,
                         {
@@ -90,7 +90,7 @@ export function ModalReportPDF ({active, setActive,map}){
                                                 setReadyToTheNextPage(false)
                                             }
                                             else if(response.data.fields_error){
-                                                console.log(`Error: ${response.data.fields_error}\nОшибка: данные введены неверно`)//данные введены верно
+                                                // console.log(`Error: ${response.data.fields_error}\nОшибка: данные введены неверно`)//данные введены верно
                                                 setReadyToTheNextPage(false)
                                             }
                                         }

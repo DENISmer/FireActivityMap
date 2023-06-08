@@ -35,7 +35,7 @@ export function MutableImageOverlay(props){
                 setUrlForImage(`${URL_FOR_IMAGES.IMG_DOMAIN}/${currentSatellite}/${currentDate}/${currentTime}/${props.composite}/{z}/{x}/{y}.png`)
             }
         }
-        console.log('curTime: ',currentTime)
+        // console.log('curTime: ',currentTime)
 
     },[context,props.composite,props.fy3d1000Settings,props.fy3d250Settings])
 

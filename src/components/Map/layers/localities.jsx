@@ -82,9 +82,9 @@ export function Settlements(props){
                 })
                 .then(
                 response =>{
-                    console.log(response.data['settlement_ids'].length)
+                    // console.log(response.data['settlement_ids'].length)
                     if(response.data['settlement_ids'].length > 0){
-                        console.log(response.data)
+                        // console.log(response.data)
                         localSettlements = response.data['settlement_ids']
                         return response.data
                     }
@@ -102,7 +102,7 @@ export function Settlements(props){
                             })
                             .then(async response => {
                                 await setRefreshTokenCookie('accessToken', response.data.access, 5 * 3600)
-                                console.log(response.data)
+                                // console.log(response.data)
                             })
                             .catch((e) => {
                                 navigate('/')
@@ -115,7 +115,7 @@ export function Settlements(props){
                 })
         }
         catch (e){
-            console.log(e.message)
+            // console.log(e.message)
         }
         return await localSettlements
     }
@@ -139,7 +139,7 @@ export function Settlements(props){
                 for(let key in settlements){
                 if(localNamesArray.includes(key)) {
                     setArr.push({base: settlements[key], isOrdinary: false})
-                    console.log(settlements[key].name)
+                    // console.log(settlements[key].name)
                 }
                 else {
                     setArr.push({base: settlements[key], isOrdinary: true})
@@ -149,7 +149,7 @@ export function Settlements(props){
             })
         }
         catch (e){
-            console.log(e.message)
+            // console.log(e.message)
         }
 
     },[context])

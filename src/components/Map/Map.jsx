@@ -135,9 +135,9 @@ export function MapComponent(){
                 else if(error.request.status >= 500){
                     setUserAuthAccess(false)
                     setTimeout(()=>{navigate('/')},1500)
-                    console.log(error.message)
+                    // console.log(error.message)
                 }
-                console.log(error.status)
+                // console.log(error.status)
             })
     }
 

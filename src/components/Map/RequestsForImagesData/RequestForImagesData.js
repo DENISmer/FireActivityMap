@@ -36,10 +36,10 @@ export async function RequestForImagesData(context){
                 if(file){
                 await axios.get(file).then(response => {
                     if(response.data.length !== 0){
-                        console.log('time: ',currentTimeToString(cycle_time))
+                        // console.log('time: ',currentTimeToString(cycle_time))
                         imagesTime.push(currentTimeToString(cycle_time))
                         if(Number(current_time) === 1000){
-                            console.log('data= ', response.data)
+                            // console.log('data= ', response.data)
                         }
                     }
                     else return null
