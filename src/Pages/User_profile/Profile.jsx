@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import Profile_Style from "./Profile_style.module.css";
 import "../background-space.css"
 import axios from "axios";
@@ -103,6 +103,10 @@ export function Profile(){
         navigate('/')
     }
 
+    const toAdminPage = () => {
+        window.open(`https://fam.rcpod.space/admin/`,"_blank")
+    }
+
     return<>
         { userAccess ? <div className={Profile_Style.parent}>
             <div className="space Stars1"></div>
@@ -153,7 +157,9 @@ export function Profile(){
                         <button className={Profile_Style.button} onClick={() => navigate("/restore_access")}>Изменить
                         пароль
                     </button>
-                        <button className={Profile_Style.button} onClick={() => navigate("/admin")}>Администрирование
+                        {/*<button className={Profile_Style.button} onClick={() => navigate("/admin")}>Администрирование*/}
+                        {/*</button>*/}
+                        <button className={Profile_Style.button} onClick={() => toAdminPage()}>Администрирование
                         </button>
                     </div>
                 </div>

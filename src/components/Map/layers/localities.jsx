@@ -69,7 +69,7 @@ export function Settlements(props){
         zoomend: () => {
             setZoomStart(false)
             setZoomLevel(props.map.getZoom())
-            console.log(props.map.getZoom())
+            //console.log(props.map.getZoom())
 
             return props.map.getZoom();
         },
@@ -78,8 +78,15 @@ export function Settlements(props){
 
     const requestForSettlements = async () => {//запрос данных на массив id населенных пунктов
         let localSettlements;
+        let localUrl;
+        if(context.singleDay){
+            localUrl = `${URL_FOR_FILES.URL_FOR_SETTLEMENTS}?date=${context.currentDate}&list_ids=${true}`;
+        }
+        else{
+            localUrl = `${URL_FOR_FILES.URL_FOR_SETTLEMENTS}?date_min=${context.min_datetime}&date_max=${context.max_datetime}&list_ids=${true}`;
+        }
         try{
-            await axios.get(`${URL_FOR_FILES.URL_FOR_SETTLEMENTS}?date=${context.currentDate}&list_ids=${true}`,
+            await axios.get(localUrl,
                 {
                     headers: {
                         Authorization: `Bearer ${refreshTokenCookies['accessToken']}`

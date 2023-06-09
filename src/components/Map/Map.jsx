@@ -263,7 +263,7 @@ export function MapComponent(){
 
                     {showNatureReserves && <NatureReserves/>}
 
-                    {showMarkers && <MemoizedChildComponentMark_render/>}
+                    {showMarkers && <MemoizedChildComponentMark_render isActive={showMarkers}/>}
 
                     {settLementShow && <Settlements map={map}/>}
 

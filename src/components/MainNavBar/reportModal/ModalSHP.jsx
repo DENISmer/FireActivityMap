@@ -25,8 +25,8 @@ export function ModalReportSHP ({active, setActive, map}){
     const [readyToTheNextPage,setReadyToTheNextPage] = useState(false)
 
     const URL = `${URL_FOR_FILES.URL_SHP_DATETIME}?date_time=${pdfDateTime}&subject_tag=${pdfSubjectTag}`
-    let token;
-    let uuid;
+
+    const [getParams,setGetParams] = useState();
 
     useEffect(() => {
         SetModalTimeDecorator(context,setPdfDateTime)
@@ -47,12 +47,12 @@ export function ModalReportSHP ({active, setActive, map}){
                 headers: {
                     Authorization : `Bearer ${refreshTokenCookies['accessToken']}`
                 }
-            }).then(response => {
+            }).then(async response => {
                 if(response.status === 200){
                         if(response.data){
-                            token = response.data.token;
-                            uuid = response.data.uuid
-                            setReadyToTheNextPage(true)
+                            await setGetParams({token: response.data.token, uuid: response.data.uuid})
+                            await setReadyToTheNextPage(true)
+                            await setReadyToTheNextPage(true)
                         }
                         else if(response.data.file_info){
                             alert(`Error: ${response.data.file_info}\nОшибка: нет данных по вашему запросу`)//данные введены верно, но данных нет
@@ -64,9 +64,6 @@ export function ModalReportSHP ({active, setActive, map}){
                         }
                     else{//если данные введены правильно и создан/есть отчет за выбранный период
                         // console.log("ready to next page", URL)
-                        setReadyToTheNextPage(true)
-                        token = response.data.token;
-                        uuid = response.data.uuid
                     }
                 }
                 else{
@@ -76,7 +73,7 @@ export function ModalReportSHP ({active, setActive, map}){
             })
                 .catch(e => {
                     // console.log(e.response.data);
-                    if(e.request.status === 403 || e.request.status === 401){
+                    if(e.request.status === 403 || e.request.status === 401 || e.request.status === 400){
                         axios(URL_FOR_USER.URL_REFRESH,
                             {
                                 method : 'POST',
@@ -84,21 +81,21 @@ export function ModalReportSHP ({active, setActive, map}){
                                     refresh_token: refreshTokenCookies['refreshToken']
                                 }
                             })
-                            .then(response => {
-                                setRefreshTokenCookie('accessToken', response.data.access, 5 * 3600)
+                            .then(async response => {
+                                await setRefreshTokenCookie('accessToken', response.data.access, 5 * 3600)
 
-
-                                axios.get(URL,{
+                                await axios.get(URL,{
                                     headers: {
-                                        Authorization : `Bearer ${refreshTokenCookies['accessToken']}`
+                                        Authorization : `Bearer ${response.data.access}`
                                     }
-                                }).then(response => {
-                                    if(response.status === 200){
-                                         if(response.data){
-                                             token = response.data.token;
-                                             uuid = response.data.uuid;
-                                             setReadyToTheNextPage(true)
-                                         }
+                                })
+                                    .then(async response => {
+                                        if(response.status === 200){
+                                            if(response.data){
+                                                await setGetParams({token: response.data.token, uuid: response.data.uuid})
+                                                await setReadyToTheNextPage(true)
+                                                await setReadyToTheNextPage(true)
+                                            }
                                             if(response.data.file_info){
                                                 alert(`Error: ${response.data.file_info}\nОшибка: нет данных по вашему запросу`)//данные введены верно, но данных нет
                                                 setReadyToTheNextPage(false)
@@ -107,22 +104,20 @@ export function ModalReportSHP ({active, setActive, map}){
                                                 // console.log(`Error: ${response.data.fields_error}\nОшибка: данные введены неверно`)//данные введены верно
                                                 setReadyToTheNextPage(false)
                                             }
-                                        else{//если данные введены правильно и создан/есть отчет за выбранный период
-                                            // console.log("ready to next page", URL)
-                                                token = response.data.token;
-                                                uuid = response.data.uuid;
-                                                setReadyToTheNextPage(true)
+                                            else{//если данные введены правильно и создан/есть отчет за выбранный период
+                                                // console.log("ready to next page", URL)
+                                            }
                                         }
-                                    }
-                                    else{
-                                        alert(`${response.status} network error`)
-                                        setReadyToTheNextPage(false)
-                                    }
-                                })
+                                        else{
+                                            alert(`${response.status} network error`)
+                                            setReadyToTheNextPage(false)
+                                        }
+                                    })
                             })
                             .catch((e) => {
-                                navigate('/')
-                                removeRefreshTokenCookie('refreshToken')
+                                // navigate('/')
+                                // removeRefreshTokenCookie('refreshToken')
+                                alert("Проверьте введенные данные")
                             })
                     }
                     else if(e.response.data.file_info === "1"){
@@ -140,7 +135,7 @@ export function ModalReportSHP ({active, setActive, map}){
 
 
     const toThePdf = () => {//открывает URL в новой вкладке, если проверка прошла успешна
-        window.open(`${URL}&token=${token}&uuid=${uuid}`, "_blank")
+        window.open(`${URL}&token=${getParams.token}&uuid=${getParams.uuid}`, "_blank")
     }
 
     return<>
@@ -175,7 +170,6 @@ export function ModalReportSHP ({active, setActive, map}){
                     <input list={'browsers'} type={"text"} className={modalStyle.modal_input}
                            placeholder={'Введите название и выберите регион'}
                            value={pdfSubjectTag}
-                           onClick={""}
                            onChange={(e) => {
                                setPdfSubjectTag(e.target.value)
                                setReadyToTheNextPage(false)

@@ -27,6 +27,7 @@ export function ClocksForDate(props){
 
     const requestForTime = (contextCurrentDate) => {
         let result ;
+        //console.log(contextCurrentDate)
         const res = axios(`${URL_FOR_MARKS.URL_GET_TIME_FROM_DATE}?date=${contextCurrentDate}`,{
             method: 'GET',
             headers: {
@@ -34,11 +35,11 @@ export function ClocksForDate(props){
             }
         })
             .then((response) => {
-                console.log("Первая проверка")
+                //console.log("Первая проверка")
                 return response.data.time[context.currentDate]
             })
             .catch((error) =>{
-                console.log(error.message)
+                //console.log(error.message)
                 if(error.request.status === 403 || error.request.status === 401){
                     axios(URL_FOR_USER.URL_REFRESH,
                         {
@@ -57,8 +58,8 @@ export function ClocksForDate(props){
                                 }
                             })
                                 .then((response) => {
-                                    console.log(response.data)
-                                    console.log("Вторая проверка")
+                                    // console.log(response.data)
+                                    // console.log("Вторая проверка")
                                     return response.data.time[context.currentDate]//!!!!
                                 })
                                 .catch((e)=>{
@@ -75,16 +76,16 @@ export function ClocksForDate(props){
                     console.log(error.message)
                 }
             })
-        console.log(result)
+        //console.log(result)
         return res
     }
     const timeValue = (e, val)=>{
         //console.warn(timeRange)
-        console.log(timeSlider)
+        //console.log(timeSlider)
         let currentTime = timeSlider.find((element) => element.value === val).label + ':00'
 
         let datetime_as_date = Date.parse(context.currentDate + 'T' + currentTime);
-        console.log(currentTime)
+        //console.log(currentTime)
         setContext({
             singleDay: true,
             week: false,
@@ -124,28 +125,30 @@ export function ClocksForDate(props){
     }
     useEffect(()=>{
             try {
-                requestForTime(context.currentDate).then(response =>{
-                    console.log(response.sort())
-                    for(let i = 0;i < response.length;i++){
-                        localFormattingArray.push({value: i*9, label: response[i]})
-                        console.log(localFormattingArray.length)
-                    }
-                    if(localFormattingArray.length >=1){
-                        setTimeSlider(localFormattingArray);
-                    }
-                    else{
-                        return null
-                    }
-                    }
-                )
-                    .catch(e=>{
-                        localFormattingArray = []
-                        setTimeSlider(localFormattingArray)
-                    })
-                console.log('NO ERROR')
+                if(context.singleDay || context.today){
+                    requestForTime(context.currentDate).then(response =>{
+                            //console.log(response.sort())
+                            for(let i = 0;i < response.length;i++){
+                                localFormattingArray.push({value: i*9, label: response[i]})
+                                //console.log(localFormattingArray.length)
+                            }
+                            if(localFormattingArray.length >=1){
+                                setTimeSlider(localFormattingArray);
+                            }
+                            else{
+                                return null
+                            }
+                        }
+                    )
+                        .catch(e=>{
+                            localFormattingArray = []
+                            setTimeSlider(localFormattingArray)
+                        })
+                    //console.log('NO ERROR')
+                }
             }
             catch (e){
-                console.log(e.message)
+                //console.log(e.message)
             }
 
     },[context])

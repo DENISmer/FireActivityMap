@@ -24,8 +24,7 @@ export function ModalReportPDF ({active, setActive,map}){
     const [readyToTheNextPage,setReadyToTheNextPage] = useState(false)
     const URL = `${URL_FOR_FILES.URL_PDF}?date_time=${pdfDateTime}&cloud_shielding=${cloudShielding}&operator_fio=${operatorFullName}&subject_tag=${pdfSubjectTag}`
 
-    let token;
-    let uuid;
+    const [getParams,setGetParams] = useState();
 
     useEffect(() => {
         SetModalTimeDecorator(context,setPdfDateTime)
@@ -34,6 +33,8 @@ export function ModalReportPDF ({active, setActive,map}){
     useEffect(() => {
         setReadyToTheNextPage(false)
     },[operatorFullName,cloudShielding,pdfSubjectTag,pdfDateTime])
+
+
 
     const checkStates = async () => {//проверка на наличие пдф по введенным даннымsetPdfDateTime(context.currentDate + 'T00:00')
         if(!pdfDateTime || !pdfSubjectTag || !cloudShielding || !operatorFullName){
@@ -46,13 +47,12 @@ export function ModalReportPDF ({active, setActive,map}){
                     Authorization : `Bearer ${refreshTokenCookies['accessToken']}`
                 }
             })
-                .then(response => {
-                if(response.status === 200){
-                    if(response.data){
+                .then(async response => {
                         if(response.data){
-                            setReadyToTheNextPage(true)
-                            token = response.data.token
-                            uuid = response.data.uuid
+                            console.log(response.data)
+                            await setGetParams({token: response.data.token, uuid: response.data.uuid})
+                            await setReadyToTheNextPage(true)
+
                         }
                         else if(response.data.file_info){
                             alert(`Error: ${response.data.file_info}\nОшибка: нет данных по вашему запросу`)//данные введены верно, но данных нет
@@ -62,21 +62,14 @@ export function ModalReportPDF ({active, setActive,map}){
                             // console.log(`Error: ${response.data.fields_error}\nОшибка: данные введены неверно`)//данные введены верно
                             setReadyToTheNextPage(false)
                         }
-                    }
                     else{//если данные введены правильно и создан/есть отчет за выбранный период
+                        setGetParams({token: response.data.token, uuid: response.data.uuid})
                         setReadyToTheNextPage(true)
-                        token = response.data.token;
-                        uuid = response.data.uuid;
                     }
-                }
-                else{
-                    alert(`${response.status} network error`)
-                    setReadyToTheNextPage(false)
-                }
             })
                 .catch(e => {
                 // console.log(e.response.data);
-                if(e.request.status === 403 || e.request.status === 401){
+                if(e.request.status === 403 || e.request.status === 401 || e.request.status === 400 ){
                     axios(URL_FOR_USER.URL_REFRESH,
                         {
                             method : 'POST',
@@ -92,20 +85,23 @@ export function ModalReportPDF ({active, setActive,map}){
                                     Authorization : `Bearer ${refreshTokenCookies['accessToken']}`
                                 }
                             })
-                                .then(response => {
+                                .then(async response => {
                                     if(response.status === 200){
-                                        if(typeof response.data === 'object'){
-                                            if(response.data.file_info){
-                                                alert(`Error: ${response.data.file_info}\nОшибка: нет данных по вашему запросу`)//данные введены верно, но данных нет
-                                                setReadyToTheNextPage(false)
-                                            }
-                                            else if(response.data.fields_error){
-                                                // console.log(`Error: ${response.data.fields_error}\nОшибка: данные введены неверно`)//данные введены верно
-                                                setReadyToTheNextPage(false)
-                                            }
+                                        if(response.data){
+                                            await setGetParams({token: response.data.token, uuid: response.data.uuid})
+                                            await setReadyToTheNextPage(true)
+                                            await setReadyToTheNextPage(true)
+                                        }
+                                        if(response.data.file_info){
+                                            alert(`Error: ${response.data.file_info}\nОшибка: нет данных по вашему запросу`)//данные введены верно, но данных нет
+                                            setReadyToTheNextPage(false)
+                                        }
+                                        else if(response.data.fields_error){
+                                            // console.log(`Error: ${response.data.fields_error}\nОшибка: данные введены неверно`)//данные введены верно
+                                            setReadyToTheNextPage(false)
                                         }
                                         else{//если данные введены правильно и создан/есть отчет за выбранный период
-                                            setReadyToTheNextPage(true)
+                                            // console.log("ready to next page", URL)
                                         }
                                     }
                                     else{
@@ -113,6 +109,7 @@ export function ModalReportPDF ({active, setActive,map}){
                                         setReadyToTheNextPage(false)
                                     }
                                 })
+
                         })
                         .catch((e) => {
                             navigate('/')
@@ -142,7 +139,7 @@ export function ModalReportPDF ({active, setActive,map}){
     }
 
     const toThePdf = () => {//открывает URL в новой вкладке, если проверка прошла успешна
-        window.open(`${URL}&token=${token}&uuid=${uuid}`, "_blank")
+        window.open(`${URL}&token=${getParams.token}&uuid=${getParams.uuid}`, "_blank")
     }
 
     return<>
@@ -154,7 +151,7 @@ export function ModalReportPDF ({active, setActive,map}){
 
 
             <div className={active ? `${modalStyle.modal_content} ${modalStyle.modal_content_active}` : modalStyle.modal_content}
-                 onClick={e => e.stopPropagation()}>
+                 onClick={(e) => e.stopPropagation()}>
 
 
                 <div className={modalStyle.modal_div}>
@@ -177,7 +174,6 @@ export function ModalReportPDF ({active, setActive,map}){
                         <input list={"browsers"} type={"text"} className={modalStyle.modal_input}
                                placeholder={'Введите название и выберите регион'}
                                value={pdfSubjectTag}
-                               onClick={""}
                                onChange={(e) => {
                                    setPdfSubjectTag(e.target.value)
                                    setReadyToTheNextPage(false)

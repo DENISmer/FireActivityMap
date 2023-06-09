@@ -19,6 +19,23 @@ export function Login(){
         reset,
     } = useForm({mode: "onBlur"});
 
+    useEffect(()=>{
+        axios(URL_FOR_USER.URL_REFRESH,
+            {
+                method : 'POST',
+                data : {
+                    refresh_token: refreshTokenCookies['refreshToken']
+                }
+            })
+            .then(async (response)=>{
+                await setRefreshTokenCookie('accessToken', response.data.access, 5 * 3600)
+                navigate('/Map')
+                }
+            )
+            .catch((e)=>{
+                console.log(e.message)
+            })
+    },[])
 
     const onSubmit = async (data) => {
         //alert(JSON.stringify(data.Pass));

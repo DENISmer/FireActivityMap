@@ -12,6 +12,7 @@ import transition from "react-element-popper/animations/transition"
 import DatePicker, {DateObject} from "react-multi-date-picker";
 import {disableMapDragging,enableMapDragging} from '../Map/MapEvents/MapEvents'
 import {useCookies} from "react-cookie";
+import dayjs from "dayjs";
 
 
 
@@ -20,14 +21,17 @@ export function MainNavBar(props){
     const [showNavBar, setShowNavBar] = useState(false);
     const [context, setContext] = useContext(Context);
     const [dateRange, setDateRange] = useState([new DateObject()]);
-    const today = [new Date(Date.now()).getFullYear(),new Date(Date.now()).getMonth(),new Date(Date.now()).getDate()].join('-');
+    const today = [new Date(Date.now()).getFullYear(),new Date(Date.now()).getMonth() + 1,new Date(Date.now()).getDate()].join('-');
+    const minDate =[new Date(Date.now()).getFullYear(),new Date(Date.now()).getMonth() + 1,new Date(Date.now()).getDate() - 6].join('-');
+    const maxDate = [new Date(Date.now()).getFullYear(),new Date(Date.now()).getMonth() + 1,new Date(Date.now()).getDate()].join('-');
 
+    const yesterday = [new Date(Date.now()).getFullYear(),new Date(Date.now()).getMonth() + 1,new Date(Date.now()).getDate() - 1].join('-');
     const [refreshTokenCookies,setRefreshTokenCookie,removeRefreshTokenCookie] = useCookies(['refreshToken','accessToken']);
 
+    const timeNow = dayjs(Date.now()).format("HH:mm")
     const setToday = () =>{
         return [new Date(Date.now()).getFullYear(),new Date(Date.now()).getMonth(),new Date(Date.now()).getDate()].join('-');
     }
-
 
     const resetDaysInRangeIntoToday = () => {
         let today = [new Date(Date.now()).getFullYear(),new Date(Date.now()).getMonth(),new Date(Date.now()).getDate()].join('-');
@@ -44,8 +48,8 @@ export function MainNavBar(props){
               currentDate: today,
               min_date: null,
               max_date: null,
-              min_datetime: Date.parse(today + 'T' + '00:00:00'),
-              max_datetime: Date.parse(today + 'T' + '23:59:59')
+              min_datetime: Date.parse(today + 'T00:00:00'),
+              max_datetime: Date.parse(today + 'T23:59:59')
           })
 
         // console.log('resetDaysInRangeIntoToday')
@@ -104,13 +108,14 @@ export function MainNavBar(props){
                         <button className={NavBarStyles.reportButton} onClick={props.modalSHP}>Отчёт в SHP</button>
                     </div>
                     <div className={NavBarStyles.navBarMainInstruments}>
-                        <List className={NavBarStyles.list}>
+                        <List className={NavBarStyles.list} >
                             <b className={NavBarStyles.list_b_name}>Варианты подстилающей карты</b><br/>
                             {props.layers.map((listItem,index)=>(listItem.type === 'baseLayer' ?
                                     <div className={NavBarStyles.style_map}>
                                         <ListItem  key={index}>
                                             {listItem.name}{
                                             <Checkbox
+                                                key={index}
                                                 checked={listItem.name === props.layers.find(name => name.url === props.layersValue).name}
                                                 edge="end"
                                                 onChange={()=>props.layersChange(listItem.url)}
@@ -151,6 +156,7 @@ export function MainNavBar(props){
                                                 <ListItem className={NavBarStyles.listItem} key={index}>
                                                     {listItem.name}{
                                                     <Switch
+                                                        key={index}
                                                         checked={props.natureReservesValue}
                                                         edge="end"
                                                         onChange={()=>props.NatureReservesShow()}
@@ -166,6 +172,7 @@ export function MainNavBar(props){
                                                     <ListItem className={NavBarStyles.listItem} key={index}>
                                                         {listItem.name}{
                                                         <Switch
+                                                            key={index}
                                                             checked={props.SuomiValue}
                                                             edge="end"
                                                             onChange={()=>props.SuomiShow()}
@@ -178,6 +185,7 @@ export function MainNavBar(props){
                                                         <ListItem className={NavBarStyles.listItem} key={index}>
                                                             {listItem.name}{
                                                             <Switch
+                                                                key={index}
                                                                 checked={props.NOAAValue}
                                                                 edge="end"
                                                                 onChange={()=>props.NOAAShow()}
@@ -193,6 +201,7 @@ export function MainNavBar(props){
                                                                     <ListItem  key={index} className={NavBarStyles.imagesComposite}>
                                                                         {com.name}{
                                                                         <Checkbox
+                                                                            key={index}
                                                                             checked={com.composite === props.compositeList.find(composite => composite.composite === props.ImageComposite).composite}
                                                                             edge="end"
                                                                             onChange={()=>props.compositeChange(com.composite)}
@@ -211,6 +220,7 @@ export function MainNavBar(props){
                                                             <ListItem className={NavBarStyles.listItem} key={index}>
                                                                 {listItem.name}{
                                                                 <Switch
+                                                                    key={index}
                                                                     checked={props.settLementValue}
                                                                     edge="end"
                                                                     onChange={()=> {
@@ -226,6 +236,7 @@ export function MainNavBar(props){
                                                         <ListItem className={NavBarStyles.listItem} key={index}>
                                                             {listItem.name}{
                                                             <Switch
+                                                                key={index}
                                                                 checked={props.bordersValue}
                                                                 edge="end"
                                                                 onChange={()=>props.bordersShow()}
@@ -244,29 +255,36 @@ export function MainNavBar(props){
 
                     <div className={NavBarStyles.navBarSortDate}>
                         <b className={NavBarStyles.heading_sort}>Сортировать данные за:</b>
-                        <button className={NavBarStyles.buttonSort} onClick={()=>setContext({
-                            today: true,
-                            singleDay: true,
-                            week: false,
-                            last_24_hours: false,
-                            daysInRange: false,
-                            min_date: '',
-                            max_date: '',
-                            currentDate: today,
-                            min_datetime: setToday() + 'T00:00:00',
-                            max_datetime: setToday() + 'T23:59:59',
-                        })} title={'Точки пожаров за сегодня'}>Сегодня</button>
+                        <button className={NavBarStyles.buttonSort} onClick={()=> {
+                            setContext({
+                                today: true,
+                                singleDay: true,
+                                week: false,
+                                last_24_hours: false,
+                                daysInRange: false,
+                                min_date: '',
+                                max_date: '',
+                                currentDate: dayjs(today).format("YYYY-MM-DD"),
+                                min_datetime: setToday() + 'T00:00:00',
+                                max_datetime: setToday() + 'T23:59:59',
+                            })
+                            //console.log(today)
+                        }} title={'Точки пожаров за сегодня'}>Сегодня</button>
 
-                        <button className={NavBarStyles.buttonSort} onClick={()=>setContext({
-                            today: false,
-                            singleDay: false,
-                            week: false,
-                            last_24_hours: true,
-                            daysInRange: false,
-                            min_date: '',
-                            max_date: '',
-                            currentDate: ''
-                        })} title={'Точки пожаров за 24 часа'}>24 часа</button>
+                        <button className={NavBarStyles.buttonSort} onClick={()=> {
+                            setContext({
+                                today: false,
+                                singleDay: false,
+                                week: false,
+                                last_24_hours: true,
+                                daysInRange: false,
+                                min_date: dayjs(yesterday).format("YYYY-MM-DD"),
+                                max_date: dayjs(today).format("YYYY-MM-DD"),
+                                min_datetime: dayjs(yesterday).format("YYYY-MM-DDT") + timeNow,
+                                max_datetime: dayjs(Date.now()).format("YYYY-MM-DDT") + timeNow,
+                                currentDate: '',
+                            })
+                        }} title={'Точки пожаров за 24 часа'}>24 часа</button>
 
                         <button className={NavBarStyles.buttonSort} onClick={()=>setContext({
                             today: false,
@@ -274,8 +292,8 @@ export function MainNavBar(props){
                             week: true,
                             last_24_hours: false,
                             daysInRange: false,
-                            min_date: '',
-                            max_date: '',
+                            min_date: minDate,
+                            max_date: maxDate,
                             currentDate: ''
                         })} title={'Точки пожаров за неделю'}>Неделя</button>
                     </div>

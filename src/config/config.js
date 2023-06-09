@@ -26,7 +26,7 @@ export const URL_FOR_USER = {
 export const URL_FOR_FILES = {
     URL_SHP_DATETIME: `${domain}/fires/load/shapefile/`,
     URL_PDF: `${domain}/fires/load/pdf/`,
-    URL_FOR_SETTLEMENTS: `${domain}/fires/settlement_least_5/`
+    URL_FOR_SETTLEMENTS: `${domain}/fires/settlement_least_5/`,
 }
 
 //относительные пути для различных полигонов

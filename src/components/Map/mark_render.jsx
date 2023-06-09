@@ -52,27 +52,6 @@ export function Mark_render(onDateChange) {
     const [isRender,setIsRender] = useState(false)
     const [serverError, setServerError] = useState(false)
 
-    useEffect(()=>{
-
-        axios.get(URL_S.URL_TODAY,
-            {
-                headers:
-                    {
-                        Authorization: `Bearer ${refreshTokenCookies['accessToken']}`
-                    }
-            })
-
-            .then(async response => {
-                if(response.data.points.length === 0){
-                    setIsRender(false)
-                }
-                // console.log("Вторая попытка", error.message)
-                await setPoints(response.data.points)
-            })
-            .catch((e) => {
-                // console.log(e.message)
-            })
-    },[refreshTokenCookies])
 
 
 
@@ -91,7 +70,7 @@ export function Mark_render(onDateChange) {
                 }
 
                 await setPoints(response.data.points)
-
+                //console.log(response.data.points)
                 if(!unmounted){
                     setTimeout(()=>{
                         setIsRender(false)
@@ -112,6 +91,24 @@ export function Mark_render(onDateChange) {
                         .then(async response =>{
                             await setRefreshTokenCookie('accessToken', response.data.access, 5 * 3600)
 
+                            await axios.get(`${url}`,
+                                {
+                                    headers:
+                                        {
+                                            Authorization: `Bearer ${response.data.access}`
+                                        }
+                                })
+
+                                .then(async response => {
+                                    if(response.data.points.length === 0){
+                                        setIsRender(false)
+                                    }
+                                    // console.log("Вторая попытка", error.message)
+                                    await setPoints(response.data.points)
+                                })
+                                .catch((e) => {
+                                    // console.log(e.message)
+                                })
                             // console.log("Первая попытка", error.message)
 
                     })
