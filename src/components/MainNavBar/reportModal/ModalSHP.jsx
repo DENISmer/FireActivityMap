@@ -25,7 +25,8 @@ export function ModalReportSHP ({active, setActive, map}){
     const [readyToTheNextPage,setReadyToTheNextPage] = useState(false)
 
     const URL = `${URL_FOR_FILES.URL_SHP_DATETIME}?date_time=${pdfDateTime}&subject_tag=${pdfSubjectTag}`
-
+    let token;
+    let uuid;
 
     useEffect(() => {
         SetModalTimeDecorator(context,setPdfDateTime)
@@ -48,8 +49,12 @@ export function ModalReportSHP ({active, setActive, map}){
                 }
             }).then(response => {
                 if(response.status === 200){
-                    if(typeof response.data === 'object'){
-                        if(response.data.file_info){
+                        if(response.data){
+                            token = response.data.token;
+                            uuid = response.data.uuid
+                            setReadyToTheNextPage(true)
+                        }
+                        else if(response.data.file_info){
                             alert(`Error: ${response.data.file_info}\nОшибка: нет данных по вашему запросу`)//данные введены верно, но данных нет
                             setReadyToTheNextPage(false)
                         }
@@ -57,10 +62,11 @@ export function ModalReportSHP ({active, setActive, map}){
                             // console.log(`Error: ${response.data.fields_error}\nОшибка: данные введены неверно`)//данные введены верно
                             setReadyToTheNextPage(false)
                         }
-                    }
                     else{//если данные введены правильно и создан/есть отчет за выбранный период
                         // console.log("ready to next page", URL)
                         setReadyToTheNextPage(true)
+                        token = response.data.token;
+                        uuid = response.data.uuid
                     }
                 }
                 else{
@@ -88,7 +94,11 @@ export function ModalReportSHP ({active, setActive, map}){
                                     }
                                 }).then(response => {
                                     if(response.status === 200){
-                                        if(typeof response.data === 'object'){
+                                         if(response.data){
+                                             token = response.data.token;
+                                             uuid = response.data.uuid;
+                                             setReadyToTheNextPage(true)
+                                         }
                                             if(response.data.file_info){
                                                 alert(`Error: ${response.data.file_info}\nОшибка: нет данных по вашему запросу`)//данные введены верно, но данных нет
                                                 setReadyToTheNextPage(false)
@@ -97,10 +107,11 @@ export function ModalReportSHP ({active, setActive, map}){
                                                 // console.log(`Error: ${response.data.fields_error}\nОшибка: данные введены неверно`)//данные введены верно
                                                 setReadyToTheNextPage(false)
                                             }
-                                        }
                                         else{//если данные введены правильно и создан/есть отчет за выбранный период
                                             // console.log("ready to next page", URL)
-                                            setReadyToTheNextPage(true)
+                                                token = response.data.token;
+                                                uuid = response.data.uuid;
+                                                setReadyToTheNextPage(true)
                                         }
                                     }
                                     else{
@@ -129,7 +140,7 @@ export function ModalReportSHP ({active, setActive, map}){
 
 
     const toThePdf = () => {//открывает URL в новой вкладке, если проверка прошла успешна
-        window.open(URL, "_blank")
+        window.open(`${URL}&token=${token}&uuid=${uuid}`, "_blank")
     }
 
     return<>

@@ -26,14 +26,15 @@ export function ClocksForDate(props){
     const [refreshTokenCookies,setRefreshTokenCookie,removeRefreshTokenCookie] = useCookies(['refreshToken','accessToken']);
 
     const requestForTime = (contextCurrentDate) => {
-        let result = []
-        return axios(`${URL_FOR_MARKS.URL_GET_TIME_FROM_DATE}?date=${contextCurrentDate}`,{
+        let result ;
+        const res = axios(`${URL_FOR_MARKS.URL_GET_TIME_FROM_DATE}?date=${contextCurrentDate}`,{
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${refreshTokenCookies['accessToken']}`
             }
         })
             .then((response) => {
+                console.log("Первая проверка")
                 return response.data.time[context.currentDate]
             })
             .catch((error) =>{
@@ -49,17 +50,23 @@ export function ClocksForDate(props){
                         .then(response => {
                             setRefreshTokenCookie('accessToken', response.data.access, 5 * 3600)
 
-                            axios(`${URL_FOR_MARKS.URL_GET_TIME_FROM_DATE}?date=${contextCurrentDate}`,{
+                            return axios(`${URL_FOR_MARKS.URL_GET_TIME_FROM_DATE}?date=${contextCurrentDate}`,{
                                 method: 'GET',
                                 headers: {
-                                    Authorization: `Bearer ${refreshTokenCookies['accessToken']}`
+                                    Authorization: `Bearer ${response.data.access}`
                                 }
                             })
-                                .then(async (response) => {
+                                .then((response) => {
+                                    console.log(response.data)
+                                    console.log("Вторая проверка")
                                     return response.data.time[context.currentDate]//!!!!
+                                })
+                                .catch((e)=>{
+                                    console.log(e.message)
                                 })
                         })
                         .catch((e) => {
+                            console.log(e.message)
                             navigate('/')
                             removeRefreshTokenCookie('refreshToken')
                         })
@@ -68,7 +75,8 @@ export function ClocksForDate(props){
                     console.log(error.message)
                 }
             })
-        //return result
+        console.log(result)
+        return res
     }
     const timeValue = (e, val)=>{
         //console.warn(timeRange)
