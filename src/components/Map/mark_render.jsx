@@ -52,6 +52,29 @@ export function Mark_render(onDateChange) {
     const [isRender,setIsRender] = useState(false)
     const [serverError, setServerError] = useState(false)
 
+    useEffect(()=>{
+
+        axios.get(URL_S.URL_TODAY,
+            {
+                headers:
+                    {
+                        Authorization: `Bearer ${refreshTokenCookies['accessToken']}`
+                    }
+            })
+
+            .then(async response => {
+                if(response.data.points.length === 0){
+                    setIsRender(false)
+                }
+                // console.log("Вторая попытка", error.message)
+                await setPoints(response.data.points)
+            })
+            .catch((e) => {
+                // console.log(e.message)
+            })
+    },[refreshTokenCookies])
+
+
 
     const RequestForData = (context,url) =>{
         let unmounted = false
@@ -88,31 +111,9 @@ export function Mark_render(onDateChange) {
                         })
                         .then(async response =>{
                             await setRefreshTokenCookie('accessToken', response.data.access, 5 * 3600)
+
                             // console.log("Первая попытка", error.message)
-                            await axios.get(`${url}`,
-                                {
-                                    headers:
-                                    {
-                                        Authorization: `Bearer ${refreshTokenCookies['accessToken']}`
-                                    }
-                            })
 
-                                .then(async response => {
-                                    if(response.data.points.length === 0){
-                                        setIsRender(false)
-                                    }
-                                    // console.log("Вторая попытка", error.message)
-                                    await setPoints(response.data.points)
-
-                                    if(!unmounted){
-                                        setTimeout(()=>{
-                                            setIsRender(false)
-                                        },100)
-                                    }
-                                })
-                                .catch((e) => {
-                                    console.log(response.data.access)
-                                })
                     })
                         .catch((e) => {
                             navigate('/')
