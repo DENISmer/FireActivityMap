@@ -88,7 +88,7 @@ export function Mark_render(onDateChange) {
                         })
                         .then(async response =>{
                             await setRefreshTokenCookie('accessToken', response.data.access, 5 * 3600)
-
+                            // console.log("Первая попытка", error.message)
                             await axios.get(`${url}`,
                                 {
                                     headers:
@@ -96,11 +96,12 @@ export function Mark_render(onDateChange) {
                                         Authorization: `Bearer ${refreshTokenCookies['accessToken']}`
                                     }
                             })
+
                                 .then(async response => {
                                     if(response.data.points.length === 0){
                                         setIsRender(false)
                                     }
-
+                                    // console.log("Вторая попытка", error.message)
                                     await setPoints(response.data.points)
 
                                     if(!unmounted){
@@ -108,6 +109,9 @@ export function Mark_render(onDateChange) {
                                             setIsRender(false)
                                         },100)
                                     }
+                                })
+                                .catch((e) => {
+                                    console.log(response.data.access)
                                 })
                     })
                         .catch((e) => {
@@ -225,6 +229,57 @@ export function Mark_render(onDateChange) {
             >
                 {context.singleDay && points.length!== 0 && points.map((nat, index) => (
                     (context.min_datetime <= Date.parse(nat.datetime) && Date.parse(nat.datetime) <= context.max_datetime) &&
+                    <Marker icon={GetIcon(20, 20, nat.temperature)}
+                            key={index}
+                            position={L.latLng(nat.latitude,nat.longitude)}
+                    >
+                        <Popup closeButton={false} key={index}>
+                            Широта: {convertToDms(nat.latitude, false) + ".ш"}
+                            <br/>
+                            Долгота: {convertToDms(nat.longitude, true) + ".д"}
+                            <br/>
+                            Температура: {nat.temperature}
+                            <br/>
+                            Время: {nat.datetime}
+
+                        </Popup>
+                    </Marker>
+                ))}
+                {context.last_24_hours && points.length!== 0 && points.map((nat, index) => (
+                    <Marker icon={GetIcon(20, 20, nat.temperature)}
+                            key={index}
+                            position={L.latLng(nat.latitude,nat.longitude)}
+                    >
+                        <Popup closeButton={false} key={index}>
+                            Широта: {convertToDms(nat.latitude, false) + ".ш"}
+                            <br/>
+                            Долгота: {convertToDms(nat.longitude, true) + ".д"}
+                            <br/>
+                            Температура: {nat.temperature}
+                            <br/>
+                            Время: {nat.datetime}
+
+                        </Popup>
+                    </Marker>
+                ))}
+                {context.today && points.length!== 0 && points.map((nat, index) => (
+                    <Marker icon={GetIcon(20, 20, nat.temperature)}
+                            key={index}
+                            position={L.latLng(nat.latitude,nat.longitude)}
+                    >
+                        <Popup closeButton={false} key={index}>
+                            Широта: {convertToDms(nat.latitude, false) + ".ш"}
+                            <br/>
+                            Долгота: {convertToDms(nat.longitude, true) + ".д"}
+                            <br/>
+                            Температура: {nat.temperature}
+                            <br/>
+                            Время: {nat.datetime}
+
+                        </Popup>
+                    </Marker>
+                ))}
+                {context.week && points.length!== 0 && points.map((nat, index) => (
                     <Marker icon={GetIcon(20, 20, nat.temperature)}
                             key={index}
                             position={L.latLng(nat.latitude,nat.longitude)}
