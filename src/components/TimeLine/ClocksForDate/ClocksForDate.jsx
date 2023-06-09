@@ -127,9 +127,9 @@ export function ClocksForDate(props){
             try {
                 if(context.singleDay || context.today){
                     requestForTime(context.currentDate).then(response =>{
-                            //console.log(response.sort())
-                            for(let i = 0;i < response.length;i++){
-                                localFormattingArray.push({value: i*9, label: response[i]})
+                            let res = response.sort()
+                            for(let i = 0;i < res.length;i++){
+                                localFormattingArray.push({value: i*9, label: res[i]})
                                 //console.log(localFormattingArray.length)
                             }
                             if(localFormattingArray.length >=1){
