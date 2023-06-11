@@ -1,5 +1,5 @@
 import {URL_FOR_COORDS, URL_FOR_FILES, URL_FOR_USER} from '../../../config/config'
-import {FeatureGroup, Marker, Polygon, Polyline, Popup, useMapEvents} from "react-leaflet";
+import {Marker, Polygon, Polyline, useMapEvents} from "react-leaflet";
 import L from 'leaflet';
 import {settlements} from "../../../data/coordinateFiles/settlement_out_3";
 import {useContext, useEffect, useMemo, useState} from "react";
@@ -8,7 +8,7 @@ import {Context} from "../Context";
 import markerStyleForCities from './localities.module.css'
 import {useCookies} from "react-cookie";
 import {useNavigate} from "react-router-dom";
-import MarkerClusterGroup from "react-leaflet-cluster";
+
 
 function GetIcon(_iconSize,name,isOrdinary,type) {
     const locationStyle ={
@@ -52,6 +52,7 @@ export function Settlements(props){
     const [context,setContext] = useContext(Context)
     const [zoomLevel,setZoomLevel] = useState(props.map.getZoom())
     const [zoomStart,setZoomStart] = useState(false)
+    const [bounds,setBounds] = useState()
 
     // const MemoizedHamletsLayer = useMemo(() => Hamlets ,[context])
     // const MemoizedVillageLayer = useMemo(()=> Villages,[context])
@@ -74,6 +75,17 @@ export function Settlements(props){
             return props.map.getZoom();
         },
     });
+
+
+    props.map.on('moveend', function() {
+        setBounds(props.map.getBounds())
+        //console.log(props.map.fitBounds())
+        //console.log(props.map.fitBounds())
+    });
+
+    useEffect(()=>{
+        setBounds(props.map.getBounds())
+    },[])
 
 
     const requestForSettlements = async () => {//запрос данных на массив id населенных пунктов
@@ -170,8 +182,9 @@ export function Settlements(props){
     let cityCanvas = L.canvas({padding: 0.1})
 
     return<>
-            {!zoomStart && zoomLevel < 7 && settlementArray.map(((item, index) => ( item.isOrdinary && (item.base.latitude && item.base.longitude && (item.base.type === "city"))
-                && <Marker
+            {!zoomStart && zoomLevel < 7 &&
+                settlementArray.map(((item, index) => ( item.isOrdinary && (item.base.latitude && item.base.longitude && (item.base.type === "city"))
+                && bounds.contains([item.base.latitude, item.base.longitude]) && <Marker
                     renderer={cityCanvas}
                     icon={GetIcon(40, 'marker', item.isOrdinary, item.base.type)}
                     key={index}
@@ -179,7 +192,7 @@ export function Settlements(props){
                 </Marker>)))}
 
             {!zoomStart && zoomLevel >= 7 && settlementArray.map(((item, index) => ( item.isOrdinary &&(item.base.latitude && item.base.longitude && (item.base.type === "city"))
-                && <Marker
+                && bounds.contains([item.base.latitude, item.base.longitude]) && <Marker
                     renderer={cityCanvas}
                     icon={GetIcon(40, item.base.name, item.isOrdinary, item.base.type)}
                     key={index}
@@ -187,24 +200,27 @@ export function Settlements(props){
                 </Marker>)))}
 
             {!zoomStart && zoomLevel >= 9 && settlementArray.map(((item,index) => (item.isOrdinary && ((item.base.latitude && item.base.longitude) && (item.isOrdinary) && item.base.type === "town")
-                && <Marker
+                && bounds.contains([item.base.latitude, item.base.longitude]) && <Marker
                     renderer={townCanvas}
                     icon={GetIcon(40,item.base.name,item.isOrdinary,item.base.type)}
                     key={index}
                     position={new L.LatLng(Number(item.base.latitude), Number(item.base.longitude))}>
                 </Marker>)))}
-            {<Localities5KM value={settlementArray}/>}
-            {zoomLevel >=13 && <Hamlets value={settlementArray}/>}
-            {zoomLevel >=12 && <TownsPoly value={settlementArray}/>}
-            {zoomLevel >=13 && <Villages value={settlementArray}/>}
-            {zoomLevel >=13 && <CitiesPoly value={settlementArray}/>}
+
+                <Localities5KM value={settlementArray}/>
+
+                    {zoomLevel >=12 && <Hamlets bounds={bounds} value={settlementArray}/>}
+                    {zoomLevel >=12 && <TownsPoly value={settlementArray}/>}
+                    {zoomLevel >=12 && <Villages bounds={bounds} value={settlementArray}/>}
+                    {zoomLevel >=11 && <CitiesPoly bounds={bounds} value={settlementArray}/>}
+
 
     </>
 }
 export function Localities5KM(props){
     const myRenderer = L.canvas({padding: 0.5})
     return<>
-        {props.value.map((pnt, index) => (!pnt.isOrdinary &&
+        {props.value.map((pnt, index) => (!pnt.isOrdinary) &&
                 <div>
                     {pnt.base.poly && <Polyline color={'yellow'} outlined={true} positions={pnt.base.poly}/>}
                     <Marker
@@ -214,8 +230,7 @@ export function Localities5KM(props){
                         position={new L.LatLng(Number(pnt.base.latitude), Number(pnt.base.longitude))}>
                     </Marker>
                 </div>
-
-        ))}
+        )}
     </>
 
 }
@@ -225,7 +240,7 @@ export function Hamlets(props){
 
     return <>
         {props.value.map(((item, index) => ((((item.base.latitude && item.base.longitude)) && (item.isOrdinary) && (item.base.type === "hamlet"))
-            && <div>{
+             && props.bounds.contains([item.base.latitude, item.base.longitude]) && <div>{
                 item.base.poly && <Polyline color={'cyan'} positions={item.base.poly}/>}
                     <Marker
                         renderer={myRenderer}
@@ -237,29 +252,13 @@ export function Hamlets(props){
         )))}
     </>
 }
-// export function HamletsPoly(){
-//     let myRenderer = L.canvas({ padding: 0.1 });
-//
-//     return <>
-//         {props.value.map(((item, index) => ((((item.base.latitude && item.base.longitude)) && (item.isOrdinary) && (item.base.type === "hamlet"))
-//             && <div>{
-//                 item.base.poly && <Polyline color={'cyan'} positions={item.base.poly}/>}
-//                 <Marker
-//                     renderer={myRenderer}
-//                     icon={GetIcon(40, item.base.name, item.isOrdinary, item.base.type)}
-//                     key={index}
-//                     position={new L.LatLng(Number(item.base.latitude), Number(item.base.longitude))}>
-//                 </Marker>
-//             </div>
-//         )))}
-//     </>
-// }
+
 export function Villages(props){
     let myRenderer = L.canvas({ padding: 0.1 });
 
     return <>
         {props.value.map(((item,index) => ((((item.base.latitude && item.base.longitude)) && (item.isOrdinary) && (item.base.type === "village"))
-            && <div>{
+            && props.bounds.contains([item.base.latitude, item.base.longitude]) && <div>{
                 item.base.poly && <Polyline color={'cyan'} positions={item.base.poly}/>}
                     <Marker
                         renderer={myRenderer}

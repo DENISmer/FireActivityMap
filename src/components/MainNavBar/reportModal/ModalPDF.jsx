@@ -48,20 +48,21 @@ export function ModalReportPDF ({active, setActive,map}){
                 }
             })
                 .then(async response => {
-                        if(response.data){
+                    if(response.data.file_info){
+                    alert(`Error: ${response.data.file_info}\nОшибка: нет данных по вашему запросу`)//данные введены верно, но данных нет
+                    setReadyToTheNextPage(false)
+                }
+                    else if(response.data.fields_error){
+                        // console.log(`Error: ${response.data.fields_error}\nОшибка: данные введены неверно`)//данные введены верно
+                        setReadyToTheNextPage(false)
+                    }
+                        else if(response.data){
                             console.log(response.data)
                             await setGetParams({token: response.data.token, uuid: response.data.uuid})
                             await setReadyToTheNextPage(true)
+                        }
 
-                        }
-                        else if(response.data.file_info){
-                            alert(`Error: ${response.data.file_info}\nОшибка: нет данных по вашему запросу`)//данные введены верно, но данных нет
-                            setReadyToTheNextPage(false)
-                        }
-                        else if(response.data.fields_error){
-                            // console.log(`Error: ${response.data.fields_error}\nОшибка: данные введены неверно`)//данные введены верно
-                            setReadyToTheNextPage(false)
-                        }
+
                     else{//если данные введены правильно и создан/есть отчет за выбранный период
                         setGetParams({token: response.data.token, uuid: response.data.uuid})
                         setReadyToTheNextPage(true)
@@ -87,19 +88,20 @@ export function ModalReportPDF ({active, setActive,map}){
                             })
                                 .then(async response => {
                                     if(response.status === 200){
-                                        if(response.data){
+                                        if(response.data.file_info){
+                                        alert(`Error: ${response.data.file_info}\nОшибка: нет данных по вашему запросу`)//данные введены верно, но данных нет
+                                        setReadyToTheNextPage(false)
+                                    }
+                                        else if(response.data.fields_error){
+                                            console.log(`Error: ${response.data.fields_error}\nОшибка: данные введены неверно`)//данные введены верно
+                                            setReadyToTheNextPage(false)
+                                        }
+                                        else if(response.data){
                                             await setGetParams({token: response.data.token, uuid: response.data.uuid})
                                             await setReadyToTheNextPage(true)
-                                            await setReadyToTheNextPage(true)
                                         }
-                                        if(response.data.file_info){
-                                            alert(`Error: ${response.data.file_info}\nОшибка: нет данных по вашему запросу`)//данные введены верно, но данных нет
-                                            setReadyToTheNextPage(false)
-                                        }
-                                        else if(response.data.fields_error){
-                                            // console.log(`Error: ${response.data.fields_error}\nОшибка: данные введены неверно`)//данные введены верно
-                                            setReadyToTheNextPage(false)
-                                        }
+
+
                                         else{//если данные введены правильно и создан/есть отчет за выбранный период
                                             // console.log("ready to next page", URL)
                                         }
@@ -112,6 +114,7 @@ export function ModalReportPDF ({active, setActive,map}){
 
                         })
                         .catch((e) => {
+                            alert(` network error`)
                             navigate('/')
                             removeRefreshTokenCookie('refreshToken')
                         })
@@ -122,7 +125,7 @@ export function ModalReportPDF ({active, setActive,map}){
                 else if(e.response.data.fields_error) {
                     alert(`Error: ${e.response.data.fields_error}\nОшибка: не все поля заполнены`)
                 }
-
+                    alert(`проверьте введенные данные`)
                 setReadyToTheNextPage(false)
             })
         }
