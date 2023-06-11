@@ -166,6 +166,7 @@ export function ClocksForDate(props){
                     <Slider
                         color={'primary'}
                         sx={{
+                            top: -5,
                             width: 600,
                             left: 30,
                             bottom: 1,
