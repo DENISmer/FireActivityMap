@@ -159,12 +159,14 @@ export function ClocksForDate(props){
             <div className={Timeline.divSlider}
                  onMouseDown={() => disableMapDragging(props.map)}
                  onMouseUp={() => enableMapDragging(props.map)}
-            ><button className={Timeline.val} onClick={resetTime}>Сбросить время</button>
+            ><div><button className={Timeline.val} onClick={resetTime}>Сбросить время</button></div>
 
                     <Slider
                         color={'primary'}
                         sx={{
                             width: 800,
+                            left: 30,
+                            bottom: 1,
                             '& .MuiSlider-mark': {
                                 height: 10,
                             }
@@ -174,8 +176,8 @@ export function ClocksForDate(props){
                         onChange={timeValue}
                         step={9}
                         marks={timeSlider}
-                        min={-10}
-                        max={170}
+                        //min={10}
+                        max={175}
                     />
 
             </div>

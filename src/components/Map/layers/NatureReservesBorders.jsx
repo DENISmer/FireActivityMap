@@ -19,7 +19,7 @@ export function NatureReserves(){
     reply = request()
 
     return<>
-        {reply.map((port => <Polygon positions={port} color={'yellowgreen'}/>))}
+        {reply.map((port => <Polygon positions={port} color={'forestgreen'}/>))}
     </>
 
 

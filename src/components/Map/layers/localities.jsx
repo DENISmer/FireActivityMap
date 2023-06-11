@@ -182,7 +182,7 @@ export function Settlements(props){
     let cityCanvas = L.canvas({padding: 0.1})
 
     return<>
-            {!zoomStart && zoomLevel < 7 &&
+            {!zoomStart && zoomLevel < 6 &&
                 settlementArray.map(((item, index) => ( item.isOrdinary && (item.base.latitude && item.base.longitude && (item.base.type === "city"))
                 && bounds.contains([item.base.latitude, item.base.longitude]) && <Marker
                     renderer={cityCanvas}
@@ -191,7 +191,7 @@ export function Settlements(props){
                     position={new L.LatLng(Number(item.base.latitude), Number(item.base.longitude))}>
                 </Marker>)))}
 
-            {!zoomStart && zoomLevel >= 7 && settlementArray.map(((item, index) => ( item.isOrdinary &&(item.base.latitude && item.base.longitude && (item.base.type === "city"))
+            {!zoomStart && zoomLevel >= 6 && settlementArray.map(((item, index) => ( item.isOrdinary &&(item.base.latitude && item.base.longitude && (item.base.type === "city"))
                 && bounds.contains([item.base.latitude, item.base.longitude]) && <Marker
                     renderer={cityCanvas}
                     icon={GetIcon(40, item.base.name, item.isOrdinary, item.base.type)}
@@ -199,7 +199,7 @@ export function Settlements(props){
                     position={new L.LatLng(Number(item.base.latitude), Number(item.base.longitude))}>
                 </Marker>)))}
 
-            {!zoomStart && zoomLevel >= 9 && settlementArray.map(((item,index) => (item.isOrdinary && ((item.base.latitude && item.base.longitude) && (item.isOrdinary) && item.base.type === "town")
+            {!zoomStart && zoomLevel >= 8 && settlementArray.map(((item,index) => (item.isOrdinary && ((item.base.latitude && item.base.longitude) && (item.isOrdinary) && item.base.type === "town")
                 && bounds.contains([item.base.latitude, item.base.longitude]) && <Marker
                     renderer={townCanvas}
                     icon={GetIcon(40,item.base.name,item.isOrdinary,item.base.type)}
@@ -209,10 +209,10 @@ export function Settlements(props){
 
                 <Localities5KM value={settlementArray}/>
 
-                    {zoomLevel >=12 && <Hamlets bounds={bounds} value={settlementArray}/>}
-                    {zoomLevel >=12 && <TownsPoly value={settlementArray}/>}
-                    {zoomLevel >=12 && <Villages bounds={bounds} value={settlementArray}/>}
-                    {zoomLevel >=11 && <CitiesPoly bounds={bounds} value={settlementArray}/>}
+                    {zoomLevel >=11 && <Hamlets bounds={bounds} value={settlementArray}/>}
+                    {zoomLevel >=10 && <TownsPoly value={settlementArray}/>}
+                    {zoomLevel >=10 && <Villages bounds={bounds} value={settlementArray}/>}
+                    {zoomLevel >=10 && <CitiesPoly bounds={bounds} value={settlementArray}/>}
 
 
     </>

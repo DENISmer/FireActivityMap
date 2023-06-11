@@ -30,7 +30,7 @@
     position: absolute;
     border: none;
     box-shadow: 0 0 0 2px rgba(0,0,0,0.25);
-    z-index: 400;
+    z-index: 900;
     bottom: 23px;
     right: 10px;
     border-radius: 3px;
@@ -136,23 +136,29 @@
     visibility: hidden;
 }
 .divSlider{
+    margin-left: auto;
     text-align: center;
     z-index: 900;
     position: absolute;
-    bottom: 75px;
-    width: 1000px;
-    height: 50px;
+    bottom: 90px;
+    max-width: 700px;
+    min-width: 300px;
+    height: 70px;
     background-color: white;
     border-radius: 5px;
-    right: 60px;
+    right: 460px;
+    left: 100px;
     color: black;
     box-shadow: 0 0 0 2px rgba(0,0,0,0.25);
+    overflow-x: scroll;
 }
 .val {
+    right: 1px;
+    z-index: 50;
     margin: 9px 5px ;
     height: 35px;
     float: right;
-    position: center;
+    position: absolute;
     font-size: 16px;
     border: none;
     border-radius: 5px;

@@ -9,6 +9,8 @@
     border-radius: 3px;
     font-size: 1.3em;
     width: 440px;
+    /*overflow-y: auto;*/
+
 }
 .list{
     margin: 0 auto;
