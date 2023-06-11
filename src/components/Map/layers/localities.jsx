@@ -218,9 +218,10 @@ export function Settlements(props){
     </>
 }
 export function Localities5KM(props){
-    const myRenderer = L.canvas({padding: 0.5})
-    return<>
-        {props.value.map((pnt, index) => (!pnt.isOrdinary) &&
+    try{
+        const myRenderer = L.canvas({padding: 0.5})
+        return<>
+            {props.value.map((pnt, index) => (!pnt.isOrdinary) &&
                 <div>
                     {pnt.base.poly && <Polyline color={'yellow'} outlined={true} positions={pnt.base.poly}/>}
                     <Marker
@@ -230,67 +231,90 @@ export function Localities5KM(props){
                         position={new L.LatLng(Number(pnt.base.latitude), Number(pnt.base.longitude))}>
                     </Marker>
                 </div>
-        )}
-    </>
+            )}
+        </>
+    }
+    catch {
+
+    }
+
 
 }
 
 export function Hamlets(props){
-    let myRenderer = L.canvas({ padding: 0.1 });
+    try{
+        let myRenderer = L.canvas({ padding: 0.1 });
 
-    return <>
-        {props.value.map(((item, index) => ((((item.base.latitude && item.base.longitude)) && (item.isOrdinary) && (item.base.type === "hamlet"))
-             && props.bounds.contains([item.base.latitude, item.base.longitude]) && <div>{
-                item.base.poly && <Polyline color={'cyan'} positions={item.base.poly}/>}
+        return <>
+            {props.value.map(((item, index) => ((((item.base.latitude && item.base.longitude)) && (item.isOrdinary) && (item.base.type === "hamlet"))
+                && props.bounds.contains([item.base.latitude, item.base.longitude]) && <div>{
+                    item.base.poly && <Polyline color={'cyan'} positions={item.base.poly}/>}
                     <Marker
                         renderer={myRenderer}
                         icon={GetIcon(40, item.base.name, item.isOrdinary, item.base.type)}
                         key={index}
                         position={new L.LatLng(Number(item.base.latitude), Number(item.base.longitude))}>
                     </Marker>
-            </div>
-        )))}
-    </>
+                </div>
+            )))}
+        </>
+    }
+    catch{
+
+    }
 }
 
 export function Villages(props){
-    let myRenderer = L.canvas({ padding: 0.1 });
+    try{
+        let myRenderer = L.canvas({ padding: 0.1 });
 
-    return <>
-        {props.value.map(((item,index) => ((((item.base.latitude && item.base.longitude)) && (item.isOrdinary) && (item.base.type === "village"))
-            && props.bounds.contains([item.base.latitude, item.base.longitude]) && <div>{
-                item.base.poly && <Polyline color={'cyan'} positions={item.base.poly}/>}
+        return <>
+            {props.value.map(((item,index) => ((((item.base.latitude && item.base.longitude)) && (item.isOrdinary) && (item.base.type === "village"))
+                && props.bounds.contains([item.base.latitude, item.base.longitude]) && <div>{
+                    item.base.poly && <Polyline color={'cyan'} positions={item.base.poly}/>}
                     <Marker
                         renderer={myRenderer}
                         icon={GetIcon(40,item.base.name,item.isOrdinary,item.base.type)}
                         key={index}
                         position={new L.LatLng(Number(item.base.latitude), Number(item.base.longitude))}>
                     </Marker>
-            </div>
-        )))}
-    </>
+                </div>
+            )))}
+        </>
+    }
+    catch {
+
+    }
+
 }
 
 export function TownsPoly(props){
-    let myRenderer = L.canvas({ padding: 0.1 });
+    try{
+        let myRenderer = L.canvas({ padding: 0.1 });
 
-    return<>
-        {props.value.map((item,index)=>(
-            item.isOrdinary && item.base.poly && item.base.type==='town'&& <Polyline
-                renderer={myRenderer}
-                color={'cyan'} positions={item.base.poly}/>
-        ))}
-    </>
+        return<>
+            {props.value.map((item,index)=>(
+                item.isOrdinary && item.base.poly && item.base.type==='town'&& <Polyline
+                    renderer={myRenderer}
+                    color={'cyan'} positions={item.base.poly}/>
+            ))}
+        </>
+    }
+    catch {}
+
 }
 
 export function CitiesPoly(props){
-    let myRenderer = L.canvas({ padding: 0.1 });
+    try{
+        let myRenderer = L.canvas({ padding: 0.1 });
 
-    return<>
-        {props.value.map((item,index)=>(
-            item.isOrdinary && item.base.poly && item.base.type==='city'&& <Polyline
-                renderer={myRenderer}
-                color={'cyan'} positions={item.base.poly}/>
-        ))}
-    </>
+        return<>
+            {props.value.map((item,index)=>(
+                item.isOrdinary && item.base.poly && item.base.type==='city'&& <Polyline
+                    renderer={myRenderer}
+                    color={'cyan'} positions={item.base.poly}/>
+            ))}
+        </>
+    }
+    catch{}
 }

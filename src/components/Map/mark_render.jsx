@@ -220,7 +220,8 @@ export function Mark_render(onDateChange) {
             <MarkerClusterGroup
                 key={Date.now()}
                 iconCreateFunction={createClusterCustomIcon1}
-                spiderfyDistanceMultiplier={3}
+                //spiderfyDistanceMultiplier={3}
+                disableClusteringAtZoom={11}
                 maxClusterRadius={95}
                 singleMarkerMode={false}
                 animated={false}

@@ -10,6 +10,7 @@ import axios from "axios";
 import {URL_FOR_MARKS, URL_FOR_USER} from "../../../config/config";
 import {useNavigate} from "react-router-dom";
 import {useCookies} from "react-cookie";
+import {ScrollMenu} from "react-horizontal-scrolling-menu";
 
 export function ClocksForDate(props){
     const [context,setContext] = useContext(Context)
@@ -158,26 +159,25 @@ export function ClocksForDate(props){
             <div className={Timeline.divSlider}
                  onMouseDown={() => disableMapDragging(props.map)}
                  onMouseUp={() => enableMapDragging(props.map)}
-            >
+            ><button className={Timeline.val} onClick={resetTime}>Сбросить время</button>
 
+                    <Slider
+                        color={'primary'}
+                        sx={{
+                            width: 800,
+                            '& .MuiSlider-mark': {
+                                height: 10,
+                            }
+                        }}
+                        defaultValue={10}
+                        track={false}
+                        onChange={timeValue}
+                        step={9}
+                        marks={timeSlider}
+                        min={-10}
+                        max={170}
+                    />
 
-                <button className={Timeline.val} onClick={resetTime}>Сбросить время</button>
-                <Slider
-                    color='primary'
-                    sx={{
-                        width: 800,
-                        '& .MuiSlider-mark': {
-                            height: 10
-                        }
-                    }}
-                    defaultValue={10}
-                    track={false}
-                    onChange={timeValue}
-                    step={9}
-                    marks={timeSlider}
-                    min={0}
-                    max={175}
-                />
             </div>
         </>
     )
