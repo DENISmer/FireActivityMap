@@ -1,4 +1,5 @@
 .container {
+    word-wrap: break-word;
     display: flex;
     flex-direction: column;
     position: relative;
@@ -6,7 +7,7 @@
     height: 60vh;
     background: #f1f1f1;
     margin-left: 20%;
-    word-break: break-all;
+    /*word-break: break-all;*/
     border: 1px solid rgba(0, 0, 0, 0.274);
 }
 

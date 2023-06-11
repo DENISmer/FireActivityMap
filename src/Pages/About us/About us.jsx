@@ -106,14 +106,26 @@ export function AboutUs(){
                 <div className={About_us_Style.rightBox}>
                     <div className={About_us_Style.aboutUs}>
                         <font color={'black'}>
-                            Сибирский центр Федерального государственного бюджетного учреждения "Научно-исследовательский центр космической гидрометеорлогии "Планета" (ФГБУ НИЦ "Планета")"<br/>
+                            Сибирский центр Федерального государственного бюджетного учреждения "Научно-исследовательский центр космической гидрометеорологии "Планета" (ФГБУ НИЦ "Планета")"<br/>
                             Адрес: 630099, Россия, г.Новосибирск ул.Советская 30<br/>
                             Телефон: +7 383 363-46-05<br/>
                             E-mail: kav@racpod.siberia.net<br/>
                             <a href={'https://rcpod.ru/contacts/'}>https://rcpod.ru</a>
                         </font>
                     </div>
-
+                </div>
+                <div className={About_us_Style.rightBottomBox}>
+                    <div className={About_us_Style.aboutUs}>
+                        <font color={'black'}>
+                            Сервис выполнен выпускниками ВКИ НГУ:
+                            <br/>
+                            <a>Бельским Артемом Сергеевичем</a>
+                            <br/>
+                            <a>Голопапа Денисом Юрьевичем</a>
+                            <br/>
+                            <a>Сербиновичем Григорием Сергеевичем</a>
+                        </font>
+                    </div>
                 </div>
 
             </div>

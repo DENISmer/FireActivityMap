@@ -178,16 +178,16 @@ export function Mark_render(onDateChange) {
                 childrensBrightness = marker.options.children.props.children[7];
                 //console.log(marker.options.children.props.children[6])
                 GetIcon(5,5,childrensBrightness)
-                if(childrensBrightness >= 663){
+                if(childrensBrightness >= 390){
                     extraHotClusterCounter += 1;
                 }
-                if(613 >= childrensBrightness >= 663){
+                if(340 >= childrensBrightness >= 320){
                     redClusterCounter += 1;
                 }
-                else if(childrensBrightness >= 593 && childrensBrightness <= 613){
+                else if(childrensBrightness >= 319 && childrensBrightness <= 340){
                     orangeClusterCounter += 1;
                 }
-                else if(childrensBrightness <= 593){
+                else if(childrensBrightness < 319){
                     greenClusterCounter += 1;
                 }
             }
@@ -221,6 +221,7 @@ export function Mark_render(onDateChange) {
                 key={Date.now()}
                 iconCreateFunction={createClusterCustomIcon1}
                 //spiderfyDistanceMultiplier={3}
+                zoomToBoundsOnClick={true}
                 disableClusteringAtZoom={11}
                 maxClusterRadius={95}
                 singleMarkerMode={false}
@@ -237,7 +238,7 @@ export function Mark_render(onDateChange) {
                             <br/>
                             Долгота: {convertToDms(nat.longitude, true) + ".д"}
                             <br/>
-                            Температура: {Number(nat.temperature) + 274} K
+                            Температура: {Number(nat.temperature)}
                             <br/>
                             Время: {nat.datetime}
 
@@ -254,7 +255,7 @@ export function Mark_render(onDateChange) {
                             <br/>
                             Долгота: {convertToDms(nat.longitude, true) + ".д"}
                             <br/>
-                            Температура: {Number(nat.temperature) + 274} K
+                            Температура: {Number(nat.temperature)}
                             <br/>
                             Время: {nat.datetime}
 
@@ -271,7 +272,7 @@ export function Mark_render(onDateChange) {
                             <br/>
                             Долгота: {convertToDms(nat.longitude, true) + ".д"}
                             <br/>
-                            Температура: {Number(nat.temperature) + 274} K
+                            Температура: {Number(nat.temperature)}
                             <br/>
                             Время: {nat.datetime}
 
@@ -288,7 +289,7 @@ export function Mark_render(onDateChange) {
                             <br/>
                             Долгота: {convertToDms(nat.longitude, true) + ".д"}
                             <br/>
-                            Температура: {Number(nat.temperature) + 274} K
+                            Температура: {Number(nat.temperature)}
                             <br/>
                             Время: {nat.datetime}
 
@@ -307,7 +308,7 @@ export function Mark_render(onDateChange) {
                             <br/>
                             Долгота: {convertToDms(nat.longitude, true) + ".д"}
                             <br/>
-                            Температура: {Number(nat.temperature) + 274} K
+                            Температура: {Number(nat.temperature)}
                             <br/>
                             Время: {nat.datetime}
                         </Popup>

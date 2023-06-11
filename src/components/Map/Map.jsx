@@ -39,12 +39,6 @@ import "./Map.css"
 
 const MyContext = createContext("Without provider");
 
-function GetIcon(_iconSize){
-    return L.icon({
-        iconUrl: require("../../icons/red_dot_marker.png"),
-        iconSize: [_iconSize]
-    })
-}
 
 //const MemoizedChildComponentMark_render = React.memo(Mark_render);
 //const MemoizedChildComponentTimeline = React.memo(TimeLine);
