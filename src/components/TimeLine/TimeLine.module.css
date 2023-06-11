@@ -136,29 +136,28 @@
     visibility: hidden;
 }
 .divSlider{
+    float: left;
     margin-left: auto;
-    text-align: center;
     z-index: 900;
     position: absolute;
     bottom: 90px;
-    max-width: 700px;
-    min-width: 300px;
-    height: 70px;
+    max-width: 70vw;
+    min-width: 30vw;
     background-color: white;
     border-radius: 5px;
-    right: 460px;
-    left: 100px;
+    left: 65vh;
+    right: 50vh;
     color: black;
     box-shadow: 0 0 0 2px rgba(0,0,0,0.25);
     overflow-x: scroll;
 }
 .val {
-    right: 1px;
+    margin: -20px -5px;
+    top: 25px;
+    left: 64vh;
     z-index: 50;
-    margin: 9px 5px ;
     height: 35px;
-    float: right;
-    position: absolute;
+    position: relative;
     font-size: 16px;
     border: none;
     border-radius: 5px;
