@@ -86,7 +86,7 @@ export const layersDict = [
     {name: 'Точки возгорания', type: 'markersOverlay', url: null},
     {name: 'Границы регионов', type: 'regionBorders', url: null},
     {name: 'Заповедники', type: 'natureReserves', url: null},
-    {name: 'Населённые пункты (5км от ТВВ)', type: 'settlement', url: null},
+    {name: 'Населённые пункты (+5км от ТВВ)', type: 'settlement', url: null},
     {name: 'Suomi NPP', type: 'Suomi NPP', url: null},
     {name: 'NOAA-20', type: 'NOAA-20', url: null}
 ]
@@ -96,6 +96,12 @@ export const imageSettings = [
         name: 'Видимые + ИК',
         type: 'ImageOptional',
         composite: `~gi5t_-C220+300+.5~ri3a_+C.04.8+2_i2a_+_i1a_+`
+
+    },
+    {
+        name: 'Натуральные цвета',
+        type: 'ImageOptional',
+        composite: `~ri1a_+C0+1+2_v4a_+_v3a_+`
 
     },
     {
@@ -110,10 +116,5 @@ export const imageSettings = [
         composite: `~rv3a_+C.032.13+1.8_i1a_+C.02.23+1.8_i5t_-C260+300+.7`
 
     },
-    {
-        name: 'Натуральные цвета',
-        type: 'ImageOptional',
-        composite: `~ri1a_+C0+1+2_v4a_+_v3a_+`
 
-    },
 ]

@@ -1,18 +1,21 @@
 .Card{
     min-width: 30px;
-    width: auto;
+    max-width: 35px;
+    width: 30px;
     height: 38px;
     background-color: rgba(0, 157, 255, 0.32);
     border: none;
     margin: 1px;
+    justify-content: center;
     border-radius: 3px;
     display: flex;
     font-weight: bold;
     font-size: 14px;
 }
 .Active{
+    justify-content: center;
     min-width: 30px;
-    width: auto;
+    width: 30px;
     height: 38px;
     background-color: rgb(255, 255, 255);
     color: #000000;

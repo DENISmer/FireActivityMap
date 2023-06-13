@@ -54,7 +54,7 @@ export function Login(){
     }).then(response => {
             if(response.status === 200){
                 //console.log(response.data.refresh)
-                setRefreshTokenCookie('refreshToken',response.data.refresh, {maxAge: 5 * 3600})
+                setRefreshTokenCookie('refreshToken',response.data.refresh, {maxAge: 48 * 3600})
                 setRefreshTokenCookie('accessToken',response.data.access, {maxAge: 5 * 3600})
                 navigate('/Map')
             }
@@ -81,7 +81,7 @@ export function Login(){
         <section className={newStyle.section}>
 
             <div className={newStyle.logo_div}>
-                <h1 className={newStyle.logo_h1}>Вы используете сервис Fire Activity Map -<br/>Сервис для мониторинга пожаров и очагов возгорания</h1>
+                <h1 className={newStyle.logo_h1}>Вы используете Fire Activity Map -<br/>Сервис для мониторинга пожаров и очагов возгорания</h1>
             </div>
 
             <video className={newStyle.video} autoPlay muted loop>
@@ -150,5 +150,11 @@ export function Login(){
                 </form>
             </div>
         </section>
+        <div className={newStyle.footer}>
+            <p>Адрес: 630099, Россия, г.Новосибирск ул.Советская 30</p>
+            <p>Телефон: +7 383 363-46-05</p>
+            <p>E-mail: kav@racpod.siberia.net</p>
+            <a style={{color: "cyan",fontFamily: 'sans-serif',marginLeft: "40%"}} href={'https://rcpod.ru'}>Наш сайт</a>
+        </div>
     </>
 }

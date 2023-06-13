@@ -192,26 +192,46 @@ export function MainNavBar(props){
                                                             />
                                                         }
                                                         </ListItem>
-                                                        <div>
-                                                            {(props.SuomiValue || props.NOAAValue) &&
-                                                                <b className={NavBarStyles.list_b_name}>Настройки
-                                                                    отображения</b>}
-                                                            {(props.SuomiValue || props.NOAAValue) && props.compositeList.map((com, index)=>(
-                                                                <div >
-                                                                    <ListItem  key={index} className={NavBarStyles.imagesComposite}>
+
+
+                                                        {(props.SuomiValue || props.NOAAValue) &&
+
+                                                            <div className={NavBarStyles.compositeList}>
+                                                                {<div className={NavBarStyles.list_b_name}>Настройки отображения</div>}
+                                                                {<div>
+                                                                    <div>
+                                                                        <div style={{marginLeft: "12px",borderStyle: "solid",borderWidth: "0.5px",borderRadius: "3px",padding: "1px"}}>контрастность
+                                                                                <input type={"number"}
+                                                                                       defaultValue={props.contrastValue}
+                                                                                       onChange={(e) => props.contrastChange(e.target.value)}
+                                                                                       min={"-16"} max={"16"}
+                                                                                       style={{width: "40px",marginBottom: '1px',marginLeft: "28px"}}/>
+                                                                            яркость
+                                                                                <input type={"number"}
+                                                                                       defaultValue={props.brightnessValue}
+                                                                                       onChange={(e) => props.brightnessChange(e.target.value)}
+                                                                                       min={"-16"} max={"16"}
+                                                                                       style={{width: "40px",marginLeft: "78px"}}/>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>}
+                                                            {(props.SuomiValue || props.NOAAValue) && props.compositeList.map((com, index) => (
+                                                                <div className={NavBarStyles.imagesComposite}>
+                                                                    <ListItem key={index}
+                                                                              className={NavBarStyles.imagesComposite}>
                                                                         {com.name}{
                                                                         <Checkbox
                                                                             key={index}
                                                                             checked={com.composite === props.compositeList.find(composite => composite.composite === props.ImageComposite).composite}
                                                                             edge="end"
-                                                                            onChange={()=>props.compositeChange(com.composite)}
+                                                                            onChange={() => props.compositeChange(com.composite)}
                                                                         />
                                                                     }
                                                                     </ListItem>
                                                                 </div>
                                                             ))
                                                             }
-                                                        </div>
+                                                        </div>}
 
 
                                                     </div>

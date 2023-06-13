@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {useForm} from 'react-hook-form'
 import newStyle from './registration.module.css';
+import auth from '../Authorization/Auth.module.css'
 import {useNavigate} from "react-router-dom";
 import {URL_FOR_USER} from "../../config/config";
 import axios from "axios";
@@ -193,6 +194,12 @@ export function Registration(){
                 </form>
             </div>
         </section>
+        <div className={auth.footer}>
+            <p>Адрес: 630099, Россия, г.Новосибирск ул.Советская 30</p>
+            <p>Телефон: +7 383 363-46-05</p>
+            <p>E-mail: kav@racpod.siberia.net</p>
+            <a style={{color: "cyan",fontFamily: 'sans-serif',marginLeft: "40%"}} href={'https://rcpod.ru'}>Наш сайт</a>
+        </div>
 
     </>
 }

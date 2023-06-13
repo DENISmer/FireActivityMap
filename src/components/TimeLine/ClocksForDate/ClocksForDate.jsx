@@ -17,19 +17,21 @@ export function ClocksForDate(props){
 
     let localFormattingArray = [];
 
-    const [timeRange,setTimeRange] = useState([]);
-
-    let localContextCurrentDay;
-
     const [timeSlider, setTimeSlider] = useState([]);
 
     const navigate = useNavigate()
     const [refreshTokenCookies,setRefreshTokenCookie,removeRefreshTokenCookie] = useCookies(['refreshToken','accessToken']);
 
-    const requestForTime = (contextCurrentDate) => {
-        let result ;
+    const currentSatelliteGlobal = {
+        suomi: '&satellite=npp',
+        noaa: '&satellite=jp1',
+        empty: ''
+    }
+    const requestForTime = (contextCurrentDate,suomi,noaa) => {
+
+        const currentSatellite = suomi ? currentSatelliteGlobal.suomi : noaa ? currentSatelliteGlobal.noaa : currentSatelliteGlobal.empty
         //console.log(contextCurrentDate)
-        const res = axios(`${URL_FOR_MARKS.URL_GET_TIME_FROM_DATE}?date=${contextCurrentDate}`,{
+        const res = axios(`${URL_FOR_MARKS.URL_GET_TIME_FROM_DATE}?date=${contextCurrentDate}${currentSatellite}`,{
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${refreshTokenCookies['accessToken']}`
@@ -52,7 +54,7 @@ export function ClocksForDate(props){
                         .then(response => {
                             setRefreshTokenCookie('accessToken', response.data.access, 5 * 3600)
 
-                            return axios(`${URL_FOR_MARKS.URL_GET_TIME_FROM_DATE}?date=${contextCurrentDate}`,{
+                            return axios(`${URL_FOR_MARKS.URL_GET_TIME_FROM_DATE}?date=${contextCurrentDate}${currentSatellite}`,{
                                 method: 'GET',
                                 headers: {
                                     Authorization: `Bearer ${response.data.access}`
@@ -127,7 +129,7 @@ export function ClocksForDate(props){
     useEffect(()=>{
             try {
                 if(context.singleDay || context.today){
-                    requestForTime(context.currentDate).then(response =>{
+                    requestForTime(context.currentDate,props.satelliteNoaa,props.satelliteSuomi).then(response =>{
                             let res = response.sort()
                             for(let i = 0;i < res.length;i++){
                                 localFormattingArray.push({value: i*9, label: res[i]})
@@ -152,7 +154,7 @@ export function ClocksForDate(props){
                 //console.log(e.message)
             }
 
-    },[context])
+    },[context,props.satelliteSuomi,props.satelliteNoaa])
 
 
     return(<>

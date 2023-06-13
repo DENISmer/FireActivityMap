@@ -84,7 +84,10 @@ export function TimeLine(props){
                         exitDone: Timeline.transition_exit
                     }} unmountOnExit>
 
-                        <ClocksForDate map={props.map}/>
+                        <ClocksForDate map={props.map}
+                                       satelliteSuomi={props.satelliteSuomi}
+                                       satelliteNoaa={props.satelliteNoaa}
+                        />
                     </CSSTransition>}
 
                 <CSSTransition in={!showTimeLine} timeout={300} classNames={{

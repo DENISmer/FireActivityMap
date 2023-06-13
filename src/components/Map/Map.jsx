@@ -71,6 +71,8 @@ export function MapComponent(){
 
     const [userAuthAccess,setUserAuthAccess] = useState(false)
 
+    const [brightnessValue,setBrightnessValue] = useState(0)
+    const [contrastValue, setContrastValue] = useState(0)
 
 
     const [refreshTokenCookies,setRefreshTokenCookie,removeRefreshTokenCookie] = useCookies(['refreshToken','accessToken']);
@@ -182,6 +184,13 @@ export function MapComponent(){
         setCompositeForImage(composite)
     }
 
+    const changeBrightness = (brightness) =>{
+        setBrightnessValue(brightness)
+    }
+    const changeContrast = (contrast) =>{
+        setContrastValue(contrast)
+    }
+
     const [cookies,setCookie] = useCookies(['currentDay']);
 
     return <>
@@ -238,20 +247,37 @@ export function MapComponent(){
                                 ImageComposite={compositeForImage}
                                 compositeChange={changeComposite}
 
+                                contrastChange={changeContrast}
+                                contrastValue={contrastValue}
+
+                                brightnessChange={changeBrightness}
+                                brightnessValue={brightnessValue}
+
                                 imageValue={showImageOverlay}
                                 imageOverlayShow={imageOverlay}
+
                                 NatureReservesShow={natureReserves}
                                 markersShow={markers}
                                 bordersShow={borders}
                     />
 
-                    <MemoizedTimeline info={infoAboutMarks} map={map}/>
+                    <MemoizedTimeline info={infoAboutMarks}
+                                      map={map}
+                                      satelliteSuomi={showSuomiNPPImageOverlay}
+                                      satelliteNoaa={showNOAAImageOverlay}
+                    />
 
                     <TileLayer url={baseLayer}/>
 
-                    {showNOAAImageOverlay && <MutableImageOverlay fy3d1000Settings={showNOAAImageOverlay} composite={compositeForImage}/>}
+                    {showNOAAImageOverlay && <MutableImageOverlay noaaShow={showNOAAImageOverlay}
+                                                                  composite={compositeForImage}
+                                                                  contrast={contrastValue}
+                                                                  brightness={brightnessValue}/>}
 
-                    {showSuomiNPPImageOverlay && <MutableImageOverlay fy3d250Settings={showSuomiNPPImageOverlay} composite={compositeForImage}/>}
+                    {showSuomiNPPImageOverlay && <MutableImageOverlay suomiShow={showSuomiNPPImageOverlay}
+                                                                      composite={compositeForImage}
+                                                                      contrast={contrastValue}
+                                                                      brightness={brightnessValue}/>}
 
                     {showBorders && <CounrtyBorders/>}
 
