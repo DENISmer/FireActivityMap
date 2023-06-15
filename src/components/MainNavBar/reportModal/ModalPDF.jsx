@@ -125,7 +125,7 @@ export function ModalReportPDF ({active, setActive,map}){
                 else if(e.response.data.fields_error) {
                     alert(`Error: ${e.response.data.fields_error}\nОшибка: не все поля заполнены`)
                 }
-                    alert(`проверьте введенные данные`)
+                    alert("Данных по вашему запросу не найдено")
                 setReadyToTheNextPage(false)
             })
         }

@@ -117,7 +117,7 @@ export function ModalReportSHP ({active, setActive, map}){
                             .catch((e) => {
                                 // navigate('/')
                                 // removeRefreshTokenCookie('refreshToken')
-                                alert("Проверьте введенные данные")
+                                alert("Данных по вашему запросу не найдено")
                             })
                     }
                     else if(e.response.data.file_info === "1"){

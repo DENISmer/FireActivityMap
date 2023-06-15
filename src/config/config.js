@@ -67,7 +67,7 @@ export const layersDict = [
         type: 'baseLayer',
         url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png'},
     {
-        name: 'Спутник',
+        name: 'Улицы 2',
         type: 'baseLayer',
         url: 'https://tileserver.memomaps.de/tilegen/{z}/{x}/{y}.png'
         //url: 'https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v9/tiles/{z}/{x}/{y}?access_token=sk.eyJ1IjoicnViaW5uYXciLCJhIjoiY2xiMTFmcnZmMXBnbDNwbXA4bHFkcDdyciJ9.CxX9zdanJzvnGxgEDz7bJw'

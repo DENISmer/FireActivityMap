@@ -129,7 +129,7 @@ export function ClocksForDate(props){
     useEffect(()=>{
             try {
                 if(context.singleDay || context.today){
-                    requestForTime(context.currentDate,props.satelliteNoaa,props.satelliteSuomi).then(response =>{
+                    requestForTime(context.currentDate,props.satelliteSuomi,props.satelliteNoaa).then(response =>{
                             let res = response.sort()
                             for(let i = 0;i < res.length;i++){
                                 localFormattingArray.push({value: i*9, label: res[i]})
@@ -173,7 +173,7 @@ export function ClocksForDate(props){
                             height: 10,
                         }
                     }}
-                    defaultValue={10}
+                    defaultValue={9}
                     track={false}
                     onChange={timeValue}
                     step={9}

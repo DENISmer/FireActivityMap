@@ -205,13 +205,13 @@ export function MainNavBar(props){
                                                                                        defaultValue={props.contrastValue}
                                                                                        onChange={(e) => props.contrastChange(e.target.value)}
                                                                                        min={"-16"} max={"16"}
-                                                                                       style={{width: "40px",marginBottom: '1px',marginLeft: "28px"}}/>
+                                                                                       style={{height: "20px",width: "45px",marginBottom: '1px',marginLeft: "28px"}}/>
                                                                             яркость
                                                                                 <input type={"number"}
                                                                                        defaultValue={props.brightnessValue}
                                                                                        onChange={(e) => props.brightnessChange(e.target.value)}
                                                                                        min={"-16"} max={"16"}
-                                                                                       style={{width: "40px",marginLeft: "78px"}}/>
+                                                                                       style={{height: "20px",width: "45px",marginLeft: "77px"}}/>
                                                                         </div>
                                                                     </div>
                                                                 </div>}
@@ -326,6 +326,7 @@ export function MainNavBar(props){
                             <DatePicker
                                 range
                                 value={dateRange}
+                                minDate={new DateObject().subtract(15, "days")}
                                 maxDate={new DateObject()}
                                 onChange={setDateRange}
                                 plugins={[<DatePanel/>]}

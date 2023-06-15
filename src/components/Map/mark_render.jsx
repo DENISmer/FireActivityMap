@@ -139,8 +139,8 @@ export function Mark_render(onDateChange) {
             // console.log(localCurrentDay, context.currentDate)
             setIsRender(true)
             if (context.today) {
-                RequestForData(context, URL_S.URL_TODAY)
-                // console.log('today')
+                RequestForData(context, URL_S.URL_SINGLE_DAY)
+                //console.log(context)
             } else if(localCurrentDay === context.currentDate){
                 // console.log('the same day')
                 setIsRender(false)
