@@ -320,7 +320,7 @@ export function MainNavBar(props){
 
 
                     <div className={Range_days.navBarMainInstruments}>
-                        <b>Сбор данных за несколько дней (не более 7 дней):</b>
+                        <b>Сбор данных за несколько дней (не более 14 дней):</b>
                         <div className={Range_days.date_time_max_div}>
                             <p4>Укажите начальный и конечный день: </p4>
                             <DatePicker
