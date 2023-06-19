@@ -9,6 +9,8 @@ import {useCookies} from "react-cookie";
 import loader from "../../icons/loading-loading-forever.gif";
 import '../../components/Map/Map.css'
 import Tabs from './Tabs'
+
+
 export function User_manual(){
 
     const navigate = useNavigate();
@@ -78,7 +80,7 @@ export function User_manual(){
             <div className="space Stars2"></div>
             <div className="space Stars3"></div>
             <div className={Manual_Style.panelManual}>
-                <h3 className={Manual_Style.h}>На этой стрице вы можете ознакомиться с руководством пользователя</h3>
+                <h3 className={Manual_Style.h}>На этой странице вы можете ознакомиться с руководством пользователя</h3>
 
                 <div className={Manual_Style.leftBox}>
                     <div className={Manual_Style.Navigation}>
