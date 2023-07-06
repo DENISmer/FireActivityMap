@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import Profile_Style from "./Profile_style.module.css";
 import "../background-space.css"
 import axios from "axios";
@@ -157,8 +157,6 @@ export function Profile(){
                         <button className={Profile_Style.button} onClick={() => navigate("/restore_access")}>Изменить
                         пароль
                     </button>
-                        {/*<button className={Profile_Style.button} onClick={() => navigate("/admin")}>Администрирование*/}
-                        {/*</button>*/}
                         <button className={Profile_Style.button} onClick={() => toAdminPage()}>Администрирование
                         </button>
                     </div>

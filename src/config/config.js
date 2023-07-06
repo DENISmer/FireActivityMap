@@ -31,7 +31,7 @@ export const URL_FOR_FILES = {
 
 //относительные пути для различных полигонов
 export const URL_FOR_COORDS = {
-    COUNTRY_COORDS: `data/coordinateFiles/countryCoords.json`,
+    COUNTRY_COORDS: `data/coordinateFiles/countryCoordsNew.json`,
     NATURE_RESERVES_COORDS: `data/coordinateFiles/NatureReservesCoords.json`,
     SETTLEMENTS: 'data/coordinateFiles/settLements.js',
 }

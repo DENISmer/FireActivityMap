@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import About_us_Style from "../Users_guide/User_manual.module.css";
-import Style from "./About us Style.module.css"
 import "../background-space.css"
 import Profile_Style from "../User_profile/Profile_style.module.css";
 import axios from "axios";
@@ -24,7 +23,7 @@ export function AboutUs(){
         navigate('/')
     }
 
-    const requestForInfoWhenMapIsReady = () => {//запрос дней на наличие точек
+    const requestForInfoWhenMapIsReady = () => {
         axios.get(URL_FOR_MARKS.URL_GET_INFO,{headers :
                 {
                     Authorization : `Bearer ${refreshTokenCookies['accessToken']}`

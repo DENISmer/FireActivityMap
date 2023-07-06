@@ -5,6 +5,9 @@ import {useForm} from "react-hook-form";
 import {URL_FOR_USER} from "../../config/config";
 import axios from "axios";
 import auth from '../Authorization/Auth.module.css'
+import preview from "../../icons/preview.mp4"
+
+
 export function Restore_password(){
 
     const {
@@ -71,7 +74,7 @@ export function Restore_password(){
         <section className={newStyle.section}>
 
             <video className={newStyle.video} autoPlay muted loop>
-                <source src={'https://joy1.videvo.net/videvo_files/video/free/video0485/large_watermarked/_import_61c054cfcedae4.80735760_preview.mp4'}/>
+                <source src={preview}/>
             </video>
 
             <div className={newStyle.form_box}>

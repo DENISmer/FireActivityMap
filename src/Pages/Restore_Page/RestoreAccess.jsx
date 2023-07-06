@@ -1,10 +1,11 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import newStyle from "./Restore.module.css";
 import auth from '../Authorization/Auth.module.css'
 import {useForm} from "react-hook-form";
 import axios from "axios";
 import {URL_FOR_USER} from "../../config/config";
+import preview from "../../icons/preview.mp4"
 
 
 
@@ -66,7 +67,7 @@ export default function Restore() {
         <section className={newStyle.section}>
 
             <video className={newStyle.video} autoPlay muted loop>
-                <source src={'https://joy1.videvo.net/videvo_files/video/free/video0485/large_watermarked/_import_61c054cfcedae4.80735760_preview.mp4'}/>
+                <source src={preview}/>
             </video>
 
             <div className={newStyle.form_box}>
@@ -111,11 +112,3 @@ export default function Restore() {
         </section>
     </>
 }
-{/*{...register("Email", {*/}
-{/*    required: "Это поле обязательно для заполнения",*/}
-{/*    maxLength: {*/}
-{/*        value: 40,*/}
-{/*        message: "Маскимум 40 символов"*/}
-{/*    },*/}
-{/*    pattern: /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i*/}
-{/*})}*/}

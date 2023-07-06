@@ -5,11 +5,11 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import {useCookies} from "react-cookie";
 import {URL_FOR_USER} from "../../config/config";
+import preview from "../../icons/preview.mp4"
 
 
 export function Login(){
     const [refreshTokenCookies,setRefreshTokenCookie,removeRefreshTokenCookie] = useCookies(['refreshToken','accessToken']);
-    //const [accessTokenCookies,setAccessTokenCookie,removeAccessTokenCookie] = useCookies(['accessToken']);
 
     const [loginError,setLoginError] = useState(false)
     const {
@@ -38,9 +38,6 @@ export function Login(){
     },[])
 
     const onSubmit = async (data) => {
-        //alert(JSON.stringify(data.Pass));
-        //reset()
-        // console.log(data.Email, data.Pass)
         await axios(URL_FOR_USER.URL_CREATE,{
             method: 'POST',
             data :
@@ -53,7 +50,6 @@ export function Login(){
                 }
     }).then(response => {
             if(response.status === 200){
-                //console.log(response.data.refresh)
                 setRefreshTokenCookie('refreshToken',response.data.refresh, {maxAge: 48 * 3600})
                 setRefreshTokenCookie('accessToken',response.data.access, {maxAge: 5 * 3600})
                 navigate('/Map')
@@ -85,7 +81,7 @@ export function Login(){
             </div>
 
             <video className={newStyle.video} autoPlay muted loop>
-                <source src={'https://joy1.videvo.net/videvo_files/video/free/video0485/large_watermarked/_import_61c054cfcedae4.80735760_preview.mp4'}/>
+                <source src={preview}/>
             </video>
 
             <div className={newStyle.form_box}>
