@@ -57,7 +57,7 @@ export const subjectNames = [
     {name: 'Томская область', tag: 'TOMSK'},
     {name: 'Республика Тыва', tag: 'TUVA'},
     {name: 'Тюменская область', tag: 'TUM'},
-    {name: 'Ямало-Ненецкий автоноиный округ', tag: 'YANAO'},
+    {name: 'Ямало-Ненецкий автономный округ', tag: 'YANAO'},
     {name: 'Забайкальский край', tag: 'ZAB'}
 ]
 
